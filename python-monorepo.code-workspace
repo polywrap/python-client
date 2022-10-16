@@ -1,0 +1,33 @@
+{
+  "folders": [
+      {
+        "name": "root",
+        "path": ".",
+      },
+      {
+          "name": "polywrap-client",
+          "path": "packages/polywrap-client"
+      },
+      {
+          "name": "polywrap-core",
+          "path": "packages/polywrap-core"
+      },
+      {
+          "name": "polywrap-msgpack",
+          "path": "packages/polywrap-msgpack"
+      },
+      {
+        "name": "polywrap-uri-resolvers",
+        "path": "packages/polywrap-uri-resolvers"
+      },
+      {
+        "name": "polywrap-wasm",
+        "path": "packages/polywrap-wasm"
+      }
+  ],
+  "settings": {
+      "files.exclude": {
+        "**/packages/*": true
+      }
+  }
+}
