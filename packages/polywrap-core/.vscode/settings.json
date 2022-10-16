@@ -1,6 +1,0 @@
-{
-  "python.formatting.provider": "black",
-  "python.languageServer": "Pylance",
-  "python.analysis.typeCheckingMode": "strict",
-  "python.defaultInterpreterPath": "/Users/niraj/Library/Caches/pypoetry/virtualenvs/polywrap-core-Ju4JOtb5-py3.10"
-}
