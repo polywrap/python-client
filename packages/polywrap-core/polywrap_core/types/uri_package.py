@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from .uri import Uri
 from .wasm_package import IWasmPackage
 

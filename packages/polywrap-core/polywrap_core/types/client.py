@@ -1,13 +1,13 @@
 from __future__ import annotations
-from abc import abstractmethod
 
+from abc import abstractmethod
 from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
-from .uri import Uri
 from .env import Env
-from .uri_resolver import IUriResolver
 from .invoke import Invoker
+from .uri import Uri
+from .uri_resolver import IUriResolver
 from .uri_resolver_handler import UriResolverHandler
 
 
@@ -44,11 +44,15 @@ class Client(Invoker, UriResolverHandler):
         pass
 
     @abstractmethod
-    def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None) -> Union[Env, None]:
+    def get_env_by_uri(
+        self, uri: Uri, options: Optional[GetEnvsOptions] = None
+    ) -> Union[Env, None]:
         pass
 
     @abstractmethod
-    def get_uri_resolver(self, options: Optional[GetUriResolversOptions] = None) -> List[IUriResolver]:
+    def get_uri_resolver(
+        self, options: Optional[GetUriResolversOptions] = None
+    ) -> List[IUriResolver]:
         pass
 
     @abstractmethod

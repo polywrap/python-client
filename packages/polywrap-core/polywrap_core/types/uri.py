@@ -66,10 +66,12 @@ class Uri:
 
     @staticmethod
     def is_uri(value: Any) -> bool:
-        return hasattr(value, 'uri')
+        return hasattr(value, "uri")
 
     @staticmethod
-    def is_valid_uri(uri: str, parsed: Optional[UriConfig] = None) -> Tuple[Union[UriConfig, None], bool]:
+    def is_valid_uri(
+        uri: str, parsed: Optional[UriConfig] = None
+    ) -> Tuple[Union[UriConfig, None], bool]:
         try:
             result = Uri.parse_uri(uri)
             return result, True
@@ -82,7 +84,7 @@ class Uri:
             raise ValueError("The provided URI is empty")
         processed = uri
         # Trim preceding '/' characters
-        processed = processed.lstrip('/')
+        processed = processed.lstrip("/")
         # Check for the w3:// scheme, add if it isn't there
         wrap_scheme_idx = processed.find("wrap://")
         if wrap_scheme_idx == -1:
@@ -90,10 +92,14 @@ class Uri:
 
         # If the w3:// is not in the beginning, throw an error
         if wrap_scheme_idx > -1 and wrap_scheme_idx != 0:
-            raise ValueError("The wrap:// scheme must be at the beginning of the URI string")
+            raise ValueError(
+                "The wrap:// scheme must be at the beginning of the URI string"
+            )
 
         # Extract the authoriy & path
-        result: List[str] = re.findall(r"(wrap:\/\/([a-z][a-z0-9-_]+)\/(.*))", processed)
+        result: List[str] = re.findall(
+            r"(wrap:\/\/([a-z][a-z0-9-_]+)\/(.*))", processed
+        )
 
         # Remove all empty strings
         if result:

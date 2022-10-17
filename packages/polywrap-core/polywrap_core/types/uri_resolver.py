@@ -1,6 +1,6 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from .client import Client
     from .uri_package_wrapper import UriPackageOrWrapper
 
+
 @dataclass(slots=True, kw_only=True)
 class TryResolveUriOptions:
     """
@@ -22,6 +23,7 @@ class TryResolveUriOptions:
         config: Override the client's config for all resolutions.
         context_id: Id used to track context data set internally.
     """
+
     uri: Uri
     resolution_context: Optional[IUriResolutionContext] = None
 

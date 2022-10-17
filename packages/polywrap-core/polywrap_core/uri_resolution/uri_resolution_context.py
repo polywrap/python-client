@@ -1,6 +1,6 @@
 from typing import List, Optional, Set
 
-from ..types import Uri, IUriResolutionContext, IUriResolutionStep
+from ..types import IUriResolutionContext, IUriResolutionStep, Uri
 
 
 class UriResolutionContext(IUriResolutionContext):
@@ -40,7 +40,12 @@ class UriResolutionContext(IUriResolutionContext):
         return list(self.resolution_path)
 
     def create_sub_history_context(self) -> "UriResolutionContext":
-        return UriResolutionContext(resolving_uri_set=self.resolving_uri_set, resolution_path=self.resolution_path)
+        return UriResolutionContext(
+            resolving_uri_set=self.resolving_uri_set,
+            resolution_path=self.resolution_path,
+        )
 
     def create_sub_context(self) -> "UriResolutionContext":
-        return UriResolutionContext(resolving_uri_set=self.resolving_uri_set, history=self.history)
+        return UriResolutionContext(
+            resolving_uri_set=self.resolving_uri_set, history=self.history
+        )

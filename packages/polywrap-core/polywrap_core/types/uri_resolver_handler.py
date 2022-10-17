@@ -8,7 +8,10 @@ from .uri_resolver import TryResolveUriOptions
 if TYPE_CHECKING:
     from .uri_package_wrapper import UriPackageOrWrapper
 
+
 class UriResolverHandler(ABC):
     @abstractmethod
-    async def try_resolve_uri(self, options: TryResolveUriOptions) -> Result["UriPackageOrWrapper", Exception]:
+    async def try_resolve_uri(
+        self, options: TryResolveUriOptions
+    ) -> Result["UriPackageOrWrapper", Exception]:
         pass
