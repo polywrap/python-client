@@ -1,21 +1,20 @@
-from unsync import unsync, Unfuture
+from polywrap_core import Invoker, InvokeResult, InvokerOptions, Uri
+from unsync import Unfuture, unsync
 from wasmtime import (
-    Store,
-    Linker,
-    Memory,
-    Module,
-    MemoryType,
-    Limits,
-    ValType,
     FuncType,
     Instance,
+    Limits,
+    Linker,
+    Memory,
+    MemoryType,
+    Module,
+    Store,
+    ValType,
 )
 
-from polywrap_core import Invoker, InvokerOptions, Uri, InvokeResult
-
-from .buffer import write_string, write_bytes, read_string, read_bytes
-from .types.state import State
+from .buffer import read_bytes, read_string, write_bytes, write_string
 from .errors import WasmAbortError
+from .types.state import State
 
 
 @unsync

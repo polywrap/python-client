@@ -1,7 +1,14 @@
 from typing import Optional, Union
 
-from polywrap_core import (Client, GetFileOptions, InvocableResult,
-                           InvokeOptions, Invoker, Wrapper, IFileReader)
+from polywrap_core import (
+    Client,
+    GetFileOptions,
+    IFileReader,
+    InvocableResult,
+    InvokeOptions,
+    Invoker,
+    Wrapper,
+)
 from polywrap_msgpack import msgpack_encode
 from wasmtime import Module, Store
 
@@ -16,7 +23,9 @@ class WasmWrapper(Wrapper):
     file_reader: IFileReader
     wasm_module: Optional[bytearray]
 
-    def __init__(self, file_reader: IFileReader, wasm_module: Optional[bytearray] = None):
+    def __init__(
+        self, file_reader: IFileReader, wasm_module: Optional[bytearray] = None
+    ):
         self.file_reader = file_reader
         self.wasm_module = wasm_module
 
@@ -31,21 +40,25 @@ class WasmWrapper(Wrapper):
             self.wasm_module = await self.file_reader.read_file(WRAP_MODULE_PATH)
         return self.wasm_module
 
-    def create_wasm_instance(
-        self, store: Store, state: State, invoker: Invoker
-    ):
+    def create_wasm_instance(self, store: Store, state: State, invoker: Invoker):
         if self.wasm_module:
             module = Module(store.engine, self.wasm_module)
             return create_instance(store, module, state, invoker)
 
-    async def invoke(
-        self, options: InvokeOptions, invoker: Invoker
-    ) -> InvocableResult:
+    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> InvocableResult:
         await self.get_wasm_module()
         state = State()
         state.method = options.method
-        state.args = options.args if isinstance(options.args, (bytes, bytearray)) else msgpack_encode(options.args)
-        state.env = options.env if isinstance(options.env, (bytes, bytearray)) else msgpack_encode(options.env)
+        state.args = (
+            options.args
+            if isinstance(options.args, (bytes, bytearray))
+            else msgpack_encode(options.args)
+        )
+        state.env = (
+            options.env
+            if isinstance(options.env, (bytes, bytearray))
+            else msgpack_encode(options.env)
+        )
 
         method_length = len(state.method)
         args_length = len(state.args)
@@ -64,9 +77,7 @@ class WasmWrapper(Wrapper):
         return self._process_invoke_result(state, result)
 
     @staticmethod
-    def _process_invoke_result(
-        state: State, result: bool
-    ) -> InvocableResult:
+    def _process_invoke_result(state: State, result: bool) -> InvocableResult:
         if result and state.invoke["result"]:
             return InvocableResult(result=state.invoke["result"], encoded=True)
         elif result or not state.invoke["error"]:
@@ -74,4 +85,3 @@ class WasmWrapper(Wrapper):
         else:
             # TODO: we may want better error support here
             return InvocableResult(error=Exception(state.invoke["error"]))
-

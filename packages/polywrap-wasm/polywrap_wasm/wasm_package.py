@@ -1,8 +1,10 @@
 from typing import Optional
-from polywrap_core import Wrapper, IWasmPackage, IFileReader
-from .wasm_wrapper import WasmWrapper
-from .inmemory_file_reader import InMemoryFileReader
+
+from polywrap_core import IFileReader, IWasmPackage, Wrapper
+
 from .constants import WRAP_MODULE_PATH
+from .inmemory_file_reader import InMemoryFileReader
+from .wasm_wrapper import WasmWrapper
 
 
 class WasmPackage(IWasmPackage):
