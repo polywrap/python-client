@@ -10,12 +10,11 @@ if PY2:
     _utc = ...
 else:
     int_types = ...
+
 class ExtType(namedtuple("ExtType", "code data")):
     """ExtType represents ext type in msgpack."""
-    def __new__(cls, code, data): # -> Self@ExtType:
-        ...
-    
 
+    def __new__(cls, code, data): ...
 
 class Timestamp:
     """Timestamp represents the Timestamp extension type in msgpack.
@@ -25,6 +24,7 @@ class Timestamp:
 
     This class is immutable: Do not override seconds and nanoseconds.
     """
+
     __slots__ = ...
     def __init__(self, seconds, nanoseconds=...) -> None:
         """Initialize a Timestamp object.
@@ -40,24 +40,18 @@ class Timestamp:
         Note: Negative times (before the UNIX epoch) are represented as negative seconds + positive ns.
         """
         ...
-    
-    def __repr__(self): # -> str:
+    def __repr__(self):  # -> str:
         """String representation of Timestamp."""
         ...
-    
     def __eq__(self, other) -> bool:
         """Check for equality with another Timestamp object"""
         ...
-    
     def __ne__(self, other) -> bool:
         """not-equals method (see :func:`__eq__()`)"""
         ...
-    
-    def __hash__(self) -> int:
-        ...
-    
+    def __hash__(self) -> int: ...
     @staticmethod
-    def from_bytes(b): # -> Timestamp:
+    def from_bytes(b):  # -> Timestamp:
         """Unpack bytes into a `Timestamp` object.
 
         Used for pure-Python msgpack unpacking.
@@ -69,8 +63,7 @@ class Timestamp:
         :rtype: Timestamp
         """
         ...
-    
-    def to_bytes(self): # -> bytes:
+    def to_bytes(self):  # -> bytes:
         """Pack this Timestamp object into bytes.
 
         Used for pure-Python msgpack packing.
@@ -79,16 +72,14 @@ class Timestamp:
         :rtype: bytes
         """
         ...
-    
     @staticmethod
-    def from_unix(unix_sec): # -> Timestamp:
+    def from_unix(unix_sec):  # -> Timestamp:
         """Create a Timestamp from posix timestamp in seconds.
 
         :param unix_float: Posix timestamp in seconds.
         :type unix_float: int or float.
         """
         ...
-    
     def to_unix(self):
         """Get the timestamp as a floating-point value.
 
@@ -96,16 +87,14 @@ class Timestamp:
         :rtype: float
         """
         ...
-    
     @staticmethod
-    def from_unix_nano(unix_ns): # -> Timestamp:
+    def from_unix_nano(unix_ns):  # -> Timestamp:
         """Create a Timestamp from posix timestamp in nanoseconds.
 
         :param int unix_ns: Posix timestamp in nanoseconds.
         :rtype: Timestamp
         """
         ...
-    
     def to_unix_nano(self):
         """Get the timestamp as a unixtime in nanoseconds.
 
@@ -113,8 +102,7 @@ class Timestamp:
         :rtype: int
         """
         ...
-    
-    def to_datetime(self): # -> datetime:
+    def to_datetime(self):  # -> datetime:
         """Get the timestamp as a UTC datetime.
 
         Python 2 is not supported.
@@ -122,9 +110,8 @@ class Timestamp:
         :rtype: datetime.
         """
         ...
-    
     @staticmethod
-    def from_datetime(dt): # -> Timestamp:
+    def from_datetime(dt):  # -> Timestamp:
         """Create a Timestamp from datetime with tzinfo.
 
         Python 2 is not supported.
@@ -132,6 +119,3 @@ class Timestamp:
         :rtype: Timestamp
         """
         ...
-    
-
-
