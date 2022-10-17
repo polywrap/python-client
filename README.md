@@ -30,10 +30,15 @@ poetry install
 ```
 poetry build
 ```
-- To test the package using pytest run the following command
+- You need to activate the venv with poetry using `poetry shell` command before running any other command
+- We are using tox to run lint and tests easily. You can list all the testenv defined in the 
+tox config with following command
 ```
-poetry run pytest
+tox -a
 ```
+- To run tests using tox simply run `tox`
+- You can run linters with the `tox -e lint` and check type with `tox -e typecheck`. By running `tox -e secure`, you can find security vulnerability if any.
+- While developing, you can run `tox -e dev` and apply lint fixes and style formatting.
 - As we see the mentioned tests passing, we are ready to update and test the package. 
 
 ## For VSCode users
