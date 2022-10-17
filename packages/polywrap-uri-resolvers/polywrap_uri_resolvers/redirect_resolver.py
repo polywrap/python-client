@@ -1,12 +1,8 @@
 from typing import Dict
 
-from polywrap_core import (
-    Uri,
-    IUriResolver,
-    Client,
-    IUriResolutionContext,
-)
-from result import Result, Ok
+from polywrap_core import Client, IUriResolutionContext, IUriResolver, Uri
+from result import Ok, Result
+
 
 class RedirectUriResolver(IUriResolver):
     _redirects: Dict[Uri, Uri]

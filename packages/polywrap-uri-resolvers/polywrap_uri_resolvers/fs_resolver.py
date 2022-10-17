@@ -1,14 +1,15 @@
 from polywrap_core import (
-    Uri,
+    Client,
     IFileReader,
+    IUriResolutionContext,
     IUriResolver,
+    Uri,
     UriPackage,
     UriPackageOrWrapper,
-    Client,
-    IUriResolutionContext,
 )
 from polywrap_wasm import WasmPackage
-from result import Result, Ok
+from result import Ok, Result
+
 
 class SimpleFileReader(IFileReader):
     async def read_file(self, file_path: str) -> bytearray:
@@ -29,7 +30,11 @@ class FsUriResolver(IUriResolver):
             return Ok(uri)
 
         wasm_module = await self.file_reader.read_file(uri.path)
-        return Ok(UriPackage(
-            uri=uri,
-            package=WasmPackage(wasm_module=wasm_module, file_reader=self.file_reader),
-        ))
+        return Ok(
+            UriPackage(
+                uri=uri,
+                package=WasmPackage(
+                    wasm_module=wasm_module, file_reader=self.file_reader
+                ),
+            )
+        )

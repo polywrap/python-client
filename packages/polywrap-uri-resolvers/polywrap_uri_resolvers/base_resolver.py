@@ -1,11 +1,12 @@
-from typing import List, Dict
+from typing import Dict, List
+
 from polywrap_core import (
-    Uri,
-    IUriResolver,
-    UriPackageOrWrapper,
     Client,
-    IUriResolutionContext,
     IFileReader,
+    IUriResolutionContext,
+    IUriResolver,
+    Uri,
+    UriPackageOrWrapper,
 )
 from result import Result
 
