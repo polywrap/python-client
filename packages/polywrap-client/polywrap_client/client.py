@@ -1,30 +1,29 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Any, List, Optional, Union
-
-from result import Result, Ok, Err
 
 from polywrap_core import (
     Client,
     ClientConfig,
-    Uri,
-    InvokeResult,
-    IUriResolutionContext,
-    UriResolutionContext,
-    UriPackageOrWrapper,
-    Wrapper,
-    InvokerOptions,
-    UriPackage,
-    GetFileOptions,
-    TryResolveUriOptions,
-    GetUriResolversOptions,
-    IUriResolver,
-    GetEnvsOptions,
     Env,
+    GetEnvsOptions,
+    GetFileOptions,
+    GetUriResolversOptions,
+    InvokeResult,
+    InvokerOptions,
+    IUriResolutionContext,
+    IUriResolver,
+    TryResolveUriOptions,
+    Uri,
+    UriPackage,
+    UriPackageOrWrapper,
+    UriResolutionContext,
+    Wrapper,
 )
-
-from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
 from polywrap_msgpack import msgpack_decode, msgpack_encode
+from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
+from result import Err, Ok, Result
 
 
 @dataclass(slots=True, kw_only=True)
@@ -108,7 +107,11 @@ class PolywrapClient(Client):
             if options.encode_result and not result.encoded:
                 encoded = msgpack_encode(result.result)
                 return InvokeResult(result=encoded, error=None)
-            elif not options.encode_result and result.encoded and isinstance(result.result, (bytes, bytearray)):
+            elif (
+                not options.encode_result
+                and result.encoded
+                and isinstance(result.result, (bytes, bytearray))
+            ):
                 decoded: Any = msgpack_decode(result.result)
                 return InvokeResult(result=decoded, error=None)
             else:
