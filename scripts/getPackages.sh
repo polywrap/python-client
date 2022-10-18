@@ -1,10 +1,12 @@
-function joinByChar() {
-  local IFS="$1"
+function joinByString() {
+  local separator="$1"
   shift
-  echo "$*"
+  local first="$1"
+  shift
+  printf "%s" "$first" "${@/#/$separator}"
 }
 
 packages_arr=($(ls packages))
-packages_str=$(joinByChar ',' ${packages_arr[@]})
-packages_json="{\"packages\": [${packages_str}]}"
+packages_str=$(joinByString ', ' ${packages_arr[@]})
+packages_json="{ \"packages\": [ ${packages_str} ] }"
 echo $packages_json
