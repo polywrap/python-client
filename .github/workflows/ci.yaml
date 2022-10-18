@@ -30,11 +30,11 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: "3.10"
       - name: Run image
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: 1.1.14
+          poetry-version: "1.1.14"
       - name: Typecheck
         run: tox -e typecheck
       # FIXME: make this work
