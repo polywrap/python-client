@@ -14,5 +14,5 @@ for ((idx=0; idx < ${#packages_arr[@]}; ++idx)); do
 done
 
 packages_str=$(joinByString ', ' ${packages_arr[@]})
-packages_json="{ \"packages\": [ ${packages_str} ] }"
+packages_json="{ \"package\": [ ${packages_str} ] }"
 echo $packages_json

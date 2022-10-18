@@ -23,6 +23,9 @@ jobs:
       - getPackages
     strategy:
       matrix: ${{fromJSON(needs.getPackages.outputs.matrix)}}
+    defaults:
+      run:
+        working-directory: ./packages/${{ matrix.package }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
