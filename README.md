@@ -85,9 +85,11 @@ poetry build
 
 In order to assure the integrity of the modules Polywrap Python Client uses [pytest 7.1.3](https://docs.pytest.org/en/7.1.x/contents.html) as a testing framework.
 
-To run the tests locally, from the terminal `cd` into the appropriate module, for example `./toolchain/packages/py/polywrap-wasm` or `./toolchain/packages/py/polywrap-client`, and run this command:
+To run the tests locally, make sure your `cwd` is the appropriate module, for example `polywrap-wasm` or `polywrap-client`, and run these commands if you haven't already:
  - `poetry shell` to start env
  - `poetry install` to have all dependencies locally
+
+Finally, to execute the test suite:
  - `poetry run pytest` to test your module 
 
 This last command will run a series of scripts that verify that the specific module of the client is performing as expected in your local machine. The output on your console should look something like this:
@@ -105,13 +107,13 @@ tests/test_msgpack.py ..........................                                
 
 You should expect to see the tests passing with a 100% accuracy. To better understand and read these outputs, check [this quick guide](https://docs.pytest.org/en/7.1.x/how-to/output.html)
 
-If anything fails (F), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
+If anything fails (marked with an 'F'), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
 - `poetry run pytests -v` or `poetry run pytests -vv` for even more detail
-- Reach out to the devs on the Discord explaining your situation, and what configuration you're using on your machine.
+- Reach out to the devs on the [Discord](https://discord.polywrap.io) explaining your situation, and what configuration you're using on your machine.
 
 
 ### TOX 
-- We are using `tox` to run lint and tests easily. 
+- We are using `tox` to run lint and tests even more easily. 
 - You can list all the testenv defined in the tox config with following command
 ```
 tox -a
@@ -121,7 +123,7 @@ tox -a
 - While developing, you can run `tox -e dev` and apply lint fixes and style formatting.
 - As we see the mentioned tests passing, we are ready to update and test the package. 
 
-## For VSCode users
+## VSCode users: Improved experience
 If you use VSCode, open this setup using the workspace file `python-monorepo.code-workspace`:
 
 ```
@@ -158,7 +160,7 @@ Once you configure this you should be good to go.
 
 
 
-## What WASM wrappers can you execute today?
+# What WASM wrappers can you execute today?
 
 Check these resources to browse a variety available wrappers, for DeFi, decentralised storage, and other development utilites:
 
@@ -167,7 +169,7 @@ Check these resources to browse a variety available wrappers, for DeFi, decentra
 
 # Example call
 
-Calling a function of a wrapper from the python client is as simple as creating a file in the `xxx TBD` directory, importing the Polywrap Python Client, calling the Uri where the WASM wrapper is hosted, and specifying any required arguments.
+Calling a function of a wrapper from the python client is as simple as creating a file in the `xxx TODO` directory, importing the Polywrap Python Client, calling the Uri where the WASM wrapper is hosted, and specifying any required arguments.
 
 ```python
 # get_eth_txns.py
