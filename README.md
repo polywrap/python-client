@@ -47,6 +47,7 @@ If you use VSCode, open this setup using the workspace file python-monorepo.code
 ```
 File -> Open Workspace from File...
 ```
+![File -> Open Workspace from File](misc/VScode_OpenWorkspaceFromFile.png)
 
 Each folder is now a project to VSCode. For the Python virtual environments to be picked up automatically, you need to create .vscode/settings.json file in each folder, pointing to the in-project virtual environment created by the poetry.
 
