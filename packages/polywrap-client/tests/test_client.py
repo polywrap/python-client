@@ -45,3 +45,20 @@ async def test_subinvoke():
 
     assert result.result == "1 + 2 = 3"
 
+
+async def test_invoke_bignumber_1arg_and_1prop():
+    client = PolywrapClient()
+    # BigNumber wrapper schema - https://wrappers.io/v/ipfs/Qme2YXThmsqtfpiUPHJUEzZSBiqX3woQxxdXbDJZvXrvAD
+    uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke" ,"wrapperBigNumber.wasm").absolute()}')
+    print(Uri)
+    args = {
+        "arg1": "123", # The base number
+        "obj": {
+            "prop1": "1000", # multiply the base number by this factor
+        }
+    }
+    options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
+    result = await client.invoke(options)
+    print(result)
+    assert result.result == "123000"
+
