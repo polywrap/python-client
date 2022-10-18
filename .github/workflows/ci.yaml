@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - run: ./scripts/getPackages.sh
       - id: set-matrix
         run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
   build:
@@ -36,11 +35,11 @@ jobs:
         with:
           poetry-version: "1.1.14"
       - name: Typecheck
-        run: tox -e typecheck
+        run: poetry run tox -e typecheck
       # FIXME: make this work
       # - name: Lint
-      #   run: tox -e lint
+      #   run: poetry run tox -e lint
       # - name: Security
-      #   run: tox -e secure
+      #   run: poetry run tox -e secure
       - name: Test
-        run: tox
+        run: poetry run tox
