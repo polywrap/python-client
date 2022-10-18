@@ -33,10 +33,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-      - name: Run image
-        uses: abatilo/actions-poetry@v2
-        with:
-          poetry-version: "1.1.14"
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+      - name: Install dependencies
+        run: poetry install
       - name: Typecheck
         run: poetry run tox -e typecheck
       # FIXME: make this work
