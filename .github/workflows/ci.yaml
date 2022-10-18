@@ -15,11 +15,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - run: ./scripts/getPackages.sh
       - id: set-matrix
         run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
   build:
     runs-on: ubuntu-latest
-    needs: getPackages
+    needs: 
+      - getPackages
     strategy:
       matrix: ${{fromJSON(needs.getPackages.outputs.matrix)}}
     steps:
