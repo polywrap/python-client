@@ -13,7 +13,7 @@ jobs:
     outputs:
       matrix: ${{ env.matrix }}
     steps:
-      - run: ls
+      - run: echo "$(ls)"
       - run: ls scripts
       - id: set-matrix
         run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
