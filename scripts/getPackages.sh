@@ -7,6 +7,12 @@ function joinByString() {
 }
 
 packages_arr=($(ls packages))
+# classic for-loop
+for ((idx=0; idx < ${#packages_arr[@]}; ++idx)); do
+    # act on ${packages_arr[$idx]}
+    packages_arr[$idx]="\"${packages_arr[$idx]}\""
+done
+
 packages_str=$(joinByString ', ' ${packages_arr[@]})
 packages_json="{ \"packages\": [ ${packages_str} ] }"
 echo $packages_json
