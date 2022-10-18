@@ -1,3 +1,4 @@
+from textwrap import dedent
 from typing import Optional, Union
 
 from polywrap_core import (
@@ -59,6 +60,18 @@ class WasmWrapper(Wrapper):
             if isinstance(options.env, (bytes, bytearray))
             else msgpack_encode(options.env)
         )
+
+        if not (state.method and state.args and state.env):
+            raise ValueError(
+                dedent(
+                    """
+                Expected invocation state to be definied got:
+                method: ${state.method}
+                args: ${state.args}
+                env: ${state.env}
+            """
+                )
+            )
 
         method_length = len(state.method)
         args_length = len(state.args)

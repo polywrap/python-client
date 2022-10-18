@@ -1,0 +1,48 @@
+name: Python package
+
+on:
+  push: 
+    branches:
+      - main
+      - dev
+  pull_request:
+
+jobs:
+  getPackages:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ env.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - id: set-matrix
+        run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
+  build:
+    runs-on: ubuntu-latest
+    needs: 
+      - getPackages
+    strategy:
+      matrix: ${{fromJSON(needs.getPackages.outputs.matrix)}}
+    defaults:
+      run:
+        working-directory: ./packages/${{ matrix.package }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+      - name: Install dependencies
+        run: poetry install
+      - name: Typecheck
+        run: poetry run tox -e typecheck
+      # FIXME: make this work
+      # - name: Lint
+      #   run: poetry run tox -e lint
+      # - name: Security
+      #   run: poetry run tox -e secure
+      - name: Test
+        run: poetry run tox
