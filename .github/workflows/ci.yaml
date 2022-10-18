@@ -13,8 +13,8 @@ jobs:
     outputs:
       matrix: ${{ env.matrix }}
     steps:
-      - run: echo "$(ls)"
-      - run: ls scripts
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - id: set-matrix
         run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
   build:
@@ -23,7 +23,8 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.getPackages.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
