@@ -174,7 +174,7 @@ poetry shell
 `./polywrap-client/.vscode/settings.json`
 
 
-Here's the structure `settings.json` file we are using for configuring the vscode. Make sure you need to put your virtual env path you got from the poetry as the `python.defaultInterpreterPath` argument:
+Here's the structure `settings.json` file we are using for configuring the vscode. Make sure you update your virtual env path you got from poetry as the `python.defaultInterpreterPath` argument:
 ```json
 {
   "python.formatting.provider": "black",
@@ -184,7 +184,7 @@ Here's the structure `settings.json` file we are using for configuring the vscod
 }
 ```
 
-Once you configure this you should be good to go!
+Keep in mind that these venv paths will vary for each module you run `poetry shell` on. Once you configure these `setting.json` files correctly on each module you should be good to go!
 
 
 # What WASM wrappers can you execute today?
