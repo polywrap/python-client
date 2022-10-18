@@ -26,7 +26,8 @@ class Uri:
     Breaking down the various parts of the URI, as it applies
     to [the URI standard](https://tools.ietf.org/html/rfc3986#section-3):
     **wrap://** - URI Scheme: differentiates Polywrap URIs.
-    **ipfs/** - URI Authority: allows the Polywrap URI resolution algorithm to determine an authoritative URI resolver.
+    **ipfs/** - URI Authority: allows the Polywrap URI resolution algorithm to determine
+                an authoritative URI resolver.
     **sub.domain.eth** - URI Path: tells the Authority where the API resides.
     """
 
