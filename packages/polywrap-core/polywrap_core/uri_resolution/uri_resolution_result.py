@@ -25,10 +25,9 @@ class UriResolutionResult:
     ) -> Result[UriPackageOrWrapper, Exception]:
         if wrapper:
             return Ok(UriWrapper(uri=uri, wrapper=wrapper))
-        elif package:
+        if package:
             return Ok(UriPackage(uri=uri, package=package))
-        else:
-            return Ok(uri)
+        return Ok(uri)
 
     @staticmethod
     def err(error: Exception) -> Result[UriPackageOrWrapper, Exception]:
