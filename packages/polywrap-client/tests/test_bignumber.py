@@ -5,7 +5,6 @@ from pathlib import Path
 from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions
 
-
 async def test_invoke_bignumber_1arg_and_1prop():
     client = PolywrapClient()
     uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke" ,"wrapperBigNumber.wasm").absolute()}')
@@ -76,5 +75,3 @@ async def test_invoke_bignumber_with_2args_and_2props_floats():
     result = await client.invoke(options)
     print(result)
     assert result.result == str(123.123*55.5*10.001*4)
-
-
