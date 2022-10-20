@@ -28,7 +28,7 @@ Here you can see which features have been implemented on each language, and make
 |status| |
 | -- | -- |
 |✅ | fully working|
-|⚙️|partially working|
+|⚙️| partially working|
 |❌|not yet implemented|
 
 
