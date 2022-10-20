@@ -9,7 +9,7 @@
 
 This MVP Python client enables the execution of **[WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) Polywrappers** *(or just "wrappers")* on a python environment, regardless of what language this wrapper was built in.
 
-The client is built following the functionality of the [JavaScript Polywrap Client](https://github.com/polywrap/toolchain), which is currently more robust and battle tested, as it has additional capabilities than this MVP. In the future, the Polywrap DAO will continue improving this Python capabilities to reach feature parity with the JS stack.
+The client is built following the functionality of the [JavaScript Polywrap Client](https://github.com/polywrap/toolchain), which is currently more robust and battle tested, as it has additional capabilities than this MVP. In the future, the Polywrap DAO will continue improving this Python capabilities to reach feature parity with the JS stack, while building in parallel clients for other languages like Go and Rust.
 
 Here you can see which features have been implemented on each language, and make the decision of which one to use for your project.
 
