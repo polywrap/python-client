@@ -19,13 +19,15 @@ Here you can see which features have been implemented on each language, and make
 | Subinvoke | ⚠️ | ✅ | | |
 | Interfaces | ❌ | ✅ | | | 
 | Env Configuration | | ✅ | | |
-| Client Config Builder Package | ⚠️ | ✅ | | |
-| Plugins | tbd | ✅ | | | 
+| Client Config | ⚠️ | ✅ | | |
+| Plugins | ❌ | ✅ | | | 
 | Wrap Manifest | ⚠️ | ✅ | | | 
 | Uri Resolution | ⚠️ | ✅ | | | 
 > TODO: Update table above according to test harness and maybe mention other wip clients (go, rust)
 
-✅ for fully working, ⚠️ for partially working , ❌ or 🚫 for not working
+✅ = fully working
+⚠️  = partially working
+❌ = not yet implemented
 
 # Getting Started:
 
