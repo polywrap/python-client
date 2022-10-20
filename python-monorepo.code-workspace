@@ -23,6 +23,10 @@
       {
         "name": "polywrap-wasm",
         "path": "packages/polywrap-wasm"
+      },
+      {
+        "name": "polywrap-client-config-builder",
+        "path": "packages/polywrap-client-config-builder"
       }
   ],
   "settings": {
