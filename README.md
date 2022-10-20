@@ -147,7 +147,7 @@ tox -e dev
 - To create your own tox scripts, modify the `tox.ini` file in the respective module.
 
 ## VSCode users: Improved venv experience
-If you use VSCode, we have prepared a pre-configured workspace, so to open the  workspace file `python-monorepo.code-workspace`, go to:
+If you use VSCode, we have prepared a pre-configured workspace that improves your dev experience. So when you open VScode, set up the workspace file `python-monorepo.code-workspace` by going to:
 
 ```
 File -> Open Workspace from File...
@@ -157,6 +157,8 @@ File -> Open Workspace from File...
 Each folder is now a project to VSCode. This action does not change the underlying code, but facilitates the development process. So our file directory should look like this now:
 
 ![all modules have their respective folder, along with a root folder](misc/VScode_workspace.png)
+
+> Note: You might have to do this step again next time you close and open VS code!
 
 ### Picking up the virtual environments automatically
 We will need to create a `.vscode/settings.json` file in each module's folder, pointing to the in-project virtual environment created by the poetry.
