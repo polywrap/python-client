@@ -33,19 +33,19 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 
 ## Pre-requisites
 
-### Clone the repo. 
+### `Clone the repo.`
 >```
 >git clone https://github.com/polywrap/python-client
 >```
 
-> ### `python ˆ3.10`
+### `python ˆ3.10`
 > - Make sure you're running the correct version of python by running: 
 > ```
 > python3 --version
 > ```
 > - If you are using a Linux system or WSL, which comes with Python3.8, then you will need to upgrade from Python3.8 to Python3.10 and also fix the `pip` and `distutil` as upgrading to Python3.10 will break them. You may follow [this guide](https://cloudbytes.dev/snippets/upgrade-python-to-latest-version-on-ubuntu-linux) to upgrade.
 
-> ### `poetry ^1.1.14`
+### `poetry ^1.1.14`
 > - To install poetry follow [this guide](https://python-poetry.org/docs/#installation). If you are on MacOS then you can install poetry simply with the following homebrew command 
 > ```
 > brew install poetry
@@ -93,7 +93,7 @@ poetry run pytest
 
 This last command will run a series of scripts that verify that the specific module of the client is performing as expected in your local machine. The output on your console should look something like this:
 
-```c
+```py
 $ poetry run pytest
 >>
 ================================= test session starts =================================
@@ -101,7 +101,7 @@ platform darwin -- Python 3.10.0, pytest-7.1.3, pluggy-1.0.0
 rootdir: /Users/polywrap/pycode/polywrap/toolchain/packages/py, configfile: pytest.ini
 collected 26 items                                                                    
 
-tests/test_msgpack.py ..........................                                [100%]
+tests/test_msgpack.py ........................                                  [100%]
 ```
 
 > ### Debugging with Pytest:
@@ -205,9 +205,7 @@ async def update_contract_message(message: str):
     client = PolywrapClient()
     
     # Load the WebAssembly wrapper through a URI that points to local file system
-    uri = Uri(
-        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke", "wrap.wasm").absolute()}'
-    )
+    uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke", "HelloWorldWrapper.wasm").absolute()}')
 
     args = {"arg": message }
 
@@ -228,7 +226,7 @@ if __name__ == "__main__":
 
 ## Creating your own tests for the client
 
-By creating tests you can quickly experiment with the Polywrap Client and its growing set of wrappers. Since Pytest is already set up on the repo, go to the `polywrap-client\tests\` directory, and take a look at how some of the functions are built. You can use similar patterns to mod your own apps and prototypes.
+By creating tests you can quickly experiment with the Polywrap Client and its growing set of wrappers. Since Pytest is already set up on the repo, go to the `polywrap-client\tests\` directory, and take a look at how some of the functions are built. You can use similar patterns to mod your own apps and build new prototypes with more complex functionality.
 
 Here's a good guide to learn about [building tests with Pytest](https://realpython.com/pytest-python-testing/)
 
