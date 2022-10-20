@@ -194,14 +194,16 @@ Check these resources to browse a variety available wrappers, for DeFi, decentra
 
 # Example call
 
-Calling a function of a wrapper from the python client is as simple as creating a file in the `TODO (?polywrap-client)` directory, importing the Polywrap Python Client, calling the Uri where the WASM wrapper is hosted, and specifying any required arguments.
+Calling a function of a wrapper from the python client is as simple as creating a file in the `TODO (?polywrap-client)` directory, importing the `PolywrapClient`, calling the `Uri` where the WASM wrapper is hosted, and specifying any required `arguments`.
+
+Here is an example which takes in a message as a string and returns it.
 
 ```python
 # hello_world.py
 from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions
 
-async def update_contract_message(message: str):
+async def echo_message(message: str):
     
     # Instantiate the client
     client = PolywrapClient()
@@ -222,7 +224,7 @@ async def update_contract_message(message: str):
     return result.result
 
 if __name__ == "__main__":
-    return update_contract_message('hello polywrap!')
+    return echo_message('hello polywrap!')
 ```
 
 
