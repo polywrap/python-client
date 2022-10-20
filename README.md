@@ -7,26 +7,24 @@
 
 # Working Features
 
-This MVP Python client enables the execution of **[WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) Polywrappers** *(or just "wrappers")* on a python environment. It's built following the functionality of the [JavaScript Polywrap Client](https://github.com/polywrap/toolchain), which is currently more robust out and battle tested, as it has additional capabilities than this MVP.
+This MVP Python client enables the execution of **[WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) Polywrappers** *(or just "wrappers")* on a python environment, regardless of what language this wrapper was built in.
 
-In the future, the Polywrap DAO will continue improving this Python capabilities to reach feature parity with the JS stack, including the possibiity of creating WASM wrappers with Python code. 
+The client is built following the functionality of the [JavaScript Polywrap Client](https://github.com/polywrap/toolchain), which is currently more robust and battle tested, as it has additional capabilities than this MVP. In the future, the Polywrap DAO will continue improving this Python capabilities to reach feature parity with the JS stack.
 
 Here you can see which features have been implemented on each language, and make the decision of which one to use for your project.
 
 | Feature | [Python](https://github.com/polywrap/python-client) | [Javascript](https://github.com/polywrap/toolchain) | 
 | -- | -- | -- |
 | Invoke wrappers | yes | yes |
-| polywrap-asyncify | replaced with wasmtime | yes |
-| polywrap-uri-resolvers | legacy | refactored |
-| polywrap-msgpack| yes, tested 100% | yes |
-| Subinvoke | wip | yes |
-| Wrap Manifest | WIP | yes |
-| Client Config Builder Package | wip | yes |
+| Subinvoke wrappers | wip | yes |
 | Interfaces | pending | yes |
-| e2e Tests | tbd | no |
-| Creating Plugins | tbd | yes |
-| Creating Python Wrappers | in a future version | yes |
+| Env Configuration | | |
+| Client Config Builder Package | wip | yes |
+| Plugins | tbd | yes |
+| Wrap Manifest | WIP | yes |
+| Uri Resolution | legacy | refactored |
 > TODO: Update table above according to test harness and maybe mention other wip clients (go, rust)
+
 
 
 # Getting Started:
@@ -37,7 +35,7 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 
 ## Pre-requisites
 
->### Clone the repo. 
+### Clone the repo. 
 >```
 >git clone https://github.com/polywrap/python-client
 >```
@@ -108,7 +106,7 @@ collected 26 items
 tests/test_msgpack.py ..........................                                [100%]
 ```
 
-> ### Debugging with Pytets:
+> ### Debugging with Pytest:
 > 
 > You should expect to see the tests passing with a 100% accuracy. To better understand and read these outputs, check [this quick guide](https://docs.pytest.org/en/7.1.x/how-to/output.html). If anything fails (marked with an 'F'), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
 > - `poetry run pytests -v` or `poetry run pytests -vv` for even more detail
