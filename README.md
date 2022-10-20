@@ -13,19 +13,17 @@ The client is built following the functionality of the [JavaScript Polywrap Clie
 
 Here you can see which features have been implemented on each language, and make the decision of which one to use for your project.
 
-| Feature | [Python](https://github.com/polywrap/python-client) | [Javascript](https://github.com/polywrap/toolchain) | 
-| -- | -- | -- |
-| Invoke wrappers | yes | yes |
-| Subinvoke wrappers | wip | yes |
-| Interfaces | pending | yes |
-| Env Configuration | | |
-| Client Config Builder Package | wip | yes |
-| Plugins | tbd | yes |
-| Wrap Manifest | WIP | yes |
-| Uri Resolution | legacy | refactored |
+| Feature | [Python](https://github.com/polywrap/python-client) | [Javascript](https://github.com/polywrap/toolchain) |  [Go]() | [Rust](https://github.com/polywrap/rust-client) |
+| -- | -- | -- | -- | -- |
+| Invoke wrappers | yes | yes | | |
+| Subinvoke wrappers | wip | yes | | |
+| Interfaces | pending | yes | | | 
+| Env Configuration | | | | |
+| Client Config Builder Package | wip | yes | | |
+| Plugins | tbd | yes | | | 
+| Wrap Manifest | WIP | yes | | | 
+| Uri Resolution | legacy | refactored | | | 
 > TODO: Update table above according to test harness and maybe mention other wip clients (go, rust)
-
-
 
 # Getting Started:
 
@@ -197,23 +195,34 @@ Check these resources to browse a variety available wrappers, for DeFi, decentra
 Calling a function of a wrapper from the python client is as simple as creating a file in the `TODO (?polywrap-client)` directory, importing the Polywrap Python Client, calling the Uri where the WASM wrapper is hosted, and specifying any required arguments.
 
 ```python
-# get_eth_txns.py
+# hello_world.py
 from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions
 
-async def get_eth_transactions(accountAddress):
+async def update_contract_message(message: str):
+    
+    # Instantiate the client
     client = PolywrapClient()
-    #uri = Uri("wrap://ens/defiwrapper.polywrap.eth")
-    uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "wrap.wasm").absolute()}')
-    args = {
-        "accountAddress": "'0x123EtherumAddress12312'"
-    }
-    options = InvokerOptions(uri=uri, method="simpleMethod", args=args, encode_result=False)
+    
+    # Load the WebAssembly wrapper through a URI that points to local file system
+    uri = Uri(
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke", "wrap.wasm").absolute()}'
+    )
+
+    args = {"arg": message }
+
+    # Configure the client
+    options = InvokerOptions(
+        uri=uri, method="simpleMethod", args=args, encode_result=False
+    )
+    
+    # Invoke the wrapper 
     result = await client.invoke(options)
+
     return result.result
 
 if __name__ == "__main__":
-    return get_eth_transactions(portfolio_address)
+    return update_contract_message('hello polywrap!')
 ```
 
 
@@ -226,8 +235,6 @@ Here's a good guide to learn about [building tests with Pytest](https://realpyth
 # Contributing
 
 The Polywrap project is completely open-source and we welcome contributors of all levels. Learn more about how you can contribute [here](https://github.com/polywrap/toolchain#contributing).
-
-
 
 # Contact Us:
 
