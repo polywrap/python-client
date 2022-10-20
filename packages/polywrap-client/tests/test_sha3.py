@@ -91,14 +91,14 @@ async def test_invoke_shake_256():
     args = {"message": "hello polywrap!", "outputBits":8}
     options = InvokerOptions(uri=uri, method="shake_256", args=args, encode_result=False)
     result = await client.invoke(options)
-    s = SHAKE256(8)
+    s = SHAKE256.new()
     s.update(b"hello polywrap!")
-    assert result.result == s.hexdigest()
+    assert result.result == s.read(8).hex()
 
 async def test_invoke_shake_128():
     args = {"message": "hello polywrap!", "outputBits":8}
     options = InvokerOptions(uri=uri, method="shake_128", args=args, encode_result=False)
     result = await client.invoke(options)
-    s = hashlib.shake128(8)
+    s = SHAKE128.new()
     s.update(b"hello polywrap!")
-    assert result.result == s.hexdigest()
+    assert result.result == s.read(8).hex()
