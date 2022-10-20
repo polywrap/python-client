@@ -23,26 +23,34 @@ async def test_invoke_sha3_512():
 async def test_invoke_sha3_384():
     options = InvokerOptions(uri=uri, method="sha3_384", args=args, encode_result=False)
     result = await client.invoke(options)
-    print(result)
-    assert result.result == False
+    s = hashlib.sha384()
+    s.update(b"hello polywrap!")
+    assert result.result == s.hexdigest()
+
 
 async def test_invoke_sha3_256():
     options = InvokerOptions(uri=uri, method="sha3_256", args=args, encode_result=False)
     result = await client.invoke(options)
-    print(result)
-    assert result.result == False
+    s = hashlib.sha256()
+    s.update(b"hello polywrap!")
+    assert result.result == s.hexdigest()
+
 
 async def test_invoke_sha3_224():
     options = InvokerOptions(uri=uri, method="sha3_224", args=args, encode_result=False)
     result = await client.invoke(options)
-    print(result)
-    assert result.result == False
+    s = hashlib.sha224()
+    s.update(b"hello polywrap!")
+    assert result.result == s.hexdigest()
 
-#  async def test_invoke_ keccak_512(
+
+async def test_invoke_keccak_512():
     options = InvokerOptions(uri=uri, method="keccak_512", args=args, encode_result=False)
     result = await client.invoke(options)
-    print(result)
+    k = hashlib.sha512()
+    k.update(b"hello polywrap!")
     assert result.result == False
+
 
 async def test_invoke_keccak_384():
     options = InvokerOptions(uri=uri, method="keccak_384", args=args, encode_result=False)
