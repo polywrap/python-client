@@ -11,6 +11,9 @@ from polywrap_core.types.uri_resolver import IUriResolver
 # Replicate this file
 # https://github.com/polywrap/toolchain/blob/origin/packages/js/client-config-builder/src/ClientConfigBuilder.ts
 
+def just_a_function():
+    return "Yes"
+
 @dataclass(slots=True, kw_only=True)
 class ClientConfigBuilder():
     envs: List[Env]
