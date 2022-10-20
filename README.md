@@ -217,9 +217,11 @@ if __name__ == "__main__":
 ```
 
 
-## Creating your own tests
+## Creating your own tests for the client
 
-TODO: It is suggested to follow a [TDD](https://en.wikipedia.org/wiki/Test-driven_development) approach to build your own implementations. 
+By creating tests you can quickly experiment with the Polywrap Client and its growing set of wrappers. Since Pytest is already set up on the repo, go to the `polywrap-client\tests\` directory, and take a look at how some of the functions are built. You can use similar patterns to mod your own apps and prototypes.
+
+Here's a good guide to learn about [building tests with Pytest](https://realpython.com/pytest-python-testing/)
 
 # Contributing
 
@@ -236,6 +238,5 @@ The Polywrap project is completely open-source and we welcome contributors of al
 
 - [Polywrap Documentation](https://docs.polywrap.io)
 - [Polywrap Integrations Repository](https://github.com/polywrap/integrations)
-- [Building tests with Pytest](https://realpython.com/pytest-python-testing/)
 - [Running operations concurrently with python's asyncio](https://realpython.com/async-io-python/#the-10000-foot-view-of-async-io)
 - [Intro Video](TODO)
