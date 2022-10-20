@@ -16,18 +16,21 @@ Here you can see which features have been implemented on each language, and make
 | Feature | [Python](https://github.com/polywrap/python-client) | [Javascript](https://github.com/polywrap/toolchain) |  [Go]() | [Rust](https://github.com/polywrap/rust-client) |
 | -- | -- | -- | -- | -- |
 | Invoke  | ✅ | ✅ | | |
-| Subinvoke | ⚠️ | ✅ | | |
+| Subinvoke | ⚙️ | ✅ | | |
 | Interfaces | ❌ | ✅ | | | 
-| Env Configuration | | ✅ | | |
-| Client Config | ⚠️ | ✅ | | |
+| Env Configuration | ⚙️ | ✅ | | |
+| Client Config | ⚙️ | ✅ | | |
 | Plugins | ❌ | ✅ | | | 
-| Wrap Manifest | ⚠️ | ✅ | | | 
-| Uri Resolution | ⚠️ | ✅ | | | 
+| Wrap Manifest | ⚙️ | ✅ | | | 
+| Uri Resolution | ⚙️ | ✅ | | | 
 > TODO: Update table above according to test harness and maybe mention other wip clients (go, rust)
 
-✅ = fully working
-⚠️  = partially working
-❌ = not yet implemented
+|status| |
+| -- | -- |
+|✅ | fully working|
+|⚙️|partially working|
+|❌|not yet implemented|
+
 
 # Getting Started:
 
