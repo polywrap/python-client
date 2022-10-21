@@ -10,6 +10,7 @@ from polywrap_core.types.wrapper import Wrapper, WrapperCache
 # from "./bundles" import get_default_client_config
 
 # Replicate this file
+# except for plugins, interface, and redirects as they are not yet impl in python
 # https://github.com/polywrap/toolchain/blob/origin/packages/js/client-config-builder/src/ClientConfigBuilder.ts
 
 print(ClientConfig)
@@ -17,15 +18,13 @@ print(ClientConfig)
 @dataclass(slots=True, kw_only=True)
 class ClientConfigBuilder():
     """
-    Used to create the `ClientConfig` object necessary to invoke any wrapper.
+    Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
-
     envs: List[Env]
     resolver: IUriResolver
     # plugins:
     # interfaces
     # redirects
-
 
     def add(self, config: ClientConfig):
         """
@@ -33,8 +32,12 @@ class ClientConfigBuilder():
         """
         if config.envs:
             for env in config.envs:
-                self.envs = self.add_env(env.uri, env.env)
-        return self.envs
+               self.add_env(env.uri, env.env)
+        
+        if config.resolver:
+            self.set_resolver(config.resolver)
+
+        return self
 
     def add_defaults(self, wrapper_cache: WrapperCache | Any ={'blank': Wrapper}):
         """
@@ -56,11 +59,19 @@ class ClientConfigBuilder():
         
         if idx >= 0:
             self.envs[idx].env = {**self.envs[idx].env, **env,}
-
+        else:
+            self.envs.append(Env(uri=env_uri, env=env))
         return self
 
     def remove_env(self, uri: Uri | str ):
         pass
+
+    def set_env(self, uri: Uri | str, env: Dict[str, Any] ):     
+        pass
+
+    def set_resolver(self, resolver: IUriResolver):
+        pass
+
 
     def build(self):
         """
