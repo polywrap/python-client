@@ -11,10 +11,10 @@ from typing import Union
 {%- endif %}
 
 {% for version in versions -%}
-from wrap_{{ version.manifest_module_version }} import WrapManifest as WrapManifest_{{ version.manifest_module_version }}
-from wrap_{{ version.manifest_module_version }} import Abi as WrapAbi_{{ version.manifest_module_version }}_{{ version.abi_module_version }}
+from .wrap_{{ version.manifest_module_version }} import WrapManifest as WrapManifest_{{ version.manifest_module_version }}
+from .wrap_{{ version.manifest_module_version }} import Abi as WrapAbi_{{ version.manifest_module_version }}_{{ version.abi_module_version }}
 {%- endfor %}
-from wrap_{{ latest.manifest_module_version }} import *
+from .wrap_{{ latest.manifest_module_version }} import *
 
 
 @dataclass(slots=True, kw_only=True)

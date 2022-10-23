@@ -12,7 +12,7 @@ from .manifest import *
 
 
 def deserialize_wrap_manifest(
-    manifest: bytearray, options: Optional[DeserializeManifestOptions] = None
+    manifest: bytes, options: Optional[DeserializeManifestOptions] = None
 ) -> AnyWrapManifest:
     decoded_manifest = msgpack_decode(manifest)
     if not decoded_manifest.get("version"):
@@ -20,7 +20,7 @@ def deserialize_wrap_manifest(
 
     no_validate = options and options.no_validate
     manifest_version = WrapManifestVersions(decoded_manifest["version"])
-    match manifest_version:
+    match manifest_version.value:
         case "0.1.0":
             return (
                 WrapManifest_0_1.construct(**decoded_manifest)
