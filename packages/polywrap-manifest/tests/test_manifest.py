@@ -1,12 +1,14 @@
-import pytest
 from pathlib import Path
-from polywrap_manifest import (
-    deserialize_wrap_manifest,
-    WrapManifest_0_1,
-    DeserializeManifestOptions,
-)
+
+import pytest
+from polywrap_msgpack import msgpack_decode, msgpack_encode
 from pydantic import ValidationError
-from polywrap_msgpack import msgpack_encode, msgpack_decode
+
+from polywrap_manifest import (
+    DeserializeManifestOptions,
+    WrapManifest_0_1,
+    deserialize_wrap_manifest,
+)
 
 
 @pytest.fixture
@@ -21,7 +23,9 @@ def msgpack_manifest(test_case_dir: Path) -> bytes:
 
 
 def test_deserialize_without_validate(msgpack_manifest: bytes):
-    deserialized = deserialize_wrap_manifest(msgpack_manifest, DeserializeManifestOptions(no_validate=True))
+    deserialized = deserialize_wrap_manifest(
+        msgpack_manifest, DeserializeManifestOptions(no_validate=True)
+    )
     assert isinstance(deserialized, WrapManifest_0_1)
     assert deserialized.version.value == "0.1"
     assert deserialized.abi.version == "0.1"
@@ -58,7 +62,7 @@ def test_unaccepted_field(msgpack_manifest: bytes):
 
 def test_invalid_name(msgpack_manifest: bytes):
     decoded = msgpack_decode(msgpack_manifest)
-    decoded["name"] = "foo bar baz $%##$@#$@#$@#$#$",
+    decoded["name"] = ("foo bar baz $%##$@#$@#$@#$#$",)
     manifest: bytes = msgpack_encode(decoded)
 
     with pytest.raises(ValidationError) as e:

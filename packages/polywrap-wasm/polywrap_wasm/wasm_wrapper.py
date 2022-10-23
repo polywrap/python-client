@@ -1,8 +1,7 @@
 from textwrap import dedent
-from typing import Optional, Union
+from typing import Union
 
 from polywrap_core import (
-    Client,
     GetFileOptions,
     IFileReader,
     InvocableResult,
@@ -10,10 +9,10 @@ from polywrap_core import (
     Invoker,
     Wrapper,
 )
+from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode
 from wasmtime import Module, Store
 
-from .constants import WRAP_MODULE_PATH
 from .errors import WasmAbortError
 from .exports import WrapExports
 from .imports import create_instance
@@ -22,24 +21,27 @@ from .types.state import State
 
 class WasmWrapper(Wrapper):
     file_reader: IFileReader
-    wasm_module: Optional[bytearray]
+    wasm_module: bytes
+    manifest: AnyWrapManifest
 
     def __init__(
-        self, file_reader: IFileReader, wasm_module: Optional[bytearray] = None
+        self, file_reader: IFileReader, wasm_module: bytes, manifest: AnyWrapManifest
     ):
         self.file_reader = file_reader
         self.wasm_module = wasm_module
+        self.manifest = manifest
+
+    def get_manifest(self) -> AnyWrapManifest:
+        return self.manifest
+
+    def get_wasm_module(self) -> bytes:
+        return self.wasm_module
 
     async def get_file(
-        self, options: GetFileOptions, client: Client
+        self, options: GetFileOptions
     ) -> Union[str, bytes]:
         data = await self.file_reader.read_file(options.path)
         return data.decode(encoding=options.encoding) if options.encoding else data
-
-    async def get_wasm_module(self) -> bytearray:
-        if not self.wasm_module:
-            self.wasm_module = await self.file_reader.read_file(WRAP_MODULE_PATH)
-        return self.wasm_module
 
     def create_wasm_instance(self, store: Store, state: State, invoker: Invoker):
         if self.wasm_module:
@@ -47,7 +49,6 @@ class WasmWrapper(Wrapper):
             return create_instance(store, module, state, invoker)
 
     async def invoke(self, options: InvokeOptions, invoker: Invoker) -> InvocableResult:
-        await self.get_wasm_module()
         state = State()
         state.method = options.method
         state.args = (

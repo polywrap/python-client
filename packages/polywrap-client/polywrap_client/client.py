@@ -8,6 +8,7 @@ from polywrap_core import (
     ClientConfig,
     Env,
     GetEnvsOptions,
+    GetManifestOptions,
     GetFileOptions,
     GetUriResolversOptions,
     InvokeResult,
@@ -23,6 +24,7 @@ from polywrap_core import (
 )
 from polywrap_msgpack import msgpack_decode, msgpack_encode
 from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
+from polywrap_manifest import AnyWrapManifest
 from result import Err, Ok, Result
 
 
@@ -58,7 +60,11 @@ class PolywrapClient(Client):
 
     async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
         loaded_wrapper = (await self.load_wrapper(uri)).unwrap()
-        return await loaded_wrapper.get_file(options=options, client=self)
+        return await loaded_wrapper.get_file(options)
+
+    async def get_manifest(self, uri: Uri, options: Optional[GetManifestOptions] = None) -> AnyWrapManifest:
+        loaded_wrapper = (await self.load_wrapper(uri)).unwrap()
+        return loaded_wrapper.get_manifest()
 
     async def try_resolve_uri(
         self, options: TryResolveUriOptions
@@ -90,7 +96,7 @@ class PolywrapClient(Client):
             return Err(Exception(f'Error resolving URI "{uri.uri}"\nURI not found'))
 
         if isinstance(uri_package_or_wrapper, UriPackage):
-            return Ok(uri_package_or_wrapper.package.create_wrapper())
+            return Ok(await uri_package_or_wrapper.package.create_wrapper())
 
         return Ok(uri_package_or_wrapper.wrapper)
 

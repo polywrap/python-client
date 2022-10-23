@@ -16,7 +16,7 @@ def fs_resolver(file_reader: IFileReader):
 
 @pytest.mark.asyncio
 async def test_file_resolver(fs_resolver: IUriResolver):
-    path = Path(__file__).parent.parent.joinpath("README.md")
+    path = Path(__file__).parent / "cases" / "simple"
     uri = Uri(f"wrap://fs/{path}")
 
     result = await fs_resolver.try_resolve_uri(uri, None, None) # type: ignore

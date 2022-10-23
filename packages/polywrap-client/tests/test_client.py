@@ -10,7 +10,7 @@ from polywrap_client.client import PolywrapClientConfig
 async def test_invoke():
     client = PolywrapClient()
     uri = Uri(
-        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke", "wrap.wasm").absolute()}'
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke").absolute()}'
     )
     args = {"arg": "hello polywrap"}
     options = InvokerOptions(
@@ -26,7 +26,7 @@ async def test_subinvoke():
         file_reader=SimpleFileReader(),
         redirects={
             Uri("ens/add.eth"): Uri(
-                f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "wrap-subinvoke.wasm").absolute()}'
+                f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "subinvoke").absolute()}'
             ),
         },
     )
@@ -35,7 +35,7 @@ async def test_subinvoke():
         envs=[], resolver=uri_resolver
     ))
     uri = Uri(
-        f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "wrap-invoke.wasm").absolute()}'
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
     args = b'\x82\xa1a\x01\xa1b\x02'
     options = InvokerOptions(

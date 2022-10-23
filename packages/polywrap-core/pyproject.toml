@@ -13,6 +13,7 @@ python = "^3.10"
 gql = "3.4.0"
 graphql-core = "^3.2.1"
 result = "^0.8.0"
+polywrap-manifest = { path = "../polywrap-manifest", develop = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
