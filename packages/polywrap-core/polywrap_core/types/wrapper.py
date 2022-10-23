@@ -1,7 +1,9 @@
 from abc import abstractmethod
 from typing import Dict, Union
 
-from .client import Client, GetFileOptions
+from polywrap_manifest import AnyWrapManifest
+
+from .client import GetFileOptions
 from .invoke import Invocable, InvocableResult, InvokeOptions, Invoker
 
 
@@ -20,8 +22,12 @@ class Wrapper(Invocable):
 
     @abstractmethod
     async def get_file(
-        self, options: GetFileOptions, client: Client
+        self, options: GetFileOptions
     ) -> Union[str, bytes]:
+        pass
+
+    @abstractmethod
+    def get_manifest(self) -> AnyWrapManifest:
         pass
 
 

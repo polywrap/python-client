@@ -4,6 +4,8 @@ from abc import abstractmethod
 from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
+from polywrap_manifest import DeserializeManifestOptions, AnyWrapManifest
+
 from .env import Env
 from .invoke import Invoker
 from .uri import Uri
@@ -18,24 +20,24 @@ class ClientConfig:
 
 
 @dataclass(slots=True, kw_only=True)
-class Contextualized:
-    context_id: Optional[str] = None
-
-
-@dataclass(slots=True, kw_only=True)
-class GetEnvsOptions(Contextualized):
+class GetEnvsOptions:
     pass
 
 
 @dataclass(slots=True, kw_only=True)
-class GetUriResolversOptions(Contextualized):
+class GetUriResolversOptions:
     pass
 
 
 @dataclass(slots=True, kw_only=True)
-class GetFileOptions(Contextualized):
+class GetFileOptions:
     path: str
     encoding: Optional[str] = "utf-8"
+
+
+@dataclass(slots=True, kw_only=True)
+class GetManifestOptions(DeserializeManifestOptions):
+    pass
 
 
 class Client(Invoker, UriResolverHandler):
@@ -52,9 +54,13 @@ class Client(Invoker, UriResolverHandler):
     @abstractmethod
     def get_uri_resolver(
         self, options: Optional[GetUriResolversOptions] = None
-    ) -> List[IUriResolver]:
+    ) -> IUriResolver:
         pass
 
     @abstractmethod
     async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
+        pass
+
+    @abstractmethod
+    async def get_manifest(self, uri: Uri, options: Optional[GetManifestOptions] = None) -> AnyWrapManifest:
         pass

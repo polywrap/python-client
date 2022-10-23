@@ -13,6 +13,7 @@ readme = "README.md"
 python = "^3.10"
 wasmtime = "^1.0.1"
 polywrap-core = { path = "../polywrap-core", develop = true }
+polywrap-manifest = { path = "../polywrap-manifest", develop = true }
 polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 unsync = "^1.4.0"
 
@@ -27,6 +28,7 @@ tox-poetry = "^0.4.1"
 isort = "^5.10.1"
 pyright = "^1.1.275"
 pydocstyle = "^6.1.1"
+pydantic = "^1.10.2"
 
 [tool.bandit]
 exclude_dirs = ["tests"]

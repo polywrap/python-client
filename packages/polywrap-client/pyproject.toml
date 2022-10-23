@@ -14,6 +14,8 @@ python = "^3.10"
 wasmtime = "^1.0.1"
 unsync = "^1.4.0"
 polywrap-core = { path = "../polywrap-core", develop = true }
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
+polywrap-manifest = { path = "../polywrap-manifest", develop = true }
 polywrap-uri-resolvers = { path = "../polywrap-uri-resolvers", develop = true }
 result = "^0.8.0"
 

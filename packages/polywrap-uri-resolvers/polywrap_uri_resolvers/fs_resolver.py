@@ -1,3 +1,4 @@
+from pathlib import Path
 from polywrap_core import (
     Client,
     IFileReader,
@@ -7,7 +8,7 @@ from polywrap_core import (
     UriPackage,
     UriPackageOrWrapper,
 )
-from polywrap_wasm import WasmPackage
+from polywrap_wasm import WasmPackage, WRAP_MODULE_PATH, WRAP_MANIFEST_PATH
 from result import Ok, Result
 
 
@@ -29,12 +30,15 @@ class FsUriResolver(IUriResolver):
         if uri.authority not in ["fs", "file"]:
             return Ok(uri)
 
-        wasm_module = await self.file_reader.read_file(uri.path)
+        wrapper_path = Path(uri.path)
+        wasm_module = await self.file_reader.read_file(str(wrapper_path / WRAP_MODULE_PATH))
+        manifest = await self.file_reader.read_file(str(wrapper_path / WRAP_MANIFEST_PATH))
+
         return Ok(
             UriPackage(
                 uri=uri,
                 package=WasmPackage(
-                    wasm_module=wasm_module, file_reader=self.file_reader
+                    wasm_module=wasm_module, manifest=manifest, file_reader=self.file_reader
                 ),
             )
         )
