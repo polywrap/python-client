@@ -1,3 +1,4 @@
+from typing import List
 import pytest
 
 from pathlib import Path
@@ -9,11 +10,17 @@ from polywrap_manifest import deserialize_wrap_manifest, AnyWrapManifest
 
 from polywrap_wasm.constants import WRAP_MANIFEST_PATH
 
+from result import Result, Err
+
 @pytest.fixture
 def mock_invoker():
     class MockInvoker(Invoker):
         async def invoke(self, options: InvokerOptions) -> InvokeResult:
             return InvokeResult()
+        
+        def get_implementations(self, uri: Uri) -> Result[List[Uri], Exception]:
+            return Err(NotImplementedError())
+
     return MockInvoker()
 
 

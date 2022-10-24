@@ -20,6 +20,7 @@ from polywrap_core import (
     UriPackage,
     UriPackageOrWrapper,
     UriResolutionContext,
+    InterfaceImplementations,
     Wrapper,
 )
 from polywrap_msgpack import msgpack_decode, msgpack_encode
@@ -53,6 +54,17 @@ class PolywrapClient(Client):
     def get_envs(self, options: Optional[GetEnvsOptions] = None) -> List[Env]:
         return self._config.envs
 
+    def get_interfaces(self) -> List[InterfaceImplementations]:
+        return self._config.interfaces
+
+    def get_implementations(self, uri: Uri) -> Result[List[Uri], Exception]:
+        if interface_implementations := next(
+            filter(lambda x: x.interface == uri, self._config.interfaces), None
+        ):
+            return Ok(interface_implementations.implementations)
+        else:
+            return Err(ValueError(f"Unable to find implementations for uri: {uri}"))
+
     def get_env_by_uri(
         self, uri: Uri, options: Optional[GetEnvsOptions] = None
     ) -> Union[Env, None]:
@@ -62,7 +74,9 @@ class PolywrapClient(Client):
         loaded_wrapper = (await self.load_wrapper(uri)).unwrap()
         return await loaded_wrapper.get_file(options)
 
-    async def get_manifest(self, uri: Uri, options: Optional[GetManifestOptions] = None) -> AnyWrapManifest:
+    async def get_manifest(
+        self, uri: Uri, options: Optional[GetManifestOptions] = None
+    ) -> AnyWrapManifest:
         loaded_wrapper = (await self.load_wrapper(uri)).unwrap()
         return loaded_wrapper.get_manifest()
 
@@ -124,4 +138,5 @@ class PolywrapClient(Client):
                 return result
 
         except Exception as e:
-            return InvokeResult(result=None, error=e)
+            raise e
+            # return InvokeResult(result=None, error=e)
