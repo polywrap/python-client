@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
+
+from result import Result
 
 from .uri import Uri
 from .uri_resolution_context import IUriResolutionContext
@@ -55,6 +57,10 @@ class InvocableResult(InvokeResult):
 class Invoker(ABC):
     @abstractmethod
     async def invoke(self, options: InvokerOptions) -> InvokeResult:
+        pass
+
+    @abstractmethod
+    def get_implementations(self, uri: Uri) -> Result[List[Uri], Exception]:
         pass
 
 

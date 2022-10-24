@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from polywrap_client import PolywrapClient
-from polywrap_core import Uri, InvokerOptions
+from polywrap_core import Uri, InvokerOptions, InterfaceImplementations
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader
 
 from polywrap_client.client import PolywrapClientConfig
@@ -31,17 +31,43 @@ async def test_subinvoke():
         },
     )
 
-    client = PolywrapClient(config=PolywrapClientConfig(
-        envs=[], resolver=uri_resolver
-    ))
+    client = PolywrapClient(config=PolywrapClientConfig(envs=[], resolver=uri_resolver))
     uri = Uri(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
-    args = b'\x82\xa1a\x01\xa1b\x02'
-    options = InvokerOptions(
-        uri=uri, method="add", args=args, encode_result=False
-    )
+    args = {"a": 1, "b": 2}
+    options = InvokerOptions(uri=uri, method="add", args=args, encode_result=False)
     result = await client.invoke(options)
 
     assert result.result == "1 + 2 = 3"
 
+
+async def test_interface_implementation():
+    uri_resolver = BaseUriResolver(
+        file_reader=SimpleFileReader(),
+        redirects={},
+    )
+
+    impl_uri = Uri(
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-interface", "implementation").absolute()}'
+    )
+
+    client = PolywrapClient(
+        config=PolywrapClientConfig(
+            envs=[],
+            resolver=uri_resolver,
+            interfaces=[
+                InterfaceImplementations(
+                    interface=Uri("ens/interface.eth"), implementations=[impl_uri]
+                )
+            ],
+        )
+    )
+    uri = Uri(
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-interface", "wrapper").absolute()}'
+    )
+    args = {"arg": {"str": "hello", "uint8": 2}}
+    options = InvokerOptions(uri=uri, method="moduleMethod", args=args, encode_result=False)
+    result = await client.invoke(options)
+
+    assert result.result == {"str": "hello", "uint8": 2}

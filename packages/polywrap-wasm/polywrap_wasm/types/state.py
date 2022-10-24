@@ -30,6 +30,7 @@ class State:
     subinvoke_implementation: RawSubinvokeImplementationResult = field(
         default_factory=lambda: {"result": None, "error": None, "args": []}
     )
+    get_implementations_result: Optional[bytes] = None
     method: Optional[str] = None
     args: Optional[bytes] = None
     env: Optional[bytes] = None

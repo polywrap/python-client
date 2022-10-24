@@ -6,6 +6,7 @@ from typing import List, Optional, Union
 
 from polywrap_manifest import DeserializeManifestOptions, AnyWrapManifest
 
+from .interface_implementation import InterfaceImplementations
 from .env import Env
 from .invoke import Invoker
 from .uri import Uri
@@ -16,6 +17,7 @@ from .uri_resolver_handler import UriResolverHandler
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
     envs: List[Env] = field(default_factory=list)
+    interfaces: List[InterfaceImplementations] = field(default_factory=list)
     resolver: IUriResolver
 
 
@@ -41,6 +43,10 @@ class GetManifestOptions(DeserializeManifestOptions):
 
 
 class Client(Invoker, UriResolverHandler):
+    @abstractmethod
+    def get_interfaces(self) -> List[InterfaceImplementations]:
+        pass
+
     @abstractmethod
     def get_envs(self, options: Optional[GetEnvsOptions] = None) -> List[Env]:
         pass
