@@ -123,6 +123,9 @@ class PolywrapClient(Client):
                 )
             ).unwrap()
 
+            env = self.get_env_by_uri(options.uri)
+            options.env = options.env or (env.env if env else None)
+
             result = await wrapper.invoke(options, invoker=self)
             if options.encode_result and not result.encoded:
                 encoded = msgpack_encode(result.result)

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from polywrap_client import PolywrapClient
-from polywrap_core import Uri, InvokerOptions, InterfaceImplementations
+from polywrap_core import Uri, InvokerOptions, InterfaceImplementations, Env
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader
 
 from polywrap_client.client import PolywrapClientConfig
@@ -67,7 +67,32 @@ async def test_interface_implementation():
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-interface", "wrapper").absolute()}'
     )
     args = {"arg": {"str": "hello", "uint8": 2}}
-    options = InvokerOptions(uri=uri, method="moduleMethod", args=args, encode_result=False)
+    options = InvokerOptions(
+        uri=uri, method="moduleMethod", args=args, encode_result=False
+    )
     result = await client.invoke(options)
 
     assert result.result == {"str": "hello", "uint8": 2}
+
+
+async def test_env():
+    uri_resolver = BaseUriResolver(
+        file_reader=SimpleFileReader(),
+        redirects={},
+    )
+
+    uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "simple-env").absolute()}')
+    env = {"externalArray": [1, 2, 3], "externalString": "hello"}
+
+    client = PolywrapClient(
+        config=PolywrapClientConfig(
+            envs=[Env(uri=uri, env=env)],
+            resolver=uri_resolver,
+        )
+    )
+    options = InvokerOptions(
+        uri=uri, method="externalEnvMethod", args={}, encode_result=False
+    )
+    result = await client.invoke(options)
+
+    assert result.result == env
