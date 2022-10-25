@@ -70,11 +70,16 @@ class ClientConfigBuilder():
         pass
 
     def set_resolver(self, resolver: IUriResolver):
-        pass
+        self.resolver = resolver
+        return self
 
 
-    def build(self):
+    def build(self) -> ClientConfig:
         """
         Returns a sanitized config object from the builder's config.
         """
+
+        if not self.resolver:
+            raise Exception('No Uri Resolver provided')
+        
         pass

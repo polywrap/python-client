@@ -13,8 +13,18 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
+    """
+    This object is used to configure the polywrap client before it executes a call
+    The ClientConfig class is created and modified with the ClientConfigBuilder module
+    
+    Defined initially here:
+    https://github.com/polywrap/toolchain/blob/origin/packages/js/core/src/types/Client.ts
+    """
     envs: List[Env] = field(default_factory=list)
     resolver: IUriResolver
+    #interfaces: InterfaceImplementations
+    #plugins: PluginRegistration
+    #redirects: UriRedirect
 
 
 @dataclass(slots=True, kw_only=True)
