@@ -11,25 +11,7 @@ This MVP Python client enables the execution of **[WebAssembly](https://en.wikip
 
 The client is built following the functionality of the [JavaScript Polywrap Client](https://github.com/polywrap/toolchain), which is currently more robust and battle tested, as it has additional capabilities than this MVP. In the future, the Polywrap DAO will continue improving this Python capabilities to reach feature parity with the JS stack, while building in parallel clients for other languages like Go and Rust.
 
-Here you can see which features have been implemented on each language, and make the decision of which one to use for your project.
-
-| Feature | [Python](https://github.com/polywrap/python-client) | [Javascript](https://github.com/polywrap/toolchain) |  [Go]() | [Rust](https://github.com/polywrap/rust-client) |
-| -- | -- | -- | -- | -- |
-| Invoke  | ✅ | ✅ | | |
-| Subinvoke | ⚙️ | ✅ | | |
-| Interfaces | ❌ | ✅ | | | 
-| Env Configuration | ⚙️ | ✅ | | |
-| Client Config | ⚙️ | ✅ | | |
-| Plugins | ❌ | ✅ | | | 
-| Wrap Manifest | ⚙️ | ✅ | | | 
-| Uri Resolution | ⚙️ | ✅ | | | 
-> TODO: Update table above according to test harness and maybe mention other wip clients (go, rust)
-
-|status| |
-| -- | -- |
-|✅ | fully working|
-|⚙️| partially working|
-|❌|not yet implemented|
+[Here](https://github.com/polywrap/client-test-harness) you can see which features have been implemented on each language, and make the decision of which one to use for your project.
 
 
 # Getting Started:
@@ -53,7 +35,8 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 > - If you are using a Linux system or WSL, which comes with Python3.8, then you will need to upgrade from Python3.8 to Python3.10 and also fix the `pip` and `distutil` as upgrading to Python3.10 will break them. You may follow [this guide](https://cloudbytes.dev/snippets/upgrade-python-to-latest-version-on-ubuntu-linux) to upgrade.
 
 ### `poetry ^1.1.14`
-> - To install poetry follow [this guide](https://python-poetry.org/docs/#installation). If you are on MacOS then you can install poetry simply with the following homebrew command 
+> - To install poetry follow [this guide](https://python-poetry.org/docs/#installation). 
+> - If you are on MacOS then you can install poetry simply with the following homebrew command 
 > ```
 > brew install poetry
 > ```
@@ -66,7 +49,7 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 ## Poetry 
 
 - We will be using [Poetry](https://python-poetry.org) for building and testing our packages. 
- Each of the package folders consists the `pyproject.toml` file and the `poetry.lock` file. In `pyproject.toml` file, one can find out all the project dependencies and configs related to the package. These files will be utilized by Poetry to install correct dependencies, build, lint and test the package.
+ Each of the package folders consists of the `pyproject.toml` file and the `poetry.lock` file. In `pyproject.toml` file, one can find out all the project dependencies and configs related to the package. These files will be utilized by Poetry to install correct dependencies, build, lint and test the package.
 
 - For example, we can **install** deps, **build** and **test** the `polywrap-msgpack` package using Poetry. 
 
@@ -82,12 +65,13 @@ In order to assure the integrity of the modules Polywrap Python Client uses [pyt
 
 - As we can see in the `pyproject.toml` files, we installed the [PyTest](https://docs.pytest.org) package. We will be using it as our testing framework. 
 - Now we are ready to **build** and **test** the core package using Poetry and PyTest.
-- To build the package run the following command
+
+To build the package run the following command
 ```
 poetry build
 ```
-- You need to activate the venv with poetry using the `shell` command before running any other command
-  
+
+You need to activate the venv with poetry using the `shell` command before running any other command
 ```
 poetry shell
 ```
@@ -113,7 +97,7 @@ tests/test_msgpack.py ........................                                  
 
 > ### Debugging with Pytest:
 > 
-> You should expect to see the tests passing with a 100% accuracy. To better understand and read these outputs, check [this quick guide](https://docs.pytest.org/en/7.1.x/how-to/output.html). If anything fails (marked with an 'F'), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
+> You should expect to see the tests passing with a 100% accuracy. To better understand these outputs, read [this quick guide](https://docs.pytest.org/en/7.1.x/how-to/output.html). If any of the functionality fails (marked with an 'F'), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
 > - `poetry run pytests -v` or `poetry run pytests -vv` for even more detail
 > - Reach out to the devs on the [Discord](https://discord.polywrap.io) explaining your situation, and what configuration you're using on your machine.
 
@@ -129,7 +113,6 @@ tox -a
 ```
 tox
 ```
-
 ### Linting
 ```
 tox -e lint
