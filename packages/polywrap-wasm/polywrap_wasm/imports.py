@@ -79,6 +79,13 @@ def create_instance(
             f"__wrap_abort: {msg}\nFile: {file}\nLocation: [{line},{column}]"
         )
 
+    wrap_load_env_type = FuncType([ValType.i32()], [])
+
+    def wrap_load_env(ptr: int) -> None:
+        if not state.env:
+            raise WasmAbortError("env: is not set")
+        write_bytes(mem.data_ptr(store), mem.data_len(store), state.env, ptr)
+
     wrap_invoke_args_type = FuncType([ValType.i32(), ValType.i32()], [])
 
     def wrap_invoke_args(method_ptr: int, args_ptr: int) -> None:
@@ -309,6 +316,7 @@ def create_instance(
     # TODO: use generics or any on wasmtime codebase to fix typings
     linker.define_func("wrap", "__wrap_debug_log", wrap_debug_log_type, wrap_debug_log)  # type: ignore partially unknown
     linker.define_func("wrap", "__wrap_abort", wrap_abort_type, wrap_abort)  # type: ignore partially unknown
+    linker.define_func("wrap", "__wrap_load_env", wrap_load_env_type, wrap_load_env)  # type: ignore partially unknown
 
     # invoke
     linker.define_func("wrap", "__wrap_invoke_args", wrap_invoke_args_type, wrap_invoke_args)  # type: ignore partially unknown
