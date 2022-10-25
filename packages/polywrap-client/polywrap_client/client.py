@@ -98,10 +98,10 @@ class PolywrapClient(Client):
             TryResolveUriOptions(uri=uri, resolution_context=resolution_context)
         )
 
-        if result.is_ok is True and result.ok is None:
+        if result.is_ok() == True and result.ok is None:
             # FIXME: add other info
             return Err(RuntimeError(f'Error resolving URI "{uri.uri}"'))
-        if result.is_err is True:
+        if result.is_err() == True:
             return Err(result.unwrap_err())
 
         uri_package_or_wrapper = result.unwrap()

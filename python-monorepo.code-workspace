@@ -27,6 +27,10 @@
       {
         "name": "polywrap-manifest",
         "path": "packages/polywrap-manifest"
+      },
+      {
+        "name": "polywrap-result",
+        "path": "packages/polywrap-result"
       }
   ],
   "settings": {
