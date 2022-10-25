@@ -43,7 +43,7 @@ class PolywrapClient(Client):
             resolver=FsUriResolver(file_reader=SimpleFileReader())
         )
 
-    def getConfig(self):
+    def get_config(self):
         return self._config
 
     def get_uri_resolver(
@@ -130,16 +130,15 @@ class PolywrapClient(Client):
             if options.encode_result and not result.encoded:
                 encoded = msgpack_encode(result.result)
                 return InvokeResult(result=encoded, error=None)
-            elif (
+            if (
                 not options.encode_result
                 and result.encoded
                 and isinstance(result.result, (bytes, bytearray))
             ):
                 decoded: Any = msgpack_decode(result.result)
                 return InvokeResult(result=decoded, error=None)
-            else:
-                return result
+            return result
 
-        except Exception as e:
-            raise e
-            # return InvokeResult(result=None, error=e)
+        except Exception as error:
+            raise error
+            # return InvokeResult(result=None, error=error)
