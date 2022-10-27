@@ -7,27 +7,37 @@ and run python ./scripts/generate.py to regenerate this file.
 from typing import Optional
 
 from polywrap_msgpack import msgpack_decode
+from polywrap_result import Ok, Err, Result
+from pydantic import ValidationError
 
 from .manifest import *
 
 
 def deserialize_wrap_manifest(
     manifest: bytes, options: Optional[DeserializeManifestOptions] = None
+) -> Result[AnyWrapManifest]:
+    try:
+        return Ok(_deserialize_wrap_manifest(manifest, options))
+    except (ValueError, ValidationError) as e:
+        return Err(e)
+
+
+def _deserialize_wrap_manifest(
+    manifest: bytes, options: Optional[DeserializeManifestOptions] = None
 ) -> AnyWrapManifest:
     decoded_manifest = msgpack_decode(manifest)
     if not decoded_manifest.get("version"):
         raise ValueError("Expected manifest version to be defined!")
-
+    
     no_validate = options and options.no_validate
     manifest_version = WrapManifestVersions(decoded_manifest["version"])
+    print(no_validate)
     match manifest_version.value:
-        case "0.1.0":
+        case "0.1":
             return (
-                WrapManifest_0_1.construct(**decoded_manifest)
-                if no_validate
+                WrapManifest_0_1.construct(**decoded_manifest) 
+                if no_validate 
                 else WrapManifest_0_1(**decoded_manifest)
             )
-        case "0.1":
-            return WrapManifest_0_1(**decoded_manifest)
         case _:
             raise ValueError(f"Invalid wrap manifest version: {manifest_version}")
