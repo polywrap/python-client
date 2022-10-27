@@ -1,5 +1,5 @@
 from textwrap import dedent
-from typing import Union
+from typing import Union, cast
 
 from polywrap_core import (
     GetFileOptions,
@@ -11,9 +11,9 @@ from polywrap_core import (
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode
+from polywrap_result import Result, Ok, Err
 from wasmtime import Module, Store
 
-from .errors import WasmAbortError
 from .exports import WrapExports
 from .imports import create_instance
 from .types.state import State
@@ -31,24 +31,27 @@ class WasmWrapper(Wrapper):
         self.wasm_module = wasm_module
         self.manifest = manifest
 
-    def get_manifest(self) -> AnyWrapManifest:
-        return self.manifest
+    def get_manifest(self) -> Result[AnyWrapManifest]:
+        return Ok(self.manifest)
 
-    def get_wasm_module(self) -> bytes:
-        return self.wasm_module
+    def get_wasm_module(self) -> Result[bytes]:
+        return Ok(self.wasm_module)
 
-    async def get_file(
-        self, options: GetFileOptions
-    ) -> Union[str, bytes]:
-        data = await self.file_reader.read_file(options.path)
-        return data.decode(encoding=options.encoding) if options.encoding else data
+    async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
+        result = await self.file_reader.read_file(options.path)
+        if result.is_err():
+            return cast(Err, result)
+        data = result.unwrap()
+        return Ok(data.decode(encoding=options.encoding) if options.encoding else data)
 
     def create_wasm_instance(self, store: Store, state: State, invoker: Invoker):
         if self.wasm_module:
             module = Module(store.engine, self.wasm_module)
             return create_instance(store, module, state, invoker)
 
-    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> InvocableResult:
+    async def invoke(
+        self, options: InvokeOptions, invoker: Invoker
+    ) -> Result[InvocableResult]:
         state = State()
         state.method = options.method
         state.args = (
@@ -66,11 +69,11 @@ class WasmWrapper(Wrapper):
             raise ValueError(
                 dedent(
                     """
-                Expected invocation state to be definied got:
-                method: ${state.method}
-                args: ${state.args}
-                env: ${state.env}
-            """
+                    Expected invocation state to be definied got:
+                    method: ${state.method}
+                    args: ${state.args}
+                    env: ${state.env}
+                    """
                 )
             )
 
@@ -87,15 +90,19 @@ class WasmWrapper(Wrapper):
         exports = WrapExports(instance, store)
 
         result = exports.__wrap_invoke__(method_length, args_length, env_length)
-        # TODO: Handle invoke result error
         return self._process_invoke_result(state, result)
 
     @staticmethod
-    def _process_invoke_result(state: State, result: bool) -> InvocableResult:
+    def _process_invoke_result(state: State, result: bool) -> Result[InvocableResult]:
         if result and state.invoke["result"]:
-            return InvocableResult(result=state.invoke["result"], encoded=True)
+            return Ok(InvocableResult(result=state.invoke["result"], encoded=True))
         elif result or not state.invoke["error"]:
-            raise WasmAbortError("Invoke result is missing")
+            # return Err.from_str(dedent(
+            #     f"""
+            #     WasmWrapper: invocation exception encountered.
+            #     uri: {options.uri.uri}
+            #     """
+            # ))
+            return Err.from_str("Invoke result is missing")
         else:
-            # TODO: we may want better error support here
-            return InvocableResult(error=Exception(state.invoke["error"]))
+            return Err.from_str(state.invoke["error"])

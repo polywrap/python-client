@@ -1,5 +1,6 @@
-from typing import List
-from polywrap_core import Invoker, InvokeResult, InvokerOptions, Uri
+from typing import Any, List, cast
+from polywrap_core import Invoker, InvokerOptions, Uri
+from polywrap_result import Result, Ok, Err
 from polywrap_msgpack import msgpack_encode
 from unsync import Unfuture, unsync
 from wasmtime import (
@@ -13,7 +14,6 @@ from wasmtime import (
     Store,
     ValType,
 )
-from result import Err
 
 from .buffer import read_bytes, read_string, write_bytes, write_string
 from .errors import WasmAbortError
@@ -21,7 +21,7 @@ from .types.state import State
 
 
 @unsync
-async def unsync_invoke(invoker: Invoker, options: InvokerOptions) -> InvokeResult:
+async def unsync_invoke(invoker: Invoker, options: InvokerOptions) -> Result[Any]:
     return await invoker.invoke(options)
 
 
@@ -147,17 +147,19 @@ def create_instance(
         )
         args = read_bytes(mem.data_ptr(store), mem.data_len(store), args_ptr, args_len)
 
-        unfuture_result: Unfuture[InvokeResult] = unsync_invoke(
+        unfuture_result: Unfuture[Result[Any]] = unsync_invoke(
             invoker,
             InvokerOptions(uri=Uri(uri), method=method, args=args, encode_result=True),
         )
         result = unfuture_result.result()
 
-        if result.result:
-            state.subinvoke["result"] = result.result
+        if result.is_ok():
+            result = cast(Ok[bytes], result)
+            state.subinvoke["result"] = result.unwrap()
             return True
-        elif result.error:
-            state.subinvoke["error"] = "".join(str(x) for x in result.error.args)
+        elif result.is_err():
+            error = cast(Err, result).unwrap_err()
+            state.subinvoke["error"] = "".join(str(x) for x in error.args)
             return False
         else:
             raise ValueError("subinvocation failed!")
@@ -232,17 +234,20 @@ def create_instance(
         )
         args = read_bytes(mem.data_ptr(store), mem.data_len(store), args_ptr, args_len)
 
-        unfuture_result: Unfuture[InvokeResult] = unsync_invoke(
+
+        unfuture_result: Unfuture[Result[Any]] = unsync_invoke(
             invoker,
             InvokerOptions(uri=Uri(impl_uri), method=method, args=args, encode_result=True),
         )
         result = unfuture_result.result()
 
-        if result.result:
-            state.subinvoke_implementation["result"] = result.result
+        if result.is_ok():
+            result = cast(Ok[bytes], result)
+            state.subinvoke["result"] = result.unwrap()
             return True
-        elif result.error:
-            state.subinvoke_implementation["error"] = "".join(str(x) for x in result.error.args)
+        elif result.is_err():
+            error = cast(Err, result).unwrap_err()
+            state.subinvoke["error"] = "".join(str(x) for x in error.args)
             return False
         else:
             raise ValueError(f"interface implementation subinvoke failed for uri: {interface_uri}!")

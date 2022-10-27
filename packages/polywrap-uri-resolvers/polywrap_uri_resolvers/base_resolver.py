@@ -8,7 +8,7 @@ from polywrap_core import (
     Uri,
     UriPackageOrWrapper,
 )
-from result import Result
+from polywrap_result import Ok, Err, Result
 
 from .fs_resolver import FsUriResolver
 from .redirect_resolver import RedirectUriResolver
@@ -24,12 +24,15 @@ class BaseUriResolver(IUriResolver):
 
     async def try_resolve_uri(
         self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
-    ) -> Result[UriPackageOrWrapper, Exception]:
-        redirected_uri = (
+    ) -> Result[UriPackageOrWrapper]:
+        redirected_uri_result = (
             await self._redirect_resolver.try_resolve_uri(
                 uri, client, resolution_context
             )
-        ).unwrap()
+        )
+        if redirected_uri_result.is_err():
+            return redirected_uri_result
+        redirected_uri = redirected_uri_result.unwrap()
 
         return await self._fs_resolver.try_resolve_uri(
             redirected_uri, client, resolution_context

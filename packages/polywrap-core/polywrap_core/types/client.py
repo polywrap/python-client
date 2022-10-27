@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
 from polywrap_manifest import DeserializeManifestOptions, AnyWrapManifest
+from polywrap_result import Result
 
 from .interface_implementation import InterfaceImplementations
 from .env import Env
@@ -64,9 +65,9 @@ class Client(Invoker, UriResolverHandler):
         pass
 
     @abstractmethod
-    async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
+    async def get_file(self, uri: Uri, options: GetFileOptions) -> Result[Union[bytes, str]]:
         pass
 
     @abstractmethod
-    async def get_manifest(self, uri: Uri, options: Optional[GetManifestOptions] = None) -> AnyWrapManifest:
+    async def get_manifest(self, uri: Uri, options: Optional[GetManifestOptions] = None) -> Result[AnyWrapManifest]:
         pass

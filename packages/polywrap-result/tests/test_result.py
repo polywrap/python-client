@@ -142,9 +142,9 @@ def test_unwrap_or_else(except1: Exception, except2: Exception) -> None:
 def test_unwrap_or_raise(except1: Exception) -> None:
     o = Ok('yay')
     n = Err(except1)
-    assert o.unwrap_or_raise(Exception) == 'yay'
+    assert o.unwrap_or_raise() == 'yay'
     with pytest.raises(Exception) as exc_info:
-        n.unwrap_or_raise(Exception)
+        n.unwrap_or_raise()
     assert exc_info.value.args == ('error 1',)
 
 

@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
 
-from result import Result
+from polywrap_result import Result
 
 from .uri import Uri
 from .uri_resolution_context import IUriResolutionContext
@@ -31,17 +31,17 @@ class InvokeOptions:
 
 
 @dataclass(slots=True, kw_only=True)
-class InvokeResult:
+class InvocableResult:
     """
     Result of a wrapper invocation
 
     Args:
         data: Invoke result data. The type of this value is the return type of the method.
-        error: Error encountered during the invocation.
+        encoded: It will be set true if result is encoded
     """
 
     result: Optional[Any] = None
-    error: Optional[Exception] = None
+    encoded: Optional[bool] = None
 
 
 @dataclass(slots=True, kw_only=True)
@@ -49,22 +49,17 @@ class InvokerOptions(InvokeOptions):
     encode_result: Optional[bool] = False
 
 
-@dataclass(slots=True, kw_only=True)
-class InvocableResult(InvokeResult):
-    encoded: Optional[bool] = False
-
-
 class Invoker(ABC):
     @abstractmethod
-    async def invoke(self, options: InvokerOptions) -> InvokeResult:
+    async def invoke(self, options: InvokerOptions) -> Result[Any]:
         pass
 
     @abstractmethod
-    def get_implementations(self, uri: Uri) -> Result[List[Uri], Exception]:
+    def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
         pass
 
 
 class Invocable(ABC):
     @abstractmethod
-    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> InvocableResult:
+    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> Result[InvocableResult]:
         pass

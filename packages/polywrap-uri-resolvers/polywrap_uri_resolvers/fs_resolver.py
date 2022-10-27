@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import cast
 from polywrap_core import (
     Client,
     IFileReader,
@@ -9,13 +10,13 @@ from polywrap_core import (
     UriPackageOrWrapper,
 )
 from polywrap_wasm import WasmPackage, WRAP_MODULE_PATH, WRAP_MANIFEST_PATH
-from result import Ok, Result
+from polywrap_result import Ok, Err, Result
 
 
 class SimpleFileReader(IFileReader):
-    async def read_file(self, file_path: str) -> bytearray:
+    async def read_file(self, file_path: str) -> Result[bytes]:
         with open(file_path, "rb") as f:
-            return bytearray(f.read())
+            return Ok(f.read())
 
 
 class FsUriResolver(IUriResolver):
@@ -26,13 +27,21 @@ class FsUriResolver(IUriResolver):
 
     async def try_resolve_uri(
         self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
-    ) -> Result[UriPackageOrWrapper, Exception]:
+    ) -> Result[UriPackageOrWrapper]:
         if uri.authority not in ["fs", "file"]:
             return Ok(uri)
 
         wrapper_path = Path(uri.path)
-        wasm_module = await self.file_reader.read_file(str(wrapper_path / WRAP_MODULE_PATH))
-        manifest = await self.file_reader.read_file(str(wrapper_path / WRAP_MANIFEST_PATH))
+
+        wasm_module_result = await self.file_reader.read_file(str(wrapper_path / WRAP_MODULE_PATH))
+        if wasm_module_result.is_err():
+            return cast(Err, wasm_module_result)
+        wasm_module = wasm_module_result.unwrap()
+
+        manifest_result = await self.file_reader.read_file(str(wrapper_path / WRAP_MANIFEST_PATH))
+        if manifest_result.is_err():
+            return cast(Err, manifest_result)
+        manifest = manifest_result.unwrap()
 
         return Ok(
             UriPackage(

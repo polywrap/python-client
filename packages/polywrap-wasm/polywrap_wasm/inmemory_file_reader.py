@@ -1,5 +1,6 @@
 from typing import Optional
 from polywrap_core import IFileReader
+from polywrap_result import Result, Ok
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
@@ -14,10 +15,10 @@ class InMemoryFileReader(IFileReader):
         self._wasm_manifest = wasm_manifest
         self._base_file_reader = base_file_reader
 
-    async def read_file(self, file_path: str) -> bytes:
+    async def read_file(self, file_path: str) -> Result[bytes]:
         if file_path == WRAP_MODULE_PATH and self._wasm_module:
-            return self._wasm_module
+            return Ok(self._wasm_module)
         elif file_path == WRAP_MANIFEST_PATH and self._wasm_manifest:
-            return self._wasm_manifest
+            return Ok(self._wasm_manifest)
         else:
             return await self._base_file_reader.read_file(file_path=file_path)
