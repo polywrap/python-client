@@ -1,2 +1,2 @@
-from .manifest import *
 from .deserialize import *
+from .manifest import *

@@ -247,7 +247,9 @@ class Err:
         """
         Raises an `UnwrapError`.
         """
-        raise UnwrapError(self, "Called `Result.unwrap()` on an `Err` value") from self._value
+        raise UnwrapError(
+            self, "Called `Result.unwrap()` on an `Err` value"
+        ) from self._value
 
     def unwrap_err(self) -> Exception:
         """

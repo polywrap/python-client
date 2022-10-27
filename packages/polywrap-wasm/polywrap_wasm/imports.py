@@ -40,10 +40,7 @@ def create_instance(
     mem = Memory(store, MemoryType(Limits(1, None)))
 
     wrap_debug_log_type = FuncType(
-        [
-            ValType.i32(),
-            ValType.i32()
-        ],
+        [ValType.i32(), ValType.i32()],
         [],
     )
 
@@ -162,7 +159,7 @@ def create_instance(
             state.subinvoke["error"] = "".join(str(x) for x in error.args)
             return False
         else:
-            raise ValueError("subinvocation failed!")
+            raise RuntimeError("subinvocation failed!")
 
     wrap_subinvoke_result_len_type = FuncType([], [ValType.i32()])
 
@@ -222,35 +219,45 @@ def create_instance(
         method_ptr: int,
         method_len: int,
         args_ptr: int,
-        args_len: int
+        args_len: int,
     ) -> bool:
         state.subinvoke_implementation["result"] = None
         state.subinvoke_implementation["error"] = None
 
-        interface_uri = read_string(mem.data_ptr(store), mem.data_len(store), interface_uri_ptr, interface_uri_len)
-        impl_uri = read_string(mem.data_ptr(store), mem.data_len(store), impl_uri_ptr, impl_uri_len)
+        interface_uri = read_string(
+            mem.data_ptr(store),
+            mem.data_len(store),
+            interface_uri_ptr,
+            interface_uri_len,
+        )
+        impl_uri = read_string(
+            mem.data_ptr(store), mem.data_len(store), impl_uri_ptr, impl_uri_len
+        )
         method = read_string(
             mem.data_ptr(store), mem.data_len(store), method_ptr, method_len
         )
         args = read_bytes(mem.data_ptr(store), mem.data_len(store), args_ptr, args_len)
 
-
         unfuture_result: Unfuture[Result[Any]] = unsync_invoke(
             invoker,
-            InvokerOptions(uri=Uri(impl_uri), method=method, args=args, encode_result=True),
+            InvokerOptions(
+                uri=Uri(impl_uri), method=method, args=args, encode_result=True
+            ),
         )
         result = unfuture_result.result()
 
         if result.is_ok():
             result = cast(Ok[bytes], result)
-            state.subinvoke["result"] = result.unwrap()
+            state.subinvoke_implementation["result"] = result.unwrap()
             return True
         elif result.is_err():
             error = cast(Err, result).unwrap_err()
-            state.subinvoke["error"] = "".join(str(x) for x in error.args)
+            state.subinvoke_implementation["error"] = "".join(str(x) for x in error.args)
             return False
         else:
-            raise ValueError(f"interface implementation subinvoke failed for uri: {interface_uri}!")
+            raise ValueError(
+                f"interface implementation subinvoke failed for uri: {interface_uri}!"
+            )
 
     wrap_subinvoke_implementation_result_len_type = FuncType([], [ValType.i32()])
 
@@ -265,9 +272,14 @@ def create_instance(
 
     def wrap_subinvoke_implementation_result(ptr: int) -> None:
         if not state.subinvoke_implementation["result"]:
-            raise WasmAbortError("__wrap_subinvoke_implementation_result: subinvoke_implementation.result is not set")
+            raise WasmAbortError(
+                "__wrap_subinvoke_implementation_result: subinvoke_implementation.result is not set"
+            )
         write_bytes(
-            mem.data_ptr(store), mem.data_len(store), state.subinvoke_implementation["result"], ptr
+            mem.data_ptr(store),
+            mem.data_len(store),
+            state.subinvoke_implementation["result"],
+            ptr,
         )
 
     wrap_subinvoke_implementation_error_len_type = FuncType([], [ValType.i32()])
@@ -283,18 +295,27 @@ def create_instance(
 
     def wrap_subinvoke_implementation_error(ptr: int) -> None:
         if not state.subinvoke_implementation["error"]:
-            raise WasmAbortError("__wrap_subinvoke_implementation_error: subinvoke_implementation.error is not set")
+            raise WasmAbortError(
+                "__wrap_subinvoke_implementation_error: subinvoke_implementation.error is not set"
+            )
         write_string(
-            mem.data_ptr(store), mem.data_len(store), state.subinvoke_implementation["error"], ptr
+            mem.data_ptr(store),
+            mem.data_len(store),
+            state.subinvoke_implementation["error"],
+            ptr,
         )
 
-    wrap_get_implementations_type = FuncType([ValType.i32(), ValType.i32()], [ValType.i32()])
+    wrap_get_implementations_type = FuncType(
+        [ValType.i32(), ValType.i32()], [ValType.i32()]
+    )
 
     def wrap_get_implementations(uri_ptr: int, uri_len: int) -> bool:
         uri = read_string(mem.data_ptr(store), mem.data_len(store), uri_ptr, uri_len)
         result = invoker.get_implementations(uri=Uri(uri))
-        if isinstance(result, Err):
-            raise WasmAbortError(" ".join(result.unwrap_err().args))
+        if result.is_err():
+            raise WasmAbortError(
+                f"failed calling invoker.get_implementations({repr(Uri(uri))})"
+            ) from result.unwrap_err()
         implementations: List[str] = [uri.uri for uri in result.unwrap()]
         state.get_implementations_result = msgpack_encode(implementations)
         return len(implementations) > 0
@@ -312,11 +333,15 @@ def create_instance(
 
     def wrap_get_implementations_result(ptr: int) -> None:
         if not state.get_implementations_result:
-            raise WasmAbortError("__wrap_get_implementations_result: get_implementations_result is not set")
+            raise WasmAbortError(
+                "__wrap_get_implementations_result: get_implementations_result is not set"
+            )
         write_bytes(
-            mem.data_ptr(store), mem.data_len(store), state.get_implementations_result, ptr
+            mem.data_ptr(store),
+            mem.data_len(store),
+            state.get_implementations_result,
+            ptr,
         )
-
 
     # TODO: use generics or any on wasmtime codebase to fix typings
     linker.define_func("wrap", "__wrap_debug_log", wrap_debug_log_type, wrap_debug_log)  # type: ignore partially unknown

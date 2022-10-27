@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from polywrap_result import Result
 from polywrap_manifest import AnyWrapManifest
+from polywrap_result import Result
 
 from .client import GetManifestOptions
 from .wrapper import Wrapper
@@ -14,5 +14,7 @@ class IWasmPackage(ABC):
         pass
 
     @abstractmethod
-    async def get_manifest(self, options: Optional[GetManifestOptions] = None) -> Result[AnyWrapManifest]:
+    async def get_manifest(
+        self, options: Optional[GetManifestOptions] = None
+    ) -> Result[AnyWrapManifest]:
         pass

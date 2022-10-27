@@ -1,17 +1,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List, Optional, Union
+from textwrap import dedent
+from typing import Any, List, Optional, Union, cast
 
 from polywrap_core import (
     Client,
     ClientConfig,
     Env,
     GetEnvsOptions,
-    GetManifestOptions,
     GetFileOptions,
+    GetManifestOptions,
     GetUriResolversOptions,
-    InvokeResult,
+    InterfaceImplementations,
     InvokerOptions,
     IUriResolutionContext,
     IUriResolver,
@@ -20,13 +21,12 @@ from polywrap_core import (
     UriPackage,
     UriPackageOrWrapper,
     UriResolutionContext,
-    InterfaceImplementations,
     Wrapper,
 )
-from polywrap_msgpack import msgpack_decode, msgpack_encode
-from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
 from polywrap_manifest import AnyWrapManifest
-from result import Err, Ok, Result
+from polywrap_msgpack import msgpack_decode, msgpack_encode
+from polywrap_result import Err, Ok, Result
+from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
 
 
 @dataclass(slots=True, kw_only=True)
@@ -57,32 +57,34 @@ class PolywrapClient(Client):
     def get_interfaces(self) -> List[InterfaceImplementations]:
         return self._config.interfaces
 
-    def get_implementations(self, uri: Uri) -> Result[List[Uri], Exception]:
+    def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
         if interface_implementations := next(
             filter(lambda x: x.interface == uri, self._config.interfaces), None
         ):
             return Ok(interface_implementations.implementations)
         else:
-            return Err(ValueError(f"Unable to find implementations for uri: {uri}"))
+            return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
     def get_env_by_uri(
         self, uri: Uri, options: Optional[GetEnvsOptions] = None
     ) -> Union[Env, None]:
         return next(filter(lambda env: env.uri == uri, self.get_envs()), None)
 
-    async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
+    async def get_file(
+        self, uri: Uri, options: GetFileOptions
+    ) -> Result[Union[bytes, str]]:
         loaded_wrapper = (await self.load_wrapper(uri)).unwrap()
         return await loaded_wrapper.get_file(options)
 
     async def get_manifest(
         self, uri: Uri, options: Optional[GetManifestOptions] = None
-    ) -> AnyWrapManifest:
+    ) -> Result[AnyWrapManifest]:
         loaded_wrapper = (await self.load_wrapper(uri)).unwrap()
         return loaded_wrapper.get_manifest()
 
     async def try_resolve_uri(
         self, options: TryResolveUriOptions
-    ) -> Result[UriPackageOrWrapper, Exception]:
+    ) -> Result[UriPackageOrWrapper]:
         uri = options.uri
         uri_resolver = self._config.resolver
         resolution_context = options.resolution_context or UriResolutionContext()
@@ -91,54 +93,71 @@ class PolywrapClient(Client):
 
     async def load_wrapper(
         self, uri: Uri, resolution_context: Optional[IUriResolutionContext] = None
-    ) -> Result[Wrapper, Exception]:
+    ) -> Result[Wrapper]:
         resolution_context = resolution_context or UriResolutionContext()
 
         result = await self.try_resolve_uri(
             TryResolveUriOptions(uri=uri, resolution_context=resolution_context)
         )
-
-        if result.is_ok() == True and result.ok is None:
-            # FIXME: add other info
-            return Err(RuntimeError(f'Error resolving URI "{uri.uri}"'))
         if result.is_err() == True:
-            return Err(result.unwrap_err())
+            return cast(Err, result)
+        if result.is_ok() == True and result.ok is None:
+            # FIXME: add resolution stack
+            return Err.from_str(
+                dedent(
+                    f"""
+                    Error resolving URI "{uri.uri}"
+                    Resolution Stack: NotImplemented
+                    """
+                )
+            )
 
         uri_package_or_wrapper = result.unwrap()
 
         if isinstance(uri_package_or_wrapper, Uri):
-            return Err(Exception(f'Error resolving URI "{uri.uri}"\nURI not found'))
+            # FIXME: add resolution stack
+            return Err.from_str(
+                dedent(
+                    f"""
+                    Error resolving URI "{uri.uri}"
+                    URI not found
+                    Resolution Stack: NotImplemented
+                    """
+                )
+            )
 
         if isinstance(uri_package_or_wrapper, UriPackage):
-            return Ok(await uri_package_or_wrapper.package.create_wrapper())
+            return await uri_package_or_wrapper.package.create_wrapper()
 
         return Ok(uri_package_or_wrapper.wrapper)
 
-    async def invoke(self, options: InvokerOptions) -> InvokeResult:
-        try:
-            resolution_context = options.resolution_context or UriResolutionContext()
-            wrapper = (
-                await self.load_wrapper(
-                    options.uri, resolution_context=resolution_context
-                )
-            ).unwrap()
+    async def invoke(self, options: InvokerOptions) -> Result[Any]:
+        resolution_context = options.resolution_context or UriResolutionContext()
+        wrapper_result = await self.load_wrapper(
+            options.uri, resolution_context=resolution_context
+        )
+        if wrapper_result.is_err():
+            return cast(Err, wrapper_result)
+        wrapper = wrapper_result.unwrap()
 
-            env = self.get_env_by_uri(options.uri)
-            options.env = options.env or (env.env if env else None)
+        env = self.get_env_by_uri(options.uri)
+        options.env = options.env or (env.env if env else None)
 
-            result = await wrapper.invoke(options, invoker=self)
-            if options.encode_result and not result.encoded:
-                encoded = msgpack_encode(result.result)
-                return InvokeResult(result=encoded, error=None)
-            if (
-                not options.encode_result
-                and result.encoded
-                and isinstance(result.result, (bytes, bytearray))
-            ):
-                decoded: Any = msgpack_decode(result.result)
-                return InvokeResult(result=decoded, error=None)
-            return result
+        result = await wrapper.invoke(options, invoker=self)
+        if result.is_err():
+            return cast(Err, result)
+        invocable_result = result.unwrap()
 
-        except Exception as error:
-            raise error
-            # return InvokeResult(result=None, error=error)
+        if options.encode_result and not invocable_result.encoded:
+            encoded = msgpack_encode(invocable_result.result)
+            return Ok(encoded)
+
+        if (
+            not options.encode_result
+            and invocable_result.encoded
+            and isinstance(invocable_result.result, (bytes, bytearray))
+        ):
+            decoded: Any = msgpack_decode(invocable_result.result)
+            return Ok(decoded)
+
+        return Ok(invocable_result.result)

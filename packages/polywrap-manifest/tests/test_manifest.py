@@ -29,9 +29,8 @@ def test_deserialize_without_validate(msgpack_manifest: bytes):
     assert deserialized_result.is_ok()
 
     deserialized = deserialized_result.unwrap()
-    print(deserialized)
     assert isinstance(deserialized, WrapManifest_0_1)
-    assert deserialized.version == "0.1"
+    assert deserialized.version.value == "0.1"
     assert deserialized.abi.version == "0.1"
     assert deserialized.name == "Simple"
 

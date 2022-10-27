@@ -34,11 +34,12 @@ def _deserialize_wrap_manifest(
     match manifest_version.value:
     {%- for version in versions %}
         case "{{ version.manifest_version }}":
-            return (
+            if no_validate:
+                from .manifest import WrapAbi_{{ version.manifest_module_version }}_{{ version.abi_module_version }}, Version
+                decoded_manifest["version"] = Version(decoded_manifest["version"])
+                decoded_manifest["abi"] = WrapAbi_{{ version.manifest_module_version }}_{{ version.abi_module_version }}.construct(**decoded_manifest["abi"])
                 WrapManifest_{{ version.manifest_module_version }}.construct(**decoded_manifest) 
-                if no_validate 
-                else WrapManifest_{{ version.manifest_module_version }}(**decoded_manifest)
-            )
+            return WrapManifest_{{ version.manifest_module_version }}(**decoded_manifest)
     {%- endfor %}
         case _:
             raise ValueError(f"Invalid wrap manifest version: {manifest_version}")

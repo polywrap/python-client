@@ -18,13 +18,13 @@ class Wrapper(Invocable):
     """
 
     @abstractmethod
-    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> Result[InvocableResult]:
+    async def invoke(
+        self, options: InvokeOptions, invoker: Invoker
+    ) -> Result[InvocableResult]:
         pass
 
     @abstractmethod
-    async def get_file(
-        self, options: GetFileOptions
-    ) -> Result[Union[str, bytes]]:
+    async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
         pass
 
     @abstractmethod

@@ -10,7 +10,7 @@ from polywrap_client.client import PolywrapClientConfig
 async def test_invoke():
     client = PolywrapClient()
     uri = Uri(
-        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke").absolute()}'
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke2").absolute()}'
     )
     args = {"arg": "hello polywrap"}
     options = InvokerOptions(
@@ -18,7 +18,7 @@ async def test_invoke():
     )
     result = await client.invoke(options)
 
-    assert result.result == args["arg"]
+    assert result.unwrap() == args["arg"]
 
 
 async def test_subinvoke():
@@ -39,7 +39,7 @@ async def test_subinvoke():
     options = InvokerOptions(uri=uri, method="add", args=args, encode_result=False)
     result = await client.invoke(options)
 
-    assert result.result == "1 + 2 = 3"
+    assert result.unwrap() == "1 + 2 = 3"
 
 
 async def test_interface_implementation():
@@ -72,7 +72,7 @@ async def test_interface_implementation():
     )
     result = await client.invoke(options)
 
-    assert result.result == {"str": "hello", "uint8": 2}
+    assert result.unwrap() == {"str": "hello", "uint8": 2}
 
 
 async def test_env():
@@ -95,4 +95,4 @@ async def test_env():
     )
     result = await client.invoke(options)
 
-    assert result.result == env
+    assert result.unwrap() == env

@@ -61,5 +61,7 @@ class Invoker(ABC):
 
 class Invocable(ABC):
     @abstractmethod
-    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> Result[InvocableResult]:
+    async def invoke(
+        self, options: InvokeOptions, invoker: Invoker
+    ) -> Result[InvocableResult]:
         pass
