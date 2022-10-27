@@ -97,12 +97,6 @@ class WasmWrapper(Wrapper):
         if result and state.invoke["result"]:
             return Ok(InvocableResult(result=state.invoke["result"], encoded=True))
         elif result or not state.invoke["error"]:
-            # return Err.from_str(dedent(
-            #     f"""
-            #     WasmWrapper: invocation exception encountered.
-            #     uri: {options.uri.uri}
-            #     """
-            # ))
             return Err.from_str("Invoke result is missing")
         else:
             return Err.from_str(state.invoke["error"])
