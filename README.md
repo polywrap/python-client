@@ -27,20 +27,20 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 git clone https://github.com/polywrap/python-client
 ```
 
-### python ˆ3.10
+### `python ˆ3.10`
 - Make sure you're running the correct version of python by running: 
 ```
 python3 --version
 ```
-> - If you are using a Linux system or WSL, which comes with Python3.8, then you will need to upgrade from Python3.8 to Python3.10 and also fix the `pip` and `distutil` as upgrading to Python3.10 will break them. You may follow [this guide](https://cloudbytes.dev/snippets/upgrade-python-to-latest-version-on-ubuntu-linux) to upgrade.
+> If you are using a Linux system or WSL, which comes with Python3.8, then you will need to upgrade from Python3.8 to Python3.10 and also fix the `pip` and `distutil` as upgrading to Python3.10 will break them. You may follow [this guide](https://cloudbytes.dev/snippets/upgrade-python-to-latest-version-on-ubuntu-linux) to upgrade.
 
-### poetry ^1.1.14
+### `poetry ^1.1.14`
 - To install poetry follow [this guide](https://python-poetry.org/docs/#installation). 
 - If you are on MacOS then you can install poetry simply with the following homebrew command 
 ```
 brew install poetry
 ```
-> - To make sure you're it's installed properly, run `poetry`. Learn more [here](https://python-poetry.org/docs/)
+> To make sure you're it's installed properly, run `poetry`. Learn more [here](https://python-poetry.org/docs/)
 
 
 
