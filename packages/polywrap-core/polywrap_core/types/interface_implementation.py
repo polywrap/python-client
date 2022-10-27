@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import List
 
 from .uri import Uri
+
 
 @dataclass(slots=True, kw_only=True)
 class InterfaceImplementations:

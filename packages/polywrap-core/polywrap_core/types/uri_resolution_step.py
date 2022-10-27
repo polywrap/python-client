@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
-from result import Result
+from polywrap_result import Result
 
 from .uri import Uri
 
@@ -14,6 +14,6 @@ if TYPE_CHECKING:
 @dataclass(slots=True, kw_only=True)
 class IUriResolutionStep:
     source_uri: Uri
-    result: Result["UriPackageOrWrapper", Exception]
+    result: Result["UriPackageOrWrapper"]
     description: Optional[str] = None
     sub_history: Optional["IUriResolutionStep"] = None

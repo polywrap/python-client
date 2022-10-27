@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import Dict, Union
 
 from polywrap_manifest import AnyWrapManifest
+from polywrap_result import Result
 
 from .client import GetFileOptions
 from .invoke import Invocable, InvocableResult, InvokeOptions, Invoker
@@ -17,17 +18,17 @@ class Wrapper(Invocable):
     """
 
     @abstractmethod
-    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> InvocableResult:
+    async def invoke(
+        self, options: InvokeOptions, invoker: Invoker
+    ) -> Result[InvocableResult]:
         pass
 
     @abstractmethod
-    async def get_file(
-        self, options: GetFileOptions
-    ) -> Union[str, bytes]:
+    async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
         pass
 
     @abstractmethod
-    def get_manifest(self) -> AnyWrapManifest:
+    def get_manifest(self) -> Result[AnyWrapManifest]:
         pass
 
 

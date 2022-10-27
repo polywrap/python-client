@@ -15,6 +15,7 @@ wasmtime = "^1.0.1"
 polywrap-core = { path = "../polywrap-core", develop = true }
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
 polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
+polywrap-result = { path = "../polywrap-result", develop = true }
 unsync = "^1.4.0"
 
 [tool.poetry.dev-dependencies]

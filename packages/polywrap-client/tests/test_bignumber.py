@@ -15,7 +15,7 @@ async def test_invoke_bignumber_1arg_and_1prop():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
-    assert result.result == "123000"
+    assert result.unwrap() == "123000"
 
 async def test_invoke_bignumber_with_1arg_and_2props():
     client = PolywrapClient()
@@ -29,7 +29,7 @@ async def test_invoke_bignumber_with_1arg_and_2props():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
-    assert result.result == str(123123*1000*4)
+    assert result.unwrap() == str(123123*1000*4)
 
 async def test_invoke_bignumber_with_2args_and_1prop():
     client = PolywrapClient()
@@ -43,7 +43,7 @@ async def test_invoke_bignumber_with_2args_and_1prop():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
-    assert result.result == str(123123*1000*444)
+    assert result.unwrap() == str(123123*1000*444)
 
 async def test_invoke_bignumber_with_2args_and_2props():
     client = PolywrapClient()
@@ -58,7 +58,7 @@ async def test_invoke_bignumber_with_2args_and_2props():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
-    assert result.result == str(123123*555*1000*4)
+    assert result.unwrap() == str(123123*555*1000*4)
 
 async def test_invoke_bignumber_with_2args_and_2props_floats():
     client = PolywrapClient()
@@ -73,5 +73,4 @@ async def test_invoke_bignumber_with_2args_and_2props_floats():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
-    print(result)
-    assert result.result == str(123.123*55.5*10.001*4)
+    assert result.unwrap() == str(123.123*55.5*10.001*4)

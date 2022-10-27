@@ -1,25 +1,24 @@
-from typing import List
+from typing import Any, List, cast
 import pytest
 
 from pathlib import Path
 
 from polywrap_msgpack import msgpack_decode
-from polywrap_core import Uri, InvokeOptions, Invoker, InvokerOptions, InvokeResult
+from polywrap_core import Uri, InvokeOptions, Invoker, InvokerOptions
+from polywrap_result import Ok, Err, Result
 from polywrap_wasm import IFileReader, WasmPackage, WasmWrapper, WRAP_MODULE_PATH
-from polywrap_manifest import deserialize_wrap_manifest, AnyWrapManifest
+from polywrap_manifest import deserialize_wrap_manifest
 
 from polywrap_wasm.constants import WRAP_MANIFEST_PATH
-
-from result import Result, Err
 
 @pytest.fixture
 def mock_invoker():
     class MockInvoker(Invoker):
-        async def invoke(self, options: InvokerOptions) -> InvokeResult:
-            return InvokeResult()
+        async def invoke(self, options: InvokerOptions) -> Result[Any]:
+            return Err.from_str("NotImplemented")
         
-        def get_implementations(self, uri: Uri) -> Result[List[Uri], Exception]:
-            return Err(NotImplementedError())
+        def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
+            return Err.from_str("NotImplemented")
 
     return MockInvoker()
 
@@ -41,8 +40,8 @@ def simple_wrap_manifest():
 @pytest.fixture
 def dummy_file_reader():
     class FileReader(IFileReader):
-        async def read_file(self, file_path: str) -> bytes:
-            return b""
+        async def read_file(self, file_path: str) -> Result[bytes]:
+            return Err.from_str("NotImplemented")
 
     yield FileReader()
 
@@ -50,12 +49,12 @@ def dummy_file_reader():
 @pytest.fixture
 def simple_file_reader(simple_wrap_module: bytes, simple_wrap_manifest: bytes):
     class FileReader(IFileReader):
-        async def read_file(self, file_path: str) -> bytes:
+        async def read_file(self, file_path: str) -> Result[bytes]:
             if file_path == WRAP_MODULE_PATH:
-                return simple_wrap_module
+                return Ok(simple_wrap_module)
             if file_path == WRAP_MANIFEST_PATH:
-                return simple_wrap_manifest
-            raise FileNotFoundError(file_path)
+                return Ok(simple_wrap_manifest)
+            return Err.from_str(f"FileNotFound: {file_path}")
 
     yield FileReader()
 
@@ -69,17 +68,19 @@ async def test_invoke_with_wrapper(
     message = "hey"
     args = {"arg": message}
     options = InvokeOptions(uri=Uri("fs/./build"), method="simpleMethod", args=args)
-    result = await wrapper.invoke(options, mock_invoker) 
-    assert msgpack_decode(result.result) == message  # type: ignore
+    result = (await wrapper.invoke(options, mock_invoker)).unwrap()
+    assert result.encoded is True
+    assert msgpack_decode(cast(bytes, result.result)) == message
 
 
 @pytest.mark.asyncio
 async def test_invoke_with_package(simple_file_reader: IFileReader, mock_invoker: Invoker):
     package = WasmPackage(simple_file_reader)
-    wrapper = await package.create_wrapper()
+    wrapper = (await package.create_wrapper()).unwrap()
 
     message = "hey"
     args = {"arg": message}
     options = InvokeOptions(uri=Uri("fs/./build"), method="simpleMethod", args=args)
-    result = await wrapper.invoke(options, mock_invoker)
-    assert msgpack_decode(result.result) == message  # type: ignore
+    result = (await wrapper.invoke(options, mock_invoker)).unwrap()
+    assert result.encoded is True
+    assert msgpack_decode(cast(bytes, result.result)) == message

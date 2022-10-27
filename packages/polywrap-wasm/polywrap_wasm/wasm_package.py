@@ -1,7 +1,8 @@
-from typing import Optional, Union
+from typing import Optional, Union, cast
 
 from polywrap_core import IFileReader, IWasmPackage, Wrapper, GetManifestOptions
 from polywrap_manifest import AnyWrapManifest, deserialize_wrap_manifest
+from polywrap_result import Result, Ok, Err
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 from .inmemory_file_reader import InMemoryFileReader
@@ -14,7 +15,10 @@ class WasmPackage(IWasmPackage):
     wasm_module: Optional[bytes]
 
     def __init__(
-        self, file_reader: IFileReader, manifest: Optional[Union[bytes, AnyWrapManifest]] = None, wasm_module: Optional[bytes] = None
+        self,
+        file_reader: IFileReader,
+        manifest: Optional[Union[bytes, AnyWrapManifest]] = None,
+        wasm_module: Optional[bytes] = None,
     ):
         self.manifest = manifest
         self.wasm_module = wasm_module
@@ -24,20 +28,46 @@ class WasmPackage(IWasmPackage):
             else file_reader
         )
 
-    async def get_manifest(self, options: Optional[GetManifestOptions] = None) -> AnyWrapManifest:
-        if self.manifest is None or isinstance(self.manifest, bytes):
-            encoded_manifest = self.manifest or await self.file_reader.read_file(WRAP_MANIFEST_PATH)
-            return deserialize_wrap_manifest(encoded_manifest, options)
-        return self.manifest
+    async def get_manifest(
+        self, options: Optional[GetManifestOptions] = None
+    ) -> Result[AnyWrapManifest]:
+        if isinstance(self.manifest, AnyWrapManifest):
+            return Ok(self.manifest)
 
-    async def get_wasm_module(self) -> bytes:
-        wasm_module: bytes = self.wasm_module or await self.file_reader.read_file(
-            WRAP_MODULE_PATH
-        )
-        self.wasm_module = wasm_module
-        return wasm_module
+        encoded_manifest: bytes
+        if self.manifest:
+            encoded_manifest = self.manifest
+        else:
+            result = await self.file_reader.read_file(WRAP_MANIFEST_PATH) 
+            if result.is_err():
+                return cast(Err, result)
+            encoded_manifest = result.unwrap()
+        deserialized_result = deserialize_wrap_manifest(encoded_manifest, options)
+        if deserialized_result.is_err():
+            return deserialized_result
+        self.manifest = deserialized_result.unwrap()
+        return Ok(self.manifest)
 
-    async def create_wrapper(self) -> Wrapper:
-        wasm_module = await self.get_wasm_module()
-        wasm_manifest = await self.get_manifest() 
-        return WasmWrapper(self.file_reader, wasm_module, wasm_manifest)
+    async def get_wasm_module(self) -> Result[bytes]:
+        if isinstance(self.wasm_module, bytes):
+            return Ok(self.wasm_module)
+
+        result = await self.file_reader.read_file(WRAP_MODULE_PATH)
+        if result.is_err():
+            return cast(Err, result)
+        self.wasm_module = result.unwrap()
+        return Ok(self.wasm_module)
+
+
+    async def create_wrapper(self) -> Result[Wrapper]:
+        wasm_module_result = await self.get_wasm_module()
+        if wasm_module_result.is_err():
+            return cast(Err, wasm_module_result)
+        wasm_module = wasm_module_result.unwrap()
+
+        wasm_manifest_result = await self.get_manifest()
+        if wasm_manifest_result.is_err():
+            return cast(Err, wasm_manifest_result)
+        wasm_manifest = wasm_manifest_result.unwrap()
+
+        return Ok(WasmWrapper(self.file_reader, wasm_module, wasm_manifest))

@@ -128,7 +128,7 @@ class Ok(Generic[T]):
         """
         return self._value
 
-    def unwrap_or_raise(self, e: Type[TBE]) -> T:
+    def unwrap_or_raise(self) -> T:
         """
         Return the value.
         """
@@ -247,7 +247,9 @@ class Err:
         """
         Raises an `UnwrapError`.
         """
-        raise UnwrapError(self, "Called `Result.unwrap()` on an `Err` value")
+        raise UnwrapError(
+            self, "Called `Result.unwrap()` on an `Err` value"
+        ) from self._value
 
     def unwrap_err(self) -> Exception:
         """
@@ -268,7 +270,7 @@ class Err:
         """
         return op(self._value)
 
-    def unwrap_or_raise(self, e: Type[TBE]) -> NoReturn:
+    def unwrap_or_raise(self) -> NoReturn:
         """
         The contained result is ``Err``, so raise the exception with the value.
         """

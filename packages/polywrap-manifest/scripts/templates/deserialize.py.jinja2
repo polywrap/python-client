@@ -7,12 +7,23 @@ and run python ./scripts/generate.py to regenerate this file.
 from typing import Optional
 
 from polywrap_msgpack import msgpack_decode
+from polywrap_result import Ok, Err, Result
+from pydantic import ValidationError
 
 from .manifest import *
 
 
 def deserialize_wrap_manifest(
-    manifest: bytearray, options: Optional[DeserializeManifestOptions] = None
+    manifest: bytes, options: Optional[DeserializeManifestOptions] = None
+) -> Result[AnyWrapManifest]:
+    try:
+        return Ok(_deserialize_wrap_manifest(manifest, options))
+    except (ValueError, ValidationError) as e:
+        return Err(e)
+
+
+def _deserialize_wrap_manifest(
+    manifest: bytes, options: Optional[DeserializeManifestOptions] = None
 ) -> AnyWrapManifest:
     decoded_manifest = msgpack_decode(manifest)
     if not decoded_manifest.get("version"):
@@ -20,12 +31,15 @@ def deserialize_wrap_manifest(
     
     no_validate = options and options.no_validate
     manifest_version = WrapManifestVersions(decoded_manifest["version"])
-    match manifest_version:
-        case "0.1.0":
-            return WrapManifest_0_1.construct(**decoded_manifest) if no_validate else WrapManifest_0_1(**decoded_manifest)
+    match manifest_version.value:
     {%- for version in versions %}
-        case "{{version.manifest_version}}":
-            return WrapManifest_{{version.manifest_module_version}}(**decoded_manifest)
+        case "{{ version.manifest_version }}":
+            if no_validate:
+                from .manifest import WrapAbi_{{ version.manifest_module_version }}_{{ version.abi_module_version }}, Version
+                decoded_manifest["version"] = Version(decoded_manifest["version"])
+                decoded_manifest["abi"] = WrapAbi_{{ version.manifest_module_version }}_{{ version.abi_module_version }}.construct(**decoded_manifest["abi"])
+                WrapManifest_{{ version.manifest_module_version }}.construct(**decoded_manifest) 
+            return WrapManifest_{{ version.manifest_module_version }}(**decoded_manifest)
     {%- endfor %}
         case _:
             raise ValueError(f"Invalid wrap manifest version: {manifest_version}")

@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from result import Err, Ok, Result
+from polywrap_result import Err, Ok, Result
 
 from ..types import (
     IUriResolutionStep,
@@ -14,7 +14,7 @@ from ..types import (
 
 
 class UriResolutionResult:
-    result: Result[UriPackageOrWrapper, Exception]
+    result: Result[UriPackageOrWrapper]
     history: Optional[List[IUriResolutionStep]]
 
     @staticmethod
@@ -22,7 +22,7 @@ class UriResolutionResult:
         uri: Uri,
         package: Optional[IWasmPackage] = None,
         wrapper: Optional[Wrapper] = None,
-    ) -> Result[UriPackageOrWrapper, Exception]:
+    ) -> Result[UriPackageOrWrapper]:
         if wrapper:
             return Ok(UriWrapper(uri=uri, wrapper=wrapper))
         elif package:
@@ -31,5 +31,5 @@ class UriResolutionResult:
             return Ok(uri)
 
     @staticmethod
-    def err(error: Exception) -> Result[UriPackageOrWrapper, Exception]:
+    def err(error: Exception) -> Result[UriPackageOrWrapper]:
         return Err(error)

@@ -7,8 +7,8 @@ and run python ./scripts/generate.py to regenerate this file.
 from dataclasses import dataclass
 from enum import Enum
 
-from .wrap_0_1 import WrapManifest as WrapManifest_0_1
 from .wrap_0_1 import Abi as WrapAbi_0_1_0_1
+from .wrap_0_1 import WrapManifest as WrapManifest_0_1
 from .wrap_0_1 import *
 
 
@@ -23,8 +23,14 @@ class serializeManifestOptions:
 
 
 class WrapManifestVersions(Enum):
-    VERSION_0_1_0 = "0.1.0"
-    VERSION_0_1 = "0.1"
+    VERSION_0_1 = "0.1", "0.1.0"
+
+    def __new__(cls, value: int, *aliases: str) -> "WrapManifestVersions":
+        obj = object.__new__(cls)
+        obj._value_ = value
+        for alias in aliases:
+            cls._value2member_map_[alias] = obj
+        return obj
 
 
 class WrapManifestAbiVersions(Enum):

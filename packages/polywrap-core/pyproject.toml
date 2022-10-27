@@ -12,8 +12,8 @@ authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 python = "^3.10"
 gql = "3.4.0"
 graphql-core = "^3.2.1"
-result = "^0.8.0"
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
+polywrap-result = { path = "../polywrap-result", develop = true }
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
