@@ -2,7 +2,7 @@
 
 # Polywrap Python Client
 
-## [Polywrap](https://polywrap.io) is a developer tool that enables easy integration of Web3 protocols into any application. It makes it possible for applications on any platform, written in any language, to read and write data to Web3 protocols.
+[Polywrap](https://polywrap.io) is a developer tool that enables easy integration of Web3 protocols into any application. It makes it possible for applications on any platform, written in any language, to read and write data to Web3 protocols.
 
 
 # Working Features
@@ -22,24 +22,24 @@ For detailed information about Polywrap and the WRAP standard, visit our [develo
 
 ## Pre-requisites
 
-### `Clone the repo.`
->```
->git clone https://github.com/polywrap/python-client
->```
+### Clone the repo.
+```
+git clone https://github.com/polywrap/python-client
+```
 
-### `python ˆ3.10`
-> - Make sure you're running the correct version of python by running: 
-> ```
-> python3 --version
-> ```
+### python ˆ3.10
+- Make sure you're running the correct version of python by running: 
+```
+python3 --version
+```
 > - If you are using a Linux system or WSL, which comes with Python3.8, then you will need to upgrade from Python3.8 to Python3.10 and also fix the `pip` and `distutil` as upgrading to Python3.10 will break them. You may follow [this guide](https://cloudbytes.dev/snippets/upgrade-python-to-latest-version-on-ubuntu-linux) to upgrade.
 
-### `poetry ^1.1.14`
-> - To install poetry follow [this guide](https://python-poetry.org/docs/#installation). 
-> - If you are on MacOS then you can install poetry simply with the following homebrew command 
-> ```
-> brew install poetry
-> ```
+### poetry ^1.1.14
+- To install poetry follow [this guide](https://python-poetry.org/docs/#installation). 
+- If you are on MacOS then you can install poetry simply with the following homebrew command 
+```
+brew install poetry
+```
 > - To make sure you're it's installed properly, run `poetry`. Learn more [here](https://python-poetry.org/docs/)
 
 
@@ -84,7 +84,7 @@ poetry run pytest
 
 This last command will run a series of scripts that verify that the specific module of the client is performing as expected in your local machine. The output on your console should look something like this:
 
-```py
+```
 $ poetry run pytest
 >>
 ================================= test session starts =================================
@@ -95,11 +95,11 @@ collected 26 items
 tests/test_msgpack.py ........................                                  [100%]
 ```
 
-> ### Debugging with Pytest:
-> 
-> You should expect to see the tests passing with a 100% accuracy. To better understand these outputs, read [this quick guide](https://docs.pytest.org/en/7.1.x/how-to/output.html). If any of the functionality fails (marked with an 'F'), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
-> - `poetry run pytests -v` or `poetry run pytests -vv` for even more detail
-> - Reach out to the devs on the [Discord](https://discord.polywrap.io) explaining your situation, and what configuration you're using on your machine.
+### Debugging with Pytest:
+
+You should expect to see the tests passing with a 100% accuracy. To better understand these outputs, read [this quick guide](https://docs.pytest.org/en/7.1.x/how-to/output.html). If any of the functionality fails (marked with an 'F'), or if there are any Warnings raised, you can debug them by running a verbose version of the test suite:
+- `poetry run pytests -v` or `poetry run pytests -vv` for even more detail
+- Reach out to the devs on the [Discord](https://discord.polywrap.io) explaining your situation, and what configuration you're using on your machine.
 
 
 ## TOX 
@@ -136,7 +136,7 @@ tox -e dev
 - After running these commands we should see all the tests passing and commands executing successfully, which means that we are ready to update and test the package.
 - To create your own tox scripts, modify the `tox.ini` file in the respective module.
 
-## VSCode users: Improved venv experience
+## VSCode users: Improved dev experience
 If you use VSCode, we have prepared a pre-configured workspace that improves your dev experience. So when you open VScode, set up the workspace file `python-monorepo.code-workspace` by going to:
 
 ```
