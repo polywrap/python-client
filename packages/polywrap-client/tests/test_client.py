@@ -10,7 +10,7 @@ from polywrap_client.client import PolywrapClientConfig
 async def test_invoke():
     client = PolywrapClient()
     uri = Uri(
-        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke2").absolute()}'
+        f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke").absolute()}'
     )
     args = {"arg": "hello polywrap"}
     options = InvokerOptions(
