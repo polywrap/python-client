@@ -199,7 +199,7 @@ async def echo_message(message: str):
     client = PolywrapClient()
     
     # Load the WebAssembly wrapper through a URI that points to local file system
-    uri = Uri('ens/rinkeby/helloworld.dev.polywrap.eth')
+    uri = Uri('wrap://ens/rinkeby/helloworld.dev.polywrap.eth')
 
     args = {"arg": message }
 
