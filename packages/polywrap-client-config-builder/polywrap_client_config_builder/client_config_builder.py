@@ -1,13 +1,9 @@
 from polywrap_core import Uri, ClientConfig
-from dataclasses import dataclass
-
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
-
 from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_core.types.wrapper import Wrapper, WrapperCache
-
-# from "./bundles" import get_default_client_config
+from default_client_config import get_default_client_config
 
 # Replicate this file
 # except for plugins, interface, and redirects as they are not yet impl in python
@@ -19,11 +15,18 @@ class ClientConfigBuilder():
     """
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
-    envs: List[Env]
-    resolver: IUriResolver
+
     # plugins:
     # interfaces
     # redirects
+
+
+    def __init__(self, uri: str):
+        self._config: dict[str, Uri ]= {
+            'envs': list[Uri],
+        }
+        self.envs: List[Env]
+        self.resolver: IUriResolver
 
     def add(self, config: ClientConfig):
         """
@@ -42,20 +45,26 @@ class ClientConfigBuilder():
         """
         Adds the defaultClientConfig object.
         """
-        pass
+        return get_default_client_config()
+        
 
-    def add_env(self, uri: Uri | str, env: Dict[str, Any] ):
+    def add_env(self, uri: str | Uri, env: Dict[str, Any] ):
         """
         Function that takes in an environment and an Uri;
          - If the env is already defined, its values are updated
          - If the env is not defined, the values are added to the Env array
         """
-        env_uri = Uri.parse_uri(uri)
-        
-        Uri.equals(x.uri, env_uri)
+        if type(uri) == str:
+            env_uri: Uri = Uri.parse_uri(uri)
+        elif type(uri) == Uri:
+            env_uri: Uri = uri
+        else:
+            raise TypeError("uri is not string nor URI")
 
-        idx = self.envs.index()
-        
+        idx = self.envs.index(env_uri)
+
+        # Uri.equals(x.uri, )
+
         if idx >= 0:
             self.envs[idx].env = {**self.envs[idx].env, **env,}
         else:
@@ -82,3 +91,6 @@ class ClientConfigBuilder():
             raise Exception('No Uri Resolver provided')
         
         pass
+
+    def build_partial():
+        return self._config

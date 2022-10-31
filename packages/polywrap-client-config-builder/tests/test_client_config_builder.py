@@ -1,3 +1,4 @@
+from multiprocessing.connection import Client
 from typing import List
 from polywrap_core.types.env import Env
 from polywrap_core.types.uri import Uri
@@ -9,9 +10,11 @@ test_envs: List[Env] = [
     Env(uri= Uri("wrap://ens/test.plugin.two"), env= { 'test': "value" }),
   ]
 
+client = ClientConfigBuilder()
+
 def test_client_config_builder_adds_default_config():
-    ClientConfigBuilder.add_defaults()
-    pass
+    client.add_defaults()
+    assert False
 
 def test_client_config_builder_adds_config():
     envs: List[Env] = []
