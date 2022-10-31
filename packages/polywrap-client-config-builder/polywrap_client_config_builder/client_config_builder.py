@@ -123,5 +123,5 @@ class ClientConfigBuilder():
         
         pass
 
-    def build_partial():
+    def build_partial(self):
         return self._config

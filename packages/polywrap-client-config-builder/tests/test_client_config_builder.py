@@ -19,8 +19,6 @@ def test_client_config_builder_adds_default_config():
 def test_client_config_builder_adds_config():
     envs: List[Env] = []
     resolver: IUriResolver = IUriResolver()
-
-
     config = ClientConfigBuilder(env).add({})
     pass
 
