@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 name = "polywrap-client-config-builder"
 version = "0.1.0"
 description = ""
-authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
+authors = ["Media <media@polywrap.io>", "Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"

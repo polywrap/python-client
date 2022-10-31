@@ -15,7 +15,6 @@ from polywrap_core.types.wrapper import Wrapper, WrapperCache
 
 print(ClientConfig)
 
-@dataclass(slots=True, kw_only=True)
 class ClientConfigBuilder():
     """
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
