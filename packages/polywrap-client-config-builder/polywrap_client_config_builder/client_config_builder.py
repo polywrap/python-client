@@ -3,12 +3,8 @@ from polywrap_core.types.env import Env
 from typing import Any, Dict, List
 from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_core.types.wrapper import Wrapper, WrapperCache
-
-
-
-
-
-
+from polywrap_core import Uri, ClientConfig
+from polywrap_uri_resolvers import BaseUriResolver
 
 # Replicate this file
 # except for plugins, interface, and redirects as they are not yet impl in python
@@ -21,18 +17,16 @@ class ClientConfigBuilder():
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
 
-    # plugins:
-    # interfaces
-    # redirects
 
-
-    def __init__(self, uri: str):
+    def __init__(self):
         self._config: dict[str, Uri ]= {
             'envs': list[Uri],
         }
         self.envs: List[Env]
         self.resolver: IUriResolver
-
+        # self.plugins:
+        # self.interfaces:
+        # self.redirects:
     def add(self, config: ClientConfig):
         """
         Appends each property of the supplied config object to the corresponding array of the builder's config.
@@ -51,11 +45,22 @@ class ClientConfigBuilder():
         Adds the defaultClientConfig object.
         """
 
+        defaultWrappers = {
+            'sha3': "wrap://ens/goerli/sha3.wrappers.eth",
+            'uts46': "wrap://ens/goerli/uts46-lite.wrappers.eth",
+            'graphNode': "wrap://ens/goerli/graph-node.wrappers.eth",
+            }
+
+        defaultIpfsProviders = [
+            "https://ipfs.wrappers.io",
+            "https://ipfs.io",
+        ]
+
         def get_default_client_config() -> dict[str, object]:
             return {
                 'envs': [
                     {
-                        'uri': Uri(defaultWrappers.graphNode),
+                        'uri': Uri(defaultWrappers['graphNode']),
                         'env': {
                             'provider': "https://api.thegraph.com",
                             },
@@ -64,7 +69,7 @@ class ClientConfigBuilder():
                         'uri': Uri("wrap://ens/ipfs.polywrap.eth"),
                         'env': {
                             'provider': defaultIpfsProviders[0],
-                            'fallbackProviders': defaultIpfsProviders.slice(1),
+                            'fallbackProviders': defaultIpfsProviders[1:],
                         },
                 },
                 ],
