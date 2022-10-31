@@ -3,7 +3,12 @@ from polywrap_core.types.env import Env
 from typing import Any, Dict, List
 from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_core.types.wrapper import Wrapper, WrapperCache
-from default_client_config import get_default_client_config
+
+
+
+
+
+
 
 # Replicate this file
 # except for plugins, interface, and redirects as they are not yet impl in python
@@ -45,6 +50,27 @@ class ClientConfigBuilder():
         """
         Adds the defaultClientConfig object.
         """
+
+        def get_default_client_config() -> dict[str, object]:
+            return {
+                'envs': [
+                    {
+                        'uri': Uri(defaultWrappers.graphNode),
+                        'env': {
+                            'provider': "https://api.thegraph.com",
+                            },
+                        },
+                        {
+                        'uri': Uri("wrap://ens/ipfs.polywrap.eth"),
+                        'env': {
+                            'provider': defaultIpfsProviders[0],
+                            'fallbackProviders': defaultIpfsProviders.slice(1),
+                        },
+                },
+                ],
+                'resolver': BaseUriResolver
+                
+                }
         return get_default_client_config()
         
 
