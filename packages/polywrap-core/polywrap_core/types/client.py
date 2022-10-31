@@ -28,11 +28,6 @@ class GetEnvsOptions:
 
 
 @dataclass(slots=True, kw_only=True)
-class GetUriResolversOptions:
-    pass
-
-
-@dataclass(slots=True, kw_only=True)
 class GetFileOptions:
     path: str
     encoding: Optional[str] = "utf-8"
@@ -59,9 +54,7 @@ class Client(Invoker, UriResolverHandler):
         pass
 
     @abstractmethod
-    def get_uri_resolver(
-        self, options: Optional[GetUriResolversOptions] = None
-    ) -> IUriResolver:
+    def get_uri_resolver(self) -> IUriResolver:
         pass
 
     @abstractmethod
