@@ -17,8 +17,8 @@ class ClientConfigBuilder():
     """
 
     def __init__(self):
-        self._config: dict[str, Uri ]= {
-            'envs': list[Uri],
+        self._config: dict[str, list[Uri]] = {
+            'envs': [],
         }
         self.envs: List[Env]
         self.resolver: IUriResolver
