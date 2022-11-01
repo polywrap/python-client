@@ -13,14 +13,16 @@ test_envs: List[Env] = [
 client = ClientConfigBuilder()
 
 def test_client_config_builder_adds_default_config():
+    print(client)
     client.add_defaults()
+    print(client)
     assert False
 
-def test_client_config_builder_adds_config():
-    envs: List[Env] = []
-    resolver: IUriResolver = IUriResolver()
-    config = ClientConfigBuilder(env).add({})
-    pass
+# def test_client_config_builder_adds_config():
+#     envs: List[Env] = []
+#     resolver: IUriResolver = IUriResolver()
+#     config = ClientConfigBuilder(env).add({})
+#     pass
 
 def test_client_config_builder_adds_uri_resolver():
     pass

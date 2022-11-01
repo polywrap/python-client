@@ -81,9 +81,10 @@ class ClientConfigBuilder():
 
     def add_env(self, uri: str | Uri, env: Dict[str, Any] ):
         """
-        Function that takes in an environment and an Uri;
+        Function that takes in an environment object and an Uri;
+         - It parses the URI
          - If the env is already defined, its values are updated
-         - If the env is not defined, the values are added to the Env array
+         - If the env is not defined, the values are added to the end of the Env array
         """
         if type(uri) == str:
             env_uri: Uri = Uri.parse_uri(uri)
@@ -100,6 +101,11 @@ class ClientConfigBuilder():
             self.envs[idx].env = {**self.envs[idx].env, **env,}
         else:
             self.envs.append(Env(uri=env_uri, env=env))
+        return self
+
+    def add_envs(self, envs: list[Env]) -> object:
+        for env in envs:
+            self.add_envs(env.uri, env.env)
         return self
 
     def remove_env(self, uri: Uri | str ):
