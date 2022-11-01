@@ -13,9 +13,12 @@ test_envs: List[Env] = [
 client = ClientConfigBuilder()
 
 def test_client_config_builder_adds_default_config():
-    print(client)
-    client.add_defaults()
-    print(client)
+    print(client.build_partial())
+    updated_client = client.add_defaults()
+    print(client.add_defaults().build_partial())
+    print(type(client.build_partial()))
+    print(type(client.build()))
+
     assert False
 
 # def test_client_config_builder_adds_config():
@@ -26,4 +29,3 @@ def test_client_config_builder_adds_default_config():
 
 def test_client_config_builder_adds_uri_resolver():
     pass
-

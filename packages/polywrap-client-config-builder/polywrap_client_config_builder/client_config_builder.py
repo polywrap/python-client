@@ -1,4 +1,3 @@
-from polywrap_core import Uri, ClientConfig
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
 from polywrap_core.types.uri_resolver import IUriResolver
@@ -16,7 +15,6 @@ class ClientConfigBuilder():
     """
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
-
 
     def __init__(self):
         self._config: dict[str, Uri ]= {
@@ -86,12 +84,14 @@ class ClientConfigBuilder():
          - If the env is already defined, its values are updated
          - If the env is not defined, the values are added to the end of the Env array
         """
-        if type(uri) == str:
-            env_uri: Uri = Uri.parse_uri(uri)
-        elif type(uri) == Uri:
-            env_uri: Uri = uri
-        else:
-            raise TypeError("uri is not string nor URI")
+        # if type(uri) == str:
+        #     env_uri: Uri = Uri.parse_uri(uri)
+        # elif type(uri) == Uri:
+        #     env_uri: Uri = uri
+        # else:
+        #     raise TypeError("uri is not string nor URI")
+
+        env_uri: Uri = Uri.convert(uri)
 
         idx = self.envs.index(env_uri)
 
