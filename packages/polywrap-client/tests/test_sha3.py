@@ -38,7 +38,7 @@ async def test_invoke_sha3_256():
     s.update(b"hello polywrap!")
     assert result.result == s.digest()
 
-@pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
+#@pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_sha3_224():
     options = InvokerOptions(uri=uri, method="sha3_224", args=args, encode_result=False)
     result = await client.invoke(options)
