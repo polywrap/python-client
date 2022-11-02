@@ -1,5 +1,5 @@
 # Polywrap Python Client - https://polywrap.io
-# BigNumber wrapper schema - https://wrappers.io/v/ipfs/Qme2YXThmsqtfpiUPHJUEzZSBiqX3woQxxdXbDJZvXrvAD
+# bigint_type_rs wrapper schema - https://github.com/polywrap/toolchain/blob/origin-0.10-dev/packages/test-cases/cases/wrappers/wasm-rs/bigint-type/schema.graphql
 
 from pathlib import Path
 from polywrap_client import PolywrapClient
@@ -15,9 +15,10 @@ async def test_invoke_bigint_rs_with_1arg_and_1prop():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
+    print(result.unwrap())
     assert result.unwrap() == "123000"
 
-async def test_invoke_bignumber_with_1arg_and_2props():
+async def test_invoke_bigint_rs_with_1arg_and_2prop():
     client = PolywrapClient()
     uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "bigint-type-rs").absolute()}')
     args = {
@@ -31,7 +32,7 @@ async def test_invoke_bignumber_with_1arg_and_2props():
     result = await client.invoke(options)
     assert result.unwrap() == str(123123*1000*4)
 
-async def test_invoke_bignumber_with_2args_and_1prop():
+async def test_invoke_bigint_rs_with_2arg_and_1prop():
     client = PolywrapClient()
     uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "bigint-type-rs").absolute()}')
     args = {
@@ -45,7 +46,7 @@ async def test_invoke_bignumber_with_2args_and_1prop():
     result = await client.invoke(options)
     assert result.unwrap() == str(123123*1000*444)
 
-async def test_invoke_bignumber_with_2args_and_2props():
+async def test_invoke_bigint_rs_with_2arg_and_2prop():
     client = PolywrapClient()
     uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "bigint-type-rs").absolute()}')
     args = {
@@ -73,4 +74,6 @@ async def test_invoke_bignumber_with_2args_and_2props_floats():
     }
     options = InvokerOptions(uri=uri, method="method", args=args, encode_result=False)
     result = await client.invoke(options)
+    print(result.unwrap())
+
     assert result.unwrap() == str(123.123*55.5*10.001*4)
