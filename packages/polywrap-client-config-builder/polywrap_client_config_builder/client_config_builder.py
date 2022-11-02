@@ -1,3 +1,4 @@
+from multiprocessing.connection import Client
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
 from polywrap_core.types.uri_resolver import IUriResolver
@@ -11,21 +12,34 @@ from polywrap_uri_resolvers import BaseUriResolver
 
 print(ClientConfig)
 
+def sanitize_uri(uri: str | Uri) -> Uri
+    """
+    This is the Uri.from function of the JS client
+    """
+    if type(uri) == str:
+        return Uri(uri)
+    if Uri.is_uri(uri):
+        return uri
+    
+    raise TypeError("Unknown uri type, cannot convert")
+
 class ClientConfigBuilder():
     """
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
 
     def __init__(self):
-        self._config: dict[str, list[Uri]] = {
-            'envs': [],
-        }
         self.envs: List[Env]
         self.resolver: IUriResolver
         # self.plugins:
         # self.interfaces:
         # self.redirects:
-    def add(self, config: ClientConfig):
+
+    def __config():
+        self.envs = []
+        self.resolvers = []
+
+    def add(self, config: ClientConfig) -> ClientConfigBuilder:
         """
         Appends each property of the supplied config object to the corresponding array of the builder's config.
         """
@@ -77,8 +91,9 @@ class ClientConfigBuilder():
         return get_default_client_config()
         
 
-    def add_env(self, uri: str | Uri, env: Dict[str, Any] ):
+    def add_env(self, uri: Uri | str, env: Record[str, Any] ) -> ClientConfigBuilder:
         """
+        see: https://github.com/polywrap/toolchain/blob/b57b1393d1aa5f82f39741d297040f84bf799ff1/packages/js/client-config-builder/src/ClientConfigBuilder.ts#L153-L168
         Function that takes in an environment object and an Uri;
          - It parses the URI
          - If the env is already defined, its values are updated
@@ -91,9 +106,9 @@ class ClientConfigBuilder():
         # else:
         #     raise TypeError("uri is not string nor URI")
 
-        env_uri: Uri = Uri.convert(uri)
+        env_uri: Uri = sanitize_uri(uri)
 
-        idx = self.envs.index(env_uri)
+        idx = self.__config
 
         # Uri.equals(x.uri, )
 
@@ -109,9 +124,11 @@ class ClientConfigBuilder():
         return self
 
     def remove_env(self, uri: Uri | str ):
+        # very similar to add_env
         pass
 
     def set_env(self, uri: Uri | str, env: Dict[str, Any] ):     
+        # very similar to add_env
         pass
 
     def set_resolver(self, resolver: IUriResolver):

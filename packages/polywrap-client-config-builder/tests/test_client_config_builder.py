@@ -14,8 +14,7 @@ client = ClientConfigBuilder()
 
 def test_client_config_builder_adds_default_config():
     print(client.build_partial())
-    updated_client = client.add_defaults()
-    print(client.add_defaults().build_partial())
+    # print(client.add_defaults().build_partial())
     print(type(client.build_partial()))
     print(type(client.build()))
 
