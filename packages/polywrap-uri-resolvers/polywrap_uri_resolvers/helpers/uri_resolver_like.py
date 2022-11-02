@@ -1,5 +1,5 @@
 from typing import List, Union
 
-from polywrap_core import Uri, IUriResolver, UriPackage, UriWrapper
+from polywrap_core import IUriResolver, UriPackage, UriWrapper
 
-UriResolverLike = Union[Uri, IUriResolver, UriPackage, UriWrapper, List["UriResolverLike"]]
+UriResolverLike = Union[IUriResolver, UriPackage, UriWrapper, List["UriResolverLike"]]

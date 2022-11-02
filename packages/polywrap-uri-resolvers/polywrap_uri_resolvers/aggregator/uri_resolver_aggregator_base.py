@@ -1,16 +1,16 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from polywrap_core import IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
+from polywrap_core import UriResolutionResult, IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
 from polywrap_result import Result, Ok
 
 class UriResolverAggregatorBase(IUriResolver, ABC):
     @abstractmethod
-    def get_uri_resolvers(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext):
+    def get_uri_resolvers(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result[List[IUriResolver]]:
         pass
 
     @abstractmethod
-    def get_step_description(self):
+    def get_step_description(self) -> str:
         pass
 
     async def try_resolve_uri(
@@ -35,7 +35,7 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
         for resolver in resolvers:
             result = await resolver.try_resolve_uri(uri, client, sub_context)
 
-            if not (result.is_ok() and result.value.type == "uri" and result.value.uri.uri == uri.uri):
+            if not (result.is_ok() and not hasattr(result.value, 'wrapper') and not hasattr(result.value, 'package') and result.value.uri.uri == uri.uri):
                 step = IUriResolutionStep(
                     source_uri=uri,
                     result=result,
@@ -46,7 +46,7 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
 
                 return result
 
-        result = Ok(uri)
+        result = UriResolutionResult.ok(uri)
 
         step = IUriResolutionStep(
             source_uri=uri,

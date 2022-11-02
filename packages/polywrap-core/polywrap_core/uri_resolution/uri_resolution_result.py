@@ -4,7 +4,7 @@ from polywrap_result import Err, Ok, Result
 
 from ..types import (
     IUriResolutionStep,
-    IWasmPackage,
+    IWrapPackage,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
@@ -20,7 +20,7 @@ class UriResolutionResult:
     @staticmethod
     def ok(
         uri: Uri,
-        package: Optional[IWasmPackage] = None,
+        package: Optional[IWrapPackage] = None,
         wrapper: Optional[Wrapper] = None,
     ) -> Result[UriPackageOrWrapper]:
         if wrapper:
