@@ -20,10 +20,10 @@ class StaticResolver(IUriResolver):
                 for uri, package_or_wrapper in resolver.uri_map.items():
                     uri_map[uri] = package_or_wrapper
 
-            elif hasattr(static_resolver_likes, "uri") and hasattr(static_resolver_likes, "package"):
+            elif hasattr(static_resolver_like, "uri") and hasattr(static_resolver_like, "package"):
                 uri_package = UriPackage(uri=static_resolver_like.uri, package=static_resolver_like.package) # type: ignore
                 uri_map[uri_package.uri.uri] = uri_package
-            elif hasattr(static_resolver_likes, "uri") and hasattr(static_resolver_likes, "wrapper"):
+            elif hasattr(static_resolver_like, "uri") and hasattr(static_resolver_like, "wrapper"):
                 uri_wrapper = UriWrapper(uri=static_resolver_like.uri, wrapper=static_resolver_like.wrapper) # type: ignore
                 uri_map[uri_wrapper.uri.uri] = uri_wrapper
             else:
@@ -43,9 +43,9 @@ class StaticResolver(IUriResolver):
                 description = f"Static - Package ({uri.uri})"
             elif hasattr(package_or_wrapper, "wrapper"):
                 result = UriResolutionResult.ok(uri, None, cast(Wrapper, package_or_wrapper))
+                description = f"Static - Wrapper ({uri.uri})"
 
         step = IUriResolutionStep(source_uri=uri, result=result, description=description)
         resolution_context.track_step(step)
 
-        
         return result

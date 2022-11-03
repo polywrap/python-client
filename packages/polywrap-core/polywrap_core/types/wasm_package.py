@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 
 from polywrap_result import Result
+from .wrap_package import IWrapPackage
 
 
-class IWasmPackage(ABC):
+class IWasmPackage(IWrapPackage, ABC):
     @abstractmethod
     async def get_wasm_module() -> Result[bytearray]:
         pass

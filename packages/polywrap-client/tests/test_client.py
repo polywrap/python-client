@@ -96,7 +96,3 @@ async def test_env():
     result = await client.invoke(options)
 
     assert result.unwrap() == env
-
-async def test_resolver():
-
-    uri_resolver = WrapperResolver()

@@ -1,3 +1,4 @@
-from .base_resolver import *
+from .legacy import *
 from .fs_resolver import *
-from .redirect_resolver import *
+from .legacy.redirect_resolver import *
+from .static_resolver import *
