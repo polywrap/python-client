@@ -6,7 +6,7 @@ from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions
 import pytest
 
-#@pytest.mark.skip(reason="can't invoke bigint-rs wrapper due to an error related to wasmtime")
+@pytest.mark.skip(reason="can't invoke bigint-rs wrapper due to an error related to wasmtime")
 async def test_invoke_bigint_rs_with_1arg_and_1prop():
     client = PolywrapClient()
     uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "bigint-type-rs").absolute()}')
