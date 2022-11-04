@@ -6,6 +6,16 @@ from polywrap_core.types.wrapper import Wrapper, WrapperCache
 from polywrap_core import Uri, ClientConfig
 from polywrap_uri_resolvers import BaseUriResolver
 
+# from bundles import get_default_config
+#from base_client_config_builder import base_client_config_builder
+# from polywrap_core import Uri, IUriResolver 
+#from polywrap_core import core_client_config -> doesnt exist in python client
+
+
+# from polywrap_uri_resolvers import  IWrapperCache, LegacyRedirectsResolver,  PackageToWrapperCacheResolver,  RecursiveResolver, StaticResolver, WrapperCache
+from polywrap_uri_resolvers import BaseUriResolver
+
+
 # Replicate this file
 # except for plugins, interface, and redirects as they are not yet impl in python
 # https://github.com/polywrap/toolchain/tree/origin-0.10-dev/packages/js/client-config-builder/src
@@ -22,7 +32,8 @@ def sanitize_uri(uri: str | Uri) -> Uri
     
     raise TypeError("Unknown uri type, cannot convert")
 
-class ClientConfigBuilder():
+
+class ClientConfigBuilder(BaseClientConfigBuilder):
     """
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
@@ -34,7 +45,7 @@ class ClientConfigBuilder():
         # self.interfaces:
         # self.redirects:
 
-    def __config():
+    def __config(self):
         self.envs = []
         self.resolvers = []
 
