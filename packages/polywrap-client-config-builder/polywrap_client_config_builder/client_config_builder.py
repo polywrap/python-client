@@ -8,8 +8,7 @@ from polywrap_uri_resolvers import BaseUriResolver
 
 # Replicate this file
 # except for plugins, interface, and redirects as they are not yet impl in python
-# https://github.com/polywrap/toolchain/blob/origin/packages/js/client-config-builder/src/ClientConfigBuilder.ts
-
+# https://github.com/polywrap/toolchain/tree/origin-0.10-dev/packages/js/client-config-builder/src
 print(ClientConfig)
 
 def sanitize_uri(uri: str | Uri) -> Uri
