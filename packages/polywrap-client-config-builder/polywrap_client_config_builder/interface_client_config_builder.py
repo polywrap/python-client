@@ -14,7 +14,7 @@ class IClientConfigBuilder(ABC):
         pass
 
     @abstractmethod
-    def build_core_config() -> CoreClientConfif :
+    def build_core_config() -> CoreClientConfig :
         pass
 
     # @abstractmethod
