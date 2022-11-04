@@ -2,11 +2,11 @@ from abc import ABC, abstractmethod
 from typing import List
 
 from polywrap_core import UriResolutionResult, IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
-from polywrap_result import Result, Ok
+from polywrap_result import Result
 
 class UriResolverAggregatorBase(IUriResolver, ABC):
     @abstractmethod
-    def get_uri_resolvers(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result[List[IUriResolver]]:
+    async def get_uri_resolvers(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result[List[IUriResolver]]:
         pass
 
     @abstractmethod
