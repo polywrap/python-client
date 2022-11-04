@@ -3,7 +3,7 @@ from pathlib import Path
 
 from polywrap_result import Ok, Err, Result
 from polywrap_wasm import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, IFileReader, WasmPackage, WasmWrapper
-from polywrap_core import UriPackage, Uri, UriResolutionContext, UriWrapper
+from polywrap_core import UriPackage, Uri, UriResolutionContext, UriWrapper, IWrapPackage
 from polywrap_client import PolywrapClient
 from polywrap_uri_resolvers import StaticResolver
 from polywrap_manifest import deserialize_wrap_manifest
@@ -56,15 +56,15 @@ async def test_static_resolver(
     result = await resolver.try_resolve_uri(Uri("ens/package.eth"), PolywrapClient(), resolution_context)
 
     assert result.is_ok
-    assert isinstance((result.unwrap()).package, UriPackage)
+    assert isinstance((result.unwrap()).package, IWrapPackage)
 
     result = await resolver.try_resolve_uri(Uri("ens/wrapper.eth"), PolywrapClient(), resolution_context)
 
     assert result.is_ok
-    assert isinstance((result.unwrap()).wrapper, UriWrapper)
+    assert isinstance((result.unwrap()).wrapper, WasmWrapper)
 
     result = await resolver.try_resolve_uri(Uri("ens/nested-package.eth"), PolywrapClient(), resolution_context)
 
     assert result.is_ok
-    assert isinstance((result.unwrap()).package, UriPackage)
+    assert isinstance((result.unwrap()).package, IWrapPackage)
 

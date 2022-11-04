@@ -39,13 +39,12 @@ class StaticResolver(IUriResolver):
 
         if package_or_wrapper:
             if hasattr(package_or_wrapper, "package"):
-                result = UriResolutionResult.ok(uri, cast(IWrapPackage, package_or_wrapper))
+                result = UriResolutionResult.ok(uri, cast(IWrapPackage, package_or_wrapper.package))
                 description = f"Static - Package ({uri.uri})"
             elif hasattr(package_or_wrapper, "wrapper"):
-                result = UriResolutionResult.ok(uri, None, cast(Wrapper, package_or_wrapper))
+                result = UriResolutionResult.ok(uri, None, cast(Wrapper, package_or_wrapper.wrapper))
                 description = f"Static - Wrapper ({uri.uri})"
 
         step = IUriResolutionStep(source_uri=uri, result=result, description=description)
         resolution_context.track_step(step)
-
         return result
