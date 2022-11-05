@@ -1,4 +1,4 @@
-from .client_config import ClientConfig
+# from .client_config import ClientConfig
 
 from polywrap_core import Uri, Env # missing CoreClientConfig, IUriPackage, IUriWrapper, IUriRedirect
 
@@ -10,11 +10,10 @@ class IClientConfigBuilder(ABC):
     """Defines the basic interface for the Client Config Builder"""
     
 
-    def add(self, config) -> ClientConfig:
-        """Appends each property of the supplied config object to the corresponding array of the builder's config."""
-        self.add_envs(config.envs)
-        pass
-
+    # def add(self, config) -> ClientConfig:
+    #     """Appends each property of the supplied config object to the corresponding array of the builder's config."""
+    #     self.add_envs(config.envs)
+    #     pass
 
     @abstractmethod
     def build():# -> ClientConfig[Uri]:
@@ -37,10 +36,10 @@ class IClientConfigBuilder(ABC):
     def add_env():
         pass
 
-    @abstractmethod
-    def add_envs():
-        pass
+    # @abstractmethod
+    # def add_envs():
+    #     pass
 
-    @abstractmethod
-    def remove_env():
-        pass
+    # @abstractmethod
+    # def remove_env():
+    #     pass
