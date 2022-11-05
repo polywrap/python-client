@@ -5,6 +5,7 @@ from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_core.types.wrapper import Wrapper, WrapperCache
 from polywrap_core import Uri, ClientConfig
 from polywrap_uri_resolvers import BaseUriResolver
+from .base_client_config import BaseClientConfigBuilder
 
 # from bundles import get_default_config
 #from base_client_config_builder import base_client_config_builder
@@ -21,7 +22,7 @@ from polywrap_uri_resolvers import BaseUriResolver
 # https://github.com/polywrap/toolchain/tree/origin-0.10-dev/packages/js/client-config-builder/src
 print(ClientConfig)
 
-def sanitize_uri(uri: str | Uri) -> Uri
+def sanitize_uri(uri: str | Uri) -> Uri:
     """
     This is the Uri.from function of the JS client
     """
@@ -40,16 +41,13 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
 
     def __init__(self):
         self.envs: List[Env]
-        self.resolver: IUriResolver
+        #self.resolver#: IUriResolver
         # self.plugins:
         # self.interfaces:
         # self.redirects:
+#
 
-    def __config(self):
-        self.envs = []
-        self.resolvers = []
-
-    def add(self, config: ClientConfig) -> ClientConfigBuilder:
+    def add(self, config: ClientConfig):# -> ClientConfigBuilder:
         """
         Appends each property of the supplied config object to the corresponding array of the builder's config.
         """
@@ -101,7 +99,7 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
         return get_default_client_config()
         
 
-    def add_env(self, uri: Uri | str, env: Record[str, Any] ) -> ClientConfigBuilder:
+    def add_env(self, uri: Uri | str, env: Env): #: Record[str, Any] ) -> ClientConfigBuilder:
         """
         see: https://github.com/polywrap/toolchain/blob/b57b1393d1aa5f82f39741d297040f84bf799ff1/packages/js/client-config-builder/src/ClientConfigBuilder.ts#L153-L168
         Function that takes in an environment object and an Uri;
@@ -118,7 +116,7 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
 
         env_uri: Uri = sanitize_uri(uri)
 
-        idx = self.__config
+        idx = self._config
 
         # Uri.equals(x.uri, )
 
@@ -151,10 +149,10 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
         Returns a sanitized config object from the builder's config.
         """
 
-        if not self.resolver:
-            raise Exception('No Uri Resolver provided')
+        # if not self.resolvers:
+        #     raise Exception('No Uri Resolver provided')
         
         pass
 
-    def build_partial(self) -> ClientConfigBuilder:
+    def build_partial(self):# -> ClientConfigBuilder:
         return self._config

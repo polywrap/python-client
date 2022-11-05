@@ -7,15 +7,12 @@ from polywrap_core import Uri, Env
 from dataclasses import dataclass
 from typing import TypeVar, Generic, List
 
-TUri = TypeVar('TUri', Uri, str)
-@dataclass(slots=True, kw_only=True) # TODO Check if with or without slots
-class ClientConfig(Generic[TUri]):
+#TUri = TypeVar('TUri', Uri)
+@dataclass(slots=True, kw_only=True) 
+class ClientConfig:
     """
     This Abstract class is used to configure the polywrap client before it executes a call
     The ClientConfig class is created and modified with the ClientConfigBuilder module
     """
     envs: List[Env]
-    resolver: List[Any] # IUriResolver # -> UriResolverLike
-    #interfaces: InterfaceImplementations
-    #plugins: PluginRegistration
-    #redirects: UriRedirect
+    #resolver: List[Any] # IUriResolver # -> UriResolverLike
