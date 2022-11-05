@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, cast
 
 from polywrap_core import UriResolutionResult, IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
-from polywrap_result import Result
+from polywrap_result import Result, Err
 
 class UriResolverAggregatorBase(IUriResolver, ABC):
     @abstractmethod
@@ -16,10 +16,10 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
     async def try_resolve_uri(
         self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
     ) -> Result["UriPackageOrWrapper"]:
-        resolvers_result = self.get_uri_resolvers(uri, client, resolution_context)
+        resolvers_result = await self.get_uri_resolvers(uri, client, resolution_context)
 
         if resolvers_result.is_err():
-            return resolvers_result
+            return cast(Err, resolvers_result)
 
         return await self.try_resolve_uri_with_resolvers(
             uri,

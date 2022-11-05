@@ -1,1 +1,1 @@
-from resolver_with_history import *
+from .resolver_with_history import *

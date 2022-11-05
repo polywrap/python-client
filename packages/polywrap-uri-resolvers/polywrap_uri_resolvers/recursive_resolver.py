@@ -1,8 +1,9 @@
 from polywrap_core import IUriResolver, Uri, Client, IUriResolutionContext, UriPackageOrWrapper, UriResolutionResult
 
-from polywrap_uri_resolvers.builder import build_resolver
+from polywrap_result import Result
 
 from .helpers import UriResolverLike, InfiniteLoopError
+from .builder import build_resolver
 
 
 class RecursiveResolve(IUriResolver):
