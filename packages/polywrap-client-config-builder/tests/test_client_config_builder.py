@@ -13,10 +13,10 @@ test_envs: List[Env] = [
 
 def test_client_config_builder_add_env():
     client = ClientConfigBuilder().add_env(
-        Uri("wrap://ens/test.plugin.one"),
-        Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'test': "value" }),
+        uri=Uri("wrap://ens/test.plugin.one"),
+        env=Env(uri=Uri("wrap://ens/test.plugin.one"), env={ 'test': "value" }),
         )
-    print(client._config['envs'])
+    print(client.config['envs'])
 
     print(client)
     for env in test_envs:
@@ -24,7 +24,7 @@ def test_client_config_builder_add_env():
         client = client.add_env(env.uri, env.env)
     
     print(client)
-    return False
+    assert False
 
 # def test_client_config_builder_adds_default_config():
 #     #print(client.build_partial())

@@ -2,7 +2,7 @@ from .client_config import ClientConfig
 from .interface_client_config_builder import IClientConfigBuilder
 from polywrap_core.types.uri import Uri
 from polywrap_core.types.env import Env
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 #from .client_config_builder import ClientConfigBuilder
 
@@ -12,17 +12,17 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
 
     def __init__(self):
-        self._config = {
+        self.config: Dict[str, list] = {
             'envs': [],
             #'resolvers': []
             }
 
     def __str__(self) -> str:
-        return self._config.__str__()
+        return self.config.__str__()
 
     @property
     def authority(self) -> str:
-        return self._config.authority
+        return self.config.authority
 
     def add(self, config: ClientConfig):# -> ClientConfigBuilder:
         """
@@ -32,8 +32,8 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
             for env in config.envs:
                self.add_env(env.uri, env.env)
         
-        if config.resolver:
-            self.set_resolver(config.resolver)
+        # if config.resolver:
+        #     self.set_resolver(config.resolver)
 
         return self
 
@@ -46,14 +46,8 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
          - If the env is already defined, its values are updated
          - If the env is not defined, the values are added to the end of the Env array
         """
-        # if type(uri) == str:
-        #     env_uri: Uri = Uri.parse_uri(uri)
-        # elif type(uri) == Uri:
-        #     env_uri: Uri = uri
-        # else:
-        #     raise TypeError("uri is not string nor URI")
 
-
+        @staticmethod
         def sanitize_uri(uri: str | Uri) -> Uri:
             """
             This is the Uri.from function of the JS client
@@ -62,12 +56,12 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
                 return Uri(uri)
             if Uri.is_uri(uri):
                 return uri
-            
             raise TypeError("Unknown uri type, cannot convert")
 
         env_uri: Uri = sanitize_uri(uri)
         print(uri, env)
         print('sanitized uri', env_uri)
+        self.config['envs'].append(Env(uri=env_uri, env=env) )
         #idx = self._config
 
         # Uri.equals(x.uri, )
@@ -80,7 +74,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
 
     def add_envs(self, envs: list[Env]) -> object:
         for env in envs:
-            self.add_envs(env.uri, env.env)
+            self.config.envs[env.env] = env.uri
         return self
 
     def remove_env(self, uri: Uri | str ):
