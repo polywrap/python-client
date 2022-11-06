@@ -1,10 +1,10 @@
 # from .client_config import ClientConfig
-
 from polywrap_core import Uri, Env # missing CoreClientConfig, IUriPackage, IUriWrapper, IUriRedirect
-
+#from .base_client_config import BaseClientConfigBuilder
 from polywrap_uri_resolvers import BaseUriResolver
 from abc import ABC, abstractmethod
 from functools import partial
+from typing import Any, Dict, List
 
 class IClientConfigBuilder(ABC):
     """Defines the basic interface for the Client Config Builder"""
@@ -33,7 +33,7 @@ class IClientConfigBuilder(ABC):
     #     pass
 
     @abstractmethod
-    def add_env():
+    def add_env(self, uri: Uri, env: Dict[str, Any]):# -> IClientConfigBuilder:
         pass
 
     # @abstractmethod

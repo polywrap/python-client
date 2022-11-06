@@ -5,26 +5,31 @@ from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_client_config_builder import ClientConfigBuilder
 import pytest
 
-test_envs: List[Env] = [
-    Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'test': "value" }),
-    Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'test': "value" }),
+test_envs1: List[Env] = [
+    Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "green", 'size': "medium" }),
+    Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "poodle", 'cat': "siamese" }),
+  ]
+
+test_envs2: List[Env] = [
+    Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "red", 'size': "small" }),
+   # Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "terrier", 'cat': "persian" }),
+    Env(uri = Uri("wrap://ens/test.plugin.three"), env = { 'vehicle': "bycicle", 'bird': "parrot", "fruit": "apple" }),
   ]
 
 
 def test_client_config_builder_add_env():
-    client = ClientConfigBuilder().add_env(
-        uri=Uri("wrap://ens/test.plugin.one"),
-        env=Env(uri=Uri("wrap://ens/test.plugin.one"), env={ 'test': "value" }),
-        )
-    print(client.config['envs'])
+    client = ClientConfigBuilder() # instantiate new client
+    for env in test_envs1: # add all the envs to client
+        client = client.add_env(env.uri, env.env) 
+    #print(client.config['envs'])
+    assert client.config['envs'] == test_envs1
 
-    print(client)
-    for env in test_envs:
-        print('adding an env', env)
+    for env in test_envs2:
         client = client.add_env(env.uri, env.env)
-    
-    print(client)
+
+    print(client.config['envs'])
     assert False
+
 
 # def test_client_config_builder_adds_default_config():
 #     #print(client.build_partial())

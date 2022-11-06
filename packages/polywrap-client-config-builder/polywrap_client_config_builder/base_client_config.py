@@ -12,7 +12,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
 
     def __init__(self):
-        self.config: Dict[str, list] = {
+        self.config: Dict[str, list[Env]] = {
             'envs': [],
             #'resolvers': []
             }
@@ -38,7 +38,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         return self
 
 
-    def add_env(self, uri: Uri, env: Env): #: Record[str, Any] ) -> ClientConfigBuilder:
+    def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:
         """
         see: https://github.com/polywrap/toolchain/blob/b57b1393d1aa5f82f39741d297040f84bf799ff1/packages/js/client-config-builder/src/ClientConfigBuilder.ts#L153-L168
         Function that takes in an environment object and an Uri;
@@ -59,10 +59,27 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
             raise TypeError("Unknown uri type, cannot convert")
 
         env_uri: Uri = sanitize_uri(uri)
-        print(uri, env)
-        print('sanitized uri', env_uri)
-        self.config['envs'].append(Env(uri=env_uri, env=env) )
+        print('sanitizing uri:', env_uri, "env:", env) 
+
+        Env(uri=env_uri, env=env)
+        print('appending  env:', env_uri)
+        print(self.config['envs'])
+
+        for client_env in self.config['envs']:
+            if client_env.env == env_uri:
+                print('this URI already exists in the config, and updating the env:', env_uri)
+
+                client_env['env'] = env
+                return self
+            try:
+                print(self.config['envs'].index(Env(uri=env_uri, env=env)))
+                print("env already exists, updating")
+            except ValueError:
+                self.config['envs'].append(Env(uri=env_uri, env=env))
+        #self.config['envs'].append(Env(uri=env_uri, env=env) )
+        
         #idx = self._config
+
 
         # Uri.equals(x.uri, )
 
