@@ -67,20 +67,20 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         for e in self.config['envs']:
             all_uris.append(e.uri)
 
-        idx = all_uris.index(new_env.uri)
+        try:
+            idx = all_uris.index(new_env.uri)
+        except ValueError:
+            idx = 'undefined'
 
-        if idx >= 0:
+        if type(idx) == int:
             print("env already loaded in the envs array, updating")
             self.config['envs'][idx] = new_env
             return self
         else:
             print("env not loaded previously in the loaded_envs array, adding it for the first time")
-            # raise Exception("The Uri env has not been defined in the config")
-            return self.config['envs'].append(Env(uri=new_env.uri, env=new_env.env))
+            self.config['envs'].append(Env(uri=new_env.uri, env=new_env.env))
+            return self
         
-        
-        print(update_env())
-        assert False
         
 
     def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:

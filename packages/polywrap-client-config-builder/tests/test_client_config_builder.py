@@ -22,29 +22,33 @@ test_envs2: List[Env] = [
   ]
 
 
-@pytest.mark.skip(reason="wip")
+#@pytest.mark.skip(reason="wip")
 def test_client_config_builder_add_env():
     client = ClientConfigBuilder() # instantiate new client
     for env in test_envs1: # add all the envs to client
         client = client.add_env(env.uri, env.env) 
     assert client.config['envs'] == test_envs1
 
-    for env in test_envs2:
-        client = client.add_env(env.uri, env.env)
-    print(client.config['envs'])
+def test_client_config_builder_update_envs():
+    client = ClientConfigBuilder() # instantiate new client
+    client = client.add_env(env_var1.uri, env_var1.env)
+    client.update_env(env_var3) # add basic envs to client
+    print(client.config)
+    assert client.config['envs'] == [env_var3]
+
+def test_client_config_builder_updates_many_envs():
+    client = ClientConfigBuilder() # instantiate new client
+    for new_env in test_envs1:
+        client = client.add_env(new_env.uri, new_env.env)
+    for new_env in test_envs2:
+        client = client.update_env(new_env)
+    #print(client.config['envs'])
     assert client.config['envs'] == [
         Env(uri=Uri('wrap://ens/test.plugin.one'), env={'color': 'red', 'size': 'small'}), 
         Env(uri=Uri("wrap://ens/test.plugin.two"), env={'dog': 'poodle', 'cat': 'siamese'}), 
         Env(uri=Uri("wrap://ens/test.plugin.three"), env={'vehicle': 'bycicle', 'bird': 'parrot', 'fruit': 'apple'})]
 
-
-def test_client_config_builder_update_envs():
-    client = ClientConfigBuilder() # instantiate new 
-    client = client.add_env(env_var1.uri, env_var1.env)
-    client.update_env(env_var3) # add basic envs to client
-    print(client.config)
-    assert False
-
+    pass
 
 # def test_client_config_builder_adds_default_config():
 #     #print(client.build_partial())
