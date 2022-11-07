@@ -13,41 +13,36 @@ env_var4 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "terrier"
 env_var5 = Env(uri = Uri("wrap://ens/test.plugin.three"), env = { 'vehicle': "bycicle", 'bird': "parrot", "fruit": "apple" })
 
 test_envs1: List[Env] = [
-    env_var1,
-    env_var2,
+    env_var1, env_var2,
   ]
 
 test_envs2: List[Env] = [
     env_var3, env_var5
   ]
 
-
-#@pytest.mark.skip(reason="wip")
 def test_client_config_builder_add_env():
     client = ClientConfigBuilder() # instantiate new client
     for env in test_envs1: # add all the envs to client
         client = client.add_env(env.uri, env.env) 
     assert client.config['envs'] == test_envs1
 
-def test_client_config_builder_update_envs():
+def test_client_config_builder_set_env():
     client = ClientConfigBuilder() # instantiate new client
     client = client.add_env(env_var1.uri, env_var1.env)
-    client.update_env(env_var3) # add basic envs to client
+    client.set_env(env_var3) # add basic envs to client
     print(client.config)
     assert client.config['envs'] == [env_var3]
 
-def test_client_config_builder_updates_many_envs():
+def test_client_config_builder_set_many_envs():
     client = ClientConfigBuilder() # instantiate new client
-    for new_env in test_envs1:
+    for new_env in test_envs1: #add basic envs
         client = client.add_env(new_env.uri, new_env.env)
-    for new_env in test_envs2:
-        client = client.update_env(new_env)
-    #print(client.config['envs'])
+    for new_env in test_envs2: # set the new envs, which should overwrite the old ones
+        client = client.set_env(new_env)
     assert client.config['envs'] == [
         Env(uri=Uri('wrap://ens/test.plugin.one'), env={'color': 'red', 'size': 'small'}), 
         Env(uri=Uri("wrap://ens/test.plugin.two"), env={'dog': 'poodle', 'cat': 'siamese'}), 
         Env(uri=Uri("wrap://ens/test.plugin.three"), env={'vehicle': 'bycicle', 'bird': 'parrot', 'fruit': 'apple'})]
-
     pass
 
 # def test_client_config_builder_adds_default_config():

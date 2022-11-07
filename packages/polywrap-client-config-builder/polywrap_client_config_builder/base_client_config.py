@@ -49,18 +49,38 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         if Uri.is_uri(uri):
             return uri
         raise TypeError("Unknown uri type, cannot convert")
+                
+    def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:
+        """
+        Function that takes in an environment object and an Uri;
+         - It sanitizes the URI
+         - If the env is already defined, it adds the new env variables to the URI without deleting the old ones
+         - If the env is not defined, the values are added to the end of the Env array
+        """
+        env_uri: Uri = self.sanitize_uri(uri)
+
+        
+        self.config['envs'].append(Env(uri=env_uri, env=env))
+        return self
+        
+
+    def add_envs(self, envs: list[Env]) -> object:
+        for env in envs:
+            pass
+            self.config['envs'][env.env] = env.uri
+        return self
 
 
 
-    def update_env(self, new_env: Env):
+    def set_env(self, new_env: Env): # todo: rename to set_env
         """
         Takes an Env class as input.(made of an uri and env variables)
-        If the env is already defined, its values are updated
-        If the env is not defined, raises an error
+         - If the env is already defined, its values are updated and the old ones are deleted
+         - If the env is not defined, the values are added to the end of the Env array
         """
         # check the envs array and new env you want to load 
-        print('loaded_envs', self.config['envs'])
-        print('new_env', new_env)
+        # print('loaded_envs', self.config['envs'])
+        # print('new_env', new_env)
 
         # Check if both Envs have the same URI
         all_uris: List[Uri | str] = []
@@ -73,75 +93,21 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
             idx = 'undefined'
 
         if type(idx) == int:
-            print("env already loaded in the envs array, updating")
+            print("env already loaded in the envs array, updating by substituring loaded_env for new_env")
             self.config['envs'][idx] = new_env
             return self
         else:
             print("env not loaded previously in the loaded_envs array, adding it for the first time")
             self.config['envs'].append(Env(uri=new_env.uri, env=new_env.env))
             return self
-        
-        
-
-    def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:
-        """
-        see: https://github.com/polywrap/toolchain/blob/b57b1393d1aa5f82f39741d297040f84bf799ff1/packages/js/client-config-builder/src/ClientConfigBuilder.ts#L153-L168
-        Function that takes in an environment object and an Uri;
-         - It parses the URI
-         - If the env is already defined, its values are updated
-         - If the env is not defined, the values are added to the end of the Env array
-        """
-        env_uri: Uri = self.sanitize_uri(uri)
-        self.config['envs'].append(Env(uri=env_uri, env=env))
-        return self
-        
-
-        # for client_env in self.config['envs']:
-        #     print('here  is the error', client_env)
-        #     if client_env.env == env_uri:
-        #         print('this URI already exists in the config, and updating the env:', env_uri)
-        #         index = client_env['env'].index(client_env)
-        #         client_env['env'][index] = env                                
-        #         return self
-        #     try:
-        #         print(self.config['envs'].index(Env(uri=env_uri, env=env)))
-        #         print("env already exists, updating")
-        #     except ValueError:
-        #         self.config['envs'].append(Env(uri=env_uri, env=env))
-
-
-
-
-
-
-
-
-        #self.config['envs'].append(Env(uri=env_uri, env=env) )
-        
-        #idx = self._config
-
-
-        # Uri.equals(x.uri, )
-
-        # if idx >= 0:
-        #     self.envs[idx].env = {**self.envs[idx].env, **env,}
-        # else:
-        #     self.envs.append(Env(uri=env_uri, env=env))
-        return self
-
-    def add_envs(self, envs: list[Env]) -> object:
-        for env in envs:
-            pass
-            self.config['envs'][env.env] = env.uri
-        return self
 
     def remove_env(self, uri: Uri | str ):
         # very similar to add_env
         pass
 
-    def set_env(self, uri: Uri | str, env: Dict[str, Any] ):     
-        # very similar to add_env
-        pass
+    # def set_env(self, uri: Uri | str, env: Dict[str, Any] ):     
+    #     # very similar to add_env
+    #     pass
 
     #def set_resolver(self, resolver: IUriResolver):
     #    self.resolver = resolver
