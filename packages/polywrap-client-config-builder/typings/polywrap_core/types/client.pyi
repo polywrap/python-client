@@ -13,7 +13,8 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    envs: List[Env] = ...
+    envs: Dict[Uri, Env: Dict[str, Any]] = field(default_factory=list)
+    interfaces: Dict[Uri, List[Uri]]
     resolver: IUriResolver
 
 

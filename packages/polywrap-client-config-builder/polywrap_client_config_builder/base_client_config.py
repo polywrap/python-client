@@ -1,20 +1,21 @@
-from .client_config import ClientConfig
+from polywrap_core.types.client import ClientConfig
 from .interface_client_config_builder import IClientConfigBuilder
 from polywrap_core.types.uri import Uri
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
 
-#from .client_config_builder import ClientConfigBuilder
+from .client_config_builder import ClientConfigBuilder
 
 
 
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
-
+    config: ClientConfig
     def __init__(self):
-        self.config: Dict[str, list[Env]] = {
+        self.config:= {
             'envs': [],
-            #'resolvers': []
+            'resolvers': [],
+            'interfaces': []
             }
 
     def __str__(self) -> str:
@@ -24,7 +25,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     def authority(self) -> str:
         return self.config.authority
 
-    def add(self, config: ClientConfig):# -> ClientConfigBuilder:
+    def add(self, config: ClientConfig) -> ClientConfigBuilder:
         """
         Appends each property of the supplied config object to the corresponding array of the builder's config.
         """
@@ -54,12 +55,13 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         Function that takes in an environment object and an Uri;
          - It sanitizes the URI
-         - If the env is already defined, it adds the new env variables to the URI without deleting the old ones
+         - If the env is already defined, and the env variables AREN'T included already:
+            - It adds the new env variables to the existing env, without modifying the old ones
+         - If the env is already defined, and the env variables ARE included already:    
+            - It updates the existing env variables with the new values        
          - If the env is not defined, the values are added to the end of the Env array
         """
         env_uri: Uri = self.sanitize_uri(uri)
-
-        
         self.config['envs'].append(Env(uri=env_uri, env=env))
         return self
         

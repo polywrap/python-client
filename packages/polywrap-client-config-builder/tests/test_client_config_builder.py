@@ -6,6 +6,7 @@ from polywrap_client_config_builder import ClientConfigBuilder
 import pytest
 
 
+env_var0 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "yellow", 'size': "large" })
 env_var1 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "green", 'size': "medium" })
 env_var2 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "poodle", 'cat': "siamese" })
 env_var3 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "red", 'size': "small" })
@@ -20,11 +21,31 @@ test_envs2: List[Env] = [
     env_var3, env_var5
   ]
 
+test_envs3: List[Env] = [
+    env_var1, env_var2, env_var3, env_var4, env_var5
+]
+
 def test_client_config_builder_add_env():
     client = ClientConfigBuilder() # instantiate new client
     for env in test_envs1: # add all the envs to client
         client = client.add_env(env.uri, env.env) 
     assert client.config['envs'] == test_envs1
+
+    client = client.add_env(env_var0.uri, env_var0.env)
+    print(client)
+    pass #assert client.config['envs'] == 
+
+def test_client_add_envs():
+    client = ClientConfigBuilder() # instantiate new client
+    for env in test_envs3: 
+        client = client.add_env(env.uri, env.env)
+    # assert client.config['envs'] == [
+    #         Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "green", 'size': "medium" })
+    #         env_var2 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "poodle", 'cat': "siamese" })
+    #         env_var3 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "red", 'size': "small" })
+    #         env_var4 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "terrier", 'cat': "persian" })
+    #         env_var5
+    #     ]
 
 def test_client_config_builder_set_env():
     client = ClientConfigBuilder() # instantiate new client

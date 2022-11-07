@@ -33,7 +33,7 @@ class IClientConfigBuilder(ABC):
     #     pass
 
     @abstractmethod
-    def add_env(self, uri: Uri, env: Dict[str, Any]):# -> IClientConfigBuilder:
+            def add_env(self, uri: Uri, env: Dict[str, Any]):# -> IClientConfigBuilder:
         pass
 
     # @abstractmethod

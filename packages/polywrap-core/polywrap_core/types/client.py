@@ -17,8 +17,8 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    envs: List[Env] = field(default_factory=list)
-    interfaces: List[InterfaceImplementations] = field(default_factory=list)
+    envs: Dict[Uri, Env: Dict[str, Any]] = field(default_factory=list)
+    interfaces: Dict[Uri, List[Uri]]
     resolver: IUriResolver
 
 
