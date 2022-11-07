@@ -5,29 +5,44 @@ from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_client_config_builder import ClientConfigBuilder
 import pytest
 
+
+env_var1 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "green", 'size': "medium" })
+env_var2 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "poodle", 'cat': "siamese" })
+env_var3 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "red", 'size': "small" })
+env_var4 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "terrier", 'cat': "persian" })
+env_var5 = Env(uri = Uri("wrap://ens/test.plugin.three"), env = { 'vehicle': "bycicle", 'bird': "parrot", "fruit": "apple" })
+
 test_envs1: List[Env] = [
-    Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "green", 'size': "medium" }),
-    Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "poodle", 'cat': "siamese" }),
+    env_var1,
+    env_var2,
   ]
 
 test_envs2: List[Env] = [
-    Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "red", 'size': "small" }),
-   # Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "terrier", 'cat': "persian" }),
-    Env(uri = Uri("wrap://ens/test.plugin.three"), env = { 'vehicle': "bycicle", 'bird': "parrot", "fruit": "apple" }),
+    env_var3, env_var5
   ]
 
 
+@pytest.mark.skip(reason="wip")
 def test_client_config_builder_add_env():
     client = ClientConfigBuilder() # instantiate new client
     for env in test_envs1: # add all the envs to client
         client = client.add_env(env.uri, env.env) 
-    #print(client.config['envs'])
     assert client.config['envs'] == test_envs1
 
     for env in test_envs2:
         client = client.add_env(env.uri, env.env)
-
     print(client.config['envs'])
+    assert client.config['envs'] == [
+        Env(uri=Uri('wrap://ens/test.plugin.one'), env={'color': 'red', 'size': 'small'}), 
+        Env(uri=Uri("wrap://ens/test.plugin.two"), env={'dog': 'poodle', 'cat': 'siamese'}), 
+        Env(uri=Uri("wrap://ens/test.plugin.three"), env={'vehicle': 'bycicle', 'bird': 'parrot', 'fruit': 'apple'})]
+
+
+def test_client_config_builder_update_envs():
+    client = ClientConfigBuilder() # instantiate new 
+    client = client.add_env(env_var1.uri, env_var1.env)
+    client.update_env(env_var3) # add basic envs to client
+    print(client.config)
     assert False
 
 
@@ -43,6 +58,14 @@ def test_client_config_builder_add_env():
 #     resolver: IUriResolver = IUriResolver()
 #     config = ClientConfigBuilder(env).add({})
 #     pass
+
+@pytest.mark.skip(reason="not implemented yet")
+def test_client_config_builder_adds_resolvers():
+    """tests that the client config builder can add resolver objects and if they are already in the list, it will update them"""
+    client = ClientConfigBuilder() # instantiate new client
+    for resolver in test_resolvers1:
+        client = client.add_resolver(resolver)
+    assert client.config['resolvers'] == test_resolvers1
 
 def test_client_config_builder_adds_uri_resolver():
     pass

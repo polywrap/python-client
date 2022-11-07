@@ -38,6 +38,51 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         return self
 
 
+
+    @staticmethod
+    def sanitize_uri(uri: str | Uri) -> Uri:
+        """
+        This is the Uri.from function of the JS client
+        """
+        if type(uri) == str:
+            return Uri(uri)
+        if Uri.is_uri(uri):
+            return uri
+        raise TypeError("Unknown uri type, cannot convert")
+
+
+
+    def update_env(self, new_env: Env):
+        """
+        Takes an Env class as input.(made of an uri and env variables)
+        If the env is already defined, its values are updated
+        If the env is not defined, raises an error
+        """
+        # check the envs array and new env you want to load 
+        print('loaded_envs', self.config['envs'])
+        print('new_env', new_env)
+
+        # Check if both Envs have the same URI
+        all_uris: List[Uri | str] = []
+        for e in self.config['envs']:
+            all_uris.append(e.uri)
+
+        idx = all_uris.index(new_env.uri)
+
+        if idx >= 0:
+            print("env already loaded in the envs array, updating")
+            self.config['envs'][idx] = new_env
+            return self
+        else:
+            print("env not loaded previously in the loaded_envs array, adding it for the first time")
+            # raise Exception("The Uri env has not been defined in the config")
+            return self.config['envs'].append(Env(uri=new_env.uri, env=new_env.env))
+        
+        
+        print(update_env())
+        assert False
+        
+
     def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:
         """
         see: https://github.com/polywrap/toolchain/blob/b57b1393d1aa5f82f39741d297040f84bf799ff1/packages/js/client-config-builder/src/ClientConfigBuilder.ts#L153-L168
@@ -46,36 +91,31 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
          - If the env is already defined, its values are updated
          - If the env is not defined, the values are added to the end of the Env array
         """
+        env_uri: Uri = self.sanitize_uri(uri)
+        self.config['envs'].append(Env(uri=env_uri, env=env))
+        return self
+        
 
-        @staticmethod
-        def sanitize_uri(uri: str | Uri) -> Uri:
-            """
-            This is the Uri.from function of the JS client
-            """
-            if type(uri) == str:
-                return Uri(uri)
-            if Uri.is_uri(uri):
-                return uri
-            raise TypeError("Unknown uri type, cannot convert")
+        # for client_env in self.config['envs']:
+        #     print('here  is the error', client_env)
+        #     if client_env.env == env_uri:
+        #         print('this URI already exists in the config, and updating the env:', env_uri)
+        #         index = client_env['env'].index(client_env)
+        #         client_env['env'][index] = env                                
+        #         return self
+        #     try:
+        #         print(self.config['envs'].index(Env(uri=env_uri, env=env)))
+        #         print("env already exists, updating")
+        #     except ValueError:
+        #         self.config['envs'].append(Env(uri=env_uri, env=env))
 
-        env_uri: Uri = sanitize_uri(uri)
-        print('sanitizing uri:', env_uri, "env:", env) 
 
-        Env(uri=env_uri, env=env)
-        print('appending  env:', env_uri)
-        print(self.config['envs'])
 
-        for client_env in self.config['envs']:
-            if client_env.env == env_uri:
-                print('this URI already exists in the config, and updating the env:', env_uri)
 
-                client_env['env'] = env
-                return self
-            try:
-                print(self.config['envs'].index(Env(uri=env_uri, env=env)))
-                print("env already exists, updating")
-            except ValueError:
-                self.config['envs'].append(Env(uri=env_uri, env=env))
+
+
+
+
         #self.config['envs'].append(Env(uri=env_uri, env=env) )
         
         #idx = self._config
@@ -91,7 +131,8 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
 
     def add_envs(self, envs: list[Env]) -> object:
         for env in envs:
-            self.config.envs[env.env] = env.uri
+            pass
+            self.config['envs'][env.env] = env.uri
         return self
 
     def remove_env(self, uri: Uri | str ):
