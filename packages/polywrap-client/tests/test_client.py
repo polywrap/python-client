@@ -95,7 +95,7 @@ async def test_env():
     options = InvokerOptions(
         uri=uri, method="externalEnvMethod", args={}, encode_result=False
     )
-    print(client._config__)
+    print(client._config)
     result = await client.invoke(options)
 
     assert result.unwrap() == env
