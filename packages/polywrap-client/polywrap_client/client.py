@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from textwrap import dedent
-from typing import Any, List, Optional, Union, cast
+from typing import Any, List, Optional, Union, cast, Dict
 
 from polywrap_core import (
     Client,
@@ -53,7 +53,7 @@ class PolywrapClient(Client):
     ) -> IUriResolver:
         return self._config.resolver
 
-    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> List[Env]:
+    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Dict[Uri, List[Uri]]:
         return self._config.envs
 
     def get_interfaces(self) -> List[InterfaceImplementations]:
@@ -61,9 +61,10 @@ class PolywrapClient(Client):
 
     def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
         if interface_implementations := next(
-            filter(lambda x: x.interface == uri, self._config.interfaces), None
+            filter(lambda x: x == uri, self._config.interfaces[uri]), None
         ):
-            return Ok(interface_implementations.implementations)
+            print(interface_implementations)
+            return Ok(interface_implementations)
         else:
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 

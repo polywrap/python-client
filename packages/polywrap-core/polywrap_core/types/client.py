@@ -17,7 +17,7 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    # TODO this is naive solution, the `Any` type should be more specific (str | Uri | int, etc.)
+    # TODO  is this a naive solution? the `Any` type should be more specific (str | Uri | int, etc.)
     envs: Dict[Uri, Env: Dict[str, Any]] = field(default_factory=dict) 
     interfaces: Dict[Uri, List[Uri]]
     resolver: IUriResolver
