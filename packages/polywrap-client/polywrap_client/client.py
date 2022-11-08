@@ -61,7 +61,8 @@ class PolywrapClient(Client):
 
     def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
         if interface_implementations := next(
-            filter(lambda x: x == uri, self._config.interfaces[uri]), None
+            filter(lambda x: x == uri,
+             self._config.interfaces), None
         ):
             print(interface_implementations)
             return Ok(interface_implementations)

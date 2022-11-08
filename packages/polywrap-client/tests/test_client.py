@@ -41,7 +41,7 @@ async def test_subinvoke():
 
     assert result.unwrap() == "1 + 2 = 3"
 
-@pytest.mark.skip(reason="Exception: Unable to find implementations for uri: wrap://ens/interface.eth")
+# @pytest.mark.skip(reason="Exception: Unable to find implementations for uri: wrap://ens/interface.eth")
 async def test_interface_implementation():
     uri_resolver = BaseUriResolver(
         file_reader=SimpleFileReader(),
@@ -74,7 +74,7 @@ async def test_interface_implementation():
 
     assert result.unwrap() == {"str": "hello", "uint8": 2}
 
-@pytest.mark.skip(reason="Message: __wrap_abort: Missing required property: 'externalArray: [UInt32]'")
+# @pytest.mark.skip(reason="Message: __wrap_abort: Missing required property: 'externalArray: [UInt32]'")
 async def test_env():
     uri_resolver = BaseUriResolver(
         file_reader=SimpleFileReader(),

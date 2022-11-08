@@ -316,7 +316,7 @@ def create_instance(
             raise WasmAbortError(
                 f"failed calling invoker.get_implementations({repr(Uri(uri))})"
             ) from result.unwrap_err()
-        implementations: List[str] = [uri.uri for uri in result.unwrap()]
+        implementations: List[Uri] = [uri.uri for uri in result.unwrap()]
         state.get_implementations_result = msgpack_encode(implementations)
         return len(implementations) > 0
 
