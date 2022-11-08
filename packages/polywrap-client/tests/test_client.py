@@ -90,9 +90,11 @@ async def test_env():
             resolver=uri_resolver,
         )
     )
+    print(client._config)
     options = InvokerOptions(
-        uri=uri, method="externalEnvMethod", args={}, encode_result=False, env=env
+        uri=uri, method="externalEnvMethod", args={}, encode_result=False
     )
+    
     result = await client.invoke(options)
 
     assert result.unwrap() == env
