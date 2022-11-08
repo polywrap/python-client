@@ -31,7 +31,7 @@ async def test_subinvoke():
         },
     )
 
-    client = PolywrapClient(config=PolywrapClientConfig(envs=[], resolver=uri_resolver))
+    client = PolywrapClient(config=PolywrapClientConfig(envs={}, interfaces={}, resolver=uri_resolver))
     uri = Uri(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
@@ -54,14 +54,15 @@ async def test_interface_implementation():
 
     client = PolywrapClient(
         config=PolywrapClientConfig(
-            envs=[],
+            envs={},
+            interfaces={
+                    InterfaceImplementations(
+                        interface=Uri("ens/interface.eth"), implementations=[impl_uri]
+                    )
+                },
             resolver=uri_resolver,
-            interfaces=[
-                InterfaceImplementations(
-                    interface=Uri("ens/interface.eth"), implementations=[impl_uri]
-                )
-            ],
-        )
+            )
+        
     )
     uri = Uri(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-interface", "wrapper").absolute()}'
@@ -86,13 +87,15 @@ async def test_env():
 
     client = PolywrapClient(
         config=PolywrapClientConfig(
-            envs=[Env(uri=uri, env=env)],
+            envs={uri: env},
             resolver=uri_resolver,
+            interfaces={}
         )
     )
     options = InvokerOptions(
         uri=uri, method="externalEnvMethod", args={}, encode_result=False
     )
+    print(client._config__)
     result = await client.invoke(options)
 
     assert result.unwrap() == env

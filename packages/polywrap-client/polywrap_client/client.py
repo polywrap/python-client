@@ -40,6 +40,8 @@ class PolywrapClient(Client):
     def __init__(self, config: Optional[PolywrapClientConfig] = None):
         # TODO: this is naive solution need to use polywrap-client-config-builder once we have it
         self._config = config or PolywrapClientConfig(
+            envs={},
+            interfaces={},
             resolver=FsUriResolver(file_reader=SimpleFileReader())
         )
 

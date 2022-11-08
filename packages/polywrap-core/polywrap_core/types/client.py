@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Dict, Any
 
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_result import Result
@@ -17,8 +17,9 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    envs: List[Env] = field(default_factory=list)
-    interfaces: List[InterfaceImplementations] = field(default_factory=list)
+    # TODO this is naive solution, the `Any` type should be more specific (str | Uri | int, etc.)
+    envs: Dict[Uri, Env: Dict[str, Any]] = field(default_factory=dict) 
+    interfaces: Dict[Uri, List[Uri]]
     resolver: IUriResolver
 
 
