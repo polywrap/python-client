@@ -86,12 +86,12 @@ async def test_env():
 
     client = PolywrapClient(
         config=PolywrapClientConfig(
-            envs=[Env(uri=uri, env=env)],
+            envs={uri: env},
             resolver=uri_resolver,
         )
     )
     options = InvokerOptions(
-        uri=uri, method="externalEnvMethod", args={}, encode_result=False
+        uri=uri, method="externalEnvMethod", args={}, encode_result=False, env=env
     )
     result = await client.invoke(options)
 
