@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import pytest
 from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions, InterfaceImplementations, Env
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader
@@ -89,9 +89,9 @@ def test_get_env_by_uri():
             resolver=uri_resolver,
         )
     )
-    assert client.get_env_by_uri(uri) == env
+    assert client.get_env_by_uri(uri) == {uri:env}
 
-
+# @pytest.mark.skip("not being tested yet")
 async def test_env():
     uri_resolver = BaseUriResolver(
         file_reader=SimpleFileReader(),

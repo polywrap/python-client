@@ -51,7 +51,7 @@ class PolywrapClient(Client):
     ) -> IUriResolver:
         return self._config.resolver
 
-    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Dict[Uri, Dict[str, Any]]:
+    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Union[Dict[Uri, Dict[str, Any]], None]:
         envs = self._config.envs
         return envs
 
@@ -67,7 +67,7 @@ class PolywrapClient(Client):
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
     def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
-    ) -> Union[Env, None]:
+    ) -> Union[Env, Dict[str, Any], None]:
 
         print("uri=", uri)
         print(type(uri))
@@ -84,9 +84,14 @@ class PolywrapClient(Client):
         print("options=", options)
         print(type(options))
         print("---------")        
-        fn = lambda env: env.uri == uri.uri
+        #fn = lambda env: env.uri == uri.uri
         #print(fn(uri))
         envs = self.get_envs()
+
+        print("---------")
+        print(f"{envs}=")
+        print(type(envs))
+        print("---------") 
         return envs
 
     async def get_file(
