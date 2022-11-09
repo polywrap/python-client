@@ -14,7 +14,7 @@ async def test_invoke():
     )
     args = {"arg": "hello polywrap"}
     options = InvokerOptions(
-        uri=uri, method="simpleMethod", args=args, encode_result=False
+        uri=uri, method="simpleMethod", args=args, encode_result=False, env={}
     )
     result = await client.invoke(options)
 
@@ -36,7 +36,7 @@ async def test_subinvoke():
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
     args = {"a": 1, "b": 2}
-    options = InvokerOptions(uri=uri, method="add", args=args, encode_result=False)
+    options = InvokerOptions(uri=uri, method="add", args=args, env={}, encode_result=False)
     result = await client.invoke(options)
 
     assert result.unwrap() == "1 + 2 = 3"
@@ -68,11 +68,28 @@ async def test_interface_implementation():
     )
     args = {"arg": {"str": "hello", "uint8": 2}}
     options = InvokerOptions(
-        uri=uri, method="moduleMethod", args=args, encode_result=False
+        uri=uri, method="moduleMethod", args=args, encode_result=False, env={}
     )
     result = await client.invoke(options)
 
     assert result.unwrap() == {"str": "hello", "uint8": 2}
+
+
+def test_get_env_by_uri():
+    uri_resolver = BaseUriResolver(
+        file_reader=SimpleFileReader(),
+        redirects={},
+    )
+    uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "simple-env").absolute()}')
+    env = {"externalArray": [1, 2, 3], "externalString": "hello"}
+
+    client = PolywrapClient(
+        config=PolywrapClientConfig(
+            envs={uri: env},
+            resolver=uri_resolver,
+        )
+    )
+    assert client.get_env_by_uri(uri) == env
 
 
 async def test_env():
@@ -92,9 +109,10 @@ async def test_env():
     )
     print(client._config)
     options = InvokerOptions(
-        uri=uri, method="externalEnvMethod", args={}, encode_result=False
+        uri=uri, method="externalEnvMethod", args={}, encode_result=False, 
+        env={}
     )
-    
+
     result = await client.invoke(options)
 
     assert result.unwrap() == env

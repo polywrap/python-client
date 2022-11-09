@@ -50,7 +50,7 @@ class Client(Invoker, UriResolverHandler):
         pass
 
     @abstractmethod
-    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> List[Env]:
+    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Dict[Uri, Dict[str, Any]]:
         pass
 
     @abstractmethod

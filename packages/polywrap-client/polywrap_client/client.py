@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from textwrap import dedent
-from typing import Any, List, Optional, Union, cast
+from typing import Any, List, Optional, Union, cast,Dict
 
 from polywrap_core import (
     Client,
@@ -51,8 +51,9 @@ class PolywrapClient(Client):
     ) -> IUriResolver:
         return self._config.resolver
 
-    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> List[Env]:
-        return self._config.envs
+    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Dict[Uri, Dict[str, Any]]:
+        envs = self._config.envs
+        return envs
 
     def get_interfaces(self) -> List[InterfaceImplementations]:
         return self._config.interfaces
@@ -65,10 +66,28 @@ class PolywrapClient(Client):
         else:
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
-    def get_env_by_uri(
-        self, uri: Uri, options: Optional[GetEnvsOptions] = None
+    def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
     ) -> Union[Env, None]:
-        return next(filter(lambda env: env.uri == uri, self.get_envs()), None)
+
+        print("uri=", uri)
+        print(type(uri))
+        print("---------")
+        print("uri.uri=", uri.uri)
+        print("type(uri)", type(uri.uri))
+        print("---------")
+        print(f"{self.get_envs()=}")
+        print(f"{type(self.get_envs())=}")
+        print(f"{dir(self.get_envs())}")
+        #print(f"{self.get_envs()}")
+        #print(f"{self.get_envs()=}")
+        print("---------")
+        print("options=", options)
+        print(type(options))
+        print("---------")        
+        fn = lambda env: env.uri == uri.uri
+        #print(fn(uri))
+        envs = self.get_envs()
+        return envs
 
     async def get_file(
         self, uri: Uri, options: GetFileOptions
@@ -140,8 +159,12 @@ class PolywrapClient(Client):
             return cast(Err, wrapper_result)
         wrapper = wrapper_result.unwrap()
 
+        print(self.get_env_by_uri(options.uri))
         env = self.get_env_by_uri(options.uri)
-        options.env = options.env or (env.env if env else None)
+        print(f"{env=}")
+        #print(f"{env.env=}")
+        print('options=', options)
+        options.env = options.env or (env if env else None)
 
         result = await wrapper.invoke(options, invoker=self)
         if result.is_err():
