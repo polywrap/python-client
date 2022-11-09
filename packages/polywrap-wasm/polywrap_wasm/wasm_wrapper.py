@@ -62,7 +62,7 @@ class WasmWrapper(Wrapper):
         state.env = (
             options.env
             if isinstance(options.env, (bytes, bytearray))
-            else msgpack_encode(options.env.env)
+            else msgpack_encode(options.env)
         )
 
         if not (state.method and state.args and state.env):
