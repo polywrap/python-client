@@ -8,6 +8,7 @@ from polywrap_core import (
     InvokeOptions,
     Invoker,
     Wrapper,
+    Uri
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode

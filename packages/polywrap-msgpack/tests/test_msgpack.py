@@ -3,9 +3,25 @@ from typing import Any, Dict, List, Set, Tuple
 
 from polywrap_msgpack import msgpack_decode, msgpack_encode, sanitize
 from tests.conftest import DataClassObject, DataClassObjectWithSlots, Example
+from polywrap_core import Uri
+from pathlib import Path
 
 # ENCODING AND DECODING
 
+def test_msgpack_can_encode_uris():
+
+    uri = Uri(f'fs/{Path(__file__).parent.joinpath("cases", "simple-env").absolute()}')
+    print(f"{uri}")
+    print(f"{type(uri)=}")
+    print(f"{uri.uri=}")
+
+    print(f"{uri.__class__=}")
+    print(f"{uri.__class__.__name__=}")
+    try:
+        if uri.__class__.__name__ == 'Uri':
+           raise TypeError("Cannot encode Uri")
+    except TypeError:
+        assert False
 
 def test_encode_and_decode_object():
     custom_object = {"firstKey": "firstValue", "secondKey": "secondValue"}

@@ -50,6 +50,9 @@ def sanitize(value: Any) -> Any:
     Returns:
         Any: msgpack compatible sanitized value
     """
+    if value.__class__.__name__ == "Uri":
+        raise TypeError("Uri is not supported by msgpack")
+
     if isinstance(value, dict):
         dictionary: Dict[Any, Any] = value
         for key, val in list(dictionary.items()):
@@ -89,18 +92,18 @@ def sanitize(value: Any) -> Any:
     if isinstance(value, complex):
         return str(value)
     if hasattr(value, "__slots__"):
-        answer: Dict[str,Any] = {}
-        for s in getattr(value, "__slots__"):
-            print(f"{s=}")
-            if hasattr(value, s):
-                answer.update({s: sanitize(getattr(value, s))})
-            if hasattr(value.uri, 'authority'):
-                # print(value[s])
-                answer.update({s: sanitize(getattr(value.uri, 'uri'))})
-                print(f"!- Found {value.uri=}")
-                print(f"!- Found {value.uri.authority=}")
+        # answer: Dict[str,Any] = {}
+        # for s in getattr(value, "__slots__"):
+        #     print(f"{s=}")
+        #     if hasattr(value, s):
+        #         answer.update({s: sanitize(getattr(value, s))})
+        #     if hasattr(value.uri, 'authority'):
+        #         # print(value[s])
+        #         answer.update({s: sanitize(getattr(value.uri, 'uri'))})
+        #         print(f"!- Found {value.uri=}")
+        #         print(f"!- Found {value.uri.authority=}")
             
-        return answer
+        # return answer
 
         return {
             s: sanitize(getattr(value, s))
@@ -133,7 +136,11 @@ def msgpack_encode(value: Any) -> bytes:
     Returns:
         bytes: encoded msgpack value
     """
+    print(f"{value=}")
+    if value.__class__.__name__ == "Uri":
+        raise ValueError("Uri is not supported by msgpack")
     sanitized = sanitize(value)
+
     return msgpack.packb(sanitized)
 
 
@@ -146,4 +153,6 @@ def msgpack_decode(val: bytes) -> Any:
     Returns:
         Any: python object
     """
+    if val.__class__.__name__ == 'Uri':
+           raise TypeError("Cannot encode Uri")
     return msgpack.unpackb(val, ext_hook=ext_hook)
