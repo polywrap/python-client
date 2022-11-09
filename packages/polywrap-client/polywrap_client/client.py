@@ -67,30 +67,32 @@ class PolywrapClient(Client):
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
     def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
-    ) -> Union[Env, Dict[str, Any], None]:
-
-        print("uri=", uri)
+    ) -> Union[Env, Dict[Uri, Dict[str, Any]], None]:
+        print(f"--> Continue by calling get_env_by_uri: {uri=}") 
+        # print("uri=", uri)
         print(type(uri))
+        # print("---------")
+        # print("uri.uri=", uri.uri)
+        # print("type(uri)", type(uri.uri))
         print("---------")
-        print("uri.uri=", uri.uri)
-        print("type(uri)", type(uri.uri))
-        print("---------")
-        print(f"{self.get_envs()=}")
-        print(f"{type(self.get_envs())=}")
-        print(f"{dir(self.get_envs())}")
-        #print(f"{self.get_envs()}")
-        #print(f"{self.get_envs()=}")
-        print("---------")
-        print("options=", options)
-        print(type(options))
-        print("---------")        
+        # print(f"{self.get_envs()=}")
+        # print(f"{type(self.get_envs())=}")
+        # print(f"{dir(self.get_envs())}")
+        # #print(f"{self.get_envs()}")
+        # #print(f"{self.get_envs()=}")
+        # print("---------")
+        # print("options=", options)
+        # print(type(options))
+        # print("---------")        
         #fn = lambda env: env.uri == uri.uri
         #print(fn(uri))
         envs = self.get_envs()
 
-        print("---------")
-        print(f"{envs}=")
-        print(type(envs))
+        # print("---------")
+        print(f"{envs=}")
+        # if isinstance(envs, dict):
+        #     print(type(envs.get(uri)))
+        #     return envs.get(uri)
         print("---------") 
         return envs
 
@@ -164,11 +166,11 @@ class PolywrapClient(Client):
             return cast(Err, wrapper_result)
         wrapper = wrapper_result.unwrap()
 
-        print(self.get_env_by_uri(options.uri))
+        # print(self.get_env_by_uri(options.uri))
         env = self.get_env_by_uri(options.uri)
-        print(f"{env=}")
+        # print(f"{env=}")
         #print(f"{env.env=}")
-        print('options=', options)
+        # print('options=', options)
         options.env = options.env or (env if env else None)
 
         result = await wrapper.invoke(options, invoker=self)
