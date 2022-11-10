@@ -89,7 +89,8 @@ def test_get_env_by_uri():
             resolver=uri_resolver,
         )
     )
-    assert client.get_env_by_uri(uri).get(uri) == env
+    print()
+    assert client.get_env_by_uri(uri) == env
 
 # @pytest.mark.skip("not being tested yet")
 async def test_env():

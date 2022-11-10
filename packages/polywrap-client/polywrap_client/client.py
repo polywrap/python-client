@@ -76,7 +76,10 @@ class PolywrapClient(Client):
         envs = self.get_envs()
         print(f"{envs=}")
         print("---------") 
-        return envs
+        if hasattr(envs, 'get'):
+            return envs.get(uri)
+        else:
+             return None
 
     async def get_file(
         self, uri: Uri, options: GetFileOptions
