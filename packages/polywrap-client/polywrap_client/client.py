@@ -71,11 +71,8 @@ class PolywrapClient(Client):
 
     def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
     ) -> Union[Dict[str, Any], None]:
-        print(f"--> Continue by calling get_env_by_uri: {uri=}") 
         print(type(uri))
         envs = self.get_envs()
-        print(f"{envs=}")
-        print("---------") 
         if hasattr(envs, 'get'):
             return envs.get(uri)
         else:
@@ -150,12 +147,7 @@ class PolywrapClient(Client):
         if wrapper_result.is_err():
             return cast(Err, wrapper_result)
         wrapper = wrapper_result.unwrap()
-
-        # print(self.get_env_by_uri(options.uri))
         env = self.get_env_by_uri(options.uri)
-        # print(f"{env=}")
-        #print(f"{env.env=}")
-        # print('options=', options)
         options.env = options.env or (env if env else None)
 
         result = await wrapper.invoke(options, invoker=self)

@@ -89,10 +89,8 @@ def test_get_env_by_uri():
             resolver=uri_resolver,
         )
     )
-    print()
     assert client.get_env_by_uri(uri) == env
 
-# @pytest.mark.skip("not being tested yet")
 async def test_env():
     uri_resolver = BaseUriResolver(
         file_reader=SimpleFileReader(),
@@ -109,10 +107,8 @@ async def test_env():
         )
     )
     print(f"--> Begin by configuring the client with the env: {env}")
-    # print(f"{client._config=}")
     options = InvokerOptions(
         uri=uri, method="externalEnvMethod", args={}, encode_result=False, 
-        # env={}
     )
 
     result = await client.invoke(options)

@@ -19,7 +19,6 @@ async def test_invoke_sha3_512():
     result = await client.invoke(options)
     s = hashlib.sha512()
     s.update(b"hello polywrap!")
-    print(result)
     assert result.result == s.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
@@ -90,7 +89,6 @@ async def test_invoke_hex_keccak_256():
 async def test_invoke_buffer_keccak_256():
     options = InvokerOptions(uri=uri, method="buffer_keccak_256", args=args, encode_result=False)
     result = await client.invoke(options)
-    print(result)
     # TODO:  Not sure exactly what this function `buffer_keccak_256` is doing in order to assert it properly
     assert result.result == False
 

@@ -53,24 +53,9 @@ def sanitize(value: Any) -> Any:
     if isinstance(value, dict):
         dictionary: Dict[Any, Any] = value
         for key, val in list(dictionary.items()):
-            # try:
-            #     print(f"{key=}")
-            #     print(f"{key.uri=}")
-            # except:
-            #     pass
             if isinstance(key, str):
-                print(f"{key=}")
-                print(f"{type(key)=}")
-                print(f"{val=}")
-                print(f"{type(val)=}")
                 dictionary[key] = sanitize(val)
             elif key.uri:
-                print(f"Found Key and it has uri")
-                print(f"{type(key)=}")
-                print(f"{key.uri=}")
-                print(f"{type(key.uri)=}")
-                print(f"{val=}")
-                print(f"{type(val)=}")
                 dictionary[key] = sanitize(val)
             else:                
                 raise ValueError(
@@ -91,17 +76,14 @@ def sanitize(value: Any) -> Any:
     if hasattr(value, "__slots__"):
         answer: Dict[str,Any] = {}
         for s in getattr(value, "__slots__"):
-            print(f"{s=}")
             if hasattr(value, s):
                 answer.update({s: sanitize(getattr(value, s))})
             if hasattr(value.uri, 'authority'):
-                # print(value[s])
                 answer.update({s: sanitize(getattr(value.uri, 'uri'))})
-                print(f"!- Found {value.uri=}")
-                print(f"!- Found {value.uri.authority=}")
+
             
         return answer
-
+        #previous implementation
         return {
             s: sanitize(getattr(value, s))
             for s in getattr(value, "__slots__")
@@ -110,9 +92,7 @@ def sanitize(value: Any) -> Any:
     if hasattr(value, "__dict__"):
         answer: Dict[str, Any] = {}
         for k, v in vars(value).items():
-            print(f"{k=}")
-            print(f"{v=}")
-            if not isinstance(k, str):
+            if hasattr(k, 'uri'):
                 answer.update({k.uri:sanitize(v)})
             if isinstance(k, str):
                 answer.update({k:sanitize(v)})
