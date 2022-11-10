@@ -4,7 +4,7 @@ from polywrap_core import IUriResolver, Uri, IUriResolutionContext, UriPackageOr
 from polywrap_result import Result
 
 
-class ResolverWithHistory(IUriResolver, ABC):
+class IResolverWithHistory(IUriResolver, ABC):
     async def try_resolve_uri(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext):
         result = await self._try_resolve_uri(uri, client, resolution_context)
         step = IUriResolutionStep(

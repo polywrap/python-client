@@ -1,9 +1,9 @@
-from .abc import ResolverWithHistory
+from .abc import IResolverWithHistory
 from polywrap_core import Uri, UriPackageOrWrapper, IWrapPackage, UriResolutionResult
 from polywrap_result import Result
 
 
-class PackageResolver(ResolverWithHistory):
+class PackageResolver(IResolverWithHistory):
     uri: Uri
     wrap_package: IWrapPackage
 

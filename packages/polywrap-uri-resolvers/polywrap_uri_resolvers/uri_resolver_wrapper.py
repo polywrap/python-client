@@ -1,16 +1,16 @@
 from typing import Optional, Union, cast
 from polywrap_core import Uri, Client, IUriResolutionContext, UriPackageOrWrapper
-from polywrap_uri_resolvers import ResolverWithHistory
+from polywrap_uri_resolvers import IResolverWithHistory
 from polywrap_result import Result, Ok, Err
 
-class UriResolverWrapper(ResolverWithHistory):
+class UriResolverWrapper(IResolverWithHistory):
     implementation_uri: Uri
 
     def __init__(self, uri: Uri) -> None:
         self.implementation_uri = uri
 
     def get_step_description(self) -> str:
-        return super().get_step_description()
+        return ""
 
     async def _try_resolve_uri(
         self, 
@@ -19,7 +19,7 @@ class UriResolverWrapper(ResolverWithHistory):
         resolution_context: IUriResolutionContext
     ) -> Result[UriPackageOrWrapper]:
         result = await try_resolve_uri_with_implementation(uri, self.implementation_uri, client, resolution_context)
-        
+
         if result.is_err():
             return cast(Err, result)
 

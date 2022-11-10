@@ -57,7 +57,7 @@ async def test_invoke(
         manifest=simple_wrap_manifest
     )
     uri_wrapper = UriWrapper(uri=Uri("ens/wrapper.eth"), wrapper=wrapper)
-    resolver = StaticResolver._from([uri_wrapper])
+    resolver = StaticResolver.from_list([uri_wrapper]).unwrap()
 
     config = PolywrapClientConfig(resolver=resolver)
     client = PolywrapClient(config=config)

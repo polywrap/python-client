@@ -48,9 +48,9 @@ async def test_static_resolver(
     uri_wrapper = UriWrapper(uri=Uri("ens/wrapper.eth"), wrapper=wrapper)
     uri_package = UriPackage(uri=Uri("ens/package.eth"), package=package)
 
-    resolver = StaticResolver._from([ uri_package, uri_wrapper, [
+    resolver = StaticResolver.from_list([ uri_package, uri_wrapper, [
         UriPackage(uri=Uri("ens/nested-package.eth"), package=package)
-    ]])
+    ]]).unwrap()
 
     resolution_context = UriResolutionContext()
     result = await resolver.try_resolve_uri(Uri("ens/package.eth"), PolywrapClient(), resolution_context)
