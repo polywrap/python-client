@@ -40,7 +40,10 @@ class PolywrapClient(Client):
     def __init__(self, config: Optional[PolywrapClientConfig] = None):
         # TODO: this is naive solution need to use polywrap-client-config-builder once we have it
         self._config = config or PolywrapClientConfig(
-            resolver=FsUriResolver(file_reader=SimpleFileReader())
+            resolver=FsUriResolver(file_reader=SimpleFileReader()),
+            envs={},
+            interfaces={},
+
         )
 
     def get_config(self):
@@ -52,7 +55,7 @@ class PolywrapClient(Client):
         return self._config.resolver
 
     def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Union[Dict[Uri, Dict[str, Any]], None]:
-        envs = self._config.envs
+        envs: Dict[Uri, Any] = self._config.envs
         return envs
 
     def get_interfaces(self) -> List[InterfaceImplementations]:
@@ -67,7 +70,7 @@ class PolywrapClient(Client):
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
     def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
-    ) -> Union[Env, Dict[Uri, Dict[str, Any]], None]:
+    ) -> Union[Dict[str, Any], None]:
         print(f"--> Continue by calling get_env_by_uri: {uri=}") 
         # print("uri=", uri)
         print(type(uri))

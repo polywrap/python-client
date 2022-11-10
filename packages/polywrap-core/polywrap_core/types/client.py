@@ -56,7 +56,7 @@ class Client(Invoker, UriResolverHandler):
     @abstractmethod
     def get_env_by_uri(
         self, uri: Uri, options: Optional[GetEnvsOptions] = None
-    ) -> Union[Env, Dict[str, Any], None]:
+    ) -> Union[Dict[str, Any], None]:
         pass
 
     @abstractmethod
