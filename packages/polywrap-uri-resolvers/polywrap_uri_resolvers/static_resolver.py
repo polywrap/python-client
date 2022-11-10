@@ -1,5 +1,5 @@
 from typing import List, cast
-from polywrap_core import IUriResolutionStep, Wrapper, IWrapPackage, UriResolutionResult, IUriResolver, UriPackageOrWrapper, Uri, Client, IUriResolutionContext, UriPackage, UriWrapper
+from polywrap_core import IUriResolutionStep, UriResolutionResult, IUriResolver, UriPackageOrWrapper, Uri, Client, IUriResolutionContext, UriPackage, UriWrapper
 from polywrap_result import Result, Err, Ok
 
 from .helpers import UriResolverLike
@@ -27,7 +27,7 @@ class StaticResolver(IUriResolver):
                 uri_wrapper = UriWrapper(uri=static_resolver_like.uri, wrapper=static_resolver_like.wrapper) # type: ignore
                 uri_map[uri_wrapper.uri.uri] = uri_wrapper
             elif isinstance(static_resolver_like, Uri):
-                uri_map[static_resolver_like.uri] = static_resolver_like
+                uri_map[static_resolver_like.uri] = static_resolver_like  # type: ignore
             else:
                 return Err(Exception("Unknown static-resolver-like type provided."))
 
@@ -46,7 +46,7 @@ class StaticResolver(IUriResolver):
             elif isinstance(uri_package_or_wrapper, UriWrapper):
                 result = UriResolutionResult.ok(uri, None, uri_package_or_wrapper.wrapper)
                 description = f"Static - Wrapper ({uri.uri})"
-            elif isinstance(uri_package_or_wrapper, Uri):
+            elif isinstance(uri_package_or_wrapper, Uri): #type: ignore
                 result = UriResolutionResult.ok(uri)
                 description = f"Static - Wrapper ({uri.uri})"
 

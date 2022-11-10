@@ -10,7 +10,7 @@ class RecursiveResolve(IUriResolver):
     resolver: IUriResolver
 
     def __init__(self, resolver: UriResolverLike):
-        resolver = build_resolver(resolver, None)
+        resolver = build_resolver(resolver, None) # type: ignore
 
     async def try_resolve_uri(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result[UriPackageOrWrapper]:
         if resolution_context.is_resolving(uri):
