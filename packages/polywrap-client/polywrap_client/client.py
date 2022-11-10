@@ -55,7 +55,7 @@ class PolywrapClient(Client):
         return self._config.resolver
 
     def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Union[Dict[Uri, Dict[str, Any]], None]:
-        envs: Dict[Uri, Any] = self._config.envs
+        envs: Dict[Uri, Dict[str, Any]] = self._config.envs
         return envs
 
     def get_interfaces(self) -> List[InterfaceImplementations]:
@@ -72,30 +72,9 @@ class PolywrapClient(Client):
     def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
     ) -> Union[Dict[str, Any], None]:
         print(f"--> Continue by calling get_env_by_uri: {uri=}") 
-        # print("uri=", uri)
         print(type(uri))
-        # print("---------")
-        # print("uri.uri=", uri.uri)
-        # print("type(uri)", type(uri.uri))
-        print("---------")
-        # print(f"{self.get_envs()=}")
-        # print(f"{type(self.get_envs())=}")
-        # print(f"{dir(self.get_envs())}")
-        # #print(f"{self.get_envs()}")
-        # #print(f"{self.get_envs()=}")
-        # print("---------")
-        # print("options=", options)
-        # print(type(options))
-        # print("---------")        
-        #fn = lambda env: env.uri == uri.uri
-        #print(fn(uri))
         envs = self.get_envs()
-
-        # print("---------")
         print(f"{envs=}")
-        # if isinstance(envs, dict):
-        #     print(type(envs.get(uri)))
-        #     return envs.get(uri)
         print("---------") 
         return envs
 
