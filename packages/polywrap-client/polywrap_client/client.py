@@ -73,8 +73,10 @@ class PolywrapClient(Client):
     ) -> Union[Dict[str, Any], None]:
         print(type(uri))
         envs = self.get_envs()
-        if hasattr(envs, 'get'):
-            return envs.get(uri)
+        if envs is not None:
+            if hasattr(envs, 'get'):
+                result = envs.get(uri)
+                return result
         else:
              return None
 
