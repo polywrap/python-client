@@ -91,15 +91,17 @@ def sanitize(value: Any) -> Any:
         }
     if hasattr(value, "__dict__"):
         answer: Dict[str, Any] = {}
-        for k, v in vars(value).items():
-            if hasattr(k, 'uri'):
-                answer.update({k.uri:sanitize(v)})
-            if isinstance(k, str):
-                answer.update({k:sanitize(v)})
-            # elif k.uri:
-            #     answer.update({k.uri:sanitize(v)})
-            
-        return answer
+        # TODO:  Maybe this implementation is not correct
+        # for k, v in vars(value).items():
+        #     if hasattr(k, 'uri'):
+        #         print(f">>>>> {k=}")
+        #         new_key:str = k.uri
+        #         answer.update({new_key:sanitize(v)})
+        #     if isinstance(k, str):
+        #         answer.update({k:sanitize(v)})
+        #     # elif k.uri:
+        #     #     answer.update({k.uri:sanitize(v)})
+        # return answer
         return {k: sanitize(v) for k, v in vars(value).items()}
     return value
 
