@@ -74,15 +74,14 @@ def sanitize(value: Any) -> Any:
     if isinstance(value, complex):
         return str(value)
     if hasattr(value, "__slots__"):
-        answer: Dict[str,Any] = {}
-        for s in getattr(value, "__slots__"):
-            if hasattr(value, s):
-                answer.update({s: sanitize(getattr(value, s))})
-            if hasattr(value.uri, 'authority'):
-                answer.update({s: sanitize(getattr(value.uri, 'uri'))})
-
-            
-        return answer
+        # TODO:  Maybe this new implementation is not correct
+        # answer: Dict[str,Any] = {}
+        # for s in getattr(value, "__slots__"):
+        #     if hasattr(value, s):
+        #         answer.update({s: sanitize(getattr(value, s))})
+        #     if hasattr(value.uri, 'authority'):
+        #         answer.update({s: sanitize(getattr(value.uri, 'uri'))})
+        # return answer
         #previous implementation
         return {
             s: sanitize(getattr(value, s))
@@ -90,8 +89,8 @@ def sanitize(value: Any) -> Any:
             if hasattr(value, s)
         }
     if hasattr(value, "__dict__"):
-        answer: Dict[str, Any] = {}
-        # TODO:  Maybe this implementation is not correct
+        # TODO:  Maybe this new implementation is not correct
+        # answer: Dict[str, Any] = {}
         # for k, v in vars(value).items():
         #     if hasattr(k, 'uri'):
         #         print(f">>>>> {k=}")
@@ -102,6 +101,7 @@ def sanitize(value: Any) -> Any:
         #     # elif k.uri:
         #     #     answer.update({k.uri:sanitize(v)})
         # return answer
+        # previous implementation
         return {k: sanitize(v) for k, v in vars(value).items()}
     return value
 
