@@ -1,9 +1,9 @@
 from pathlib import Path
 import pytest
 from polywrap_client import PolywrapClient
-from polywrap_core import Uri, InvokerOptions, InterfaceImplementations, Env
+from polywrap_core import Uri, InvokerOptions
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader
-from polywrap_result import Err, Ok, Result
+from polywrap_result import Ok
 from polywrap_client.client import PolywrapClientConfig
 
 
@@ -57,15 +57,7 @@ async def test_interface_implementation():
         config=PolywrapClientConfig(
             envs={},
             resolver=uri_resolver,
-            # Dict[Uri, List[Uri]]
-
             interfaces= {interface_uri : [impl_uri]}
-            # previous implementations
-            # interfaces=[
-            #     InterfaceImplementations(
-            #         interface=Uri("ens/interface.eth"), implementations=[impl_uri]
-            #     )
-            # ],
         )
     )
     uri = Uri(
