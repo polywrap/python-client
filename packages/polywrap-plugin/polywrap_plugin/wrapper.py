@@ -11,11 +11,10 @@ from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_decode
 from polywrap_result import Err, Ok, Result
 
-from polywrap_plugin import PluginModule, TConfig, TResult
+from .module import PluginModule, TConfig, TResult
 
 class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
     module: PluginModule[TConfig, TResult]
-    manifest: AnyWrapManifest
 
     def __init__(self, module: PluginModule[TConfig, TResult], manifest: AnyWrapManifest) -> None:
         self.module = module
