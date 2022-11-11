@@ -35,9 +35,6 @@ class PluginWrapper(Wrapper):
         if result.ok:
             return Ok(InvocableResult(result=result,encoded=False))
 
-        
-
-
     async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
         return Err(Exception("client.get_file(..) is not implemented for plugins"))
 

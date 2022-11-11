@@ -1,8 +1,7 @@
-from polywrap_core import IWrapPackage
 from polywrap_manifest import AnyWrapManifest
 from polywrap_plugin import PluginModule
 
-class PluginPackage(IWrapPackage):
+class PluginPackage:
     module: PluginModule
     manifest: AnyWrapManifest
 

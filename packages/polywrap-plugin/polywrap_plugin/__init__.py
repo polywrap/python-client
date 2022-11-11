@@ -1,3 +1,3 @@
-from module import *
-from package import *
-from wrapper import *
+from .module import *
+from .package import *
+from .wrapper import *
