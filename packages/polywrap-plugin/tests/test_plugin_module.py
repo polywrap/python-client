@@ -7,7 +7,7 @@ from polywrap_result import Ok
 from polywrap_plugin import PluginModule
 
 @pytest.mark.asyncio
-async def test_plugin_module(get_greeting_module: PluginModule[Any, Any]):
+async def test_plugin_module(get_greeting_module: PluginModule[None, str]):
     module = get_greeting_module
 
     client = PolywrapClient()

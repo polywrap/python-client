@@ -6,12 +6,12 @@ from polywrap_core import Invoker
 
 @fixture
 def get_greeting_module():
-    class GreetingModule(PluginModule[Any, str]):
-        def __init__(self, config: Any):
+    class GreetingModule(PluginModule[None, str]):
+        def __init__(self, config: None):
             super().__init__(config)
 
         def greeting(self, args: Dict[str, Any], client: Invoker):
             return f"Greetings from: {args['name']}"
 
-    instance = GreetingModule({})
+    instance = GreetingModule(None)
     return instance
