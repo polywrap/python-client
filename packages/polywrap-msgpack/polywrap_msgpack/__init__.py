@@ -52,10 +52,12 @@ def sanitize(value: Any) -> Any:
     """
     if isinstance(value, dict):
         dictionary: Dict[Any, Any] = value
-        for key, val in dictionary.items():
+        for key, val in list(dictionary.items()):
             if isinstance(key, str):
                 dictionary[key] = sanitize(val)
-            else:
+            elif key.uri:
+                dictionary[key] = sanitize(val)
+            else:                
                 raise ValueError(
                     f"expected dict key to be str received {key} with type {type(key)}"
                 )

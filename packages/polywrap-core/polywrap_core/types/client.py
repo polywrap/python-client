@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Dict, Any
 
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_result import Result
@@ -17,8 +17,9 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    envs: Dict[Uri, Env: Dict[str, Any]] = field(default_factory=list)
-    interfaces: Dict[Uri, List[Uri]]
+    # TODO  is this a naive solution? the `Any` type should be more specific (str | Uri | int, etc.)
+    envs: Dict[Uri, Dict[str, Any]] = field(default_factory=dict) 
+    interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: IUriResolver
 
 
@@ -45,17 +46,17 @@ class GetManifestOptions(DeserializeManifestOptions):
 
 class Client(Invoker, UriResolverHandler):
     @abstractmethod
-    def get_interfaces(self) -> List[InterfaceImplementations]:
+    def get_interfaces(self) -> Dict[Uri, List[Uri]]:
         pass
 
     @abstractmethod
-    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> List[Env]:
+    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Union[Dict[Uri, Dict[str, Any]], None]:
         pass
 
     @abstractmethod
     def get_env_by_uri(
         self, uri: Uri, options: Optional[GetEnvsOptions] = None
-    ) -> Union[Env, None]:
+    ) -> Union[Dict[str, Any], None]:
         pass
 
     @abstractmethod
