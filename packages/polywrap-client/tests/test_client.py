@@ -3,7 +3,7 @@ import pytest
 from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions, InterfaceImplementations, Env
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader
-
+from polywrap_result import Err, Ok, Result
 from polywrap_client.client import PolywrapClientConfig
 
 
@@ -48,19 +48,24 @@ async def test_interface_implementation():
         redirects={},
     )
 
+    interface_uri = Uri("ens/interface.eth")
     impl_uri = Uri(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-interface", "implementation").absolute()}'
     )
 
     client = PolywrapClient(
         config=PolywrapClientConfig(
-            envs=[],
+            envs={},
             resolver=uri_resolver,
-            interfaces=[
-                InterfaceImplementations(
-                    interface=Uri("ens/interface.eth"), implementations=[impl_uri]
-                )
-            ],
+            # Dict[Uri, List[Uri]]
+
+            interfaces= {interface_uri : [impl_uri]}
+            # previous implementations
+            # interfaces=[
+            #     InterfaceImplementations(
+            #         interface=Uri("ens/interface.eth"), implementations=[impl_uri]
+            #     )
+            # ],
         )
     )
     uri = Uri(
@@ -71,7 +76,7 @@ async def test_interface_implementation():
         uri=uri, method="moduleMethod", args=args, encode_result=False, env={}
     )
     result = await client.invoke(options)
-
+    assert client.get_implementations(interface_uri) == Ok([impl_uri])
     assert result.unwrap() == {"str": "hello", "uint8": 2}
 
 

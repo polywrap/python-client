@@ -19,7 +19,7 @@ from .uri_resolver_handler import UriResolverHandler
 class ClientConfig:
     # TODO  is this a naive solution? the `Any` type should be more specific (str | Uri | int, etc.)
     envs: Dict[Uri, Dict[str, Any]] = field(default_factory=dict) 
-    interfaces: List[InterfaceImplementations] = field(default_factory=list)
+    interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: IUriResolver
 
 
@@ -46,7 +46,7 @@ class GetManifestOptions(DeserializeManifestOptions):
 
 class Client(Invoker, UriResolverHandler):
     @abstractmethod
-    def get_interfaces(self) -> List[InterfaceImplementations]:
+    def get_interfaces(self) -> Dict[Uri, List[Uri]]:
         pass
 
     @abstractmethod
