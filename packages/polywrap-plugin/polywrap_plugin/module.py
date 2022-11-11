@@ -1,13 +1,13 @@
 from abc import ABC
 from typing import Any, Dict, TypeVar, Generic, List
-import inspect
 
 from polywrap_core import Invoker
-from polywrap_result import Err, Ok
+from polywrap_result import Err, Ok, Result
 
 TConfig = TypeVar('TConfig')
+TResult = TypeVar('TResult')
 
-class PluginModule(Generic[TConfig], ABC):
+class PluginModule(Generic[TConfig, TResult], ABC):
     env: Dict[str, Any]
     config: TConfig
 
@@ -17,21 +17,15 @@ class PluginModule(Generic[TConfig], ABC):
     def set_env(self, env: Dict[str, Any]) -> None:
         self.env = env
 
-    async def _wrap_invoke(self, method: str, args: Dict[str, Any], client: Invoker):
-        callable_method = self.get_method(method)      
-        if not method:
-            return Err(Exception(f"Plugin missing method {method}"))
-
-        result = callable_method(args, client)
-        print(result)
-        return result
-
-    def get_method(self, method: str):
+    async def _wrap_invoke(self, method: str, args: Dict[str, Any], client: Invoker) -> Result[TResult]:
         methods: List[str] = [name for name in dir(self) if name == method]
-        callable_method = getattr(self, methods[0])
 
-        # TODO: Change this to return Err instead of throwin
+        if len(methods) == 0:
+            return Err(Exception(f"{method} is not defined in plugin"))
+
+        callable_method = getattr(self, method)
+
         if not callable(callable_method):
-            raise Exception(f"Method {method} is an attribute, not a method")
-        
-        return callable_method
+            return Err(Exception(f"{method} is an attribute, not a method"))
+
+        return Ok(callable_method(args, client))
