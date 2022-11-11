@@ -4,7 +4,7 @@ from typing import Any, Dict, List
 from polywrap_core.types.wrapper import Wrapper, WrapperCache
 from polywrap_core import Uri, ClientConfig
 from polywrap_uri_resolvers import BaseUriResolver
-from .base_client_config import BaseClientConfigBuilder
+from .base_client_config_builder import BaseClientConfigBuilder
 
 # from bundles import get_default_config
 #from base_client_config_builder import base_client_config_builder

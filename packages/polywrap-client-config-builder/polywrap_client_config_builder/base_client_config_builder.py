@@ -1,10 +1,9 @@
-from polywrap_core.types.client import ClientConfig
+from polywrap_core.types.core_client import ClientConfig
 from .interface_client_config_builder import IClientConfigBuilder
 from polywrap_core.types.uri import Uri
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
 
-from .client_config_builder import ClientConfigBuilder
 
 
 
@@ -24,7 +23,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     def authority(self) -> str:
         return self.config.authority
 
-    def add(self, config: ClientConfig) -> ClientConfigBuilder:
+    def add(self, config: ClientConfig):# -> BaseClientConfigBuilder:
         """
         Appends each property of the supplied config object to the corresponding array of the builder's config.
         """
