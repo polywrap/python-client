@@ -6,9 +6,15 @@ from polywrap_result import Result
 
 from .client import GetManifestOptions
 from .wrapper import Wrapper
-from .wrap_package import IWrapPackage
 
-class IWasmPackage(IWrapPackage, ABC):
+
+class IWrapPackage(ABC):
     @abstractmethod
-    async def get_wasm_module() -> Result[bytearray]:
+    async def create_wrapper(self) -> Result[Wrapper]:
+        pass
+
+    @abstractmethod
+    async def get_manifest(
+        self, options: Optional[GetManifestOptions] = None
+    ) -> Result[AnyWrapManifest]:
         pass
