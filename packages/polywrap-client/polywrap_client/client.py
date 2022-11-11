@@ -58,16 +58,27 @@ class PolywrapClient(Client):
         envs: Dict[Uri, Dict[str, Any]] = self._config.envs
         return envs
 
-    def get_interfaces(self) -> List[InterfaceImplementations]:
-        return self._config.interfaces
+    def get_interfaces(self) -> Dict[Uri, List[Uri]]:
+        interfaces: Dict[Uri, List[Uri]] = self._config.interfaces
+        return interfaces
 
     def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
-        if interface_implementations := next(
-            filter(lambda x: x.interface == uri, self._config.interfaces), None
-        ):
-            return Ok(interface_implementations.implementations)
+        interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
+        if interfaces.get(uri):
+            print(f"{type(interfaces)=}")
+            print(f"{interfaces=}")
+            print(f"{interfaces.get(uri)=}")
+            
+            return Ok(interfaces.get(uri))
         else:
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
+        # previous implementation
+        # if interface_implementations := next(
+        #     filter(lambda x: x.interface == uri, self._config.interfaces), None
+        # ):
+        #     return Ok(interface_implementations.implementations)
+        # else:
+        #     return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
     def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
     ) -> Union[Dict[str, Any], None]:
