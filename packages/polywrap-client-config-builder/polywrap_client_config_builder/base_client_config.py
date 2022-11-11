@@ -11,12 +11,11 @@ from .client_config_builder import ClientConfigBuilder
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
     config: ClientConfig
+
     def __init__(self):
-        self.config:= {
-            'envs': [],
-            'resolvers': [],
-            'interfaces': []
-            }
+        self.config.envs ={} 
+        self.config.interfaces = {}
+        self.config.resolvers = None
 
     def __str__(self) -> str:
         return self.config.__str__()

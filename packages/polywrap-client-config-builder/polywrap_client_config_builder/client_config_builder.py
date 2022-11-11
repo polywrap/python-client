@@ -1,7 +1,6 @@
-from multiprocessing.connection import Client
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
-from polywrap_core.types.uri_resolver import IUriResolver
+#from polywrap_core.types.uri_resolver import IUriResolver
 from polywrap_core.types.wrapper import Wrapper, WrapperCache
 from polywrap_core import Uri, ClientConfig
 from polywrap_uri_resolvers import BaseUriResolver

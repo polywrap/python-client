@@ -8,7 +8,6 @@ from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_result import Result
 
 from .env import Env
-from .interface_implementation import InterfaceImplementations
 from .invoke import Invoker
 from .uri import Uri
 from .uri_resolver import IUriResolver

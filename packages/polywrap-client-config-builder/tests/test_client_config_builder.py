@@ -29,7 +29,7 @@ def test_client_config_builder_add_env():
     client = ClientConfigBuilder() # instantiate new client
     for env in test_envs1: # add all the envs to client
         client = client.add_env(env.uri, env.env) 
-    assert client.config['envs'] == test_envs1
+    assert client.get_envs() == test_envs1
 
     client = client.add_env(env_var0.uri, env_var0.env)
     print(client)
