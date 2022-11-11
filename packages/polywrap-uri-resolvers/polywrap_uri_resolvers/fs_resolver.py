@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import cast
 
 from polywrap_core import (
-    Client,
+    CoreClient,
     IFileReader,
     IUriResolutionContext,
     IUriResolver,
@@ -27,7 +27,7 @@ class FsUriResolver(IUriResolver):
         self.file_reader = file_reader
 
     async def try_resolve_uri(
-        self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
+        self, uri: Uri, client: CoreClient, resolution_context: IUriResolutionContext
     ) -> Result[UriPackageOrWrapper]:
         if uri.authority not in ["fs", "file"]:
             return Ok(uri)

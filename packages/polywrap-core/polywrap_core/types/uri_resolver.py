@@ -10,7 +10,7 @@ from .uri import Uri
 from .uri_resolution_context import IUriResolutionContext
 
 if TYPE_CHECKING:
-    from .core_client import Client
+    from .core_client import CoreClient
     from .uri_package_wrapper import UriPackageOrWrapper
 
 
@@ -31,6 +31,6 @@ class TryResolveUriOptions:
 class IUriResolver(ABC):
     @abstractmethod
     async def try_resolve_uri(
-        self, uri: Uri, client: "Client", resolution_context: IUriResolutionContext
+        self, uri: Uri, client: "CoreClient", resolution_context: IUriResolutionContext
     ) -> Result["UriPackageOrWrapper"]:
         pass

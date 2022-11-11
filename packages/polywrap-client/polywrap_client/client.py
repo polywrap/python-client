@@ -5,7 +5,7 @@ from textwrap import dedent
 from typing import Any, Dict, List, Optional, Union, cast
 
 from polywrap_core import (
-    Client,
+    CoreClient,
     ClientConfig,
     Env,
     GetEnvsOptions,
@@ -34,7 +34,7 @@ class PolywrapClientConfig(ClientConfig):
     pass
 
 
-class PolywrapClient(Client):
+class PolywrapClient(CoreClient):
     _config: PolywrapClientConfig
 
     def __init__(self, config: Optional[PolywrapClientConfig] = None):

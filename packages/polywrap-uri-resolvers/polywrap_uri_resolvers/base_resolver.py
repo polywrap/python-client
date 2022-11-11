@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from polywrap_core import (
-    Client,
+    CoreClient,
     IFileReader,
     IUriResolutionContext,
     IUriResolver,
@@ -23,7 +23,7 @@ class BaseUriResolver(IUriResolver):
         self._redirect_resolver = RedirectUriResolver(redirects)
 
     async def try_resolve_uri(
-        self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
+        self, uri: Uri, client: CoreClient, resolution_context: IUriResolutionContext
     ) -> Result[UriPackageOrWrapper]:
         redirected_uri_result = await self._redirect_resolver.try_resolve_uri(
             uri, client, resolution_context

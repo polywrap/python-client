@@ -44,7 +44,7 @@ class GetManifestOptions(DeserializeManifestOptions):
     pass
 
 
-class Client(Invoker, UriResolverHandler):
+class CoreClient(Invoker, UriResolverHandler):
     @abstractmethod
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
         pass
