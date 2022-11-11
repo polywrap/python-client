@@ -4,7 +4,7 @@ from typing import Optional
 from polywrap_manifest import AnyWrapManifest
 from polywrap_result import Result
 
-from .client import GetManifestOptions
+from .core_client import GetManifestOptions
 from .wrapper import Wrapper
 
 

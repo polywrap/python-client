@@ -4,7 +4,7 @@ from typing import Dict, Union
 from polywrap_manifest import AnyWrapManifest
 from polywrap_result import Result
 
-from .client import GetFileOptions
+from .core_client import GetFileOptions
 from .invoke import Invocable, InvocableResult, InvokeOptions, Invoker
 
 

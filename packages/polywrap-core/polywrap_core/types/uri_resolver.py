@@ -10,7 +10,7 @@ from .uri import Uri
 from .uri_resolution_context import IUriResolutionContext
 
 if TYPE_CHECKING:
-    from .client import Client
+    from .core_client import Client
     from .uri_package_wrapper import UriPackageOrWrapper
 
 
