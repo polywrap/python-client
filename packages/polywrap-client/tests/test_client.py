@@ -4,7 +4,7 @@ from polywrap_client import PolywrapClient
 from polywrap_core import Uri, InvokerOptions
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader
 from polywrap_result import Ok
-from polywrap_client.client import PolywrapClientConfig
+from polywrap_client.polywrap_client import PolywrapClientConfig
 
 
 async def test_invoke():

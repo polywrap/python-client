@@ -1,27 +1,28 @@
-from polywrap_core.types.core_client import ClientConfig
+from .client_config import ClientConfig
 from .interface_client_config_builder import IClientConfigBuilder
 from polywrap_core.types.uri import Uri
 from polywrap_core.types.env import Env
 from typing import Any, Dict, List
+from dataclasses import dataclass
 
 
 
-
+# @dataclass
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
     config: ClientConfig
 
-    def __init__(self):
-        self.config.envs ={} 
-        self.config.interfaces = {}
-        self.config.resolvers = None
+    # def __init__(self):
+    #     self.config.envs = {} 
+    #     self.config.interfaces = {}
+    #     self.config.resolver = None
 
     def __str__(self) -> str:
         return self.config.__str__()
 
-    @property
-    def authority(self) -> str:
-        return self.config.authority
+    # @property
+    # def authority(self) -> str:
+    #     return self.config.authority
 
     def add(self, config: ClientConfig):# -> BaseClientConfigBuilder:
         """
@@ -60,7 +61,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
          - If the env is not defined, the values are added to the end of the Env array
         """
         env_uri: Uri = self.sanitize_uri(uri)
-        self.config['envs'].append(Env(uri=env_uri, env=env))
+        self.config.envs.append(Env(uri=env_uri, env=env))
         return self
         
 

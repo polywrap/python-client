@@ -2,10 +2,10 @@
 # https://github.com/polywrap/toolchain/blob/origin-0.10-dev/packages/js/client-config-builder/src/ClientConfig.ts
 
 
-from polywrap_core import Uri, Env
+from polywrap_core import Uri
 # from polywrap_uri_resolvers import uriresolverlike -> Do this after finishing Envs
 from dataclasses import dataclass
-from typing import TypeVar, Generic, List, Dict, Any
+from typing import List, Dict, Any
 from polywrap_core.types.uri_resolver import IUriResolver
 
 

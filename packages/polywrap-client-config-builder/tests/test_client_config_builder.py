@@ -26,9 +26,10 @@ test_envs3: List[Env] = [
 ]
 
 def test_client_config_builder_add_env():
-    client = ClientConfigBuilder() # instantiate new client
+    client_config = ClientConfigBuilder() # instantiate new client config builder
     for env in test_envs1: # add all the envs to client
-        client = client.add_env(env.uri, env.env) 
+        client_config = client_config.add_env(env.uri, env.env) 
+    client = client_config.build()
     assert client.get_envs() == test_envs1
 
     client = client.add_env(env_var0.uri, env_var0.env)
@@ -36,16 +37,15 @@ def test_client_config_builder_add_env():
     pass #assert client.config['envs'] == 
 
 def test_client_add_envs():
-    client = ClientConfigBuilder() # instantiate new client
+    client_config = ClientConfigBuilder() # instantiate new client config builder
     for env in test_envs3: 
-        client = client.add_env(env.uri, env.env)
-    # assert client.config['envs'] == [
-    #         Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "green", 'size': "medium" })
-    #         env_var2 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "poodle", 'cat': "siamese" })
-    #         env_var3 = Env(uri = Uri("wrap://ens/test.plugin.one"), env = { 'color': "red", 'size': "small" })
-    #         env_var4 = Env(uri = Uri("wrap://ens/test.plugin.two"), env = { 'dog': "terrier", 'cat': "persian" })
-    #         env_var5
-    #     ]
+        client_config = client_config.add_env(env.uri, env.env)
+    client = client_config.build()
+    assert client == {Uri("wrap://ens/test.plugin.one"):  { 'color': "green", 'size': "medium" },
+                Uri("wrap://ens/test.plugin.two"): { 'dog': "poodle", 'cat': "siamese" },
+                Uri("wrap://ens/test.plugin.one") : { 'color': "red", 'size': "small" },
+                Uri("wrap://ens/test.plugin.two"): { 'dog': "terrier", 'cat': "persian" }
+            }
 
 def test_client_config_builder_set_env():
     client = ClientConfigBuilder() # instantiate new client

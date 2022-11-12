@@ -5,10 +5,10 @@ from polywrap_uri_resolvers import BaseUriResolver
 from abc import ABC, abstractmethod
 from functools import partial
 from typing import Any, Dict, List
+from .client_config import ClientConfig
 
 class IClientConfigBuilder(ABC):
     """Defines the basic interface for the Client Config Builder"""
-    
 
     # def add(self, config) -> ClientConfig:
     #     """Appends each property of the supplied config object to the corresponding array of the builder's config."""
@@ -16,7 +16,7 @@ class IClientConfigBuilder(ABC):
     #     pass
 
     @abstractmethod
-    def build():# -> ClientConfig[Uri]:
+    def build() -> ClientConfig:
         """Returns a sanitized config object from the builder's config."""
         pass
 
