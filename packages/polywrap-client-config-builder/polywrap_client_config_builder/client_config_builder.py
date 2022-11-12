@@ -25,7 +25,6 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
     """
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
-    # config: ClientConfig
    
     def add_defaults(self, wrapper_cache: WrapperCache | Any ={'blank': Wrapper}):
         """

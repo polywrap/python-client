@@ -10,12 +10,12 @@ from dataclasses import dataclass
 # @dataclass
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
-    config: ClientConfig
+    # config: ClientConfig
 
-    # def __init__(self):
-    #     self.config.envs = {} 
-    #     self.config.interfaces = {}
-    #     self.config.resolver = None
+    def __init__(self):
+        self.config.envs = {} 
+        self.config.interfaces = {}
+        self.config.resolver = None
 
     def __str__(self) -> str:
         return self.config.__str__()
