@@ -1,1 +1,1 @@
-from .uri_resolvers import *
+from .polywrap_uri_resolvers import *

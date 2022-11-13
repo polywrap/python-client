@@ -9,7 +9,6 @@ from polywrap_core import (
     ClientConfig,
     GetFileOptions,
     GetManifestOptions,
-    GetUriResolversOptions,
     InvokerOptions,
     IUriResolutionContext,
     IUriResolver,
@@ -44,9 +43,7 @@ class PolywrapClient(Client):
     def get_config(self):
         return self._config
 
-    def get_uri_resolver(
-        self, options: Optional[GetUriResolversOptions] = None
-    ) -> IUriResolver:
+    def get_uri_resolver(self) -> IUriResolver:
         return self._config.resolver
 
     def get_envs(self) -> Dict[Uri, Env]:
@@ -98,9 +95,9 @@ class PolywrapClient(Client):
         result = await self.try_resolve_uri(
             TryResolveUriOptions(uri=uri, resolution_context=resolution_context)
         )
-        if result.is_err() == True:
+        if result.is_err():
             return cast(Err, result)
-        if result.is_ok() == True and result.ok is None:
+        if result.is_ok() and result.ok is None:
             # FIXME: add resolution stack
             return Err.from_str(
                 dedent(

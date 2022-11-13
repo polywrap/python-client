@@ -59,7 +59,7 @@ def sanitize(value: Any) -> Any:
         array: List[Any] = value
         return [sanitize(a) for a in array]
     if isinstance(value, tuple):
-        array: List[Any] = list(value)  # type: ignore
+        array: List[Any] = list(value)  # type: ignore partially unknown
         return sanitize(array)
     if isinstance(value, set):
         set_val: Set[Any] = value
