@@ -1,0 +1,60 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "polywrap-plugin"
+version = "0.1.0"
+description = "Plugin package"
+authors = ["Cesar <cesar@polywrap.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+polywrap_core = { path = "../polywrap-core" }
+polywrap_manifest = { path = "../polywrap-manifest" }
+polywrap_result = { path = "../polywrap-result" }
+polywrap_msgpack = { path = "../polywrap-msgpack" }
+polywrap_client = { path = "../polywrap-client" }
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-asyncio = "^0.19.0"
+pylint = "^2.15.4"
+black = "^22.10.0"
+bandit = { version = "^1.7.4", extras = ["toml"]}
+tox = "^3.26.0"
+tox-poetry = "^0.4.1"
+isort = "^5.10.1"
+pyright = "^1.1.275"
+pydocstyle = "^6.1.1"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.black]
+target-version = ["py310"]
+
+[tool.pyright]
+# default
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = [
+    "tests"
+]
+
+[tool.pylint]
+disable = [
+    "too-many-return-statements",
+]
+ignore = [
+    "tests/"
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pydocstyle]
+# default

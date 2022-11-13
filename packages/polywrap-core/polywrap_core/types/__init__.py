@@ -11,4 +11,5 @@ from .uri_resolver_handler import *
 from .uri_wrapper import *
 from .wrap_package import *
 from .wasm_package import *
+from .wrap_package import *
 from .wrapper import *

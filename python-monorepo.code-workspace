@@ -31,6 +31,10 @@
       {
         "name": "polywrap-result",
         "path": "packages/polywrap-result"
+      },
+      {
+        "name": "polywrap-plugin",
+        "path": "packages/polywrap-plugin"
       }
   ],
   "settings": {
