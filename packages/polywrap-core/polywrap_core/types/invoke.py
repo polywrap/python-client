@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional, Union
 from polywrap_result import Result
 
 from .uri import Uri
+from .env import Env
 from .uri_resolution_context import IUriResolutionContext
 
 
@@ -26,7 +27,7 @@ class InvokeOptions:
     uri: Uri
     method: str
     args: Optional[Union[Dict[str, Any], bytes]] = field(default_factory=dict)
-    env: Optional[Dict[str, Any]] = None
+    env: Optional[Env] = None
     resolution_context: Optional[IUriResolutionContext] = None
 
 
@@ -55,7 +56,7 @@ class Invoker(ABC):
         pass
 
     @abstractmethod
-    def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
+    def get_implementations(self, uri: Uri) -> Result[Union[List[Uri], None]]:
         pass
 
 

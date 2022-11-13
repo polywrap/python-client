@@ -7,7 +7,6 @@ from typing import Any, Dict, List, Optional, Union, cast
 from polywrap_core import (
     Client,
     ClientConfig,
-    GetEnvsOptions,
     GetFileOptions,
     GetManifestOptions,
     GetUriResolversOptions,
@@ -15,6 +14,7 @@ from polywrap_core import (
     IUriResolutionContext,
     IUriResolver,
     TryResolveUriOptions,
+    Env,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
@@ -38,10 +38,7 @@ class PolywrapClient(Client):
     def __init__(self, config: Optional[PolywrapClientConfig] = None):
         # TODO: this is naive solution need to use polywrap-client-config-builder once we have it
         self._config = config or PolywrapClientConfig(
-            resolver=FsUriResolver(file_reader=SimpleFileReader()),
-            envs={},
-            interfaces={},
-
+            resolver=FsUriResolver(file_reader=SimpleFileReader())
         )
 
     def get_config(self):
@@ -52,35 +49,25 @@ class PolywrapClient(Client):
     ) -> IUriResolver:
         return self._config.resolver
 
-    def get_envs(self, options: Optional[GetEnvsOptions] = None) -> Union[Dict[Uri, Dict[str, Any]], None]:
-        envs: Dict[Uri, Dict[str, Any]] = self._config.envs
+    def get_envs(self) -> Dict[Uri, Env]:
+        envs: Dict[Uri, Env] = self._config.envs
         return envs
 
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
         interfaces: Dict[Uri, List[Uri]] = self._config.interfaces
         return interfaces
 
-    def get_implementations(self, uri: Uri) -> Result[Union[List[Uri], None] ]:
+    def get_implementations(self, uri: Uri) -> Result[Union[List[Uri], None]]:
         interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
         if interfaces.get(uri):
-            print(f"{type(interfaces)=}")
-            print(f"{interfaces=}")
-            print(f"{interfaces.get(uri)=}")
-            
             return Ok(interfaces.get(uri))
         else:
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
-
-    def get_env_by_uri(self, uri: Uri, options: Optional[GetEnvsOptions] = None
+    def get_env_by_uri(
+        self, uri: Uri
     ) -> Union[Dict[str, Any], None]:
-        envs = self.get_envs()
-        if envs is not None:
-            if hasattr(envs, 'get'):
-                result = envs.get(uri)
-                return result
-        else:
-             return None
+        return self._config.envs.get(uri)
 
     async def get_file(
         self, uri: Uri, options: GetFileOptions
@@ -151,8 +138,7 @@ class PolywrapClient(Client):
         if wrapper_result.is_err():
             return cast(Err, wrapper_result)
         wrapper = wrapper_result.unwrap()
-        env = self.get_env_by_uri(options.uri)
-        options.env = options.env or (env if env else None)
+        options.env = options.env or self.get_env_by_uri(options.uri)
 
         result = await wrapper.invoke(options, invoker=self)
         if result.is_err():

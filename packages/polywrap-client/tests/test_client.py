@@ -14,7 +14,7 @@ async def test_invoke():
     )
     args = {"arg": "hello polywrap"}
     options = InvokerOptions(
-        uri=uri, method="simpleMethod", args=args, encode_result=False, env={}
+        uri=uri, method="simpleMethod", args=args, encode_result=False
     )
     result = await client.invoke(options)
 
@@ -31,12 +31,12 @@ async def test_subinvoke():
         },
     )
 
-    client = PolywrapClient(config=PolywrapClientConfig(envs=[], resolver=uri_resolver))
+    client = PolywrapClient(config=PolywrapClientConfig(resolver=uri_resolver))
     uri = Uri(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
     args = {"a": 1, "b": 2}
-    options = InvokerOptions(uri=uri, method="add", args=args, env={}, encode_result=False)
+    options = InvokerOptions(uri=uri, method="add", args=args, encode_result=False)
     result = await client.invoke(options)
 
     assert result.unwrap() == "1 + 2 = 3"
@@ -55,7 +55,6 @@ async def test_interface_implementation():
 
     client = PolywrapClient(
         config=PolywrapClientConfig(
-            envs={},
             resolver=uri_resolver,
             interfaces= {interface_uri : [impl_uri]}
         )
@@ -65,7 +64,7 @@ async def test_interface_implementation():
     )
     args = {"arg": {"str": "hello", "uint8": 2}}
     options = InvokerOptions(
-        uri=uri, method="moduleMethod", args=args, encode_result=False, env={}
+        uri=uri, method="moduleMethod", args=args, encode_result=False
     )
     result = await client.invoke(options)
     assert client.get_implementations(interface_uri) == Ok([impl_uri])
@@ -103,7 +102,6 @@ async def test_env():
             resolver=uri_resolver,
         )
     )
-    print(f"--> Begin by configuring the client with the env: {env}")
     options = InvokerOptions(
         uri=uri, method="externalEnvMethod", args={}, encode_result=False, 
     )
