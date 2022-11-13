@@ -66,7 +66,7 @@ class PolywrapClient(Client):
 
     def get_env_by_uri(
         self, uri: Uri
-    ) -> Union[Dict[str, Any], None]:
+    ) -> Union[Env, None]:
         return self._config.envs.get(uri)
 
     async def get_file(
