@@ -24,7 +24,7 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
         return await self.try_resolve_uri_with_resolvers(
             uri,
             client,
-            resolvers_result.value,
+            resolvers_result.unwrap(),
             resolution_context
         )
 
@@ -35,12 +35,15 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
         for resolver in resolvers:
             result = await resolver.try_resolve_uri(uri, client, sub_context)
 
-            if not (result.is_ok() and not hasattr(result.value, 'wrapper') and not hasattr(result.value, 'package') and result.value.uri.uri == uri.uri):
+            if result.is_ok():
+                result.unwrap()
+
+            if not result.is_ok():
                 step = IUriResolutionStep(
                     source_uri=uri,
                     result=result,
-                    sub_history=sub_context.get_history(),  # type: ignore
-                    description=self.get_step_description() # type: ignore
+                    sub_history=sub_context.get_history(),
+                    description=self.get_step_description()
                 )
                 resolution_context.track_step(step)
 

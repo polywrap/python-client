@@ -6,5 +6,5 @@ from .wrap_package import IWrapPackage
 
 class IWasmPackage(IWrapPackage, ABC):
     @abstractmethod
-    async def get_wasm_module() -> Result[bytearray]:
+    async def get_wasm_module() -> Result[bytes]:
         pass
