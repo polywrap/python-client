@@ -7,12 +7,10 @@ from typing import Any, Dict, List, Optional, Union, cast
 from polywrap_core import (
     Client,
     ClientConfig,
-    Env,
     GetEnvsOptions,
     GetFileOptions,
     GetManifestOptions,
     GetUriResolversOptions,
-    InterfaceImplementations,
     InvokerOptions,
     IUriResolutionContext,
     IUriResolver,
