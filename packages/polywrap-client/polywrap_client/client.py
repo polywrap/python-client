@@ -82,7 +82,7 @@ class PolywrapClient(Client):
         self, options: TryResolveUriOptions
     ) -> Result[UriPackageOrWrapper]:
         uri = options.uri
-        uri_resolver = self.get_uri_resolver()
+        uri_resolver = self._config.resolver
         resolution_context = options.resolution_context or UriResolutionContext()
 
         return await uri_resolver.try_resolve_uri(uri, self, resolution_context)
