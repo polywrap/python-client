@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from functools import total_ordering
 from typing import Any, List, Optional, Tuple, Union
 
 
@@ -14,6 +15,7 @@ class UriConfig:
     uri: str
 
 
+@total_ordering
 class Uri:
     """
     A Polywrap URI.

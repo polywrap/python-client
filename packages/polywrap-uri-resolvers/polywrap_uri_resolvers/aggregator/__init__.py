@@ -1,2 +1,2 @@
-from .uri_resolver_aggregator_base import *
+from ..abc.uri_resolver_aggregator import *
 from .uri_resolver_aggregator import *

@@ -4,7 +4,7 @@ from typing import List, cast
 from polywrap_core import UriResolutionResult, IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
 from polywrap_result import Result, Err
 
-class UriResolverAggregatorBase(IUriResolver, ABC):
+class IUriResolverAggregator(IUriResolver, ABC):
     @abstractmethod
     async def get_uri_resolvers(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result[List[IUriResolver]]:
         pass
@@ -42,7 +42,7 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
                 step = IUriResolutionStep(
                     source_uri=uri,
                     result=result,
-                    sub_history=sub_context.get_history(),
+                    sub_history=sub_context.get_history(), 
                     description=self.get_step_description()
                 )
                 resolution_context.track_step(step)
@@ -54,8 +54,8 @@ class UriResolverAggregatorBase(IUriResolver, ABC):
         step = IUriResolutionStep(
             source_uri=uri,
             result=result,
-            sub_history=sub_context.get_history(),  # type: ignore
-            description=self.get_step_description() # type: ignore
+            sub_history=sub_context.get_history(),
+            description=self.get_step_description()
         )
         resolution_context.track_step(step)
 
