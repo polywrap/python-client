@@ -53,18 +53,13 @@ def sanitize(value: Any) -> Any:
     if isinstance(value, dict):
         dictionary: Dict[Any, Any] = value
         for key, val in dictionary.items():
-            if isinstance(key, str):
-                dictionary[key] = sanitize(val)
-            else:
-                raise ValueError(
-                    f"expected dict key to be str received {key} with type {type(key)}"
-                )
+            dictionary[str(key)] = sanitize(val)
         return dictionary
     if isinstance(value, list):
         array: List[Any] = value
         return [sanitize(a) for a in array]
     if isinstance(value, tuple):
-        array: List[Any] = list(value)  # type: ignore
+        array: List[Any] = list(value)  # type: ignore partially unknown
         return sanitize(array)
     if isinstance(value, set):
         set_val: Set[Any] = value

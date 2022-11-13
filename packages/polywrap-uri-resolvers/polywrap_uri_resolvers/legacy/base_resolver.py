@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 from polywrap_core import (
     Client,
@@ -8,9 +8,9 @@ from polywrap_core import (
     Uri,
     UriPackageOrWrapper,
 )
-from polywrap_result import Err, Ok, Result
+from polywrap_result import Result
 
-from .fs_resolver import FsUriResolver
+from ..fs_resolver import FsUriResolver
 from .redirect_resolver import RedirectUriResolver
 
 

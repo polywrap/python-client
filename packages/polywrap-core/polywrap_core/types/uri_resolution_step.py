@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from polywrap_result import Result
 
@@ -16,4 +16,4 @@ class IUriResolutionStep:
     source_uri: Uri
     result: Result["UriPackageOrWrapper"]
     description: Optional[str] = None
-    sub_history: Optional["IUriResolutionStep"] = None
+    sub_history: Optional[List["IUriResolutionStep"]] = None
