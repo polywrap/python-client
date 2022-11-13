@@ -21,7 +21,7 @@ class PluginModule(Generic[TConfig, TResult], ABC):
         methods: List[str] = [name for name in dir(self) if name == method]
 
         if not methods:
-            return Err(Exception(f"{method} is not defined in plugin"))
+            return Err.from_str(f"{method} is not defined in plugin")
 
         callable_method = getattr(self, method)
-        return Ok(callable_method(args, client)) if callable(callable_method) else Err(Exception(f"{method} is an attribute, not a method"))
+        return Ok(callable_method(args, client)) if callable(callable_method) else Err.from_str(f"{method} is an attribute, not a method")

@@ -38,7 +38,7 @@ class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
 
 
     async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
-        return Err(Exception("client.get_file(..) is not implemented for plugins"))
+        return Err.from_str("client.get_file(..) is not implemented for plugins")
 
     def get_manifest(self) -> Result[AnyWrapManifest]:
         return Ok(self.manifest)

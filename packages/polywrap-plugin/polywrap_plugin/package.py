@@ -23,4 +23,4 @@ class PluginPackage(Generic[TConfig, TResult], IWrapPackage):
         return Ok(PluginWrapper(module=self.module, manifest=self.manifest))
 
     async def get_manifest(self, options: Optional[GetManifestOptions] = None) -> Result[AnyWrapManifest]:
-        return await super().get_manifest(options)
+        return Ok(self.manifest)
