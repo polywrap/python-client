@@ -11,5 +11,5 @@ async def test_plugin_module(get_greeting_module: PluginModule[None, str]):
     module = get_greeting_module
 
     client = PolywrapClient()
-    result = await module._wrap_invoke("greeting", { "name": "Joe" }, client) # type: ignore
+    result = await module.__wrap_invoke__("greeting", { "name": "Joe" }, client)
     assert result, Ok("Greetings from: Joe")

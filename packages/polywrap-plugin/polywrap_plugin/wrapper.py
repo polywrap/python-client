@@ -23,15 +23,13 @@ class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
     async def invoke(
         self, options: InvokeOptions, invoker: Invoker
     ) -> Result[InvocableResult]:
-        env = options.env if options.env else {}
+        env = options.env or {}
         self.module.set_env(env)
 
-        decoded_args: Union[Dict[str, Any], bytes] = options.args if options.args else {}
+        args: Union[Dict[str, Any], bytes] = options.args or {}
+        decoded_args: Dict[str, Any] = msgpack_decode(args) if isinstance(args, bytes) else args
 
-        if isinstance(decoded_args, bytes):
-            decoded_args = msgpack_decode(decoded_args)
-
-        result: Result[TResult] = await self.module._wrap_invoke(options.method, decoded_args, invoker) # type: ignore
+        result: Result[TResult] = await self.module.__wrap_invoke__(options.method, decoded_args, invoker)
 
         if result.is_err():
             return cast(Err, result.err)

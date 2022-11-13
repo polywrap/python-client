@@ -1,4 +1,4 @@
-from typing import cast, Callable, Any
+from typing import cast
 
 import pytest
 from polywrap_core import InvokeOptions, Uri

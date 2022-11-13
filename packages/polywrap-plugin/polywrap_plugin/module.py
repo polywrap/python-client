@@ -17,15 +17,11 @@ class PluginModule(Generic[TConfig, TResult], ABC):
     def set_env(self, env: Dict[str, Any]) -> None:
         self.env = env
 
-    async def _wrap_invoke(self, method: str, args: Dict[str, Any], client: Invoker) -> Result[TResult]:
+    async def __wrap_invoke__(self, method: str, args: Dict[str, Any], client: Invoker) -> Result[TResult]:
         methods: List[str] = [name for name in dir(self) if name == method]
 
-        if len(methods) == 0:
+        if not methods:
             return Err(Exception(f"{method} is not defined in plugin"))
 
         callable_method = getattr(self, method)
-
-        if not callable(callable_method):
-            return Err(Exception(f"{method} is an attribute, not a method"))
-
-        return Ok(callable_method(args, client))
+        return Ok(callable_method(args, client)) if callable(callable_method) else Err(Exception(f"{method} is an attribute, not a method"))

@@ -13,5 +13,4 @@ def get_greeting_module():
         def greeting(self, args: Dict[str, Any], client: Invoker):
             return f"Greetings from: {args['name']}"
 
-    instance = GreetingModule(None)
-    return instance
+    return GreetingModule(None)
