@@ -13,11 +13,12 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     
 
     def __init__(self):
-        self.config: ClientConfig
-        self.envs = {}
-        self.interfaces = {}
-        self.resolver = None
-
+        self.config: ClientConfig = {
+            'envs': {},
+            "interfaces" :{},
+            "resolver" : None
+        }
+        
     def __str__(self) -> str:
         return self.config.__str__()
 
@@ -29,6 +30,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         Appends each property of the supplied config object to the corresponding array of the builder's config.
         """
+        pass
         if config.envs:
             for env in config.envs:
                self.add_env(env.uri, env.env)
@@ -54,16 +56,17 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:
         """
         Function that takes in an environment object and an Uri;
-         - It sanitizes the URI
-         - If the env is already defined, and the env variables AREN'T included already:
+        It sanitizes the URI
+        If the env is already defined, and the env variables AREN'T included already:
             - It adds the new env variables to the existing env, without modifying the old ones
-         - If the env is already defined, and the env variables ARE included already:    
+        If the env is already defined, and the env variables ARE included already:    
             - It updates the existing env variables with the new values        
-         - If the env is not defined, the values are added to the end of the Env array
+        If the env is not defined, the values are added to the end of the Env array
         """
-        env_uri: Uri = self.sanitize_uri(uri)
-
-        self.add_envs(Env(uri=env_uri, env=env))
+        new_env_uri: Uri = self.sanitize_uri(uri)
+        print(env)
+        if uri in self.config["envs"].keys():
+            pass
         return self
         
 
@@ -71,9 +74,10 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         This function iterates over every key of the Envs (Dictionary) and adds an env if it hasnt been added already.
         """
+        pass
+
         for env in envs:
-            pass
-            self.config['envs'][env.env] = env.uri
+            self['envs'][env.env] = env.uri
         return self
 
 
@@ -81,16 +85,17 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     def set_env(self, new_env: Env): # todo: rename to set_env
         """
         Takes an Env class as input.(made of an uri and env variables)
-         - If the env is already defined, its values are updated and the old ones are deleted
-         - If the env is not defined, the values are added to the end of the Env array
+         - If the env is already defined, its env variables are updated while the old ones are deleted
+         - If the env is not defined, the values are added to the dictionary
         """
+        pass
         # check the envs array and new env you want to load 
         # print('loaded_envs', self.config['envs'])
         # print('new_env', new_env)
 
         # Check if both Envs have the same URI
         all_uris: List[Uri | str] = []
-        for e in self.config['envs']:
+        for e in self.config["envs"]:
             all_uris.append(e.uri)
 
         try:
@@ -104,7 +109,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
             return self
         else:
             print("env not loaded previously in the loaded_envs array, adding it for the first time")
-            self.config['envs'].append(Env(uri=new_env.uri, env=new_env.env))
+            self.config['envs'] = (Env(uri=new_env.uri, env=new_env.env))
             return self
 
     def remove_env(self, uri: Uri | str ):
@@ -124,6 +129,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         Returns a sanitized config object from the builder's config.
         """
+        pass
 
         # if not self.resolvers:
         #     raise Exception('No Uri Resolver provided')
