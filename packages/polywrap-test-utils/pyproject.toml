@@ -1,0 +1,50 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "polywrap-test-utils"
+version = "0.1.0"
+description = "Test utils package"
+authors = ["Cesar <cesar@polywrap.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.15.4"
+black = "^22.10.0"
+bandit = { version = "^1.7.4", extras = ["toml"]}
+tox = "^3.26.0"
+tox-poetry = "^0.4.1"
+isort = "^5.10.1"
+pyright = "^1.1.275"
+pydocstyle = "^6.1.1"
+
+[tool.poetry.scripts]
+generate = "polywrap_test_utils:generate"
+
+[tool.bandit]
+exclude_dirs = ["cases"]
+
+[tool.black]
+target-version = ["py310"]
+
+[tool.pyright]
+# default
+
+[tool.pylint]
+disable = [
+    "too-many-return-statements",
+]
+ignore = [
+    "cases/"
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pydocstyle]
+# default
