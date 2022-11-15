@@ -41,6 +41,8 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         return self
 
 
+    def get_envs(self):
+        return self.config["envs"]
 
     @staticmethod
     def sanitize_uri(uri: str | Uri) -> Uri:
@@ -56,7 +58,7 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
     def add_env(self, uri: Uri, env: Dict[str, Any]): #: Record[str, Any] ) -> ClientConfigBuilder:
         """
         Function that takes in an environment object and an Uri;
-        It sanitizes the URI
+        # TODO: should it sanitizes the URI
         If the env is already defined, and the env variables AREN'T included already:
             - It adds the new env variables to the existing env, without modifying the old ones
         If the env is already defined, and the env variables ARE included already:    
@@ -66,7 +68,11 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         new_env_uri: Uri = self.sanitize_uri(uri)
         print(env)
         if uri in self.config["envs"].keys():
-            pass
+            self.config["envs"][uri].update(env
+        else:
+            self.config["envs"][uri] = env
+
+        # raise NotImplementedError
         return self
         
 
@@ -129,12 +135,13 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         Returns a sanitized config object from the builder's config.
         """
-        pass
 
         # if not self.resolvers:
         #     raise Exception('No Uri Resolver provided')
         
-        pass
+        return self
+
+
 
     # def build_partial(self):# -> ClientConfigBuilder:
     #     return self._config

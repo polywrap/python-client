@@ -27,7 +27,7 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
     """
    
     def config() -> ClientConfig:
-        raise AttributeError("Not implementet")
+        raise AttributeError("Not implemented")
 
     def add_defaults(self, wrapper_cache: WrapperCache | Any ={'blank': Wrapper}):
         """
