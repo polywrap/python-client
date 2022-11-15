@@ -16,7 +16,7 @@ class IClientConfigBuilder(ABC):
     #     pass
 
     @abstractmethod
-    def build() -> ClientConfig:
+    def build(self) -> ClientConfig:
         """Returns a sanitized config object from the builder's config."""
         pass
 

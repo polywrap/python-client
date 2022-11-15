@@ -10,12 +10,13 @@ from dataclasses import dataclass
 # @dataclass
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
-    # config: ClientConfig
+    
 
     def __init__(self):
-        self.config.envs = {} 
-        self.config.interfaces = {}
-        self.config.resolver = None
+        self.config: ClientConfig
+        self.envs = {}
+        self.interfaces = {}
+        self.resolver = None
 
     def __str__(self) -> str:
         return self.config.__str__()
@@ -61,11 +62,15 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
          - If the env is not defined, the values are added to the end of the Env array
         """
         env_uri: Uri = self.sanitize_uri(uri)
-        self.config.envs.append(Env(uri=env_uri, env=env))
+
+        self.add_envs(Env(uri=env_uri, env=env))
         return self
         
 
     def add_envs(self, envs: list[Env]) -> object:
+        """
+        This function iterates over every key of the Envs (Dictionary) and adds an env if it hasnt been added already.
+        """
         for env in envs:
             pass
             self.config['envs'][env.env] = env.uri

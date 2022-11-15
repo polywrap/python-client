@@ -26,6 +26,9 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
     Used to instantiate the `ClientConfig` object necessary to invoke any wrapper.
     """
    
+    def config() -> ClientConfig:
+        raise AttributeError("Not implementet")
+
     def add_defaults(self, wrapper_cache: WrapperCache | Any ={'blank': Wrapper}):
         """
         Adds the defaultClientConfig object.
