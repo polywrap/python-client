@@ -1,12 +1,13 @@
 import pytest
 from polywrap_core import Uri, Env
 from polywrap_ccb import ClientConfig, ClientConfigBuilder
+from dataclasses import asdict
 
 def test_client_config_structure_starts_empty():
     ccb = ClientConfigBuilder()
     client_config = ccb.build()
     result = ClientConfig(envs={}, interfaces={}, resolver = None)
-    assert client_config == result
+    assert asdict(client_config) == asdict(result)
 
 
 def test_client_config_structure_sets_env():
@@ -18,4 +19,4 @@ def test_client_config_structure_sets_env():
         env = env
         )
     client_config = ccb.build()
-    assert client_config == ClientConfig(envs={uri: env}, interfaces={}, resolver = None)
+    assert asdict(client_config) == asdict(ClientConfig(envs={uri: env}, interfaces={}, resolver = None))

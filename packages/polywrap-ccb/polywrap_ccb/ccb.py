@@ -4,7 +4,7 @@ from polywrap_core import Uri, IUriResolver, Env
 from typing import Dict, Any, List
 
 @dataclass(slots=True, kw_only=True) 
-class ClientConfig:
+class ClientConfig():
     """
     This Abstract class is used to configure the polywrap client before it executes a call
     The ClientConfig class is created and modified with the ClientConfigBuilder module
@@ -13,26 +13,38 @@ class ClientConfig:
     interfaces: Dict[Uri, List[Uri]]
     resolver: IUriResolver
 
+#
+
 class IClientConfigBuilder(ABC):
-    @staticmethod
+
+    @abstractmethod
     def build() -> ClientConfig:
         """Returns a sanitized config object from the builder's config."""
         pass
 
     @abstractmethod
     def set_env() -> ClientConfig:
-        """Returns a sanitized config object from the builder's config."""
         pass
 
     @abstractmethod
-    def set_env() -> ClientConfig:
-        """Returns a sanitized config object from the builder's config."""
+    def add_env() -> ClientConfig:
         pass
+
+    @abstractmethod
+    def add_envs() -> ClientConfig:
+        pass
+
+    # @abstractmethod
+    # def add_interface() -> ClientConfig:
+    #     pass
+
+    # @abstractmethod
+    # def set_resolver() -> ClientConfig:
+    #     pass
 
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
     # config: ClientConfig
-
 
     def __init__(self):
         self.config = ClientConfig(envs={}, interfaces={}, resolver=None)
