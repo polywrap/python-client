@@ -21,12 +21,22 @@ class IClientConfigBuilder(ABC):
 
     @abstractmethod
     def set_env() -> ClientConfig:
-        """Returns a sanitized config object from the builder's config."""
         pass
 
     @abstractmethod
-    def set_env() -> ClientConfig:
-        """Returns a sanitized config object from the builder's config."""
+    def add_env() -> ClientConfig:
+        pass
+
+    @abstractmethod
+    def add_envs() -> ClientConfig:
+        pass
+
+    @abstractmethod
+    def add_interface() -> ClientConfig:
+        pass
+
+    @abstractmethod
+    def set_resolver() -> ClientConfig:
         pass
 
 class BaseClientConfigBuilder(IClientConfigBuilder):
