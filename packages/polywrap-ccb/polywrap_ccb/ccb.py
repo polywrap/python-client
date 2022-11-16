@@ -31,13 +31,13 @@ class IClientConfigBuilder(ABC):
     def add_envs() -> ClientConfig:
         pass
 
-    @abstractmethod
-    def add_interface() -> ClientConfig:
-        pass
+    # @abstractmethod
+    # def add_interface() -> ClientConfig:
+    #     pass
 
-    @abstractmethod
-    def set_resolver() -> ClientConfig:
-        pass
+    # @abstractmethod
+    # def set_resolver() -> ClientConfig:
+    #     pass
 
 class BaseClientConfigBuilder(IClientConfigBuilder):
     """A concrete class of the Client Config Builder, which uses the IClientConfigBuilder Abstract Base Class"""
