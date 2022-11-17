@@ -1,3 +1,4 @@
+from textwrap import dedent
 from typing import Any, List, cast
 from polywrap_core import Invoker, InvokerOptions, Uri
 from polywrap_result import Result, Ok, Err
@@ -25,9 +26,56 @@ async def unsync_invoke(invoker: Invoker, options: InvokerOptions) -> Result[Any
     return await invoker.invoke(options)
 
 
+def create_memory(
+    store: Store,
+    module: bytes,
+) -> Memory:
+    env_memory_import_signature = bytearray(
+        [
+            # env ; import module name
+            0x65,
+            0x6E,
+            0x76,
+            # string length
+            0x06,
+            # memory ; import field name
+            0x6D,
+            0x65,
+            0x6D,
+            0x6F,
+            0x72,
+            0x79,
+            # import kind
+            0x02,
+            # limits ; https://github.com/sunfishcode/wasm-reference-manual/blob/master/WebAssembly.md#resizable-limits
+            # limits ; flags
+            # 0x??,
+            # limits ; initial
+            # 0x__,
+        ]
+    )
+    idx = module.find(env_memory_import_signature)
+
+    if idx < 0:
+        raise RuntimeError(
+            dedent(
+                """
+                Unable to find Wasm memory import section. \
+                Modules must import memory from the "env" module's\
+                "memory" field like so:
+                (import "env" "memory" (memory (;0;) #))
+                """
+            )
+        )
+
+    memory_inital_limits = module[idx + len(env_memory_import_signature) + 1]
+
+    return Memory(store, MemoryType(Limits(memory_inital_limits, None)))
+
+
 def create_instance(
     store: Store,
-    module: Module,
+    module: bytes,
     state: State,
     invoker: Invoker,
 ) -> Instance:
@@ -37,7 +85,7 @@ def create_instance(
     TODO: Re-check this based on issue https://github.com/polywrap/toolchain/issues/561
     This probably means that memory creation should be moved to its own function 
     """
-    mem = Memory(store, MemoryType(Limits(1, None)))
+    mem = create_memory(store, module)
 
     wrap_debug_log_type = FuncType(
         [ValType.i32(), ValType.i32()],
@@ -252,7 +300,9 @@ def create_instance(
             return True
         elif result.is_err():
             error = cast(Err, result).unwrap_err()
-            state.subinvoke_implementation["error"] = "".join(str(x) for x in error.args)
+            state.subinvoke_implementation["error"] = "".join(
+                str(x) for x in error.args
+            )
             return False
         else:
             raise ValueError(
@@ -374,4 +424,6 @@ def create_instance(
 
     # memory
     linker.define("env", "memory", mem)
-    return linker.instantiate(store, module)
+
+    instantiated_module = Module(store.engine, module)
+    return linker.instantiate(store, instantiated_module)

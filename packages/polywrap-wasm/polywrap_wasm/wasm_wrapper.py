@@ -46,8 +46,7 @@ class WasmWrapper(Wrapper):
 
     def create_wasm_instance(self, store: Store, state: State, invoker: Invoker):
         if self.wasm_module:
-            module = Module(store.engine, self.wasm_module)
-            return create_instance(store, module, state, invoker)
+            return create_instance(store, self.wasm_module, state, invoker)
 
     async def invoke(
         self, options: InvokeOptions, invoker: Invoker
