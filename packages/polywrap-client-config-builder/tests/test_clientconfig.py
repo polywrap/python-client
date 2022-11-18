@@ -1,6 +1,6 @@
 import pytest
 from polywrap_core import Uri, Env
-from polywrap_ccb import ClientConfig, ClientConfigBuilder
+from polywrap_client_config_builder import ClientConfig, ClientConfigBuilder
 from dataclasses import asdict
 
 def test_client_config_structure_starts_empty():

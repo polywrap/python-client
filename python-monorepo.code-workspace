@@ -37,8 +37,8 @@
       "path": "packages/polywrap-plugin"
     },
     {
-      "name": "polywrap-client-cbb",
-      "path": "packages/polywrap-ccb"
+      "name": "polywrap-client-config-builder",
+      "path": "packages/polywrap-client-config-builder"
     }
   ],
   "settings": {
