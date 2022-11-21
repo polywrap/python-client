@@ -48,10 +48,10 @@ class IClientConfigBuilder(ABC):
         pass
 
     @abstractmethod
-    def add_wrapper(self) -> ClientConfig:
+    def add_wrapper(self, wrapper_uri: Uri) -> ClientConfig:
         pass
 
-    def add_wrappers(self) -> ClientConfig:
+    def add_wrappers(self, wrapper_uris: Optional[List[Uri]]) -> ClientConfig:
         pass
 
     @abstractmethod
@@ -107,8 +107,10 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         Adds a list of implementations (each in the form of an `Uri`) for a given interface
         """
+        if interface_uri is None:
+            raise ValueError()
         if interface_uri in self.config.interfaces.keys():
-            self.config.interfaces[interface_uri] = self.config.interfaces[interface_uri].append(implementations_uris)
+            self.config.interfaces[interface_uri] = self.config.interfaces[interface_uri] + implementations_uris
         else:
             self.config.interfaces[interface_uri] = implementations_uris
         return self
