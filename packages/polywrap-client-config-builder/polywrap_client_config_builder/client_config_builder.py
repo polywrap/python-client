@@ -51,6 +51,7 @@ class IClientConfigBuilder(ABC):
     def add_wrapper(self, wrapper_uri: Uri) -> ClientConfig:
         pass
 
+    @abstractmethod
     def add_wrappers(self, wrapper_uris: Optional[List[Uri]]) -> ClientConfig:
         pass
 
