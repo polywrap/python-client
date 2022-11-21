@@ -141,10 +141,6 @@ class BaseClientConfigBuilder(IClientConfigBuilder):
         """
         self.config.resolver = uri_resolver
         return self
-    
-        
-
-
 
 class ClientConfigBuilder(BaseClientConfigBuilder):
    ...
