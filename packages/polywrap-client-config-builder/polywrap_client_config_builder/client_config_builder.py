@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from polywrap_core import Uri, IUriResolver, Env
+from polywrap_core import Uri, IUriResolver, Env, UriWrapper,UriPackage
+from polywrap_uri_resolvers import IUriResolver
 from typing import Dict, Any, List, Optional, Union
 
 @dataclass(slots=True, kw_only=True) 
@@ -11,8 +12,9 @@ class ClientConfig():
     """
     envs: Dict[Uri, Dict[str, Any]]
     interfaces: Dict[Uri, List[Uri]]
+    packages: List[UriPackage]
     resolver: List[IUriResolver]
-    wrappers: List[Uri]
+    wrappers: List[UriWrapper]
 
 
 class BaseClientConfigBuilder(ABC):
@@ -22,12 +24,27 @@ class BaseClientConfigBuilder(ABC):
     """
 
     def __init__(self):
-        self.config = ClientConfig(envs={}, interfaces={}, resolver=[], wrappers= [])
+        self.config = ClientConfig(envs={}, interfaces={}, resolver=[], wrappers= [], packages=[])
 
     @abstractmethod
     def build(self) -> ClientConfig:
         """Returns a sanitized config object from the builder's config."""
         pass
+
+    @abstractmethod
+    def add(self, new_config: ClientConfig) -> ClientConfig:
+        """Returns a sanitized config object from the builder's config after receiving a partial `ClientConfig` object."""
+        if new_config.envs:
+            self.config.envs.update(new_config.envs)
+        if new_config.interfaces:
+            self.config.interfaces.update(new_config.interfaces)
+        if new_config.resolver:
+            self.config.resolver.extend(new_config.resolver)
+        if new_config.wrappers:
+            self.config.wrappers.extend(new_config.wrappers)
+        if new_config.packages:
+            self.config.packages.extend(new_config.packages)
+        return self.config
 
     @abstractmethod
     def get_envs(self)-> Dict[Uri, Dict[str, Any]]:
@@ -37,13 +54,11 @@ class BaseClientConfigBuilder(ABC):
     @abstractmethod    
     def set_env(self, env: Env, uri: Uri):
         """Sets the envs dictionary in the builder's config, overiding any existing values."""
-        if (env or uri) is None:
-            raise KeyError("Must provide both an env or uri")
         self.config.envs[uri] = env
         return self
 
     @abstractmethod
-    def add_env(self, env: Env = None , uri: Uri = None):
+    def add_env(self, env: Env, uri: Uri):
         """Adds an environment (in the form of an `Env`) for a given uri, without overwriting existing environments,
         unless the env key already exists in the environment, then it will overwrite the existing value"""
         if (env or uri) is None:
@@ -104,6 +119,39 @@ class BaseClientConfigBuilder(ABC):
         return self
 
     @abstractmethod
+    def set_package(self, uri_package: UriPackage):
+        """
+        Sets the package in the builder's config, overiding any existing values.
+        """
+        self.config.packages = [uri_package]
+        return self
+
+    @abstractmethod
+    def add_package(self, uri_package: UriPackage):
+        """
+        Adds a package to the list of packages
+        """
+        self.config.packages.append(uri_package)
+        return self
+    
+    @abstractmethod
+    def add_packages(self, uri_packages: List[UriPackage]):
+        """
+        Adds a list of packages to the list of packages
+        """
+        for uri_package in uri_packages:
+            self.add_package(uri_package)
+        return self
+
+    @abstractmethod
+    def remove_package(self, uri_package: UriPackage):
+        """
+        Removes a package from the list of packages
+        """
+        self.config.packages.remove(uri_package)
+        return self
+
+    @abstractmethod
     def set_resolver(self, uri_resolver):
         """
         Sets a single resolver for the `ClientConfig` object before it is built
@@ -139,6 +187,13 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
         """
         return self.config
     
+    def add(self, new_config: ClientConfig) -> ClientConfig:
+        """
+        Returns a sanitized config object from the builder's config after receiving a partial `ClientConfig` object.
+        """
+        super().add(new_config)
+        return self.config  
+
     def get_envs(self) -> Dict[Uri, Dict[str, Any]]:
         return super().get_envs()
 
@@ -170,6 +225,22 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
         super().remove_wrapper(wrapper_uri)
         return self 
     
+    def set_package(self, uri_package: UriPackage)-> BaseClientConfigBuilder:
+        super().set_package(uri_package)
+        return self
+
+    def add_package(self, uri_package: UriPackage)-> BaseClientConfigBuilder:
+        super().add_package(uri_package)
+        return self
+
+    def add_packages(self, uri_packages: List[UriPackage])-> BaseClientConfigBuilder:
+        super().add_packages(uri_packages)
+        return self
+
+    def remove_package(self, uri_package: UriPackage)-> BaseClientConfigBuilder:
+        super().remove_package(uri_package)
+        return self
+
     def set_resolver(self, uri_resolver: IUriResolver)-> BaseClientConfigBuilder:
         super().set_resolver(uri_resolver)
         return self

@@ -10,7 +10,8 @@ def test_client_config_structure_starts_empty():
         envs={},
         interfaces={}, 
         resolver = [],
-        wrappers = []
+        wrappers = [],
+        packages=[]
         )
     assert asdict(client_config) == asdict(result)
 
@@ -24,5 +25,5 @@ def test_client_config_structure_sets_env():
         env = env
         )
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={uri: env}, interfaces={}, resolver = [], wrappers=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={uri: env}, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
