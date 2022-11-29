@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
-
-from polywrap_core import Env, Uri, UriPackage, UriWrapper
+from polywrap_core import Uri, IUriResolver, Env, UriWrapper,UriPackage
+from polywrap_uri_resolvers import IUriResolver
+from typing import Dict, Any, List, Optional, Union
 from polywrap_uri_resolvers import UriResolverLike
 
 # from polywrap_plugin import PluginPackage
@@ -132,7 +132,6 @@ class BaseClientConfigBuilder(ABC):
         """
         self.config.packages.append(uri_package)
         return self
-
     def add_packages(self, uri_packages: List[UriPackage]):
         """
         Adds a list of packages to the list of packages
@@ -148,7 +147,7 @@ class BaseClientConfigBuilder(ABC):
         self.config.packages.remove(uri_package)
         return self
 
-    def set_resolver(self, uri_resolver):
+    def set_resolver(self, uri_resolver: UriResolverLike):
         """
         Sets a single resolver for the `ClientConfig` object before it is built
         """
@@ -182,7 +181,6 @@ class ClientConfigBuilder(BaseClientConfigBuilder):
         Returns a sanitized config object from the builder's config.
         """
         return self.config
-
     def add(self, new_config: ClientConfig) -> ClientConfig:
         """
         Returns a sanitized config object from the builder's config after receiving a partial `ClientConfig` object.
