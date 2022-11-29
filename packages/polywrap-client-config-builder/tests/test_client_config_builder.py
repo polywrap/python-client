@@ -1,45 +1,32 @@
-from typing import List, Any, Dict, Union, cast
-from polywrap_core import Env
+from typing import List,  cast
 from polywrap_core import  Uri
-from polywrap_core import UriPackage, UriWrapper, AnyWrapManifest
+from polywrap_core import UriPackage, AnyWrapManifest
 from polywrap_uri_resolvers import UriResolverLike
 
 from polywrap_client_config_builder import ClientConfigBuilder, BaseClientConfigBuilder
 import pytest
-from pytest import fixture
 from polywrap_client_config_builder import ClientConfig
 from dataclasses import asdict
-from test_ccb_packages_wrappers import MockedPackage, MockedWrapper, MockedModule
-
-# Variables 
-
-env_varA = { 'color': "yellow", 'size': "large" }
-env_varB = { 'color': "red", 'size': "small" }
-env_varN = { 'dog': "poodle", 'season': "summer" }
-env_varM = { 'dog': "corgi", 'season': "autumn" }
-env_varN = { 'dog': "poodle", 'season': "summer" }
-env_varS = { 'vehicle': "scooter"}
-env_uriX = Uri("wrap://ens/eth.plugin.one")
-env_uriY = Uri("wrap://ipfs/filecoin.wrapper.two")
+from test_ccb_packages_wrappers import MockedModule
 
 
 # ENVS 
 
-def test_client_config_builder_set_env():
+def test_client_config_builder_set_env(env_varA, env_uriX):
     ccb = ClientConfigBuilder()
     envs = { env_uriX: env_varA }
     ccb = ccb.set_env( env_varA, env_uriX)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs=envs, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
-def test_client_config_builder_add_env():
+def test_client_config_builder_add_env(env_varA, env_uriX):
     ccb = ClientConfigBuilder() # instantiate new client config builder
     ccb = ccb.add_env(env = env_varA, uri = env_uriX) # add env to client config builder    
     client_config: ClientConfig = ccb.build() # build a client config object
     print(client_config)
     assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
-def test_client_config_builder_add_env_updates_env_value():
+def test_client_config_builder_add_env_updates_env_value(env_varA,env_varB, env_uriX):
     ccb = ClientConfigBuilder() # instantiate new client config builder
     ccb = ccb.add_env(env = env_varA, uri = env_uriX) # add env to client config builder
     client_config: ClientConfig = ccb.build() # build a client config object
@@ -48,7 +35,7 @@ def test_client_config_builder_add_env_updates_env_value():
     client_config: ClientConfig = ccb.build() # build a new client config object
     assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varB}, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
-def test_client_config_builder_set_env_and_add_env_updates_and_add_values():
+def test_client_config_builder_set_env_and_add_env_updates_and_add_values(env_varA, env_varB, env_varN, env_varM, env_varS, env_uriX, env_uriY):
     ccb = ClientConfigBuilder()
     ccb = ccb.set_env(env_varA, env_uriX) # set the environment variables A
     client_config: ClientConfig = ccb.build()
