@@ -39,7 +39,7 @@ class BaseClientConfigBuilder(ABC):
         pass
 
     
-    def add(self, new_config: ClientConfig) -> ClientConfig:
+    def add(self, new_config: ClientConfig):
         """Returns a sanitized config object from the builder's config after receiving a partial `ClientConfig` object."""
         if new_config.envs:
             self.config.envs.update(new_config.envs)
@@ -51,7 +51,7 @@ class BaseClientConfigBuilder(ABC):
             self.config.wrappers.extend(new_config.wrappers)
         if new_config.packages:
             self.config.packages.extend(new_config.packages)
-        return self.config
+        return self
 
     def get_envs(self) -> Dict[Uri, Dict[str, Any]]:
         """Returns the envs dictionary from the builder's config."""
@@ -176,77 +176,10 @@ class BaseClientConfigBuilder(ABC):
 
 
 class ClientConfigBuilder(BaseClientConfigBuilder):
+    
     def build(self) -> ClientConfig:
         """
         Returns a sanitized config object from the builder's config.
         """
         return self.config
-    def add(self, new_config: ClientConfig) -> ClientConfig:
-        """
-        Returns a sanitized config object from the builder's config after receiving a partial `ClientConfig` object.
-        """
-        super().add(new_config)
-        return self.config
 
-    def get_envs(self) -> Dict[Uri, Dict[str, Any]]:
-        return super().get_envs()
-
-    def set_env(self, env: Env, uri: Uri) -> BaseClientConfigBuilder:
-        super().set_env(env, uri)
-        return self
-
-    def add_env(self, env: Env, uri: Uri) -> BaseClientConfigBuilder:
-        super().add_env(env, uri)
-        return self
-
-    def add_envs(self, envs: List[Env], uri: Uri) -> BaseClientConfigBuilder:
-        super().add_envs(envs, uri)
-        return self
-
-    def add_interface_implementations(
-        self, interface_uri: Uri, implementations_uris: List[Uri]
-    ) -> BaseClientConfigBuilder:
-        super().add_interface_implementations(interface_uri, implementations_uris)
-        return self
-
-    def add_wrapper(self, wrapper_uri: Uri) -> BaseClientConfigBuilder:
-        super().add_wrapper(wrapper_uri)
-        return self
-
-    def add_wrappers(self, wrappers_uris: List[Uri]) -> BaseClientConfigBuilder:
-        super().add_wrappers(wrappers_uris)
-        return self
-
-    def remove_wrapper(self, wrapper_uri: Uri) -> BaseClientConfigBuilder:
-        super().remove_wrapper(wrapper_uri)
-        return self
-
-    def set_package(self, uri_package: UriPackage) -> BaseClientConfigBuilder:
-        super().set_package(uri_package)
-        return self
-
-    def add_package(self, uri_package: UriPackage) -> BaseClientConfigBuilder:
-        super().add_package(uri_package)
-        return self
-
-    def add_packages(self, uri_packages: List[UriPackage]) -> BaseClientConfigBuilder:
-        super().add_packages(uri_packages)
-        return self
-
-    def remove_package(self, uri_package: UriPackage) -> BaseClientConfigBuilder:
-        super().remove_package(uri_package)
-        return self
-
-    def set_resolver(self, uri_resolver: UriResolverLike) -> BaseClientConfigBuilder:
-        super().set_resolver(uri_resolver)
-        return self
-
-    def add_resolver(self, resolver: UriResolverLike) -> BaseClientConfigBuilder:
-        super().add_resolver(resolver)
-        return self
-
-    def add_resolvers(
-        self, resolvers_list: List[UriResolverLike]
-    ) -> BaseClientConfigBuilder:
-        super().add_resolvers(resolvers_list)
-        return self

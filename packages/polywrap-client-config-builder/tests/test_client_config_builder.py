@@ -1,45 +1,32 @@
-from typing import List, Any, Dict, Union, cast
-from polywrap_core import Env
+from typing import List,  cast
 from polywrap_core import  Uri
-from polywrap_core import UriPackage, UriWrapper, AnyWrapManifest
+from polywrap_core import UriPackage, AnyWrapManifest
 from polywrap_uri_resolvers import UriResolverLike
 
 from polywrap_client_config_builder import ClientConfigBuilder, BaseClientConfigBuilder
 import pytest
-from pytest import fixture
 from polywrap_client_config_builder import ClientConfig
 from dataclasses import asdict
-from test_ccb_packages_wrappers import MockedPackage, MockedWrapper, MockedModule
-
-# Variables 
-
-env_varA = { 'color': "yellow", 'size': "large" }
-env_varB = { 'color': "red", 'size': "small" }
-env_varN = { 'dog': "poodle", 'season': "summer" }
-env_varM = { 'dog': "corgi", 'season': "autumn" }
-env_varN = { 'dog': "poodle", 'season': "summer" }
-env_varS = { 'vehicle': "scooter"}
-env_uriX = Uri("wrap://ens/eth.plugin.one")
-env_uriY = Uri("wrap://ipfs/filecoin.wrapper.two")
+from test_ccb_packages_wrappers import MockedModule
 
 
 # ENVS 
 
-def test_client_config_builder_set_env():
+def test_client_config_builder_set_env(env_varA, env_uriX):
     ccb = ClientConfigBuilder()
     envs = { env_uriX: env_varA }
     ccb = ccb.set_env( env_varA, env_uriX)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs=envs, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
-def test_client_config_builder_add_env():
+def test_client_config_builder_add_env(env_varA, env_uriX):
     ccb = ClientConfigBuilder() # instantiate new client config builder
     ccb = ccb.add_env(env = env_varA, uri = env_uriX) # add env to client config builder    
     client_config: ClientConfig = ccb.build() # build a client config object
     print(client_config)
     assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
-def test_client_config_builder_add_env_updates_env_value():
+def test_client_config_builder_add_env_updates_env_value(env_varA,env_varB, env_uriX):
     ccb = ClientConfigBuilder() # instantiate new client config builder
     ccb = ccb.add_env(env = env_varA, uri = env_uriX) # add env to client config builder
     client_config: ClientConfig = ccb.build() # build a client config object
@@ -48,7 +35,7 @@ def test_client_config_builder_add_env_updates_env_value():
     client_config: ClientConfig = ccb.build() # build a new client config object
     assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varB}, interfaces={}, resolver = [], wrappers=[], packages=[]))
 
-def test_client_config_builder_set_env_and_add_env_updates_and_add_values():
+def test_client_config_builder_set_env_and_add_env_updates_and_add_values(env_varA, env_varB, env_varN, env_varM, env_varS, env_uriX, env_uriY):
     ccb = ClientConfigBuilder()
     ccb = ccb.set_env(env_varA, env_uriX) # set the environment variables A
     client_config: ClientConfig = ccb.build()
@@ -86,7 +73,6 @@ def test_client_config_builder_adds_interface_implementations():
 
 # PACKAGES
 
-# @pytest.mark.skip("Should implement UriPackage interface with package argument")
 def test_client_config_builder_set_package():
     ccb = ClientConfigBuilder()
     module: MockedModule[None, str] = MockedModule(config=None)
@@ -101,7 +87,6 @@ def test_client_config_builder_set_package():
     assert asdict(client_config) == asdict(ClientConfig(envs={}, 
         interfaces={}, resolver = [], wrappers=[], packages=[uri_package]))
 
-# @pytest.mark.skip("Should implement UriPackage interface with package argument")
 def test_client_config_builder_add_package():
     ccb = ClientConfigBuilder()
     uri_package = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Todo")
@@ -110,7 +95,6 @@ def test_client_config_builder_add_package():
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, 
         resolver = [], wrappers=[], packages=[uri_package]))
 
-# @pytest.mark.skip("Should implement UriPackage interface with package argument")
 def test_client_config_builder_add_package_updates_packages_list():
     ccb = ClientConfigBuilder()
     uri_package1 = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Todo")
@@ -124,7 +108,6 @@ def test_client_config_builder_add_package_updates_packages_list():
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, 
         resolver = [], wrappers=[], packages=[uri_package1, uri_package2]))
 
-# @pytest.mark.skip("Should implement UriPackage interface with package argument")
 def test_client_config_builder_add_multiple_packages():
     ccb = ClientConfigBuilder()
     uri_package1 = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Todo")
@@ -134,7 +117,6 @@ def test_client_config_builder_add_multiple_packages():
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [],
         wrappers=[], packages=[uri_package1, uri_package2]))
 
-# @pytest.mark.skip("Should implement UriPackage interface with package argument")
 def test_client_config_builder_add_packages_removes_packages():
     ccb = ClientConfigBuilder()
     uri_package1 = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Todo")
@@ -176,10 +158,9 @@ def test_client_config_builder_removes_wrapper():
 
 # RESOLVER 
 
-@pytest.mark.skip("Should implement UriResolverLike interface")
 def test_client_config_builder_set_uri_resolver():
     ccb = ClientConfigBuilder()
-    resolver =  Uri("wrap://ens/eth.resolver.one")
+    resolver: UriResolverLike = Uri("wrap://ens/eth.resolver.one")
     ccb = ccb.set_resolver(resolver)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolver], wrappers=[], packages=[]))
@@ -206,8 +187,62 @@ def test_client_config_builder_add_resolver():
     resolvers: List[UriResolverLike] = [resolverA, resolverB, resolverC, resolverD]
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=resolvers, wrappers=[], packages=[]))
 
-# TODO: add tests for the following methods
+# GENERIC ADD FUNCTION
 
-def test_client_config_builder_generic_add():
+def test_client_config_builder_generic_add(env_varA,env_uriX, env_uriY):
     # Test adding package, wrapper, resolver, interface, and env with the ccb.add method
-    pass
+    ccb = ClientConfigBuilder()
+    
+    # starts empty
+    client_config = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={},
+        resolver = [], wrappers=[], packages=[]))
+
+    # add an env
+    new_config = ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[])
+    ccb = ccb.add(new_config)
+    client_config1 = ccb.build()
+    assert asdict(client_config1) == asdict(new_config)
+
+    # add a resolver
+    new_resolvers = ClientConfig(resolver=[Uri("wrap://ens/eth.resolver.one")], envs={}, interfaces={}, wrappers=[], packages=[])
+    ccb = ccb.add(new_resolvers)
+    client_config2 = ccb.build()
+    assert asdict(client_config2) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={},
+        resolver = [Uri("wrap://ens/eth.resolver.one")], wrappers=[], packages=[]))
+
+    # add a second resolver
+    new_resolver = ClientConfig(resolver=[Uri("wrap://ens/eth.resolver.two")], envs={}, interfaces={}, wrappers=[], packages=[])
+    ccb = ccb.add(new_resolver)
+    client_config5 = ccb.build()
+    assert asdict(client_config5) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={},
+        resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")], wrappers=[], packages=[]))
+
+
+    # add a wrapper
+    new_wrapper = ClientConfig(wrappers=[Uri("wrap://ens/uni.wrapper.eth")], envs={}, interfaces={}, resolver = [], packages=[])
+    ccb = ccb.add(new_wrapper)
+    client_config3 = ccb.build()
+    assert asdict(client_config3) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={},
+        resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")],
+        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[]))
+
+    # add an interface
+    interfaces: Dict[Uri, List[Uri]] = {Uri("wrap://ens/eth.interface.eth"): [env_uriX,env_uriY]}
+    new_interface = ClientConfig(interfaces=interfaces, envs={}, resolver = [], wrappers=[], packages=[])
+    ccb = ccb.add(new_interface)
+    client_config4 = ccb.build()
+    assert asdict(client_config4) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces=interfaces,
+        resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")],
+        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[]))
+
+    # add a package
+    uri_package = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Todo")
+    new_package = ClientConfig(packages=[uri_package], envs={}, interfaces={}, resolver = [], wrappers=[])
+    ccb = ccb.add(new_package)
+    client_config6 = ccb.build()
+    assert asdict(client_config6) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces=interfaces,
+        resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")],
+        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[uri_package]))
+
+
