@@ -20,6 +20,7 @@ class ClientConfig:
     wrappers: List[UriWrapper]
     packages: List[UriPackage]
     resolver: List[UriResolverLike]
+    redirects: Dict[Uri, Uri]
 
 
 class BaseClientConfigBuilder(ABC):
@@ -30,7 +31,7 @@ class BaseClientConfigBuilder(ABC):
 
     def __init__(self):
         self.config = ClientConfig(
-            envs={}, interfaces={}, resolver=[], wrappers=[], packages=[]
+            envs={}, interfaces={}, resolver=[], wrappers=[], packages=[], redirects={}
         )
 
     @abstractmethod
@@ -158,7 +159,6 @@ class BaseClientConfigBuilder(ABC):
         """
         Adds a resolver to the list of resolvers
         """
-
         if self.config.resolver is None:
             raise ValueError(
                 "This resolver is not set. Please set a resolver before adding resolvers."
@@ -174,9 +174,17 @@ class BaseClientConfigBuilder(ABC):
             self.add_resolver(resolver)
         return self
 
+    def set_uri_redirect(self, uri_from: Uri, uri_to: Uri):
+        """
+        Sets an uri redirect, from one uri to another
+        If there was a redirect previously listed, it's changed to the new one
+        """ 
+        self.config.redirects = {uri_from : uri_to}
+        return self
+
 
 class ClientConfigBuilder(BaseClientConfigBuilder):
-    
+
     def build(self) -> ClientConfig:
         """
         Returns a sanitized config object from the builder's config.

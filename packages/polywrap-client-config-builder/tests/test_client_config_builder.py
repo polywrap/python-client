@@ -17,33 +17,33 @@ def test_client_config_builder_set_env(env_varA, env_uriX):
     envs = { env_uriX: env_varA }
     ccb = ccb.set_env( env_varA, env_uriX)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs=envs, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs=envs, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
 def test_client_config_builder_add_env(env_varA, env_uriX):
     ccb = ClientConfigBuilder() # instantiate new client config builder
     ccb = ccb.add_env(env = env_varA, uri = env_uriX) # add env to client config builder    
     client_config: ClientConfig = ccb.build() # build a client config object
     print(client_config)
-    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
 def test_client_config_builder_add_env_updates_env_value(env_varA,env_varB, env_uriX):
     ccb = ClientConfigBuilder() # instantiate new client config builder
     ccb = ccb.add_env(env = env_varA, uri = env_uriX) # add env to client config builder
     client_config: ClientConfig = ccb.build() # build a client config object
-    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
     ccb = ccb.add_env(env = env_varB, uri = env_uriX) # update value of env var on client config builder
     client_config: ClientConfig = ccb.build() # build a new client config object
-    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varB}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varB}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
 def test_client_config_builder_set_env_and_add_env_updates_and_add_values(env_varA, env_varB, env_varN, env_varM, env_varS, env_uriX, env_uriY):
     ccb = ClientConfigBuilder()
     ccb = ccb.set_env(env_varA, env_uriX) # set the environment variables A
     client_config: ClientConfig = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
     ccb = ccb.set_env(env_varB, env_uriX) # set new vars on the same Uri
     client_config: ClientConfig = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varB}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={env_uriX: env_varB}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
     ccb = ccb.add_env(env_varM, env_uriY) # add new env vars on a new Uri
     client_config: ClientConfig = ccb.build()
@@ -52,14 +52,14 @@ def test_client_config_builder_set_env_and_add_env_updates_and_add_values(env_va
             env_uriX: env_varB,
             env_uriY: env_varM
         }, 
-        interfaces={}, resolver = [], wrappers=[], packages=[]))
+        interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
     # add new env vars on the second Uri, while also updating the Env vars of dog and season
     ccb = ccb.add_envs([env_varN, env_varS], env_uriY)
     new_envs = {**env_varM, **env_varN, **env_varS}
     print(new_envs)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs = {env_uriX: env_varB, env_uriY: new_envs}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs = {env_uriX: env_varB, env_uriY: new_envs}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
 # INTERFACES AND IMPLEMENTATIONS
 
@@ -69,7 +69,7 @@ def test_client_config_builder_adds_interface_implementations():
     implementations_uris = [Uri("wrap://ens/eth.plugin.one"), Uri("wrap://ens/eth.plugin.two")]
     ccb = ccb.add_interface_implementations(interfaces_uri, implementations_uris)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={interfaces_uri: implementations_uris}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={interfaces_uri: implementations_uris}, resolver = [], wrappers=[], packages=[], redirects={}))
 
 # PACKAGES
 
@@ -85,7 +85,7 @@ def test_client_config_builder_set_package():
     ccb = ccb.set_package(uri_package)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, 
-        interfaces={}, resolver = [], wrappers=[], packages=[uri_package]))
+        interfaces={}, resolver = [], wrappers=[], packages=[uri_package], redirects={}))
 
 def test_client_config_builder_add_package():
     ccb = ClientConfigBuilder()
@@ -93,7 +93,7 @@ def test_client_config_builder_add_package():
     ccb = ccb.add_package(uri_package)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, 
-        resolver = [], wrappers=[], packages=[uri_package]))
+        resolver = [], wrappers=[], packages=[uri_package], redirects={}))
 
 def test_client_config_builder_add_package_updates_packages_list():
     ccb = ClientConfigBuilder()
@@ -101,12 +101,12 @@ def test_client_config_builder_add_package_updates_packages_list():
     ccb = ccb.add_package(uri_package1)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={},
-        resolver = [], wrappers=[], packages=[uri_package1]))
+        resolver = [], wrappers=[], packages=[uri_package1], redirects={}))
     uri_package2 = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Updated")
     ccb = ccb.add_package(uri_package2)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, 
-        resolver = [], wrappers=[], packages=[uri_package1, uri_package2]))
+        resolver = [], wrappers=[], packages=[uri_package1, uri_package2], redirects={}))
 
 def test_client_config_builder_add_multiple_packages():
     ccb = ClientConfigBuilder()
@@ -115,7 +115,7 @@ def test_client_config_builder_add_multiple_packages():
     ccb = ccb.add_packages([uri_package1, uri_package2])
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [],
-        wrappers=[], packages=[uri_package1, uri_package2]))
+        wrappers=[], packages=[uri_package1, uri_package2], redirects={}))
 
 def test_client_config_builder_add_packages_removes_packages():
     ccb = ClientConfigBuilder()
@@ -124,11 +124,11 @@ def test_client_config_builder_add_packages_removes_packages():
     ccb = ccb.add_packages([uri_package1, uri_package2])
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [],
-         wrappers=[], packages=[uri_package1, uri_package2]))
+         wrappers=[], packages=[uri_package1, uri_package2], redirects={}))
     ccb = ccb.remove_package(uri_package1)
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [],
-        wrappers=[], packages=[uri_package2]))
+        wrappers=[], packages=[uri_package2], redirects={}))
 
 # WRAPPERS AND PLUGINS
 
@@ -137,24 +137,24 @@ def test_client_config_builder_add_wrapper():
     wrapper = Uri("wrap://ens/uni.wrapper.eth")
     ccb = ccb.add_wrapper(wrapper)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=[wrapper], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=[wrapper], packages=[], redirects={}))
 
 def test_client_config_builder_adds_multiple_wrappers():
     ccb = ClientConfigBuilder()
     wrappers = [Uri("wrap://ens/uni.wrapper.eth"), Uri("wrap://ens/https.plugin.eth")]
     ccb = ccb.add_wrappers(wrappers)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=wrappers, packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=wrappers, packages=[], redirects={}))
 
 def test_client_config_builder_removes_wrapper():
     ccb = ClientConfigBuilder()
     wrapper = Uri("wrap://ens/uni.wrapper.eth")
     ccb = ccb.add_wrapper(wrapper)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=[wrapper], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=[wrapper], packages=[], redirects={}))
     ccb = ccb.remove_wrapper(wrapper)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={}))
 
 # RESOLVER 
 
@@ -163,7 +163,7 @@ def test_client_config_builder_set_uri_resolver():
     resolver: UriResolverLike = Uri("wrap://ens/eth.resolver.one")
     ccb = ccb.set_resolver(resolver)
     client_config = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolver], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolver], wrappers=[], packages=[], redirects={}))
     
 def test_client_config_builder_add_resolver():
     # set a first resolver
@@ -171,13 +171,13 @@ def test_client_config_builder_add_resolver():
     resolverA = Uri("wrap://ens/eth.resolver.one")
     ccb: BaseClientConfigBuilder = ccb.set_resolver(resolverA)
     client_config: ClientConfig = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolverA], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolverA], wrappers=[], packages=[], redirects={}))
     
     # add a second resolver
     resolverB = Uri("wrap://ens/eth.resolver.two")
     ccb = ccb.add_resolver(resolverB)
     client_config: ClientConfig = ccb.build()
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolverA, resolverB], wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[resolverA, resolverB], wrappers=[], packages=[], redirects={}))
 
     # add a third and fourth resolver
     resolverC = Uri("wrap://ens/eth.resolver.three")
@@ -185,7 +185,7 @@ def test_client_config_builder_add_resolver():
     ccb = ccb.add_resolvers([resolverC, resolverD])
     client_config: ClientConfig = ccb.build()
     resolvers: List[UriResolverLike] = [resolverA, resolverB, resolverC, resolverD]
-    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=resolvers, wrappers=[], packages=[]))
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=resolvers, wrappers=[], packages=[], redirects={}))
 
 # GENERIC ADD FUNCTION
 
@@ -196,53 +196,53 @@ def test_client_config_builder_generic_add(env_varA,env_uriX, env_uriY):
     # starts empty
     client_config = ccb.build()
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={},
-        resolver = [], wrappers=[], packages=[]))
+        resolver = [], wrappers=[], packages=[], redirects={}))
 
     # add an env
-    new_config = ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[])
+    new_config = ClientConfig(envs={env_uriX: env_varA}, interfaces={}, resolver = [], wrappers=[], packages=[], redirects={})
     ccb = ccb.add(new_config)
     client_config1 = ccb.build()
     assert asdict(client_config1) == asdict(new_config)
 
     # add a resolver
-    new_resolvers = ClientConfig(resolver=[Uri("wrap://ens/eth.resolver.one")], envs={}, interfaces={}, wrappers=[], packages=[])
+    new_resolvers = ClientConfig(resolver=[Uri("wrap://ens/eth.resolver.one")], envs={}, interfaces={}, wrappers=[], packages=[], redirects={})
     ccb = ccb.add(new_resolvers)
     client_config2 = ccb.build()
     assert asdict(client_config2) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={},
-        resolver = [Uri("wrap://ens/eth.resolver.one")], wrappers=[], packages=[]))
+        resolver = [Uri("wrap://ens/eth.resolver.one")], wrappers=[], packages=[], redirects={}))
 
     # add a second resolver
-    new_resolver = ClientConfig(resolver=[Uri("wrap://ens/eth.resolver.two")], envs={}, interfaces={}, wrappers=[], packages=[])
+    new_resolver = ClientConfig(resolver=[Uri("wrap://ens/eth.resolver.two")], envs={}, interfaces={}, wrappers=[], packages=[], redirects={})
     ccb = ccb.add(new_resolver)
     client_config5 = ccb.build()
     assert asdict(client_config5) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={},
-        resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")], wrappers=[], packages=[]))
+        resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")], wrappers=[], packages=[], redirects={}))
 
 
     # add a wrapper
-    new_wrapper = ClientConfig(wrappers=[Uri("wrap://ens/uni.wrapper.eth")], envs={}, interfaces={}, resolver = [], packages=[])
+    new_wrapper = ClientConfig(wrappers=[Uri("wrap://ens/uni.wrapper.eth")], envs={}, interfaces={}, resolver = [], packages=[], redirects={})
     ccb = ccb.add(new_wrapper)
     client_config3 = ccb.build()
     assert asdict(client_config3) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces={},
         resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")],
-        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[]))
+        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[], redirects={}))
 
     # add an interface
     interfaces: Dict[Uri, List[Uri]] = {Uri("wrap://ens/eth.interface.eth"): [env_uriX,env_uriY]}
-    new_interface = ClientConfig(interfaces=interfaces, envs={}, resolver = [], wrappers=[], packages=[])
+    new_interface = ClientConfig(interfaces=interfaces, envs={}, resolver = [], wrappers=[], packages=[], redirects={})
     ccb = ccb.add(new_interface)
     client_config4 = ccb.build()
     assert asdict(client_config4) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces=interfaces,
         resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")],
-        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[]))
+        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[], redirects={}))
 
     # add a package
     uri_package = UriPackage(uri=Uri("wrap://ens/eth.plugin.one"),package="Todo")
-    new_package = ClientConfig(packages=[uri_package], envs={}, interfaces={}, resolver = [], wrappers=[])
+    new_package = ClientConfig(packages=[uri_package], envs={}, interfaces={}, resolver = [], wrappers=[], redirects={})
     ccb = ccb.add(new_package)
     client_config6 = ccb.build()
     assert asdict(client_config6) == asdict(ClientConfig(envs={env_uriX: env_varA}, interfaces=interfaces,
         resolver = [Uri("wrap://ens/eth.resolver.one"), Uri("wrap://ens/eth.resolver.two")],
-        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[uri_package]))
+        wrappers=[Uri("wrap://ens/uni.wrapper.eth")], packages=[uri_package], redirects={}))
 
 
