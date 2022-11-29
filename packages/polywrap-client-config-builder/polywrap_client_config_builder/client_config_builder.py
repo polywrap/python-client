@@ -179,7 +179,25 @@ class BaseClientConfigBuilder(ABC):
         Sets an uri redirect, from one uri to another
         If there was a redirect previously listed, it's changed to the new one
         """ 
-        self.config.redirects = {uri_from : uri_to}
+        self.config.redirects[uri_from] = uri_to
+        return self
+    
+    def remove_uri_redirect(self, uri_from: Uri):
+        """
+        Removes an uri redirect, from one uri to another
+        """
+        self.config.redirects.pop(uri_from)
+        return self
+
+    def set_uri_redirects(self, redirects: List[Dict[Uri,Uri]]):
+        """
+        Sets various Uri redirects from a list simultaneously
+        """
+        count = 0
+        for redir in redirects:
+            for k,v in redir.items():
+                self.set_uri_redirect(k,v)
+            count += 1
         return self
 
 

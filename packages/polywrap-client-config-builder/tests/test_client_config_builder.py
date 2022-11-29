@@ -187,6 +187,81 @@ def test_client_config_builder_add_resolver():
     resolvers: List[UriResolverLike] = [resolverA, resolverB, resolverC, resolverD]
     assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=resolvers, wrappers=[], packages=[], redirects={}))
 
+# REDIRECTS
+
+def test_client_config_builder_sets_uri_redirects(env_uriX, env_uriY, env_uriZ):
+    # set a first redirect
+    ccb = ClientConfigBuilder()
+    ccb = ccb.set_uri_redirect(env_uriX, env_uriY)
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[],
+        redirects={env_uriX: env_uriY}))
+    
+    # add a second redirect
+    ccb = ccb.set_uri_redirect(env_uriY, env_uriZ)
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[],
+        redirects={env_uriX: env_uriY, env_uriY: env_uriZ}))
+
+    # update the first redirect
+    ccb.set_uri_redirect(env_uriX, env_uriZ)
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[],
+         redirects={env_uriX: env_uriZ, env_uriY: env_uriZ}))
+
+def test_client_config_builder_removes_uri_redirects(env_uriX, env_uriY, env_uriZ):
+    ccb = ClientConfigBuilder()
+    ccb = ccb.set_uri_redirect(env_uriX, env_uriY)
+    ccb = ccb.set_uri_redirect(env_uriY, env_uriZ)
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[],
+        redirects={env_uriX: env_uriY, env_uriY: env_uriZ}))
+    
+    ccb = ccb.remove_uri_redirect(env_uriX)
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[],
+        redirects={env_uriY: env_uriZ}))
+
+
+
+def test_client_config_builder_sets_many_uri_redirects(env_uriX,env_uriY, env_uriZ):
+
+    # set a first redirect
+    ccb = ClientConfigBuilder()
+    ccb = ccb.set_uri_redirects([{
+            env_uriX: env_uriY,
+        }] )
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[], redirects={env_uriX: env_uriY}))
+
+    # updates that first redirect to a new value
+    ccb = ccb.set_uri_redirects([{
+            env_uriX: env_uriZ,
+        }] )
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[], redirects={env_uriX: env_uriZ}))
+
+    # add a second redirect
+    ccb = ccb.set_uri_redirects([{
+            env_uriY: env_uriX,
+        }] )
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[], redirects={env_uriX: env_uriZ, env_uriY: env_uriX}))
+
+    # add a third redirect and update the first redirect
+    ccb = ccb.set_uri_redirects([{
+            env_uriX: env_uriY,
+            env_uriZ: env_uriY,
+        }] )
+    client_config: ClientConfig = ccb.build()
+    assert asdict(client_config) == asdict(ClientConfig(envs={}, interfaces={}, resolver=[], wrappers=[], packages=[],
+        redirects={
+        env_uriX: env_uriY, 
+        env_uriY: env_uriX, 
+        env_uriZ: env_uriY
+        }))
+
+
 # GENERIC ADD FUNCTION
 
 def test_client_config_builder_generic_add(env_varA,env_uriX, env_uriY):
