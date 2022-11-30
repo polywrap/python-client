@@ -1,7 +1,7 @@
 from abc import ABC
-from typing import Any, Dict, TypeVar, Generic, List
+from typing import Any, Dict, TypeVar, Generic, List, cast
 
-from polywrap_core import Invoker
+from polywrap_core import Invoker, execute_maybe_async_function
 from polywrap_result import Err, Ok, Result
 
 TConfig = TypeVar('TConfig')
@@ -24,4 +24,12 @@ class PluginModule(Generic[TConfig, TResult], ABC):
             return Err.from_str(f"{method} is not defined in plugin")
 
         callable_method = getattr(self, method)
-        return Ok(callable_method(args, client)) if callable(callable_method) else Err.from_str(f"{method} is an attribute, not a method")
+        if callable(callable_method):
+            try:
+                result = await execute_maybe_async_function(callable_method, args, client)
+                if isinstance(result, (Ok, Err)):
+                    return cast(Result[TResult], result)
+                return Ok(result) 
+            except Exception as e:
+                return Err(e)
+        return Err.from_str(f"{method} is an attribute, not a method")

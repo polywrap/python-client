@@ -33,6 +33,7 @@ tox-poetry = "^0.4.1"
 isort = "^5.10.1"
 pyright = "^1.1.275"
 pydocstyle = "^6.1.1"
+polywrap-plugin = { path = "../polywrap-plugin", develop = true }
 
 [tool.bandit]
 exclude_dirs = ["tests"]
