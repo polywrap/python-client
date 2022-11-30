@@ -1,21 +1,48 @@
+"""
+Polywrap Python Client.
+
+The Test suite for the Polywrap Client Config Builder uses pytest to
+test the various methods of the ClientConfigBuilder class. These tests
+include sample code for configuring the client's:
+- Envs
+- Interfaces
+- Packages
+- Redirects
+- Wrappers
+- Resolvers
+
+docs.polywrap.io
+Copyright 2022 Polywrap
+"""
+
 from abc import ABC
-
-from typing import Any, Dict, TypeVar, Generic, List, Union, Optional, List,  cast
-
 from dataclasses import asdict
-
-from polywrap_core import IUriResolver, UriPackage, UriWrapper, IWrapPackage, AnyWrapManifest
-from polywrap_core import Uri
-from polywrap_core import Invoker, InvokeOptions, InvocableResult, GetFileOptions
-from polywrap_core import IWrapPackage, Wrapper, GetManifestOptions
+from typing import Any, Dict, Generic, List, Optional, TypeVar, Union, cast
 
 from polywrap_client import PolywrapClient
-
-from polywrap_client_config_builder import ClientConfigBuilder, BaseClientConfigBuilder, ClientConfig
-
+from polywrap_core import (
+    AnyWrapManifest,
+    GetFileOptions,
+    GetManifestOptions,
+    InvocableResult,
+    InvokeOptions,
+    Invoker,
+    IUriResolver,
+    IWrapPackage,
+    Uri,
+    UriPackage,
+    UriWrapper,
+    Wrapper,
+)
 from polywrap_result import Err, Ok, Result
 
-from polywrap_uri_resolvers import UriResolverLike
+from polywrap_client_config_builder import (
+    BaseClientConfigBuilder,
+    ClientConfig,
+    ClientConfigBuilder,
+)
+
+UriResolverLike = Union[Uri, UriPackage, UriWrapper, List["UriResolverLike"]]
 
 
 # Mocked Classes for the tests (class fixtures arent supported in pytest)
