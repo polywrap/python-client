@@ -33,8 +33,7 @@ class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
 
         if result.is_err():
             return cast(Err, result.err)
-
-        return Ok(InvocableResult(result=result,encoded=False))
+        return Ok(InvocableResult(result=result.unwrap(),encoded=False))
 
 
     async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
