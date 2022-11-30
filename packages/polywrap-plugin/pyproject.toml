@@ -15,7 +15,6 @@ polywrap_core = { path = "../polywrap-core" }
 polywrap_manifest = { path = "../polywrap-manifest" }
 polywrap_result = { path = "../polywrap-result" }
 polywrap_msgpack = { path = "../polywrap-msgpack" }
-polywrap_client = { path = "../polywrap-client" }
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
