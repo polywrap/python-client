@@ -1,16 +1,14 @@
 from typing import cast
 
 import pytest
-from polywrap_core import InvokeOptions, Uri, AnyWrapManifest
+from polywrap_core import InvokeOptions, Uri, AnyWrapManifest, Invoker
 from polywrap_plugin import PluginPackage, PluginModule
-from polywrap_client import PolywrapClient
 from polywrap_result import Ok
 
 @pytest.mark.asyncio
-async def test_plugin_package_invoke(get_greeting_module: PluginModule[None, str]):
-    module = get_greeting_module
+async def test_plugin_package_invoke(greeting_module: PluginModule[None, str], invoker: Invoker):
     manifest = cast(AnyWrapManifest, {})
-    plugin_package = PluginPackage(module, manifest)
+    plugin_package = PluginPackage(greeting_module, manifest)
     wrapper = (await plugin_package.create_wrapper()).unwrap()
     args = {
         "name": "Joe"
@@ -21,6 +19,5 @@ async def test_plugin_package_invoke(get_greeting_module: PluginModule[None, str
         args=args
     )
 
-    client = PolywrapClient()
-    result = await wrapper.invoke(options, client)
+    result = await wrapper.invoke(options, invoker)
     assert result, Ok("Greetings from: Joe")
