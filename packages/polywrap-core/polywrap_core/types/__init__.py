@@ -2,6 +2,7 @@ from .client import *
 from .file_reader import *
 from .invoke import *
 from .uri import *
+from .env import *
 from .uri_package_wrapper import *
 from .uri_resolution_context import *
 from .uri_resolution_step import *

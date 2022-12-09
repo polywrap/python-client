@@ -12,7 +12,7 @@ from polywrap_core import (
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode
 from polywrap_result import Err, Ok, Result
-from wasmtime import Module, Store
+from wasmtime import Store
 
 from .exports import WrapExports
 from .imports import create_instance
@@ -79,8 +79,6 @@ class WasmWrapper(Wrapper):
         method_length = len(state.method)
         args_length = len(state.args)
         env_length = len(state.env)
-
-        # TODO: Pass all necessary args to this log
 
         store = Store()
         instance = self.create_wasm_instance(store, state, invoker)

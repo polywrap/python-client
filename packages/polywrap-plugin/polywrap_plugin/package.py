@@ -1,4 +1,4 @@
-from typing import Generic, Optional, cast
+from typing import Generic, Optional
 
 from polywrap_core import GetManifestOptions, IWrapPackage, Wrapper
 from polywrap_manifest import AnyWrapManifest

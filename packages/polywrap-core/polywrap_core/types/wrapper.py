@@ -1,11 +1,11 @@
 from abc import abstractmethod
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 from polywrap_manifest import AnyWrapManifest
 from polywrap_result import Result
 
 from .client import GetFileOptions
-from .invoke import Invocable, InvocableResult, InvokeOptions, Invoker
+from .invoke import Invocable, InvokeOptions, Invoker
 
 
 class Wrapper(Invocable):
@@ -20,7 +20,7 @@ class Wrapper(Invocable):
     @abstractmethod
     async def invoke(
         self, options: InvokeOptions, invoker: Invoker
-    ) -> Result[InvocableResult]:
+    ) -> Result[Any]:
         pass
 
     @abstractmethod

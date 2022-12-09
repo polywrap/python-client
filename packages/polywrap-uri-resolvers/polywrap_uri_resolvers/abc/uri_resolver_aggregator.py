@@ -9,7 +9,7 @@ from polywrap_core import (
     Uri,
     UriPackageOrWrapper,
 )
-from polywrap_result import Err, Result
+from polywrap_result import Err, Ok, Result
 
 
 class IUriResolverAggregator(IUriResolver, ABC):
@@ -61,7 +61,7 @@ class IUriResolverAggregator(IUriResolver, ABC):
 
                 return result
 
-        result = UriResolutionResult.ok(uri)
+        result = Ok(uri)
 
         step = IUriResolutionStep(
             source_uri=uri,
