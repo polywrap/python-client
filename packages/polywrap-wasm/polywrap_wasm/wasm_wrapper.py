@@ -11,7 +11,7 @@ from polywrap_core import (
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode
-from polywrap_result import Result, Ok, Err
+from polywrap_result import Err, Ok, Result
 from wasmtime import Module, Store
 
 from .exports import WrapExports

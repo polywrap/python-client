@@ -1,13 +1,22 @@
 from abc import ABC, abstractmethod
 from typing import List, cast
 
-from polywrap_core import IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
-from polywrap_result import Result, Err
+from polywrap_core import (
+    Client,
+    IUriResolutionContext,
+    IUriResolutionStep,
+    IUriResolver,
+    Uri,
+    UriPackageOrWrapper,
+)
+from polywrap_result import Err, Result
 
 
 class IUriResolverAggregator(IUriResolver, ABC):
     @abstractmethod
-    async def get_uri_resolvers(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result[List[IUriResolver]]:
+    async def get_uri_resolvers(
+        self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
+    ) -> Result[List[IUriResolver]]:
         pass
 
     @abstractmethod
@@ -23,14 +32,16 @@ class IUriResolverAggregator(IUriResolver, ABC):
             return cast(Err, resolvers_result)
 
         return await self.try_resolve_uri_with_resolvers(
-            uri,
-            client,
-            resolvers_result.unwrap(),
-            resolution_context
+            uri, client, resolvers_result.unwrap(), resolution_context
         )
 
-
-    async def try_resolve_uri_with_resolvers(self, uri: Uri, client: Client, resolvers: List[IUriResolver], resolution_context: IUriResolutionContext) -> Result["UriPackageOrWrapper"]:
+    async def try_resolve_uri_with_resolvers(
+        self,
+        uri: Uri,
+        client: Client,
+        resolvers: List[IUriResolver],
+        resolution_context: IUriResolutionContext,
+    ) -> Result["UriPackageOrWrapper"]:
         sub_context = resolution_context.create_sub_history_context()
 
         for resolver in resolvers:
@@ -43,8 +54,8 @@ class IUriResolverAggregator(IUriResolver, ABC):
                 step = IUriResolutionStep(
                     source_uri=uri,
                     result=result,
-                    sub_history=sub_context.get_history(), 
-                    description=self.get_step_description()
+                    sub_history=sub_context.get_history(),
+                    description=self.get_step_description(),
                 )
                 resolution_context.track_step(step)
 
@@ -56,7 +67,7 @@ class IUriResolverAggregator(IUriResolver, ABC):
             source_uri=uri,
             result=result,
             sub_history=sub_context.get_history(),
-            description=self.get_step_description()
+            description=self.get_step_description(),
         )
         resolution_context.track_step(step)
 

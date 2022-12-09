@@ -1,6 +1,6 @@
 from typing import List
 
-from polywrap_core import IUriResolutionStep, Uri, IWrapPackage, Wrapper
+from polywrap_core import IUriResolutionStep, IWrapPackage, Uri, Wrapper
 
 
 def get_uri_resolution_path(
@@ -8,7 +8,9 @@ def get_uri_resolution_path(
 ) -> List[IUriResolutionStep]:
     # Get all non-empty items from the resolution history
 
-    def add_uri_resolution_path_for_sub_history(step: IUriResolutionStep) -> IUriResolutionStep:
+    def add_uri_resolution_path_for_sub_history(
+        step: IUriResolutionStep,
+    ) -> IUriResolutionStep:
         if step.sub_history and len(step.sub_history):
             step.sub_history = get_uri_resolution_path(step.sub_history)
         return step

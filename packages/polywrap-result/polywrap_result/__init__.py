@@ -9,17 +9,7 @@ from __future__ import annotations
 import inspect
 import sys
 import types
-from typing import (
-    Any,
-    Callable,
-    Generic,
-    NoReturn,
-    Type,
-    TypeVar,
-    Union,
-    cast,
-    overload,
-)
+from typing import Any, Callable, Generic, NoReturn, TypeVar, Union, cast, overload
 
 if sys.version_info[:2] >= (3, 10):
     from typing import ParamSpec
@@ -62,7 +52,7 @@ class Ok(Generic[T]):
         return isinstance(other, Ok) and self.value == cast(Ok[T], other).value
 
     def __ne__(self, other: Any) -> bool:
-        return not (self == other)
+        return not self == other
 
     def __hash__(self) -> int:
         return hash((True, self._value))
@@ -201,7 +191,7 @@ class Err:
         return isinstance(other, Err) and self.value == other.value
 
     def __ne__(self, other: Any) -> bool:
-        return not (self == other)
+        return not self == other
 
     def __hash__(self) -> int:
         return hash((False, self._value))

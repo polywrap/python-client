@@ -1,4 +1,4 @@
-from typing import List, Union, Dict, Any
+from typing import Any, Dict, List, Union
 
 from ..types import Client, Uri
 

@@ -1,7 +1,7 @@
 from typing import List, Optional
 
-from polywrap_core import IUriResolver, Uri, IUriResolutionContext, Client
-from polywrap_result import Result, Ok
+from polywrap_core import Client, IUriResolutionContext, IUriResolver, Uri
+from polywrap_result import Ok, Result
 
 from .abc.uri_resolver_aggregator import IUriResolverAggregator
 

@@ -1,8 +1,9 @@
 from textwrap import dedent
 from typing import Any, List, cast
+
 from polywrap_core import Invoker, InvokerOptions, Uri
-from polywrap_result import Result, Ok, Err
 from polywrap_msgpack import msgpack_encode
+from polywrap_result import Err, Ok, Result
 from unsync import Unfuture, unsync
 from wasmtime import (
     FuncType,

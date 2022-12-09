@@ -1,8 +1,8 @@
 from typing import Optional, Union, cast
 
-from polywrap_core import IFileReader, IWasmPackage, Wrapper, GetManifestOptions
+from polywrap_core import GetManifestOptions, IFileReader, IWasmPackage, Wrapper
 from polywrap_manifest import AnyWrapManifest, deserialize_wrap_manifest
-from polywrap_result import Result, Ok, Err
+from polywrap_result import Err, Ok, Result
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 from .inmemory_file_reader import InMemoryFileReader
@@ -38,7 +38,7 @@ class WasmPackage(IWasmPackage):
         if self.manifest:
             encoded_manifest = self.manifest
         else:
-            result = await self.file_reader.read_file(WRAP_MANIFEST_PATH) 
+            result = await self.file_reader.read_file(WRAP_MANIFEST_PATH)
             if result.is_err():
                 return cast(Err, result)
             encoded_manifest = result.unwrap()
@@ -57,7 +57,6 @@ class WasmPackage(IWasmPackage):
             return cast(Err, result)
         self.wasm_module = result.unwrap()
         return Ok(self.wasm_module)
-
 
     async def create_wrapper(self) -> Result[Wrapper]:
         wasm_module_result = await self.get_wasm_module()

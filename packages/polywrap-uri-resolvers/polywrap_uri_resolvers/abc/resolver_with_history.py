@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
 from polywrap_core import (
+    Client,
+    IUriResolutionContext,
+    IUriResolutionStep,
     IUriResolver,
     Uri,
-    IUriResolutionContext,
     UriPackageOrWrapper,
-    Client,
-    IUriResolutionStep,
 )
 from polywrap_result import Result
 

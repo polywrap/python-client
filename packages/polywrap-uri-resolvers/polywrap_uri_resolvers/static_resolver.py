@@ -1,14 +1,14 @@
 from polywrap_core import (
-    IUriResolutionStep,
-    IUriResolver,
-    UriPackageOrWrapper,
-    Uri,
     Client,
     IUriResolutionContext,
+    IUriResolutionStep,
+    IUriResolver,
     IWrapPackage,
+    Uri,
+    UriPackageOrWrapper,
     Wrapper,
 )
-from polywrap_result import Result, Ok
+from polywrap_result import Ok, Result
 
 from .types import StaticResolverLike
 

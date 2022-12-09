@@ -1,7 +1,8 @@
-from typing import List
-from polywrap_core import Uri, IUriResolutionStep
-from dataclasses import asdict
 import json
+from dataclasses import asdict
+from typing import List
+
+from polywrap_core import IUriResolutionStep, Uri
 
 from ..helpers.get_uri_resolution_path import get_uri_resolution_path
 

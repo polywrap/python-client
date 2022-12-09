@@ -1,12 +1,11 @@
 from polywrap_core import (
-    IUriResolver,
-    Uri,
     Client,
     IUriResolutionContext,
+    IUriResolver,
+    Uri,
     UriPackageOrWrapper,
 )
-
-from polywrap_result import Result, Err
+from polywrap_result import Err, Result
 
 from .errors import InfiniteLoopError
 
@@ -23,9 +22,7 @@ class RecursiveResolver(IUriResolver):
         self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
     ) -> Result[UriPackageOrWrapper]:
         if resolution_context.is_resolving(uri):
-            return Err(
-                InfiniteLoopError(uri, resolution_context.get_history())
-            )
+            return Err(InfiniteLoopError(uri, resolution_context.get_history()))
 
         resolution_context.start_resolving(uri)
 

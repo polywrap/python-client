@@ -1,12 +1,11 @@
+from .types import *
 from .abc import *
+from .errors import *
 from .helpers import *
 from .legacy import *
-from .legacy.fs_resolver import *
-from .legacy.redirect_resolver import *
-from .static_resolver import *
+from .cache import *
 from .recursive_resolver import *
-from .remove.uri_resolver_wrapper import *
-from .remove.builder import *
-
-
-# TODO: ❯ recursive, static, uri aggregator, cache resolver, uri extentions
+from .static_resolver import *
+from .redirect_resolver import *
+from .package_resolver import *
+from .wrapper_resolver import *

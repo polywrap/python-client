@@ -1,12 +1,13 @@
-from .abc.resolver_with_history import IResolverWithHistory
 from polywrap_core import (
+    Client,
+    IUriResolutionContext,
     Uri,
     UriPackageOrWrapper,
     Wrapper,
-    Client,
-    IUriResolutionContext,
 )
-from polywrap_result import Result, Ok
+from polywrap_result import Ok, Result
+
+from .abc.resolver_with_history import IResolverWithHistory
 
 
 class WrapperResolver(IResolverWithHistory):

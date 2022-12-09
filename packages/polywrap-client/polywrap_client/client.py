@@ -7,15 +7,15 @@ from typing import Any, Dict, List, Optional, Union, cast
 from polywrap_core import (
     Client,
     ClientConfig,
+    Env,
     GetFileOptions,
     GetManifestOptions,
     InvokerOptions,
     IUriResolutionContext,
     IUriResolver,
     TryResolveUriOptions,
-    Env,
     Uri,
-    UriPackage,
+    IWrapPackage,
     UriPackageOrWrapper,
     UriResolutionContext,
     Wrapper,
@@ -61,9 +61,7 @@ class PolywrapClient(Client):
         else:
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
-    def get_env_by_uri(
-        self, uri: Uri
-    ) -> Union[Env, None]:
+    def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
         return self._config.envs.get(uri)
 
     async def get_file(
@@ -122,10 +120,10 @@ class PolywrapClient(Client):
                 )
             )
 
-        if isinstance(uri_package_or_wrapper, UriPackage):
-            return await uri_package_or_wrapper.package.create_wrapper()
+        if isinstance(uri_package_or_wrapper, IWrapPackage):
+            return await uri_package_or_wrapper.create_wrapper()
 
-        return Ok(uri_package_or_wrapper.wrapper)
+        return Ok(uri_package_or_wrapper)
 
     async def invoke(self, options: InvokerOptions) -> Result[Any]:
         resolution_context = options.resolution_context or UriResolutionContext()

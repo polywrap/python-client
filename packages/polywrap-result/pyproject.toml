@@ -33,6 +33,7 @@ target-version = ["py310"]
 [tool.pyright]
 typeCheckingMode = "strict"
 reportShadowedImports = false
+reportInvalidTypeVarUse = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
