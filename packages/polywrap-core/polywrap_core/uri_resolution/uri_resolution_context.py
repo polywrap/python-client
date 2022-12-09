@@ -1,6 +1,10 @@
 from typing import List, Optional, Set
 
-from ..types import IUriResolutionContext, IUriResolutionStep, Uri
+from ..types import (
+    IUriResolutionContext,
+    IUriResolutionStep,
+    Uri,
+)
 
 
 class UriResolutionContext(IUriResolutionContext):

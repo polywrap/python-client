@@ -1,9 +1,5 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
-
-from .uri import Uri
-from .wrap_package import IWrapPackage
+from polywrap_core import Uri, IWrapPackage
 
 
 @dataclass(slots=True, kw_only=True)

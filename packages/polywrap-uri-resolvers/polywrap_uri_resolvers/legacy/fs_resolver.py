@@ -7,7 +7,6 @@ from polywrap_core import (
     IUriResolutionContext,
     IUriResolver,
     Uri,
-    UriPackage,
     UriPackageOrWrapper,
 )
 from polywrap_result import Err, Ok, Result
@@ -49,12 +48,9 @@ class FsUriResolver(IUriResolver):
         manifest = manifest_result.unwrap()
 
         return Ok(
-            UriPackage(
-                uri=uri,
-                package=WasmPackage(
-                    wasm_module=wasm_module,
-                    manifest=manifest,
-                    file_reader=self.file_reader,
-                ),
+            WasmPackage(
+                wasm_module=wasm_module,
+                manifest=manifest,
+                file_reader=self.file_reader,
             )
         )

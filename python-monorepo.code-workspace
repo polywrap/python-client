@@ -40,6 +40,10 @@
   "settings": {
       "files.exclude": {
         "**/packages/*": true
-      }
+      },
+      "docify.programmingLanguage": "python",
+      "docify.style": "Google",
+      "docify.intelligentDetection": true,
+      "docify.sidePanelReviewMode": true
   }
 }

@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
-from .uri import Uri
-from .wrapper import Wrapper
+from polywrap_core import Uri, Wrapper
 
 
 @dataclass(slots=True, kw_only=True)

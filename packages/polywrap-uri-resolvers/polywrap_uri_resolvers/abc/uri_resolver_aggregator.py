@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List, cast
 
-from polywrap_core import UriResolutionResult, IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
+from polywrap_core import IUriResolutionStep, IUriResolver, Uri, IUriResolutionContext, Client, UriPackageOrWrapper
 from polywrap_result import Result, Err
+
 
 class IUriResolverAggregator(IUriResolver, ABC):
     @abstractmethod

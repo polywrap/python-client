@@ -10,7 +10,7 @@ from polywrap_core import (
 )
 from polywrap_result import Result
 
-from ..fs_resolver import FsUriResolver
+from .fs_resolver import FsUriResolver
 from .redirect_resolver import RedirectUriResolver
 
 
