@@ -6,8 +6,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from polywrap_result import Result
-from .uri import Uri
 from .env import Env
+from .uri import Uri
 from .uri_resolution_context import IUriResolutionContext
 
 @dataclass(slots=True, kw_only=True)

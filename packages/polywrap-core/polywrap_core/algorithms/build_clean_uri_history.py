@@ -1,8 +1,7 @@
 import traceback
 from typing import List, Optional, Union
 
-from polywrap_core import Uri, IWrapPackage
-from ..types import IUriResolutionStep
+from ..types import Uri, IWrapPackage, IUriResolutionStep
 
 
 CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]

@@ -7,9 +7,9 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_result import Result
+from .env import Env
 from .invoke import Invoker
 from .uri import Uri
-from .env import Env
 from .uri_resolver import IUriResolver
 from .uri_resolver_handler import UriResolverHandler
 
