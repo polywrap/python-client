@@ -1,9 +1,18 @@
+from polywrap_core import (
+    Client,
+    IUriResolutionContext,
+    IWrapPackage,
+    Uri,
+    UriPackageOrWrapper,
+)
+from polywrap_result import Ok, Result
+
 from .abc import IResolverWithHistory
-from polywrap_core import Uri, Client, UriPackageOrWrapper, IUriResolutionContext, IWrapPackage, UriResolutionResult
-from polywrap_result import Result
 
 
 class PackageResolver(IResolverWithHistory):
+    __slots__ = ("uri", "wrap_package")
+
     uri: Uri
     wrap_package: IWrapPackage
 
@@ -12,10 +21,9 @@ class PackageResolver(IResolverWithHistory):
         self.wrap_package = wrap_package
 
     def get_step_description(self) -> str:
-        return f'Package ({self.uri.uri})'
+        return f"Package ({self.uri.uri})"
 
-    async def _try_resolve_uri(self, uri: Uri, client: Client, resolution_context: IUriResolutionContext) -> Result["UriPackageOrWrapper"]:
-        if uri != self.uri:
-            return UriResolutionResult.ok(uri)
-
-        return UriResolutionResult.ok(uri, self.wrap_package)
+    async def _try_resolve_uri(
+        self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
+    ) -> Result["UriPackageOrWrapper"]:
+        return Ok(uri) if uri != self.uri else Ok(self.wrap_package)

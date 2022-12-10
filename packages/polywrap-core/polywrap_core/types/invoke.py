@@ -6,8 +6,8 @@ from typing import Any, Dict, List, Optional, Union
 
 from polywrap_result import Result
 
-from .uri import Uri
 from .env import Env
+from .uri import Uri
 from .uri_resolution_context import IUriResolutionContext
 
 

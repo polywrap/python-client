@@ -1,12 +1,11 @@
 import pytest
 from pathlib import Path
-import pytest
 from polywrap_client import PolywrapClient, PolywrapClientConfig
 from polywrap_manifest import deserialize_wrap_manifest
-from polywrap_core import Uri, InvokerOptions, UriWrapper
+from polywrap_core import Uri, InvokerOptions, IFileReader
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader, StaticResolver
 from polywrap_result import Result, Ok, Err
-from polywrap_wasm import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, IFileReader, WasmWrapper
+from polywrap_wasm import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, WasmWrapper
 
 @pytest.fixture
 def simple_wrap_module():
@@ -58,8 +57,7 @@ async def test_invoke(
         wasm_module=simple_wrap_module, 
         manifest=manifest
     )
-    uri_wrapper = UriWrapper(uri=Uri("ens/wrapper.eth"), wrapper=wrapper)
-    resolver = StaticResolver.from_list([uri_wrapper]).unwrap()
+    resolver = StaticResolver({Uri("ens/wrapper.eth"): wrapper})
 
     config = PolywrapClientConfig(resolver=resolver)
     client = PolywrapClient(config=config)

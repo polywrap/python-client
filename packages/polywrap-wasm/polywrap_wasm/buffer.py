@@ -1,5 +1,5 @@
 import ctypes
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Optional  # pyright: ignore[reportUnusedImport]
 
 BufferPointer = ctypes._Pointer[ctypes.c_ubyte] if TYPE_CHECKING else Any  # type: ignore
 

@@ -19,7 +19,7 @@ async def test_invoke_sha3_512():
     result = await client.invoke(options)
     s = hashlib.sha512()
     s.update(b"hello polywrap!")
-    assert result.result == s.digest()
+    assert result.unwrap() == s.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_sha3_384():
@@ -27,7 +27,7 @@ async def test_invoke_sha3_384():
     result = await client.invoke(options)
     s = hashlib.sha384()
     s.update(b"hello polywrap!")
-    assert result.result == s.digest()
+    assert result.unwrap() == s.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_sha3_256():
@@ -35,7 +35,7 @@ async def test_invoke_sha3_256():
     result = await client.invoke(options)
     s = hashlib.sha256()
     s.update(b"hello polywrap!")
-    assert result.result == s.digest()
+    assert result.unwrap() == s.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_sha3_224():
@@ -43,7 +43,7 @@ async def test_invoke_sha3_224():
     result = await client.invoke(options)
     s = hashlib.sha224()
     s.update(b"hello polywrap!")
-    assert result.result == s.digest()
+    assert result.unwrap() == s.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_keccak_512():
@@ -51,7 +51,7 @@ async def test_invoke_keccak_512():
     result = await client.invoke(options)
     k = keccak.new(digest_bits=512)
     k.update(b'hello polywrap!')
-    assert result.result == k.digest()
+    assert result.unwrap() == k.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_keccak_384():
@@ -59,7 +59,7 @@ async def test_invoke_keccak_384():
     result = await client.invoke(options)
     k = keccak.new(digest_bits=384)
     k.update(b'hello polywrap!')
-    assert result.result == k.digest()
+    assert result.unwrap() == k.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_keccak_256():
@@ -67,7 +67,7 @@ async def test_invoke_keccak_256():
     result = await client.invoke(options)
     k = keccak.new(digest_bits=256)
     k.update(b'hello polywrap!')
-    assert result.result == k.digest()
+    assert result.unwrap() == k.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_keccak_224():
@@ -75,7 +75,7 @@ async def test_invoke_keccak_224():
     result = await client.invoke(options)
     k = keccak.new(digest_bits=224)
     k.update(b'hello polywrap!')
-    assert result.result == k.digest()
+    assert result.unwrap() == k.digest()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_hex_keccak_256():
@@ -83,14 +83,14 @@ async def test_invoke_hex_keccak_256():
     result = await client.invoke(options)
     k = keccak.new(digest_bits=256)
     k.update(b'hello polywrap!')
-    assert result.result == k.hexdigest()
+    assert result.unwrap() == k.hexdigest()
 
 @pytest.mark.skip(reason="buffer keccak must be implemented in python in order to assert")
 async def test_invoke_buffer_keccak_256():
     options = InvokerOptions(uri=uri, method="buffer_keccak_256", args=args, encode_result=False)
     result = await client.invoke(options)
     # TODO:  Not sure exactly what this function `buffer_keccak_256` is doing in order to assert it properly
-    assert result.result == False
+    assert result.unwrap() == False
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_shake_256():
@@ -99,7 +99,7 @@ async def test_invoke_shake_256():
     result = await client.invoke(options)
     s = SHAKE256.new()
     s.update(b"hello polywrap!")
-    assert result.result == s.read(8).hex()
+    assert result.unwrap() == s.read(8).hex()
 
 @pytest.mark.skip(reason="can't invoke sha3 wrapper due to an error related to wasmtime")
 async def test_invoke_shake_128():
@@ -108,4 +108,4 @@ async def test_invoke_shake_128():
     result = await client.invoke(options)
     s = SHAKE128.new()
     s.update(b"hello polywrap!")
-    assert result.result == s.read(8).hex()
+    assert result.unwrap() == s.read(8).hex()

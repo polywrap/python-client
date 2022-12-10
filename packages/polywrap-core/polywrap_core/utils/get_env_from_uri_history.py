@@ -1,6 +1,6 @@
-from typing import List, Union, Dict, Any
+from typing import Any, Dict, List, Union
 
-from ..types import Client, Env, Uri
+from ..types import Client, Uri
 
 
 def get_env_from_uri_history(

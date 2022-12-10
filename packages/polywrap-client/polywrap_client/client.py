@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from textwrap import dedent
 from typing import Any, Dict, List, Optional, Union, cast
@@ -7,18 +8,19 @@ from typing import Any, Dict, List, Optional, Union, cast
 from polywrap_core import (
     Client,
     ClientConfig,
+    Env,
     GetFileOptions,
     GetManifestOptions,
     InvokerOptions,
     IUriResolutionContext,
     IUriResolver,
+    IWrapPackage,
     TryResolveUriOptions,
-    Env,
     Uri,
-    UriPackage,
     UriPackageOrWrapper,
     UriResolutionContext,
     Wrapper,
+    build_clean_uri_history,
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_decode, msgpack_encode
@@ -61,9 +63,7 @@ class PolywrapClient(Client):
         else:
             return Err.from_str(f"Unable to find implementations for uri: {uri}")
 
-    def get_env_by_uri(
-        self, uri: Uri
-    ) -> Union[Env, None]:
+    def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
         return self._config.envs.get(uri)
 
     async def get_file(
@@ -98,12 +98,11 @@ class PolywrapClient(Client):
         if result.is_err():
             return cast(Err, result)
         if result.is_ok() and result.ok is None:
-            # FIXME: add resolution stack
             return Err.from_str(
                 dedent(
                     f"""
                     Error resolving URI "{uri.uri}"
-                    Resolution Stack: NotImplemented
+                    Resolution Stack: {json.dumps(build_clean_uri_history(resolution_context.get_history()), indent=2)}
                     """
                 )
             )
@@ -111,21 +110,20 @@ class PolywrapClient(Client):
         uri_package_or_wrapper = result.unwrap()
 
         if isinstance(uri_package_or_wrapper, Uri):
-            # FIXME: add resolution stack
             return Err.from_str(
                 dedent(
                     f"""
                     Error resolving URI "{uri.uri}"
                     URI not found
-                    Resolution Stack: NotImplemented
+                    Resolution Stack: {json.dumps(build_clean_uri_history(resolution_context.get_history()), indent=2)}
                     """
                 )
             )
 
-        if isinstance(uri_package_or_wrapper, UriPackage):
-            return await uri_package_or_wrapper.package.create_wrapper()
+        if isinstance(uri_package_or_wrapper, IWrapPackage):
+            return await uri_package_or_wrapper.create_wrapper()
 
-        return Ok(uri_package_or_wrapper.wrapper)
+        return Ok(uri_package_or_wrapper)
 
     async def invoke(self, options: InvokerOptions) -> Result[Any]:
         resolution_context = options.resolution_context or UriResolutionContext()

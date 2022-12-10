@@ -2,20 +2,21 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass, field
-from typing import List, Optional, Union, Dict
+from typing import Dict, List, Optional, Union
 
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_result import Result
 
+from .env import Env
 from .invoke import Invoker
 from .uri import Uri
-from .env import Env
 from .uri_resolver import IUriResolver
 from .uri_resolver_handler import UriResolverHandler
 
+
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    envs: Dict[Uri, Env] = field(default_factory=dict) 
+    envs: Dict[Uri, Env] = field(default_factory=dict)
     interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: IUriResolver
 
@@ -41,9 +42,7 @@ class Client(Invoker, UriResolverHandler):
         pass
 
     @abstractmethod
-    def get_env_by_uri(
-        self, uri: Uri
-    ) -> Union[Env, None]:
+    def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
         pass
 
     @abstractmethod

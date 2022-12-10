@@ -1,16 +1,18 @@
-from .abc import IResolverWithHistory
 from polywrap_core import (
+    Client,
+    IUriResolutionContext,
     Uri,
     UriPackageOrWrapper,
     Wrapper,
-    UriResolutionResult,
-    Client,
-    IUriResolutionContext,
 )
-from polywrap_result import Result
+from polywrap_result import Ok, Result
+
+from .abc.resolver_with_history import IResolverWithHistory
 
 
 class WrapperResolver(IResolverWithHistory):
+    __slots__ = ("uri", "wrapper")
+
     uri: Uri
     wrapper: Wrapper
 
@@ -24,6 +26,4 @@ class WrapperResolver(IResolverWithHistory):
     async def _try_resolve_uri(
         self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
     ) -> Result[UriPackageOrWrapper]:
-        if uri != self.uri:
-            return UriResolutionResult.ok(uri)
-        return UriResolutionResult.ok(uri, None, self.wrapper)
+        return Ok(uri) if uri != self.uri else Ok(self.wrapper)

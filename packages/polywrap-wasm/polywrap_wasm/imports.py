@@ -1,8 +1,9 @@
 from textwrap import dedent
 from typing import Any, List, cast
+
 from polywrap_core import Invoker, InvokerOptions, Uri
-from polywrap_result import Result, Ok, Err
 from polywrap_msgpack import msgpack_encode
+from polywrap_result import Err, Ok, Result
 from unsync import Unfuture, unsync
 from wasmtime import (
     FuncType,
@@ -366,7 +367,8 @@ def create_instance(
             raise WasmAbortError(
                 f"failed calling invoker.get_implementations({repr(Uri(uri))})"
             ) from result.unwrap_err()
-        implementations: List[str] = [uri.uri for uri in result.unwrap()]
+        maybeImpls = result.unwrap()
+        implementations: List[str] = [uri.uri for uri in maybeImpls] if maybeImpls else []
         state.get_implementations_result = msgpack_encode(implementations)
         return len(implementations) > 0
 

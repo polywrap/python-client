@@ -1,6 +1,7 @@
 from typing import Optional
+
 from polywrap_core import IFileReader
-from polywrap_result import Result, Ok
+from polywrap_result import Ok, Result
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
@@ -10,7 +11,12 @@ class InMemoryFileReader(IFileReader):
     _wasm_module: Optional[bytes]
     _base_file_reader: IFileReader
 
-    def __init__(self, base_file_reader: IFileReader, wasm_module: Optional[bytes] = None, wasm_manifest: Optional[bytes] = None):
+    def __init__(
+        self,
+        base_file_reader: IFileReader,
+        wasm_module: Optional[bytes] = None,
+        wasm_manifest: Optional[bytes] = None,
+    ):
         self._wasm_module = wasm_module
         self._wasm_manifest = wasm_manifest
         self._base_file_reader = base_file_reader
