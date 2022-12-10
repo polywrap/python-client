@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from textwrap import dedent
 from typing import Any, Dict, List, Optional, Union, cast
@@ -13,12 +14,13 @@ from polywrap_core import (
     InvokerOptions,
     IUriResolutionContext,
     IUriResolver,
+    IWrapPackage,
     TryResolveUriOptions,
     Uri,
-    IWrapPackage,
     UriPackageOrWrapper,
     UriResolutionContext,
     Wrapper,
+    build_clean_uri_history,
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_decode, msgpack_encode
@@ -96,12 +98,11 @@ class PolywrapClient(Client):
         if result.is_err():
             return cast(Err, result)
         if result.is_ok() and result.ok is None:
-            # FIXME: add resolution stack
             return Err.from_str(
                 dedent(
                     f"""
                     Error resolving URI "{uri.uri}"
-                    Resolution Stack: NotImplemented
+                    Resolution Stack: {json.dumps(build_clean_uri_history(resolution_context.get_history()), indent=2)}
                     """
                 )
             )
@@ -109,13 +110,12 @@ class PolywrapClient(Client):
         uri_package_or_wrapper = result.unwrap()
 
         if isinstance(uri_package_or_wrapper, Uri):
-            # FIXME: add resolution stack
             return Err.from_str(
                 dedent(
                     f"""
                     Error resolving URI "{uri.uri}"
                     URI not found
-                    Resolution Stack: NotImplemented
+                    Resolution Stack: {json.dumps(build_clean_uri_history(resolution_context.get_history()), indent=2)}
                     """
                 )
             )
