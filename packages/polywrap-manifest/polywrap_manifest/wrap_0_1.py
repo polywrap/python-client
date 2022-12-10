@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Union, List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel, Extra, Field
 
@@ -15,8 +15,8 @@ class Version(Enum):
     WRAP Standard Version
     """
 
-    VERSION_0_1_0 = '0.1.0'
-    VERSION_0_1 = '0.1'
+    VERSION_0_1_0 = "0.1.0"
+    VERSION_0_1 = "0.1"
 
 
 class Type(Enum):
@@ -24,9 +24,9 @@ class Type(Enum):
     Wrapper Package Type
     """
 
-    WASM = 'wasm'
-    INTERFACE = 'interface'
-    PLUGIN = 'plugin'
+    WASM = "wasm"
+    INTERFACE = "interface"
+    PLUGIN = "plugin"
 
 
 class Env(BaseModel):
@@ -39,14 +39,14 @@ class GetImplementations(BaseModel):
 
 class CapabilityDefinition(BaseModel):
     get_implementations: Optional[GetImplementations] = Field(
-        None, alias='getImplementations'
+        None, alias="getImplementations"
     )
 
 
 class ImportedDefinition(BaseModel):
     uri: str
     namespace: str
-    native_type: str = Field(..., alias='nativeType')
+    native_type: str = Field(..., alias="nativeType")
 
 
 class WithKind(BaseModel):
@@ -64,20 +64,20 @@ class GenericDefinition(WithKind):
 
 
 class ScalarType(Enum):
-    U_INT = 'UInt'
-    U_INT8 = 'UInt8'
-    U_INT16 = 'UInt16'
-    U_INT32 = 'UInt32'
-    INT = 'Int'
-    INT8 = 'Int8'
-    INT16 = 'Int16'
-    INT32 = 'Int32'
-    STRING = 'String'
-    BOOLEAN = 'Boolean'
-    BYTES = 'Bytes'
-    BIG_INT = 'BigInt'
-    BIG_NUMBER = 'BigNumber'
-    JSON = 'JSON'
+    U_INT = "UInt"
+    U_INT8 = "UInt8"
+    U_INT16 = "UInt16"
+    U_INT32 = "UInt32"
+    INT = "Int"
+    INT8 = "Int8"
+    INT16 = "Int16"
+    INT32 = "Int32"
+    STRING = "String"
+    BOOLEAN = "Boolean"
+    BYTES = "Bytes"
+    BIG_INT = "BigInt"
+    BIG_NUMBER = "BigNumber"
+    JSON = "JSON"
 
 
 class ScalarDefinition(GenericDefinition):
@@ -85,15 +85,15 @@ class ScalarDefinition(GenericDefinition):
 
 
 class MapKeyType(Enum):
-    U_INT = 'UInt'
-    U_INT8 = 'UInt8'
-    U_INT16 = 'UInt16'
-    U_INT32 = 'UInt32'
-    INT = 'Int'
-    INT8 = 'Int8'
-    INT16 = 'Int16'
-    INT32 = 'Int32'
-    STRING = 'String'
+    U_INT = "UInt"
+    U_INT8 = "UInt8"
+    U_INT16 = "UInt16"
+    U_INT32 = "UInt32"
+    INT = "Int"
+    INT8 = "Int8"
+    INT16 = "Int16"
+    INT32 = "Int32"
+    STRING = "String"
 
 
 class ObjectRef(GenericDefinition):
@@ -132,33 +132,33 @@ class WrapManifest(BaseModel):
     class Config:
         extra = Extra.forbid
 
-    version: Version = Field(..., description='WRAP Standard Version')
-    type: Type = Field(..., description='Wrapper Package Type')
-    name: str = Field(..., description='Wrapper Name', regex='^[a-zA-Z0-9\\-\\_]+$')
-    abi: Abi = Field(..., description='Information of modules')
+    version: Version = Field(..., description="WRAP Standard Version")
+    type: Type = Field(..., description="Wrapper Package Type")
+    name: str = Field(..., description="Wrapper Name", regex="^[a-zA-Z0-9\\-\\_]+$")
+    abi: Abi = Field(..., description="Information of modules")
 
 
 class Abi(BaseModel):
-    version: Optional[str] = Field(None, description='ABI Version')
-    object_types: Optional[List[ObjectDefinition]] = Field(None, alias='objectTypes')
-    module_type: Optional[ModuleDefinition] = Field(None, alias='moduleType')
-    enum_types: Optional[List[EnumDefinition]] = Field(None, alias='enumTypes')
+    version: Optional[str] = Field(None, description="ABI Version")
+    object_types: Optional[List[ObjectDefinition]] = Field(None, alias="objectTypes")
+    module_type: Optional[ModuleDefinition] = Field(None, alias="moduleType")
+    enum_types: Optional[List[EnumDefinition]] = Field(None, alias="enumTypes")
     interface_types: Optional[List[InterfaceDefinition]] = Field(
-        None, alias='interfaceTypes'
+        None, alias="interfaceTypes"
     )
     imported_object_types: Optional[List[ImportedObjectDefinition]] = Field(
-        None, alias='importedObjectTypes'
+        None, alias="importedObjectTypes"
     )
     imported_module_types: Optional[List[ImportedModuleDefinition]] = Field(
-        None, alias='importedModuleTypes'
+        None, alias="importedModuleTypes"
     )
     imported_enum_types: Optional[List[ImportedEnumDefinition]] = Field(
-        None, alias='importedEnumTypes'
+        None, alias="importedEnumTypes"
     )
     imported_env_types: Optional[List[ImportedEnvDefinition]] = Field(
-        None, alias='importedEnvTypes'
+        None, alias="importedEnvTypes"
     )
-    env_type: Optional[EnvDefinition] = Field(None, alias='envType')
+    env_type: Optional[EnvDefinition] = Field(None, alias="envType")
 
 
 class ObjectDefinition(GenericDefinition, WithComment):
@@ -175,12 +175,12 @@ class ModuleDefinition(GenericDefinition, WithComment):
 class MethodDefinition(GenericDefinition, WithComment):
     arguments: Optional[List[PropertyDefinition]] = None
     env: Optional[Env] = None
-    return_: Optional[PropertyDefinition] = Field(None, alias='return')
+    return_: Optional[PropertyDefinition] = Field(None, alias="return")
 
 
 class ImportedModuleDefinition(GenericDefinition, ImportedDefinition, WithComment):
     methods: Optional[List[MethodDefinition]] = None
-    is_interface: Optional[bool] = Field(None, alias='isInterface')
+    is_interface: Optional[bool] = Field(None, alias="isInterface")
 
 
 class AnyDefinition(GenericDefinition):
@@ -190,7 +190,7 @@ class AnyDefinition(GenericDefinition):
     object: Optional[ObjectRef] = None
     enum: Optional[EnumRef] = None
     unresolved_object_or_enum: Optional[UnresolvedObjectOrEnumRef] = Field(
-        None, alias='unresolvedObjectOrEnum'
+        None, alias="unresolvedObjectOrEnum"
     )
 
 
