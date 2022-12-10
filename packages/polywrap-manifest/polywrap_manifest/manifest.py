@@ -7,8 +7,8 @@ and run python ./scripts/generate.py to regenerate this file.
 from dataclasses import dataclass
 from enum import Enum
 
-from .wrap_0_1 import Abi as WrapAbi_0_1_0_1
 from .wrap_0_1 import WrapManifest as WrapManifest_0_1
+from .wrap_0_1 import Abi as WrapAbi_0_1_0_1
 from .wrap_0_1 import *
 
 
