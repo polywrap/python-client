@@ -52,10 +52,8 @@ jobs:
         working-directory: ./packages/${{ matrix.package }}
 
       - name: Publish python package to pypi
-        run: poetry publish --build
+        run: poetry publish --build --username __token__ --password ${{secrets.POLYWRAP_BUILD_BOT_PYPI_PAT}}
         working-directory: ./packages/${{ matrix.package }}
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{secrets.POLYWRAP_BUILD_BOT_PYPI_PAT}}
 
       - uses: actions/github-script@0.8.0
         with:
