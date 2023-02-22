@@ -8,7 +8,7 @@ It also defines the default Extension types and extension hook for
 custom extension types defined by wrap standard
 """
 from enum import Enum
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Set, cast
 
 import msgpack
 from msgpack.exceptions import UnpackValueError
@@ -73,7 +73,7 @@ def sanitize(value: Any) -> Any:
             if hasattr(value, s)
         }
     if hasattr(value, "__dict__"):
-        return {k: sanitize(v) for k, v in vars(value).items()}
+        return {k: sanitize(v) for k, v in cast(Dict[Any, Any], vars(value)).items()}
     return value
 
 
