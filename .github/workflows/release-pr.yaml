@@ -123,7 +123,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
 
       - name: Apply Python Version & Commit
-        run: bash ./scripts/patchVersion.sh ${{env.RELEASE_VERSION}}
+        run: bash ./scripts/patchVersion.sh ${{env.RELEASE_VERSION}} __token__ ${{secrets.POLYWRAP_BUILD_BOT_PYPI_PAT}}
 
       - name: Create Pull Request
         id: cpr
