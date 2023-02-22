@@ -1,0 +1,69 @@
+name: CD
+on:
+  # When Pull Request is merged
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  getPackages:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ env.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - id: set-matrix
+        run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
+  Publish:
+    name: Publish python packages to pypi
+    needs: 
+      - getPackages
+    strategy:
+      matrix: ${{fromJSON(needs.getPackages.outputs.matrix)}}
+    if: |
+      github.event.pull_request.user.login == 'polywrap-build-bot' &&
+      github.event.pull_request.merged == true
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Read VERSION into env.RELEASE_VERSION
+        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
+
+      - name: Is Pre-Release
+        run: |
+          STR="${RELEASE_VERSION}"
+          SUB='pre.'
+          if [[ "$STR" == *"$SUB"* ]]; then
+            echo PRE_RELEASE=true >> $GITHUB_ENV
+          else
+            echo PRE_RELEASE=false >> $GITHUB_ENV
+          fi
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install python packages
+        run: poetry install
+        working-directory: ./packages/${{ matrix.package }}
+
+      - name: Publish python package to pypi
+        run: poetry publish --build
+        working-directory: ./packages/${{ matrix.package }}
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{secrets.POLYWRAP_BUILD_BOT_PYPI_PAT}}
+
+      - uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '**[NPM Release Published](https://www.npmjs.com/search?q=polywrap) `${{env.RELEASE_VERSION}}`** 🎉'
+            })
