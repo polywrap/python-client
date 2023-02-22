@@ -111,6 +111,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+      
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
 
       - name: Set Git Identity
         run: |
