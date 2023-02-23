@@ -1,87 +1,84 @@
-# name: Release-PR
-# on:
-#   pull_request:
-#     types: [closed]
 name: Release-PR
 on:
   pull_request:
+    types: [closed]
 
 jobs:
-  # Pre-Check:
-  #   if: |
-  #     github.event.pull_request.merged &&
-  #     endsWith(github.event.pull_request.title, '/workflows/release-pr') &&
-  #     github.event.pull_request.user.login != 'polywrap-build-bot'
-  #   runs-on: ubuntu-18.04
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         ref: ${{github.event.pull_request.base.ref}}
+  Pre-Check:
+    if: |
+      github.event.pull_request.merged &&
+      endsWith(github.event.pull_request.title, '/workflows/release-pr') &&
+      github.event.pull_request.user.login != 'polywrap-build-bot'
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{github.event.pull_request.base.ref}}
 
-  #     - name: Pull-Request Creator Is Publisher?
-  #       run: |
-  #         exists=$(echo $(grep -Fxcs ${CREATOR} .github/PUBLISHERS))
-  #         if [ "$exists" == "1" ] ; then
-  #           echo IS_PUBLISHER=true >> $GITHUB_ENV
-  #         else
-  #           echo IS_PUBLISHER=false >> $GITHUB_ENV
-  #         fi
-  #       env:
-  #         CREATOR: ${{github.event.pull_request.user.login}}
+      - name: Pull-Request Creator Is Publisher?
+        run: |
+          exists=$(echo $(grep -Fxcs ${CREATOR} .github/PUBLISHERS))
+          if [ "$exists" == "1" ] ; then
+            echo IS_PUBLISHER=true >> $GITHUB_ENV
+          else
+            echo IS_PUBLISHER=false >> $GITHUB_ENV
+          fi
+        env:
+          CREATOR: ${{github.event.pull_request.user.login}}
 
-  #     - name: Creator Is Not Publisher...
-  #       if: env.IS_PUBLISHER == 'false'
-  #       uses: actions/github-script@0.8.0
-  #       with:
-  #         github-token: ${{secrets.GITHUB_TOKEN}}
-  #         script: |
-  #           github.issues.createComment({
-  #             issue_number: context.issue.number,
-  #             owner: context.repo.owner,
-  #             repo: context.repo.repo,
-  #             body: '${{github.event.pull_request.user.login}} is not a PUBLISHER. Please see the .github/PUBLISHERS file...'
-  #           })
+      - name: Creator Is Not Publisher...
+        if: env.IS_PUBLISHER == 'false'
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '${{github.event.pull_request.user.login}} is not a PUBLISHER. Please see the .github/PUBLISHERS file...'
+            })
 
-  #     - name: Read VERSION into env.RELEASE_VERSION
-  #       run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
+      - name: Read VERSION into env.RELEASE_VERSION
+        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
 
-  #     - name: Tag Exists?
-  #       id: tag_check
-  #       shell: bash -ex {0}
-  #       run: |
-  #         GET_API_URL="https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}"
-  #         http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
-  #           -H "Authorization: token ${GITHUB_TOKEN}")
-  #         if [ "$http_status_code" -ne "404" ] ; then
-  #           echo TAG_EXISTS=true >> $GITHUB_ENV
-  #         else
-  #           echo TAG_EXISTS=false >> $GITHUB_ENV
-  #         fi
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tag Exists?
+        id: tag_check
+        shell: bash -ex {0}
+        run: |
+          GET_API_URL="https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}"
+          http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
+            -H "Authorization: token ${GITHUB_TOKEN}")
+          if [ "$http_status_code" -ne "404" ] ; then
+            echo TAG_EXISTS=true >> $GITHUB_ENV
+          else
+            echo TAG_EXISTS=false >> $GITHUB_ENV
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  #     - name: Release Already Exists...
-  #       if: env.TAG_EXISTS == 'true'
-  #       uses: actions/github-script@0.8.0
-  #       with:
-  #         github-token: ${{secrets.GITHUB_TOKEN}}
-  #         script: |
-  #           github.issues.createComment({
-  #             issue_number: context.issue.number,
-  #             owner: context.repo.owner,
-  #             repo: context.repo.repo,
-  #             body: '[Release Already Exists](https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}) (`${{env.RELEASE_VERSION}}`)'
-  #           })
+      - name: Release Already Exists...
+        if: env.TAG_EXISTS == 'true'
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '[Release Already Exists](https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}) (`${{env.RELEASE_VERSION}}`)'
+            })
 
-  #     - name: Fail If Conditions Aren't Met...
-  #       if: |
-  #         env.IS_PUBLISHER != 'true' ||
-  #         env.TAG_EXISTS != 'false'
-  #       run: exit 1
+      - name: Fail If Conditions Aren't Met...
+        if: |
+          env.IS_PUBLISHER != 'true' ||
+          env.TAG_EXISTS != 'false'
+        run: exit 1
 
   Release-PR:
-    # needs: Pre-Check
+    needs: Pre-Check
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
