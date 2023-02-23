@@ -9,9 +9,11 @@ function patchVersion() {
   cd packages/$package
   poetry version $version
   if [ "${#deps[@]}" -ne "0" ]; then
-    for dep in "${deps[@]}"; do
-      poetry add $dep@$version
-    done
+    if [ "${deps[0]}" != "" ]; then
+      for dep in "${deps[@]}"; do
+        poetry add $dep@$version
+      done
+    fi
   fi
   poetry lock
   poetry install
