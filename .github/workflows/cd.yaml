@@ -5,63 +5,61 @@ on:
     types: [closed]
 
 jobs:
-  getPackages:
+  GetVersion:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     outputs:
-      matrix: ${{ env.matrix }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - id: set-matrix
-        run: echo "matrix=$(./scripts/getPackages.sh)" >> $GITHUB_ENV
-  Publish:
-    name: Publish python packages to pypi
-    needs: 
-      - getPackages
-    strategy:
-      matrix: ${{fromJSON(needs.getPackages.outputs.matrix)}}
+      version: ${{ env.RELEASE_VERSION }}
     if: |
       github.event.pull_request.user.login == 'polywrap-build-bot' &&
       github.event.pull_request.merged == true
-    runs-on: ubuntu-18.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.base.ref }}
-
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Halt release if CI failed
+        run: exit 1
+        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
       - name: Read VERSION into env.RELEASE_VERSION
         run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
-
-      - name: Is Pre-Release
+      - name: Check if tag Exists
+        id: tag_check
+        shell: bash -ex {0}
         run: |
-          STR="${RELEASE_VERSION}"
-          SUB='pre.'
-          if [[ "$STR" == *"$SUB"* ]]; then
-            echo PRE_RELEASE=true >> $GITHUB_ENV
-          else
-            echo PRE_RELEASE=false >> $GITHUB_ENV
+          GET_API_URL="https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}"
+          http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
+            -H "Authorization: token ${GITHUB_TOKEN}")
+          if [ "$http_status_code" -ne "404" ] ; then
+            exit 1
           fi
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  Github-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs:
+      - GetVersion
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: print version with needs
+        run: echo ${{ needs.GetVersion.outputs.version }}
+      - id: changelog
+        name: "Generate release changelog"
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
         with:
-          python-version: "3.10"
-
-      - name: Install python packages
-        run: poetry install
-        working-directory: ./packages/${{ matrix.package }}
-
-      - name: Publish python package to pypi
-        run: poetry publish --build --username __token__ --password ${{secrets.POLYWRAP_BUILD_BOT_PYPI_PAT}}
-        working-directory: ./packages/${{ matrix.package }}
-
-      - uses: actions/github-script@0.8.0
+          unreleasedOnly: true
+          unreleasedLabel: ${{ needs.GetVersion.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '**[NPM Release Published](https://www.npmjs.com/search?q=polywrap) `${{env.RELEASE_VERSION}}`** 🎉'
-            })
+          tag_name: ${{ needs.GetVersion.outputs.version }}
+          release_name: Release ${{ needs.GetVersion.outputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: true
+          prerelease: false
