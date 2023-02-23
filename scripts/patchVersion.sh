@@ -1,8 +1,14 @@
 function patchVersion() {
   local package=$1
   local version=$2
-  local depsArr=$3[@]
-  local deps=("${!depsArr}")
+  if [ -z "$3" ]; then
+    local deps=()
+  else
+    local depsArr=$3[@]
+    local deps=("${!depsArr}")
+  fi
+
+  echo "deps: ${deps[@]}"
   
   local pwd=$(echo $PWD)
 
@@ -28,6 +34,7 @@ function publishPackage() {
   local pwd=$(echo $PWD)
 
   cd packages/$package
+  poetry version
   poetry publish --build --username $username --password $password
   cd $pwd
 }
