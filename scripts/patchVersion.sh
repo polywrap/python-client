@@ -7,11 +7,12 @@ function patchVersion() {
     local depsArr=$3[@]
     local deps=("${!depsArr}")
   fi
+
+  echo "deps: ${deps[@]}"
   
   local pwd=$(echo $PWD)
 
   cd packages/$package
-  echo "Patching $package to version $version"
   poetry version $version
   if [ "${#deps[@]}" -ne "0" ]; then
     if [ "${deps[0]}" != "" ]; then
