@@ -1,8 +1,12 @@
 function patchVersion() {
   local package=$1
   local version=$2
-  local depsArr=$3[@]
-  local deps=("${!depsArr}")
+  if [ -z "$3" ]; then
+    local deps=()
+  else
+    local depsArr=$3[@]
+    local deps=("${!depsArr}")
+  fi
   
   local pwd=$(echo $PWD)
 
