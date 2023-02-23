@@ -1,7 +1,10 @@
+# name: Release-PR
+# on:
+#   pull_request:
+#     types: [closed]
 name: Release-PR
 on:
   pull_request:
-    types: [closed]
 
 jobs:
   Pre-Check:

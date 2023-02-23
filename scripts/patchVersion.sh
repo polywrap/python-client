@@ -7,6 +7,7 @@ function patchVersion() {
   local pwd=$(echo $PWD)
 
   cd packages/$package
+  echo "Patching $package to version $version"
   poetry version $version
   if [ "${#deps[@]}" -ne "0" ]; then
     if [ "${deps[0]}" != "" ]; then
@@ -28,6 +29,7 @@ function publishPackage() {
   local pwd=$(echo $PWD)
 
   cd packages/$package
+  poetry version
   poetry publish --build --username $username --password $password
   cd $pwd
 }
