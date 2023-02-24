@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-core"
-version = "0.1.0"
+version = "0.1.0a4"
 description = ""
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 
@@ -12,8 +12,8 @@ authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 python = "^3.10"
 gql = "3.4.0"
 graphql-core = "^3.2.1"
-polywrap-manifest = { path = "../polywrap-manifest", develop = true }
-polywrap-result = { path = "../polywrap-result", develop = true }
+polywrap-manifest = "0.1.0a4"
+polywrap-result = "0.1.0a4"
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
