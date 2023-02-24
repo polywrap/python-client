@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-client"
-version = "0.1.0"
+version = "0.1.0a4"
 description = ""
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.md"
@@ -13,11 +13,11 @@ readme = "README.md"
 python = "^3.10"
 wasmtime = "^1.0.1"
 unsync = "^1.4.0"
-polywrap-core = { path = "../polywrap-core", develop = true }
-polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
-polywrap-manifest = { path = "../polywrap-manifest", develop = true }
-polywrap-result = { path = "../polywrap-result", develop = true }
-polywrap-uri-resolvers = { path = "../polywrap-uri-resolvers", develop = true }
+polywrap-core = "0.1.0a4"
+polywrap-msgpack = "0.1.0a4"
+polywrap-manifest = "0.1.0a4"
+polywrap-result = "0.1.0a4"
+polywrap-uri-resolvers = "0.1.0a4"
 result = "^0.8.0"
 pysha3 = "^1.0.2"
 pycryptodome = "^3.14.1"

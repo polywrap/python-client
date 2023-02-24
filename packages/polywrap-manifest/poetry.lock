@@ -946,34 +946,30 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0"
+version = "0.1.0a4"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_msgpack-0.1.0a4-py3-none-any.whl", hash = "sha256:d5c2c8760d061b4a1ba55af66cf7043c37734fc9675d6e456319ea00dde33752"},
+    {file = "polywrap_msgpack-0.1.0a4.tar.gz", hash = "sha256:e3dbb63bde9185987e9b0c51380fa7e7f1714ec1dcb435bca1b6ae6f48b6c72c"},
+]
 
 [package.dependencies]
-msgpack = "^1.0.4"
-
-[package.source]
-type = "directory"
-url = "../polywrap-msgpack"
+msgpack = ">=1.0.4,<2.0.0"
 
 [[package]]
 name = "polywrap-result"
-version = "0.1.0"
+version = "0.1.0a4"
 description = "Result object"
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
-
-[package.source]
-type = "directory"
-url = "../polywrap-result"
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_result-0.1.0a4-py3-none-any.whl", hash = "sha256:794d278753a3fd6583d592e8e0d3d670177b11599195960ce39521bf3e2eb715"},
+    {file = "polywrap_result-0.1.0a4.tar.gz", hash = "sha256:81c0b4e90958d6d773bd9d4dc6a3e3184ca11b32feb85ea231b0cdef07a5dd76"},
+]
 
 [[package]]
 name = "prance"
@@ -1709,4 +1705,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7f630e1cfe1213dc3c9599a8a4c50c02e0b9fcea602b9fe5b1eb2a4fa6eed1e5"
+content-hash = "75fa5542b4d608ab5472660220854a7802410ec7b68218eeb24542ca44cd4fab"
