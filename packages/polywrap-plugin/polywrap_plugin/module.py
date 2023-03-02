@@ -8,7 +8,7 @@ TConfig = TypeVar("TConfig")
 TResult = TypeVar("TResult")
 
 
-class PluginModule(Generic[TConfig, TResult], ABC):
+class PluginModule(Generic[TConfig], ABC):
     env: Dict[str, Any]
     config: TConfig
 

@@ -48,7 +48,7 @@ class IUriResolverAggregator(IUriResolver, ABC):
             result = await resolver.try_resolve_uri(uri, client, sub_context)
 
             if result.is_ok():
-                result.unwrap()
+                return result
 
             if not result.is_ok():
                 step = IUriResolutionStep(

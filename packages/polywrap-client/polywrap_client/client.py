@@ -97,7 +97,7 @@ class PolywrapClient(Client):
         )
         if result.is_err():
             return cast(Err, result)
-        if result.is_ok() and result.ok is None:
+        if result.is_ok() and result.ok() is None:
             return Err.from_str(
                 dedent(
                     f"""

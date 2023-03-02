@@ -1,20 +1,20 @@
-from typing import Generic, Optional
+from typing import Generic, Optional, TypeVar
 
 from polywrap_core import GetManifestOptions, IWrapPackage, Wrapper
 from polywrap_manifest import AnyWrapManifest
 from polywrap_result import Ok, Result
 
-from .module import PluginModule, TConfig, TResult
+from .module import PluginModule
 from .wrapper import PluginWrapper
 
+TConfig = TypeVar("TConfig")
 
-class PluginPackage(Generic[TConfig, TResult], IWrapPackage):
-    module: PluginModule[TConfig, TResult]
+
+class PluginPackage(Generic[TConfig], IWrapPackage):
+    module: PluginModule[TConfig]
     manifest: AnyWrapManifest
 
-    def __init__(
-        self, module: PluginModule[TConfig, TResult], manifest: AnyWrapManifest
-    ):
+    def __init__(self, module: PluginModule[TConfig], manifest: AnyWrapManifest):
         self.module = module
         self.manifest = manifest
 
