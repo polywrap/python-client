@@ -200,8 +200,10 @@ def create_instance(
         result = unfuture_result.result()
 
         if result.is_ok():
-            result = cast(Ok[bytes], result)
-            state.subinvoke["result"] = result.unwrap()
+            if isinstance(result.unwrap(), (bytes, bytearray)):
+                state.subinvoke["result"] = result.unwrap()
+                return True
+            state.subinvoke["result"] = msgpack_encode(result.unwrap())
             return True
         elif result.is_err():
             error = cast(Err, result).unwrap_err()
