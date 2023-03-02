@@ -24,7 +24,7 @@ def pack(o: Any, stream: IOBase, **kwargs: Dict[Any, Any]) -> IOBase:  # -> None
     """
     ...
 
-def packb(o: Any, **kwargs: Dict[Any, Any]) -> bytes:  # -> None:
+def packb(o: Any, default: Optional[Callable[[Any], ExtType]], use_bin_type: bool, **kwargs: Dict[Any, Any]) -> bytes:  # -> None:
     """
     Pack object `o` and return packed bytes
 
@@ -32,7 +32,7 @@ def packb(o: Any, **kwargs: Dict[Any, Any]) -> bytes:  # -> None:
     """
     ...
 
-def unpack(stream: IOBase, **kwargs: Dict[Any, Any]) -> Any:
+def unpack(stream: IOBase,**kwargs: Dict[Any, Any]) -> Any:
     """
     Unpack an object from `stream`.
 

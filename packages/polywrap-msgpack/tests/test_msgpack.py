@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Set, Tuple
 
 from polywrap_msgpack import msgpack_decode, msgpack_encode, sanitize
+from polywrap_msgpack.generic_map import GenericMap
 from tests.conftest import DataClassObject, DataClassObjectWithSlots, Example
 
 # ENCODING AND DECODING
@@ -147,16 +148,10 @@ def test_sanitize_set_returns_list_with_all_items_of_the_set(
     set1: Set[Any], set2: Set[Any]
 ):
     sanitized = sanitize(set1)
-    # r: List[bool] = []
     assert list(set1) == sanitized
-    # [r.append(True) if item in sanitized else r.append(False) for item in set1]
-    # assert False not in r
 
     sanitized = sanitize(set2)
     assert list(set2) == sanitized
-    # r = []
-    # [r.append(True) if item in sanitized else r.append(False) for item in set2]
-    # assert False not in r
 
 
 def test_sanitize_set_returns_list_of_same_length(set1: Set[Any]):
@@ -261,3 +256,9 @@ def test_sanitize_dict_of_dataclass_objects_with_slots_returns_list_of_dicts(
         "firstKey": dataclass_object_with_slots1_sanitized,
         "secondKey": dataclass_object_with_slots2_sanitized,
     }
+
+
+def test_encode_generic_map():
+    generic_map = GenericMap({"firstKey": "firstValue", "secondKey": "secondValue"})
+    assert sanitize(generic_map) == generic_map
+    assert msgpack_decode(msgpack_encode(generic_map)) == generic_map

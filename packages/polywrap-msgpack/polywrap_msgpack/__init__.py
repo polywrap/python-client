@@ -8,10 +8,13 @@ It also defines the default Extension types and extension hook for
 custom extension types defined by wrap standard
 """
 from enum import Enum
-from typing import Any, Dict, List, Set, cast
+from typing import Any, Dict, List, Set, Tuple, cast
 
 import msgpack
+from msgpack.ext import ExtType
 from msgpack.exceptions import UnpackValueError
+
+from .generic_map import GenericMap
 
 
 class ExtensionTypes(Enum):
@@ -20,7 +23,24 @@ class ExtensionTypes(Enum):
     GENERIC_MAP = 1
 
 
-def ext_hook(code: int, data: bytes) -> Any:
+def encode_ext_hook(obj: Any) -> ExtType:
+    """Extension hook for extending the msgpack supported types.
+
+    Args:
+        obj (Any): object to be encoded
+
+    Raises:
+        TypeError: when given object is not supported
+
+    Returns:
+        Tuple[int, bytes]: extension type code and payload
+    """
+    if isinstance(obj, GenericMap):
+        return ExtType(ExtensionTypes.GENERIC_MAP.value, msgpack_encode(obj._map)) # type: ignore
+    raise TypeError(f"Object of type {type(obj)} is not supported")
+
+
+def decode_ext_hook(code: int, data: bytes) -> Any:
     """Extension hook for extending the msgpack supported types.
 
     Args:
@@ -34,7 +54,7 @@ def ext_hook(code: int, data: bytes) -> Any:
         Any: decoded object
     """
     if code == ExtensionTypes.GENERIC_MAP.value:
-        return msgpack_decode(data)
+        return GenericMap(msgpack_decode(data))
     raise UnpackValueError("Invalid Extention type")
 
 
@@ -50,6 +70,8 @@ def sanitize(value: Any) -> Any:
     Returns:
         Any: msgpack compatible sanitized value
     """
+    if isinstance(value, GenericMap):
+        return cast(Any, value)
     if isinstance(value, dict):
         dictionary: Dict[Any, Any] = value
         for key, val in dictionary.items():
@@ -59,7 +81,7 @@ def sanitize(value: Any) -> Any:
         array: List[Any] = value
         return [sanitize(a) for a in array]
     if isinstance(value, tuple):
-        array: List[Any] = list(value)  # type: ignore partially unknown
+        array: List[Any] = list(cast(Tuple[Any], value))  
         return sanitize(array)
     if isinstance(value, set):
         set_val: Set[Any] = value
@@ -87,7 +109,7 @@ def msgpack_encode(value: Any) -> bytes:
         bytes: encoded msgpack value
     """
     sanitized = sanitize(value)
-    return msgpack.packb(sanitized)
+    return msgpack.packb(sanitized, default=encode_ext_hook, use_bin_type=True)
 
 
 def msgpack_decode(val: bytes) -> Any:
@@ -99,4 +121,4 @@ def msgpack_decode(val: bytes) -> Any:
     Returns:
         Any: python object
     """
-    return msgpack.unpackb(val, ext_hook=ext_hook)
+    return msgpack.unpackb(val, ext_hook=decode_ext_hook)
