@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generic, Union, cast
+from typing import Any, Dict, Generic, TypeVar, Union, cast
 
 from polywrap_core import (
     GetFileOptions,
@@ -11,14 +11,18 @@ from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_decode
 from polywrap_result import Err, Ok, Result
 
-from .module import PluginModule, TConfig, TResult
+from .module import PluginModule
 
 
-class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
-    module: PluginModule[TConfig, TResult]
+TConfig = TypeVar("TConfig")
+TResult = TypeVar("TResult")
+
+
+class PluginWrapper(Wrapper, Generic[TConfig]):
+    module: PluginModule[TConfig]
 
     def __init__(
-        self, module: PluginModule[TConfig, TResult], manifest: AnyWrapManifest
+        self, module: PluginModule[TConfig], manifest: AnyWrapManifest
     ) -> None:
         self.module = module
         self.manifest = manifest
@@ -34,12 +38,13 @@ class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
             msgpack_decode(args) if isinstance(args, bytes) else args
         )
 
-        result: Result[TResult] = await self.module.__wrap_invoke__(
-            options.method, decoded_args, invoker
+        result = cast(
+            Result[TResult],
+            await self.module.__wrap_invoke__(options.method, decoded_args, invoker),
         )
 
         if result.is_err():
-            return cast(Err, result.err)
+            return cast(Err, result)
         return Ok(InvocableResult(result=result.unwrap(), encoded=False))
 
     async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:

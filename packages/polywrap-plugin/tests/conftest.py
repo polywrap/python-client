@@ -19,7 +19,7 @@ def invoker() -> Invoker:
 
 @fixture
 def greeting_module():
-    class GreetingModule(PluginModule[None, str]):
+    class GreetingModule(PluginModule[None]):
         def __init__(self, config: None):
             super().__init__(config)
 
