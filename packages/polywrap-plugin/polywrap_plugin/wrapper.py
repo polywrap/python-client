@@ -35,7 +35,7 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
 
         args: Union[Dict[str, Any], bytes] = options.args or {}
         decoded_args: Dict[str, Any] = (
-            msgpack_decode(args) if isinstance(args, bytes) else args
+            msgpack_decode(args) if isinstance(args, (bytes, bytearray)) else args
         )
 
         result = cast(

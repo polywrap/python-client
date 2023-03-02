@@ -46,19 +46,9 @@ class IUriResolverAggregator(IUriResolver, ABC):
 
         for resolver in resolvers:
             result = await resolver.try_resolve_uri(uri, client, sub_context)
-
-            if result.is_ok():
-                return result
-
-            if not result.is_ok():
-                step = IUriResolutionStep(
-                    source_uri=uri,
-                    result=result,
-                    sub_history=sub_context.get_history(),
-                    description=self.get_step_description(),
-                )
-                resolution_context.track_step(step)
-
+            if result.is_ok() and not (
+                isinstance(result.unwrap(), Uri) and result.unwrap() == uri
+            ):
                 return result
 
         result = Ok(uri)
