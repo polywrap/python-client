@@ -1,12 +1,13 @@
 from typing import cast
 
 import pytest
-from polywrap_core import InvokeOptions, Uri, AnyWrapManifest, Invoker
+from polywrap_core import InvokeOptions, Uri, Invoker
+from polywrap_manifest import AnyWrapManifest
 from polywrap_plugin import PluginPackage, PluginModule
 from polywrap_result import Ok
 
 @pytest.mark.asyncio
-async def test_plugin_package_invoke(greeting_module: PluginModule[None, str], invoker: Invoker):
+async def test_plugin_package_invoke(greeting_module: PluginModule[None], invoker: Invoker):
     manifest = cast(AnyWrapManifest, {})
     plugin_package = PluginPackage(greeting_module, manifest)
     wrapper = (await plugin_package.create_wrapper()).unwrap()

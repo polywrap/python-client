@@ -8,7 +8,7 @@ from polywrap_result import Ok
 from polywrap_plugin import PluginWrapper, PluginModule
 
 @pytest.mark.asyncio
-async def test_plugin_wrapper_invoke(greeting_module: PluginModule[None, str], invoker: Invoker):
+async def test_plugin_wrapper_invoke(greeting_module: PluginModule[None], invoker: Invoker):
     manifest = cast(AnyWrapManifest, {})
 
     wrapper = PluginWrapper(greeting_module, manifest)
