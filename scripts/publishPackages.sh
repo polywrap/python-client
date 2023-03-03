@@ -18,6 +18,7 @@ function patchVersion() {
   local bumpVersionResult=$?
   if [ "$bumpVersionResult" -ne "0" ]; then
     echo "Failed to bump version of $package to $version"
+    cd $pwd
     return 1
   fi
 
@@ -28,6 +29,7 @@ function patchVersion() {
         local addDepResult=$?
         if [ "$addDepResult" -ne "0" ]; then
           echo "Failed to add $dep@$version to $package"
+          cd $pwd
           return 1
         fi
       done
@@ -38,6 +40,7 @@ function patchVersion() {
   local lockResult=$?
   if [ "$lockResult" -ne "0" ]; then
     echo "Failed to lock $package"
+    cd $pwd
     return 1
   fi
 
@@ -45,6 +48,7 @@ function patchVersion() {
   local installResult=$?
   if [ "$installResult" -ne "0" ]; then
     echo "Failed to install $package"
+    cd $pwd
     return 1
   fi
 
@@ -53,8 +57,9 @@ function patchVersion() {
 
 function publishPackage() {
   local package=$1
-  local username=$2
-  local password=$3
+  local version=$2
+  local username=$3
+  local password=$4
 
   local pwd=$(echo $PWD)
 
@@ -62,9 +67,9 @@ function publishPackage() {
 
   isPackagePublished $package $version
   local isPackagePublishedResult=$?
-  echo "isPackagePublishedResult: $isPackagePublishedResult"
   if [ "$isPackagePublishedResult" -eq "0" ]; then
     echo "Skip publish: Package $package with version $version is already published"
+    cd $pwd
     return 0
   fi
 
@@ -72,6 +77,7 @@ function publishPackage() {
   local publishResult=$?
   if [ "$publishResult" -ne "0" ]; then
     echo "Failed to publish $package"
+    cd $pwd
     return 1
   fi
 
@@ -79,20 +85,17 @@ function publishPackage() {
 }
 
 # This will only work for the latest version of the package
+# Can only be called inside the top level function since directory needs to be changed
 function isPackagePublished() {
   local package=$1
   local version=$2
 
   poetry search $package | grep "$package ($version)"
-  echo $(poetry search $package | grep "$package ($version)")
   local exit_code=$?
-  echo "exit_code: $exit_code"
 
   if [ "$exit_code" -eq "0" ]; then
-    echo "Package $package with version $version is published"
     return 0
   else
-    echo "Package $package with version $version is not published"
     return 1
   fi
 }
@@ -101,6 +104,10 @@ function waitForPackagePublish() {
   local package=$1
   local version=$2
   local seconds=0
+
+  local pwd=$(echo $PWD)
+
+  cd packages/$package
 
   while [ "$seconds" -lt "600" ] # Wait for 10 minutes
   do
@@ -115,6 +122,8 @@ function waitForPackagePublish() {
     seconds=$((seconds+5))
     echo "Waiting for $seconds seconds for the $package to be published"
   done
+
+  cd $pwd
 
   if [ "$seconds" -eq "600" ]; then
     echo "Package $package with version $version is not published"
@@ -133,10 +142,8 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-msgpack"
-publishPackage polywrap-msgpack $2 $3
+publishPackage polywrap-msgpack $1 $2 $3
 publishResult=$?
-echo "publishResult: $publishResult"
-echo  [ "$publishResult" -ne "0" ]
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-msgpack"
   exit 1
@@ -160,7 +167,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-result"
-publishPackage polywrap-result $2 $3
+publishPackage polywrap-result $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-result"
@@ -186,7 +193,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-manifest"
-publishPackage polywrap-manifest $2 $3
+publishPackage polywrap-manifest $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-manifest"
@@ -212,7 +219,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-core"
-publishPackage polywrap-core $2 $3
+publishPackage polywrap-core $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-core"
@@ -238,7 +245,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-wasm"
-publishPackage polywrap-wasm $2 $3
+publishPackage polywrap-wasm $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-wasm"
@@ -264,7 +271,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-plugin"
-publishPackage polywrap-plugin $2 $3
+publishPackage polywrap-plugin $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-plugin"
@@ -290,7 +297,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-uri-resolvers"
-publishPackage polywrap-uri-resolvers $2 $3
+publishPackage polywrap-uri-resolvers $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-uri-resolvers"
@@ -316,7 +323,7 @@ if [ "$patchVersionResult" -ne "0" ]; then
 fi
 
 echo "Publishing polywrap-client"
-publishPackage polywrap-client $2 $3
+publishPackage polywrap-client $1 $2 $3
 publishResult=$?
 if [ "$publishResult" -ne "0" ]; then
   echo "Failed to publish polywrap-client"
