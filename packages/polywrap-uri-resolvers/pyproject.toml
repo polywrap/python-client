@@ -17,7 +17,6 @@ polywrap-wasm = { path = "../polywrap-wasm", develop = true }
 polywrap-result = { path = "../polywrap-result", develop = true }
 
 [tool.poetry.dev-dependencies]
-polywrap-client = { path = "../polywrap-client", develop = true }
 pytest = "^7.1.2"
 pytest-asyncio = "^0.19.0"
 pylint = "^2.15.4"
