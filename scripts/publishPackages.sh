@@ -1,3 +1,29 @@
+# joinByString is a utility function to join an array of strings with a separator string
+function joinByString() {
+  local separator="$1"
+  shift
+  local first="$1"
+  shift
+  printf "%s" "$first" "${@/#/$separator}"
+}
+
+# isPackagePublished is a utility function to check if a package is published
+# This will only work for the latest version of the package
+# Can only be called inside the top level function since directory needs to be changed
+function isPackagePublished() {
+  local package=$1
+  local version=$2
+
+  poetry search $package | grep "$package ($version)"
+  local exit_code=$?
+
+  if [ "$exit_code" -eq "0" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 function patchVersion() {
   local package=$1
   local version=$2
@@ -24,15 +50,14 @@ function patchVersion() {
 
   if [ "${#deps[@]}" -ne "0" ]; then  # -ne is integer inequality
     if [ "${deps[0]}" != "" ]; then  # != is string inequality
-      for dep in "${deps[@]}"; do
-        poetry add $dep@$version
-        local addDepResult=$?
-        if [ "$addDepResult" -ne "0" ]; then
-          echo "Failed to add $dep@$version to $package"
-          cd $pwd
-          return 1
-        fi
-      done
+      patchedDeps="$(joinByString "@$version " "${deps[@]}")@$version"
+      poetry add $patchedDeps
+      local addDepsResult=$?
+      if [ "$addDepsResult" -ne "0" ]; then
+        echo "Failed to add $patchedDeps to $package"
+        cd $pwd
+        return 1
+      fi
     fi
   fi
 
@@ -44,7 +69,7 @@ function patchVersion() {
     return 1
   fi
 
-  poetry install
+  poetry install --no-root
   local installResult=$?
   if [ "$installResult" -ne "0" ]; then
     echo "Failed to install $package"
@@ -84,22 +109,6 @@ function publishPackage() {
   cd $pwd
 }
 
-# This will only work for the latest version of the package
-# Can only be called inside the top level function since directory needs to be changed
-function isPackagePublished() {
-  local package=$1
-  local version=$2
-
-  poetry search $package | grep "$package ($version)"
-  local exit_code=$?
-
-  if [ "$exit_code" -eq "0" ]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
 function waitForPackagePublish() {
   local package=$1
   local version=$2
@@ -130,7 +139,6 @@ function waitForPackagePublish() {
     return 1
   fi
 }
-
 
 # Patching Verion of polywrap-msgpack
 echo "Patching Version of polywrap-msgpack to $1"
