@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-result"
-version = "0.1.0a4"
+version = "0.1.0a14"
 description = "Result object"
 authors = ["Danilo Bargen <mail@bargen.dev>", "Niraj <niraj@polywrap.io>"]
 readme = "README.md"
