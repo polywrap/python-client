@@ -11,8 +11,8 @@ from enum import Enum
 from typing import Any, Dict, List, Set, Tuple, cast
 
 import msgpack
-from msgpack.ext import ExtType
 from msgpack.exceptions import UnpackValueError
+from msgpack.ext import ExtType
 
 from .generic_map import GenericMap
 
@@ -36,7 +36,11 @@ def encode_ext_hook(obj: Any) -> ExtType:
         Tuple[int, bytes]: extension type code and payload
     """
     if isinstance(obj, GenericMap):
-        return ExtType(ExtensionTypes.GENERIC_MAP.value, msgpack_encode(obj._map)) # type: ignore
+        return ExtType(
+            ExtensionTypes.GENERIC_MAP.value,
+            # pylint: disable=protected-access
+            msgpack_encode(cast(GenericMap[Any, Any], obj)._map),
+        )  # pyright: reportPrivateUsage=false
     raise TypeError(f"Object of type {type(obj)} is not supported")
 
 
@@ -81,7 +85,7 @@ def sanitize(value: Any) -> Any:
         array: List[Any] = value
         return [sanitize(a) for a in array]
     if isinstance(value, tuple):
-        array: List[Any] = list(cast(Tuple[Any], value))  
+        array: List[Any] = list(cast(Tuple[Any], value))
         return sanitize(array)
     if isinstance(value, set):
         set_val: Set[Any] = value
