@@ -44,6 +44,7 @@
       "docify.programmingLanguage": "python",
       "docify.style": "Google",
       "docify.intelligentDetection": true,
-      "docify.sidePanelReviewMode": true
+      "docify.sidePanelReviewMode": true,
+      "liveServer.settings.multiRootWorkspaceName": "root"
   }
 }
