@@ -1,16 +1,18 @@
-"""This module contains the uri resolution step interface."""
+"""This module contains implementation of IUriResolutionStep interface."""
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List, Optional
+from typing import List, Optional
 
 from polywrap_result import Result
 
-from .uri import Uri
+from ..types.uri import Uri
+from ..types.uri_package_wrapper import UriPackageOrWrapper
+from ..types.uri_resolution_step import IUriResolutionStep
 
 
 @dataclass(slots=True, kw_only=True)
-class IUriResolutionStep:
+class UriResolutionStep(IUriResolutionStep):
     """Represents a single step in the resolution of a uri.
 
     Attributes:
@@ -21,6 +23,6 @@ class IUriResolutionStep:
     """
 
     source_uri: Uri
-    result: Result[Any]
+    result: Result["UriPackageOrWrapper"]
     description: Optional[str] = None
-    sub_history: Optional[List["IUriResolutionStep"]] = None
+    sub_history: Optional[List[IUriResolutionStep]] = None

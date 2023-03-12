@@ -1,8 +1,8 @@
+"""This module contains an utility function for building a clean history of URI resolution steps."""
 import traceback
 from typing import List, Optional, Union
 
-from ..types import Uri, IWrapPackage, IUriResolutionStep
-
+from ..types import IUriResolutionStep, IWrapPackage, Uri
 
 CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
 
@@ -10,6 +10,15 @@ CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
 def build_clean_uri_history(
     history: List[IUriResolutionStep], depth: Optional[int] = None
 ) -> CleanResolutionStep:
+    """Build a clean history of the URI resolution steps.
+
+    Args:
+        history: A list of URI resolution steps.
+        depth: The depth of the history to build.
+
+    Returns:
+        CleanResolutionStep: A clean history of the URI resolution steps.
+    """
     clean_history: CleanResolutionStep = []
 
     if depth is not None:
@@ -53,21 +62,19 @@ def _build_clean_history_step(step: IUriResolutionStep) -> str:
                 if step.description
                 else f"{step.source_uri}"
             )
-        else:
-            return (
-                f"{step.source_uri} => {step.description} => uri ({uri_package_or_wrapper.uri})"
-                if step.description
-                else f"{step.source_uri} => uri ({uri_package_or_wrapper})"
-            )
-    elif isinstance(uri_package_or_wrapper, IWrapPackage):
+        return (
+            f"{step.source_uri} => {step.description} => uri ({uri_package_or_wrapper.uri})"
+            if step.description
+            else f"{step.source_uri} => uri ({uri_package_or_wrapper})"
+        )
+    if isinstance(uri_package_or_wrapper, IWrapPackage):
         return (
             f"{step.source_uri} => {step.description} => package ({uri_package_or_wrapper})"
             if step.description
             else f"{step.source_uri} => package ({uri_package_or_wrapper})"
         )
-    else:
-        return (
-            f"{step.source_uri} => {step.description} => wrapper ({uri_package_or_wrapper})"
-            if step.description
-            else f"{step.source_uri} => wrapper ({uri_package_or_wrapper})"
-        )
+    return (
+        f"{step.source_uri} => {step.description} => wrapper ({uri_package_or_wrapper})"
+        if step.description
+        else f"{step.source_uri} => wrapper ({uri_package_or_wrapper})"
+    )

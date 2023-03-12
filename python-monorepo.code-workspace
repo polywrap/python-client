@@ -45,6 +45,9 @@
       "docify.style": "Google",
       "docify.intelligentDetection": true,
       "docify.sidePanelReviewMode": true,
-      "liveServer.settings.multiRootWorkspaceName": "root"
+      "liveServer.settings.multiRootWorkspaceName": "root",
+      "docify.commentService.docstringFormat": "Google",
+      "docify.commentService.sidePanelReviewMode": false,
+      "docify.translateService.docstringFormat": "Google"
   }
 }

@@ -1,8 +1,9 @@
+"""This module contains all the core types used in the various polywrap packages."""
 from .client import *
+from .env import *
 from .file_reader import *
 from .invoke import *
 from .uri import *
-from .env import *
 from .uri_package_wrapper import *
 from .uri_resolution_context import *
 from .uri_resolution_step import *

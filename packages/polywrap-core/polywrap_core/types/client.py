@@ -1,14 +1,16 @@
+"""This module contains the Client interface."""
 from __future__ import annotations
 
 from abc import abstractmethod
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Union
 
-from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
+from polywrap_manifest import AnyWrapManifest
 from polywrap_result import Result
 
 from .env import Env
 from .invoke import Invoker
+from .options import GetFileOptions, GetManifestOptions
 from .uri import Uri
 from .uri_resolver import IUriResolver
 from .uri_resolver_handler import UriResolverHandler
@@ -16,47 +18,83 @@ from .uri_resolver_handler import UriResolverHandler
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
+    """Client configuration.
+
+    Attributes:
+        envs: Dictionary of environments where key is URI and value is env.
+        interfaces: Dictionary of interfaces and their implementations where \
+            key is interface URI and value is list of implementation URIs.
+        resolver: URI resolver.
+    """
+
     envs: Dict[Uri, Env] = field(default_factory=dict)
     interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: IUriResolver
 
 
-@dataclass(slots=True, kw_only=True)
-class GetFileOptions:
-    path: str
-    encoding: Optional[str] = "utf-8"
-
-
-@dataclass(slots=True, kw_only=True)
-class GetManifestOptions(DeserializeManifestOptions):
-    pass
-
-
 class Client(Invoker, UriResolverHandler):
+    """Client interface."""
+
     @abstractmethod
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
-        pass
+        """Get dictionary of interfaces and their implementations.
+
+        Returns:
+            Dict[Uri, List[Uri]]: Dictionary of interfaces and their implementations where\
+                key is interface URI and value is list of implementation uris.
+        """
 
     @abstractmethod
     def get_envs(self) -> Dict[Uri, Env]:
-        pass
+        """Get dictionary of environments.
+
+        Returns:
+            Dict[Uri, Env]: Dictionary of environments where key is URI and value is env.
+        """
 
     @abstractmethod
     def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
-        pass
+        """Get environment by URI.
+
+        Args:
+            uri (Uri): URI of the Wrapper.
+
+        Returns:
+            Union[Env, None]: env if found, otherwise None.
+        """
 
     @abstractmethod
     def get_uri_resolver(self) -> IUriResolver:
-        pass
+        """Get URI resolver.
+
+        Returns:
+            IUriResolver: URI resolver.
+        """
 
     @abstractmethod
     async def get_file(
         self, uri: Uri, options: GetFileOptions
     ) -> Result[Union[bytes, str]]:
-        pass
+        """Get file from URI.
+
+        Args:
+            uri: URI of the wrapper.
+            options: Options for getting file from the wrapper.
+
+        Returns:
+            Result[Union[bytes, str]]: Result of file contents or error.
+        """
 
     @abstractmethod
     async def get_manifest(
         self, uri: Uri, options: Optional[GetManifestOptions] = None
     ) -> Result[AnyWrapManifest]:
-        pass
+        """Get manifest from URI.
+
+        Args:
+            uri: URI of the wrapper.
+            options: Options for getting manifest from the wrapper.
+
+        Returns:
+            Result[AnyWrapManifest]: Result of manifest or error.
+        """

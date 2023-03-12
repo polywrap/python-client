@@ -47,6 +47,7 @@ testpaths = [
 [tool.pylint]
 disable = [
     "too-many-return-statements",
+    "too-few-public-methods",
 ]
 ignore = [
     "tests/"
