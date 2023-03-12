@@ -12,6 +12,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 msgpack = "^1.0.4"
+polywrap-result = { path = "../polywrap-result", develop = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
@@ -44,6 +45,7 @@ testpaths = [
 [tool.pylint]
 disable = [
     "too-many-return-statements",
+    "broad-exception-caught"
 ]
 ignore = [
     "tests/"

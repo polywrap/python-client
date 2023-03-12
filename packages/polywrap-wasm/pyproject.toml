@@ -11,7 +11,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-wasmtime = "^1.0.1"
+wasmtime = "^6.0.0"
 polywrap-core = { path = "../polywrap-core", develop = true }
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
 polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
@@ -50,6 +50,12 @@ testpaths = [
 [tool.pylint]
 disable = [
     "too-many-return-statements",
+    "too-few-public-methods",
+    "too-many-instance-attributes",
+    "broad-exception-caught",
+    "too-many-arguments",
+    "too-many-locals",
+    "too-many-statements",
 ]
 ignore = [
     "tests/"

@@ -15,10 +15,10 @@ from polywrap_wasm.constants import WRAP_MANIFEST_PATH
 def mock_invoker():
     class MockInvoker(Invoker):
         async def invoke(self, options: InvokerOptions) -> Result[Any]:
-            return Err.from_str("NotImplemented")
+            return Err.with_tb(NotImplementedError())
         
         def get_implementations(self, uri: Uri) -> Result[List[Uri]]:
-            return Err.from_str("NotImplemented")
+            return Err.with_tb(NotImplementedError())
 
     return MockInvoker()
 
@@ -41,7 +41,7 @@ def simple_wrap_manifest():
 def dummy_file_reader():
     class FileReader(IFileReader):
         async def read_file(self, file_path: str) -> Result[bytes]:
-            return Err.from_str("NotImplemented")
+            return Err.with_tb(NotImplementedError())
 
     yield FileReader()
 
@@ -54,7 +54,7 @@ def simple_file_reader(simple_wrap_module: bytes, simple_wrap_manifest: bytes):
                 return Ok(simple_wrap_module)
             if file_path == WRAP_MANIFEST_PATH:
                 return Ok(simple_wrap_manifest)
-            return Err.from_str(f"FileNotFound: {file_path}")
+            return Err.with_tb(NotImplementedError())
 
     yield FileReader()
 
@@ -63,14 +63,14 @@ def simple_file_reader(simple_wrap_module: bytes, simple_wrap_manifest: bytes):
 async def test_invoke_with_wrapper(
     dummy_file_reader: IFileReader, simple_wrap_module: bytes, simple_wrap_manifest: bytes, mock_invoker: Invoker
 ):
-    wrapper = WasmWrapper(dummy_file_reader, simple_wrap_module, deserialize_wrap_manifest(simple_wrap_manifest))
+    wrapper = WasmWrapper(dummy_file_reader, simple_wrap_module, deserialize_wrap_manifest(simple_wrap_manifest).unwrap())
 
     message = "hey"
     args = {"arg": message}
     options = InvokeOptions(uri=Uri("fs/./build"), method="simpleMethod", args=args)
     result = (await wrapper.invoke(options, mock_invoker)).unwrap()
     assert result.encoded is True
-    assert msgpack_decode(cast(bytes, result.result)) == message
+    assert msgpack_decode(cast(bytes, result.result)).unwrap() == message
 
 
 @pytest.mark.asyncio
@@ -83,4 +83,4 @@ async def test_invoke_with_package(simple_file_reader: IFileReader, mock_invoker
     options = InvokeOptions(uri=Uri("fs/./build"), method="simpleMethod", args=args)
     result = (await wrapper.invoke(options, mock_invoker)).unwrap()
     assert result.encoded is True
-    assert msgpack_decode(cast(bytes, result.result)) == message
+    assert msgpack_decode(cast(bytes, result.result)).unwrap() == message

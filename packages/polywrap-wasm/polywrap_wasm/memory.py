@@ -1,7 +1,10 @@
+"""This module contains the create_memory function\
+    for creating a shared memory instance for a Wasm module."""
 from textwrap import dedent
+
 from wasmtime import Limits, Memory, MemoryType, Store
 
-from polywrap_wasm.errors import WasmMemoryError
+from .errors import WasmMemoryError
 
 
 def create_memory(
@@ -37,7 +40,7 @@ def create_memory(
             0x79,
             # import kind
             0x02,
-            # limits ; https://github.com/sunfishcode/wasm-reference-manual/blob/master/WebAssembly.md#resizable-limits
+            # limits ; https://github.com/sunfishcode/wasm-reference-manual/blob/master/WebAssembly.md#resizable-limits  # pylint: disable=line-too-long
             # limits ; flags
             # 0x??,
             # limits ; initial

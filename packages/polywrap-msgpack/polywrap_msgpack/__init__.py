@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Set, Tuple, cast
 import msgpack
 from msgpack.exceptions import UnpackValueError
 from msgpack.ext import ExtType
+from polywrap_result import Err, Ok, Result
 
 from .generic_map import GenericMap
 
@@ -39,7 +40,7 @@ def encode_ext_hook(obj: Any) -> ExtType:
         return ExtType(
             ExtensionTypes.GENERIC_MAP.value,
             # pylint: disable=protected-access
-            msgpack_encode(cast(GenericMap[Any, Any], obj)._map),
+            _msgpack_encode(cast(GenericMap[Any, Any], obj)._map),
         )  # pyright: reportPrivateUsage=false
     raise TypeError(f"Object of type {type(obj)} is not supported")
 
@@ -58,7 +59,7 @@ def decode_ext_hook(code: int, data: bytes) -> Any:
         Any: decoded object
     """
     if code == ExtensionTypes.GENERIC_MAP.value:
-        return GenericMap(msgpack_decode(data))
+        return GenericMap(_msgpack_decode(data))
     raise UnpackValueError("Invalid Extention type")
 
 
@@ -103,26 +104,40 @@ def sanitize(value: Any) -> Any:
     return value
 
 
-def msgpack_encode(value: Any) -> bytes:
+def msgpack_encode(value: Any) -> Result[bytes]:
     """Encode any python object into msgpack bytes.
 
     Args:
         value: any valid python object
 
     Returns:
-        bytes: encoded msgpack value
+        Result[bytes]: encoded msgpack value or error
     """
-    sanitized = sanitize(value)
-    return msgpack.packb(sanitized, default=encode_ext_hook, use_bin_type=True)
+    try:
+        return Ok(_msgpack_encode(value))
+    except Exception as err:
+        return Err(err)
 
 
-def msgpack_decode(val: bytes) -> Any:
+def msgpack_decode(val: bytes) -> Result[Any]:
     """Decode msgpack bytes into a valid python object.
 
     Args:
         val: msgpack encoded bytes
 
     Returns:
-        Any: python object
+        Result[Any]: any python object or error
     """
+    try:
+        return Ok(_msgpack_decode(val))
+    except Exception as err:
+        return Err(err)
+
+
+def _msgpack_encode(value: Any) -> bytes:
+    sanitized = sanitize(value)
+    return msgpack.packb(sanitized, default=encode_ext_hook, use_bin_type=True)
+
+
+def _msgpack_decode(val: bytes) -> Any:
     return msgpack.unpackb(val, ext_hook=decode_ext_hook)

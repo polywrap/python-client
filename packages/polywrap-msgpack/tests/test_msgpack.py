@@ -11,10 +11,10 @@ from tests.conftest import DataClassObject, DataClassObjectWithSlots, Example
 def test_encode_and_decode_object():
     custom_object = {"firstKey": "firstValue", "secondKey": "secondValue"}
 
-    encoded = msgpack_encode(custom_object)
+    encoded = msgpack_encode(custom_object).unwrap()
     assert encoded == b"\x82\xa8firstKey\xaafirstValue\xa9secondKey\xabsecondValue"
 
-    decoded = msgpack_decode(encoded)
+    decoded = msgpack_decode(encoded).unwrap()
     assert decoded == custom_object
 
 
@@ -28,7 +28,7 @@ def test_encode_and_decode_instance():
             pass
 
     custom_object = Test("firstValue", "secondValue")
-    encoded = msgpack_encode(custom_object)
+    encoded = msgpack_encode(custom_object).unwrap()
 
     assert encoded == b"\x82\xa8firstKey\xaafirstValue\xa9secondKey\xabsecondValue"
 
@@ -39,19 +39,19 @@ def test_encode_and_decode_instance():
         "bar": {"foo": "bar"},
     }
 
-    encoded_with_dict = msgpack_encode(complex_custom_object_with_dict)
-    encoded_with_class = msgpack_encode(complex_custom_object_with_class)
+    encoded_with_dict = msgpack_encode(complex_custom_object_with_dict).unwrap()
+    encoded_with_class = msgpack_encode(complex_custom_object_with_class).unwrap()
 
     assert encoded_with_dict == encoded_with_class
 
-    decoded_with_dict = msgpack_decode(encoded_with_dict)
+    decoded_with_dict = msgpack_decode(encoded_with_dict).unwrap()
 
     assert complex_custom_object_with_dict == decoded_with_dict
 
 
 def test_generic_map_decode():
     encoded = b"\xc7+\x01\x82\xa8firstKey\xaafirstValue\xa9secondKey\xabsecondValue"
-    decoded = msgpack_decode(encoded)
+    decoded = msgpack_decode(encoded).unwrap()
 
     assert decoded == {"firstKey": "firstValue", "secondKey": "secondValue"}
 
@@ -261,4 +261,4 @@ def test_sanitize_dict_of_dataclass_objects_with_slots_returns_list_of_dicts(
 def test_encode_generic_map():
     generic_map = GenericMap({"firstKey": "firstValue", "secondKey": "secondValue"})
     assert sanitize(generic_map) == generic_map
-    assert msgpack_decode(msgpack_encode(generic_map)) == generic_map
+    assert msgpack_decode(msgpack_encode(generic_map).unwrap()).unwrap() == generic_map

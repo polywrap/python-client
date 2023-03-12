@@ -15,7 +15,7 @@ from .manifest import *
 def _deserialize_wrap_manifest(
     manifest: bytes, options: Optional[DeserializeManifestOptions] = None
 ) -> AnyWrapManifest:
-    decoded_manifest = msgpack_decode(manifest)
+    decoded_manifest = msgpack_decode(manifest).unwrap()
     if not decoded_manifest.get("version"):
         raise ValueError("Expected manifest version to be defined!")
 

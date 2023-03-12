@@ -8,7 +8,16 @@ from __future__ import annotations
 import inspect
 import sys
 import types
-from typing import Any, Callable, Generic, NoReturn, TypeVar, Union, cast, overload
+from typing import (
+    Any,
+    Callable,
+    Generic,
+    NoReturn,
+    TypeVar,
+    Union,
+    cast,
+    overload,
+)
 
 if sys.version_info[:2] >= (3, 10):
     from typing import ParamSpec
@@ -178,11 +187,11 @@ class Err:
         self._value = value
 
     @classmethod
-    def from_str(cls, value: str) -> "Err":
+    def with_tb(cls, exc: Exception) -> "Err":
         """Create an `Err` from a string.
 
         Args:
-            value (str): Error message
+            exc: The exception to store.
 
         Raises:
             RuntimeError: If unable to fetch the call stack frame
@@ -192,9 +201,9 @@ class Err:
         """
         frame = inspect.currentframe()
         if not frame:
-            raise RuntimeError("Unable to fetch the call stack frame!")
+            raise RuntimeError("Unable to fetch the call stack frame!") from exc
         tb = types.TracebackType(None, frame, frame.f_lasti, frame.f_lineno)
-        return cls(Exception(value).with_traceback(tb))
+        return cls(exc.with_traceback(tb))
 
     def __repr__(self) -> str:
         """Return the representation of the `Err` type."""

@@ -20,7 +20,7 @@ def test_pattern_matching_on_err_type() -> None:
     """
     Pattern matching on ``Err()`` matches the contained value.
     """
-    n: Result[int] = Err.from_str("nay")
+    n: Result[int] = Err.with_tb(ValueError("nay"))
     match n:
         case Err(value):
             reached = True

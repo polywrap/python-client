@@ -6,23 +6,24 @@ from .errors import ExportNotFoundError
 
 class WrapExports:
     """WrapExports is a class that contains the exports of the Wasm wrapper module.
-    
+
     Attributes:
         _instance: The Wasm instance.
         _store: The Wasm store.
         _wrap_invoke: exported _wrap_invoke Wasm function.
     """
+
     _instance: Instance
     _store: Store
     _wrap_invoke: Func
 
     def __init__(self, instance: Instance, store: Store):
-        """Initializes the WrapExports class.
-        
+        """Initialize the WrapExports class.
+
         Args:
             instance: The Wasm instance.
             store: The Wasm store.
-        
+
         Raises:
             ExportNotFoundError: if the _wrap_invoke export is not found in the Wasm module.
         """
@@ -39,7 +40,7 @@ class WrapExports:
     def __wrap_invoke__(
         self, method_length: int, args_length: int, env_length: int
     ) -> bool:
-        """Calls the exported _wrap_invoke Wasm function.
+        """Call the exported _wrap_invoke Wasm function.
 
         Args:
             method_length: The length of the method.
