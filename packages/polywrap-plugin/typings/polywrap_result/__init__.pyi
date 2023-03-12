@@ -6,11 +6,10 @@ import inspect
 import sys
 import types
 from __future__ import annotations
-from typing import Any, Callable, Generic, NoReturn, ParamSpec, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Generic, NoReturn, ParamSpec, TypeVar, Union, cast, overload
 from typing_extensions import ParamSpec
 
-"""
-A simple Rust like Result type for Python 3.
+"""A simple Rust like Result type for Python 3.
 
 This project has been forked from the https://github.com/rustedpy/result.
 """
@@ -18,285 +17,271 @@ if sys.version_info[: 2] >= (3, 10):
     ...
 else:
     ...
-T = TypeVar("T", covariant=True)
+T_co = TypeVar("T_co", covariant=True)
 U = TypeVar("U")
 F = TypeVar("F")
 P = ...
 R = TypeVar("R")
-TBE = TypeVar("TBE", bound=BaseException)
-class Ok(Generic[T]):
-    """
-    A value that indicates success and which stores arbitrary data for the return value.
-    """
-    _value: T
+E = TypeVar("E", bound=BaseException)
+class Ok(Generic[T_co]):
+    """A value that indicates success and which stores arbitrary data for the return value."""
+    _value: T_co
     __match_args__ = ...
     __slots__ = ...
     @overload
     def __init__(self) -> None:
+        """Initialize the `Ok` type with no value.
+
+        Raises:
+            UnwrapError: If method related to `Err` is called.
+
+        Returns:
+            Ok: An instance of `Ok` type.
+        """
         ...
     
     @overload
-    def __init__(self, value: T) -> None:
+    def __init__(self, value: T_co) -> None:
+        """Initialize the `Ok` type with a value.
+
+        Args:
+            value: The value to store.
+
+        Raises:
+            UnwrapError: If method related to `Err` is called.
+
+        Returns:
+            Ok: An instance of `Ok` type.
+        """
         ...
     
     def __init__(self, value: Any = ...) -> None:
+        """Initialize the `Ok` type with a value.
+
+        Args:
+            value: The value to store.
+
+        Raises:
+            UnwrapError: If method related to `Err` is called.
+
+        Returns:
+            Ok: An instance of `Ok` type.
+        """
         ...
     
     def __repr__(self) -> str:
+        """Return the representation of the `Ok` type."""
         ...
     
     def __eq__(self, other: Any) -> bool:
+        """Check if the `Ok` type is equal to another `Ok` type."""
         ...
     
     def __ne__(self, other: Any) -> bool:
+        """Check if the `Ok` type is not equal to another `Ok` type."""
         ...
     
     def __hash__(self) -> int:
+        """Return the hash of the `Ok` type."""
         ...
     
     def is_ok(self) -> bool:
+        """Check if the result is `Ok`."""
         ...
     
     def is_err(self) -> bool:
+        """Check if the result is `Err`."""
         ...
     
-    def ok(self) -> T:
-        """
-        Return the value.
-        """
+    def ok(self) -> T_co:
+        """Return the value."""
         ...
     
     def err(self) -> None:
-        """
-        Return `None`.
-        """
+        """Return `None`."""
         ...
     
     @property
-    def value(self) -> T:
-        """
-        Return the inner value.
-        """
+    def value(self) -> T_co:
+        """Return the inner value."""
         ...
     
-    def expect(self, _message: str) -> T:
-        """
-        Return the value.
-        """
+    def expect(self, _message: str) -> T_co:
+        """Return the value."""
         ...
     
     def expect_err(self, message: str) -> NoReturn:
-        """
-        Raise an UnwrapError since this type is `Ok`
-        """
+        """Raise an UnwrapError since this type is `Ok`."""
         ...
     
-    def unwrap(self) -> T:
-        """
-        Return the value.
-        """
+    def unwrap(self) -> T_co:
+        """Return the value."""
         ...
     
     def unwrap_err(self) -> NoReturn:
-        """
-        Raise an UnwrapError since this type is `Ok`
-        """
+        """Raise an UnwrapError since this type is `Ok`."""
         ...
     
-    def unwrap_or(self, _default: U) -> T:
-        """
-        Return the value.
-        """
+    def unwrap_or(self, _default: U) -> T_co:
+        """Return the value."""
         ...
     
-    def unwrap_or_else(self, op: Callable[[Exception], T]) -> T:
-        """
-        Return the value.
-        """
+    def unwrap_or_else(self, op: Callable[[Exception], T_co]) -> T_co:
+        """Return the value."""
         ...
     
-    def unwrap_or_raise(self) -> T:
-        """
-        Return the value.
-        """
+    def unwrap_or_raise(self) -> T_co:
+        """Return the value."""
         ...
     
-    def map(self, op: Callable[[T], U]) -> Result[U]:
-        """
-        The contained result is `Ok`, so return `Ok` with original value mapped to
-        a new value using the passed in function.
-        """
+    def map(self, op: Callable[[T_co], U]) -> Result[U]:
+        """Return `Ok` with original value mapped to a new value using the passed in function."""
         ...
     
-    def map_or(self, default: U, op: Callable[[T], U]) -> U:
-        """
-        The contained result is `Ok`, so return the original value mapped to a new
-        value using the passed in function.
-        """
+    def map_or(self, default: U, op: Callable[[T_co], U]) -> U:
+        """Return the original value mapped to a new value using the passed in function."""
         ...
     
-    def map_or_else(self, default_op: Callable[[], U], op: Callable[[T], U]) -> U:
-        """
-        The contained result is `Ok`, so return original value mapped to
-        a new value using the passed in `op` function.
-        """
+    def map_or_else(self, default_op: Callable[[], U], op: Callable[[T_co], U]) -> U:
+        """Return original value mapped to a new value using the passed in `op` function."""
         ...
     
-    def map_err(self, op: Callable[[Exception], F]) -> Result[T]:
-        """
-        The contained result is `Ok`, so return `Ok` with the original value
-        """
+    def map_err(self, op: Callable[[Exception], F]) -> Result[T_co]:
+        """Return `Ok` with the original value since this type is `Ok`."""
         ...
     
-    def and_then(self, op: Callable[[T], Result[U]]) -> Result[U]:
-        """
-        The contained result is `Ok`, so return the result of `op` with the
-        original value passed in
-        """
+    def and_then(self, op: Callable[[T_co], Result[U]]) -> Result[U]:
+        """Return the result of `op` with the original value passed in."""
         ...
     
-    def or_else(self, op: Callable[[Exception], Result[T]]) -> Result[T]:
-        """
-        The contained result is `Ok`, so return `Ok` with the original value
-        """
+    def or_else(self, op: Callable[[Exception], Result[T_co]]) -> Result[T_co]:
+        """Return `Ok` with the original value since this type is `Ok`."""
         ...
     
 
 
 class Err:
-    """
-    A value that signifies failure and which stores arbitrary data for the error.
-    """
+    """A value that signifies failure and which stores arbitrary data for the error."""
     __match_args__ = ...
     __slots__ = ...
     def __init__(self, value: Exception) -> None:
+        """Initialize the `Err` type with an exception.
+
+        Args:
+            value: The exception to store.
+
+        Returns:
+            Err: An instance of `Err` type.
+        """
         ...
     
     @classmethod
-    def from_str(cls, value: str) -> Err:
+    def with_tb(cls, exc: Exception) -> Err:
+        """Create an `Err` from a string.
+
+        Args:
+            exc: The exception to store.
+
+        Raises:
+            RuntimeError: If unable to fetch the call stack frame
+
+        Returns:
+            Err: An `Err` instance
+        """
         ...
     
     def __repr__(self) -> str:
+        """Return the representation of the `Err` type."""
         ...
     
     def __eq__(self, other: Any) -> bool:
+        """Check if the `Err` type is equal to another `Err` type."""
         ...
     
     def __ne__(self, other: Any) -> bool:
+        """Check if the `Err` type is not equal to another `Err` type."""
         ...
     
     def __hash__(self) -> int:
+        """Return the hash of the `Err` type."""
         ...
     
     def is_ok(self) -> bool:
+        """Check if the result is `Ok`."""
         ...
     
     def is_err(self) -> bool:
+        """Check if the result is `Err`."""
         ...
     
     def ok(self) -> None:
-        """
-        Return `None`.
-        """
+        """Return `None`."""
         ...
     
     def err(self) -> Exception:
-        """
-        Return the error.
-        """
+        """Return the error."""
         ...
     
     @property
     def value(self) -> Exception:
-        """
-        Return the inner value.
-        """
+        """Return the inner value."""
         ...
     
     def expect(self, message: str) -> NoReturn:
-        """
-        Raises an `UnwrapError`.
-        """
+        """Raise an `UnwrapError`."""
         ...
     
     def expect_err(self, _message: str) -> Exception:
-        """
-        Return the inner value
-        """
+        """Return the inner value."""
         ...
     
     def unwrap(self) -> NoReturn:
-        """
-        Raises an `UnwrapError`.
-        """
+        """Raise an `UnwrapError`."""
         ...
     
     def unwrap_err(self) -> Exception:
-        """
-        Return the inner value
-        """
+        """Return the inner value."""
         ...
     
     def unwrap_or(self, default: U) -> U:
-        """
-        Return `default`.
-        """
+        """Return `default`."""
         ...
     
-    def unwrap_or_else(self, op: Callable[[Exception], T]) -> T:
-        """
-        The contained result is ``Err``, so return the result of applying
-        ``op`` to the error value.
-        """
+    def unwrap_or_else(self, op: Callable[[Exception], T_co]) -> T_co:
+        """Return the result of applying `op` to the error value."""
         ...
     
     def unwrap_or_raise(self) -> NoReturn:
-        """
-        The contained result is ``Err``, so raise the exception with the value.
-        """
+        """Raise the exception with the value of the error."""
         ...
     
-    def map(self, op: Callable[[T], U]) -> Result[U]:
-        """
-        Return `Err` with the same value
-        """
+    def map(self, op: Callable[[T_co], U]) -> Result[U]:
+        """Return `Err` with the same value since this type is `Err`."""
         ...
     
-    def map_or(self, default: U, op: Callable[[T], U]) -> U:
-        """
-        Return the default value
-        """
+    def map_or(self, default: U, op: Callable[[T_co], U]) -> U:
+        """Return the default value since this type is `Err`."""
         ...
     
-    def map_or_else(self, default_op: Callable[[], U], op: Callable[[T], U]) -> U:
-        """
-        Return the result of the default operation
-        """
+    def map_or_else(self, default_op: Callable[[], U], op: Callable[[T_co], U]) -> U:
+        """Return the result of the default operation since this type is `Err`."""
         ...
     
-    def map_err(self, op: Callable[[Exception], Exception]) -> Result[T]:
-        """
-        The contained result is `Err`, so return `Err` with original error mapped to
-        a new value using the passed in function.
-        """
+    def map_err(self, op: Callable[[Exception], Exception]) -> Result[T_co]:
+        """Return `Err` with original error mapped to a new value using the passed in function."""
         ...
     
-    def and_then(self, op: Callable[[T], Result[U]]) -> Result[U]:
-        """
-        The contained result is `Err`, so return `Err` with the original value
-        """
+    def and_then(self, op: Callable[[T_co], Result[U]]) -> Result[U]:
+        """Return `Err` with the original value since this type is `Err`."""
         ...
     
-    def or_else(self, op: Callable[[Exception], Result[T]]) -> Result[T]:
-        """
-        The contained result is `Err`, so return the result of `op` with the
-        original value passed in
-        """
+    def or_else(self, op: Callable[[Exception], Result[T_co]]) -> Result[T_co]:
+        """Return the result of `op` with the original value passed in."""
         ...
     
 
 
-Result = Union[Ok[T], Err]
+Result = Union[Ok[T_co], Err]
 class UnwrapError(Exception):
     """
     Exception raised from ``.unwrap_<...>`` and ``.expect_<...>`` calls.
@@ -309,13 +294,20 @@ class UnwrapError(Exception):
     """
     _result: Result[Any]
     def __init__(self, result: Result[Any], message: str) -> None:
+        """Initialize the `UnwrapError` type.
+
+        Args:
+            result: The original result.
+            message: The error message.
+
+        Returns:
+            UnwrapError: An instance of `UnwrapError` type.
+        """
         ...
     
     @property
     def result(self) -> Result[Any]:
-        """
-        Returns the original result.
-        """
+        """Return the original result."""
         ...
     
 
