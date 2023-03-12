@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Union
 
 from .uri import Uri
-from .wrap_package import IWrapPackage
-from .wrapper import Wrapper
+from .uri_package import UriPackage
+from .uri_wrapper import UriWrapper
 
-UriPackageOrWrapper = Union[Uri, Wrapper, IWrapPackage]
+UriPackageOrWrapper = Union[Uri, UriWrapper, UriPackage]
