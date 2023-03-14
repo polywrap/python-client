@@ -2,38 +2,22 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Union
 
 from polywrap_manifest import AnyWrapManifest
 from polywrap_result import Result
 
 from .env import Env
-from .invoke import Invoker
-from .options import GetFileOptions, GetManifestOptions
+from .invoker_client import InvokerClient
+from .options.file import GetFileOptions
+from .options.manifest import GetManifestOptions
 from .uri import Uri
 from .uri_resolver import IUriResolver
-from .uri_resolver_handler import UriResolverHandler
 
 
-@dataclass(slots=True, kw_only=True)
-class ClientConfig:
-    """Client configuration.
-
-    Attributes:
-        envs: Dictionary of environments where key is URI and value is env.
-        interfaces: Dictionary of interfaces and their implementations where \
-            key is interface URI and value is list of implementation URIs.
-        resolver: URI resolver.
-    """
-
-    envs: Dict[Uri, Env] = field(default_factory=dict)
-    interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
-    resolver: IUriResolver
-
-
-class Client(Invoker, UriResolverHandler):
-    """Client interface."""
+class Client(InvokerClient):
+    """Client interface defines core set of functionalities\
+        for interacting with a wrapper."""
 
     @abstractmethod
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:

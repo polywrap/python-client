@@ -11,7 +11,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-wasmtime = "^1.0.1"
 polywrap-core = { path = "../polywrap-core", develop = true }
 polywrap-wasm = { path = "../polywrap-wasm", develop = true }
 polywrap-result = { path = "../polywrap-result", develop = true }

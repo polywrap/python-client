@@ -5,8 +5,8 @@ from abc import ABC, abstractmethod
 
 from polywrap_result import Result
 
+from .options.uri_resolver import TryResolveUriOptions
 from .uri_package_wrapper import UriPackageOrWrapper
-from .uri_resolver import TryResolveUriOptions
 
 
 class UriResolverHandler(ABC):

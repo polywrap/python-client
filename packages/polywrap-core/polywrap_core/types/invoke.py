@@ -1,4 +1,4 @@
-"""This module contains the interface for invoking a wrapper."""
+"""This module contains the interface for invoking any invocables."""
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -28,7 +28,7 @@ class InvokeOptions:
     method: str
     args: Optional[Union[Dict[str, Any], bytes]] = field(default_factory=dict)
     env: Optional[Env] = None
-    resolution_context: Optional["IUriResolutionContext"] = None
+    resolution_context: Optional[IUriResolutionContext] = None
 
 
 @dataclass(slots=True, kw_only=True)
@@ -56,7 +56,7 @@ class InvokerOptions(InvokeOptions):
 
 
 class Invoker(ABC):
-    """Invoker interface."""
+    """Invoker interface defines the methods for invoking a wrapper."""
 
     @abstractmethod
     async def invoke(self, options: InvokerOptions) -> Result[Any]:

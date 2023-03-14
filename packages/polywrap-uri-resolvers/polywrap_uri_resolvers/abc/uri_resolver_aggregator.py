@@ -17,7 +17,13 @@ class IUriResolverAggregator(IUriResolver, ABC):
     async def get_uri_resolvers(
         self, uri: Uri, client: Client, resolution_context: IUriResolutionContext
     ) -> Result[List[IUriResolver]]:
-        pass
+        """Get a list of URI resolvers.
+
+        Args:
+            uri (Uri): The URI to resolve.
+            client (Client): The client to use.
+            resolution_context (IUriResolutionContext): The resolution context.
+        """
 
     @abstractmethod
     def get_step_description(self) -> str:
