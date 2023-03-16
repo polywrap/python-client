@@ -771,6 +771,21 @@ dotenv = ["python-dotenv (>=0.10.4)"]
 email = ["email-validator (>=1.0.3)"]
 
 [[package]]
+name = "pydeps"
+version = "1.11.1"
+description = "Display module dependencies"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pydeps-1.11.1-py3-none-any.whl", hash = "sha256:a6066256d0fd16e9c680d6b3a86fc0665623837f4b7e874b8d62de90af922885"},
+    {file = "pydeps-1.11.1.tar.gz", hash = "sha256:ca4cc23a50bce68b309cf32834367585dd7127696fde380dd5c3b5a61f879fcc"},
+]
+
+[package.dependencies]
+stdlib-list = "*"
+
+[[package]]
 name = "pydocstyle"
 version = "6.3.0"
 description = "Python docstring style checker"
@@ -1014,6 +1029,21 @@ files = [
     {file = "snowballstemmer-2.2.0-py2.py3-none-any.whl", hash = "sha256:c8e1716e83cc398ae16824e5572ae04e0d9fc2c6b985fb0f900f5f0c96ecba1a"},
     {file = "snowballstemmer-2.2.0.tar.gz", hash = "sha256:09b16deb8547d3412ad7b590689584cd0fe25ec8db3be37788be3810cbf19cb1"},
 ]
+
+[[package]]
+name = "stdlib-list"
+version = "0.8.0"
+description = "A list of Python Standard Libraries (2.6-7, 3.2-9)."
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "stdlib-list-0.8.0.tar.gz", hash = "sha256:a1e503719720d71e2ed70ed809b385c60cd3fb555ba7ec046b96360d30b16d9f"},
+    {file = "stdlib_list-0.8.0-py3-none-any.whl", hash = "sha256:2ae0712a55b68f3fbbc9e58d6fa1b646a062188f49745b495f94d3310a9fdd3e"},
+]
+
+[package.extras]
+develop = ["sphinx"]
 
 [[package]]
 name = "stevedore"
@@ -1321,4 +1351,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7dbdc26f174e4ab4254c47c55a2897e1b6caabe06ba1367f33a17b4268439d65"
+content-hash = "ed38b61f7808b832a09e44ca4210b75ec5831d11dea9692620167b8aa02386dc"
