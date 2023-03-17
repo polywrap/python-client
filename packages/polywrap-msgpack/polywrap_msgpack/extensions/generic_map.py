@@ -1,12 +1,12 @@
-"""This module contains GenericMap implementation for msgpack extention type."""
-from typing import Dict, MutableMapping, TypeVar
+"""This module contains GenericMap implementation for msgpack extension type."""
+from typing import Dict, Iterator, MutableMapping, TypeVar
 
 K = TypeVar("K")
 V = TypeVar("V")
 
 
 class GenericMap(MutableMapping[K, V]):
-    """GenericMap is a type that can be used to represent generic map extention type in msgpack."""
+    """GenericMap is a type that can be used to represent generic map extension type in msgpack."""
 
     _map: Dict[K, V]
 
@@ -18,7 +18,7 @@ class GenericMap(MutableMapping[K, V]):
         """
         self._map = dict(_map)
 
-    def has(self, key: K) -> bool:
+    def __contains__(self, key: object) -> bool:
         """Check if the map contains the key.
 
         Args:
@@ -58,7 +58,7 @@ class GenericMap(MutableMapping[K, V]):
         """
         del self._map[key]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[K]:
         """Iterate over the keys in the map.
 
         Returns:
