@@ -1,4 +1,3 @@
-#TODO: Add tests for msgpack_encode valid and invalid cases
 from typing import Any
 from hypothesis import given
 from polywrap_msgpack import msgpack_encode
@@ -20,4 +19,3 @@ def test_invalid_generic_map_key(s: Any):
     with pytest.raises(ValueError) as e:
         msgpack_encode(s)
     assert e.match("GenericMap key must be string")
-
