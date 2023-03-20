@@ -34,7 +34,7 @@ def msgpack_encode(value: Any) -> bytes:
     """Encode any python object into msgpack bytes.
 
     Args:
-        value: any valid python object
+        value (Any): any valid python object
 
     Raises:
         ValueError: when dict key isn't string

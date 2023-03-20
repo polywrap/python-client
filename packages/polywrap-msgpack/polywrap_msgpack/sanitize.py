@@ -9,7 +9,7 @@ def sanitize(value: Any) -> Any:
     """Sanitize the value into msgpack encoder compatible format.
 
     Args:
-        value: any valid python value
+        value (Any): any valid python value
 
     Raises:
         ValueError: when dict key isn't string

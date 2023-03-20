@@ -32,7 +32,7 @@ def msgpack_decode(val: bytes) -> Any:
     """Decode msgpack bytes into a valid python object.
 
     Args:
-        val: msgpack encoded bytes
+        val (bytes): msgpack encoded bytes
 
     Raises:
         UnpackValueError: when given invalid extension type code
