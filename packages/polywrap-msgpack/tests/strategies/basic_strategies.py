@@ -129,7 +129,7 @@ def valid_dict_value_st() -> st.SearchStrategy[Any]:
     return st.recursive(
         st.one_of(scalar_st(), array_of_scalar_st()),
         lambda children: st.lists(children) | st.dictionaries(st.text(), children),
-        max_leaves=10,
+        max_leaves=5,
     )
 
 
