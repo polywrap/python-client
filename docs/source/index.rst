@@ -11,6 +11,7 @@ Welcome to polywrap-client's documentation!
    :caption: Contents:
 
    polywrap-msgpack/modules.rst
+   polywrap-manifest/modules.rst
 
 
 

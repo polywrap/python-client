@@ -12,6 +12,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 polywrap-msgpack = { path = "../packages/polywrap-msgpack", develop = true }
+polywrap-manifest = { path = "../packages/polywrap-manifest", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "^6.1.3"

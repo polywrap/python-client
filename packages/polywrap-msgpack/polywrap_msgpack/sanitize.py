@@ -1,3 +1,5 @@
+"""This module contains the sanitize function that converts\
+    python values into msgpack compatible values."""
 from __future__ import annotations
 
 from typing import Any, Dict, List, Set, Tuple, cast

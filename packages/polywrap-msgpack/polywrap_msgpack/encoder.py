@@ -1,3 +1,5 @@
+"""This module implements the msgpack encoder for encoding data \
+    before sending it to a wrapper."""
 from __future__ import annotations
 
 from typing import Any, cast
