@@ -2,7 +2,11 @@
   "folders": [
       {
         "name": "root",
-        "path": ".",
+        "path": "."
+      },
+      {
+        "name": "docs",
+        "path": "docs"
       },
       {
           "name": "polywrap-client",
@@ -39,7 +43,8 @@
   ],
   "settings": {
       "files.exclude": {
-        "**/packages/*": true
+        "**/packages/*": true,
+        "**/docs/*": true
       },
       "docify.programmingLanguage": "python",
       "docify.style": "Google",
