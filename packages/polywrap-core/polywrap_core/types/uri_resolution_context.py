@@ -2,13 +2,16 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Generic, List, TypeVar
 
 from .uri import Uri
+from .uri_like import UriLike
 from .uri_resolution_step import IUriResolutionStep
 
+T = TypeVar("T", bound=UriLike)
 
-class IUriResolutionContext(ABC):
+
+class IUriResolutionContext(ABC, Generic[T]):
     """Defines the interface for a URI resolution context."""
 
     @abstractmethod
@@ -16,7 +19,7 @@ class IUriResolutionContext(ABC):
         """Check if the given uri is currently being resolved.
 
         Args:
-            uri: The uri to check.
+            uri (Uri): The uri to check.
 
         Returns:
             bool: True if the uri is currently being resolved, otherwise False.
@@ -27,7 +30,7 @@ class IUriResolutionContext(ABC):
         """Start resolving the given uri.
 
         Args:
-            uri: The uri to start resolving.
+            uri (Uri): The uri to start resolving.
 
         Returns: None
         """
@@ -37,23 +40,23 @@ class IUriResolutionContext(ABC):
         """Stop resolving the given uri.
 
         Args:
-            uri: The uri to stop resolving.
+            uri (Uri): The uri to stop resolving.
 
         Returns: None
         """
 
     @abstractmethod
-    def track_step(self, step: IUriResolutionStep) -> None:
+    def track_step(self, step: IUriResolutionStep[T]) -> None:
         """Track the given step in the resolution history.
 
         Args:
-            step: The step to track.
+            step (IUriResolutionStep): The step to track.
 
         Returns: None
         """
 
     @abstractmethod
-    def get_history(self) -> List[IUriResolutionStep]:
+    def get_history(self) -> List[IUriResolutionStep[T]]:
         """Get the resolution history.
 
         Returns:
@@ -69,7 +72,7 @@ class IUriResolutionContext(ABC):
         """
 
     @abstractmethod
-    def create_sub_history_context(self) -> "IUriResolutionContext":
+    def create_sub_history_context(self) -> "IUriResolutionContext[T]":
         """Create a new sub context that shares the same resolution path.
 
         Returns:
@@ -77,7 +80,7 @@ class IUriResolutionContext(ABC):
         """
 
     @abstractmethod
-    def create_sub_context(self) -> "IUriResolutionContext":
+    def create_sub_context(self) -> "IUriResolutionContext[T]":
         """Create a new sub context that shares the same resolution history.
 
         Returns:

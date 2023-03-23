@@ -2,151 +2,151 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
-from functools import total_ordering
-from typing import Any, List, Optional, Tuple, Union
+from typing import Union
+
+from .uri_like import UriLike
 
 
-@dataclass(slots=True, kw_only=True)
-class UriConfig:
-    """URI configuration.
+class Uri(UriLike):
+    """Defines a wrapper URI and provides utilities for parsing and validating them.
+
+    wrapper URIs are used to identify and resolve Polywrap wrappers. They are \
+    based on [the URI standard](https://tools.ietf.org/html/rfc3986#section-3) \
+    and follow the following format:
+    
+    `<scheme>://<authority>/<path>` where the scheme is always "wrap" and the \
+    authority is the URI scheme of the underlying wrapper.
+
+    Examples:
+        >>> uri = Uri.from_str("ipfs/QmHASH")
+        >>> uri.uri
+        "wrap://ipfs/QmHASH"
+        >>> uri = Uri.from_str("wrap://ipfs/QmHASH")
+        >>> uri.uri
+        "wrap://ipfs/QmHASH"
+        >>> uri = Uri.from_str("ipfs")
+        Traceback (most recent call last):
+            ...
+            ValueError: The provided URI has an invalid authority or path
+        >>> uri = Uri.from_str("ipfs://QmHASH")
+        Traceback (most recent call last):
+            ...
+            ValueError: The provided URI has an invalid scheme (must be 'wrap')
+        >>> uri = Uri.from_str("")
+        Traceback (most recent call last):
+            ...
+            ValueError: The provided URI is empty
+        >>> uri = Uri.from_str(None)
+        Traceback (most recent call last):
+            ...
+            TypeError: expected string or bytes-like object
 
     Attributes:
-        authority: The authority of the URI.
-        path: The path of the URI.
-        uri: The URI as a string.
+        scheme (str): The scheme of the URI. Defaults to "wrap". This helps \
+            differentiate Polywrap URIs from other URI schemes.
+        authority (str): The authority of the URI. This is used to determine \
+            which URI resolver to use.
+        path (str): The path of the URI. This is used to determine the \
+            location of the wrapper.
     """
 
-    authority: str
-    path: str
-    uri: str
+    URI_REGEX = re.compile(
+        r"^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?"
+    )  # https://www.rfc-editor.org/rfc/rfc3986#appendix-B
 
+    _authority: str
+    _path: str
 
-@total_ordering
-class Uri:
-    """Defines a wrapper URI.
-
-    Some examples of valid URIs are:
-        wrap://ipfs/QmHASH
-        wrap://ens/sub.dimain.eth
-        wrap://fs/directory/file.txt
-        wrap://uns/domain.crypto
-    Breaking down the various parts of the URI, as it applies
-    to [the URI standard](https://tools.ietf.org/html/rfc3986#section-3):
-    **wrap://** - URI Scheme: differentiates Polywrap URIs.
-    **ipfs/** - URI Authority: allows the Polywrap URI resolution algorithm \
-        to determine an authoritative URI resolver.
-    **sub.domain.eth** - URI Path: tells the Authority where the API resides.
-    """
-
-    def __init__(self, uri: str):
-        """Initialize a new instance of a wrapper URI by parsing the provided URI.
+    def __init__(self, authority: str, path: str):
+        """Initialize a new instance of a wrapper URI.
 
         Args:
-            uri: The URI to parse.
+            authority: The authority of the URI.
+            path: The path of the URI.
         """
-        self._config = Uri.parse_uri(uri)
-
-    def __str__(self) -> str:
-        """Return the URI as a string."""
-        return self._config.uri
-
-    def __repr__(self) -> str:
-        """Return the string URI representation."""
-        return f"Uri({self._config.uri})"
-
-    def __hash__(self) -> int:
-        """Return the hash of the URI."""
-        return hash(self._config.uri)
-
-    def __eq__(self, obj: object) -> bool:
-        """Return true if the provided object is a Uri and has the same URI."""
-        return self.uri == obj.uri if isinstance(obj, Uri) else False
-
-    def __lt__(self, uri: Uri) -> bool:
-        """Return true if the provided Uri has a URI that is lexicographically\
-            less than this Uri."""
-        return self.uri < uri.uri
+        self._authority = authority
+        self._path = path
 
     @property
     def authority(self) -> str:
         """Return the authority of the URI."""
-        return self._config.authority
+        return self._authority
 
     @property
     def path(self) -> str:
         """Return the path of the URI."""
-        return self._config.path
+        return self._path
 
     @property
     def uri(self) -> str:
-        """Return the URI as a string."""
-        return self._config.uri
+        """Return the canonical URI as a string."""
+        return f"{self.scheme}://{self.authority}/{self.path}"
 
     @staticmethod
-    def equals(first: Uri, second: Uri) -> bool:
-        """Return true if the provided URIs are equal."""
-        return first.uri == second.uri
-
-    @staticmethod
-    def is_uri(value: Any) -> bool:
-        """Return true if the provided value is a Uri."""
-        return hasattr(value, "uri")
-
-    @staticmethod
-    def is_valid_uri(
-        uri: str, parsed: Optional[UriConfig] = None
-    ) -> Tuple[Union[UriConfig, None], bool]:
-        """Check if the provided URI is valid and returns the parsed URI if it is."""
-        try:
-            result = Uri.parse_uri(uri)
-            return result, True
-        except ValueError:
-            return parsed, False
-
-    @staticmethod
-    def parse_uri(uri: str) -> UriConfig:
-        """Parse the provided URI and returns a UriConfig object.
+    def is_canonical_uri(uri: str) -> bool:
+        """Return true if the provided URI is canonical.
 
         Args:
-            uri: The URI to parse.
+            uri: The URI as a string.
 
         Returns:
-            A UriConfig object.
+            True if the provided URI is canonical.
         """
         if not uri:
             raise ValueError("The provided URI is empty")
-        processed = uri
-        # Trim preceding '/' characters
-        processed = processed.lstrip("/")
-        # Check for the w3:// scheme, add if it isn't there
-        wrap_scheme_idx = processed.find("wrap://")
-        if wrap_scheme_idx == -1:
-            processed = f"wrap://{processed}"
 
-        # If the w3:// is not in the beginning, throw an error
-        if wrap_scheme_idx > -1 and wrap_scheme_idx != 0:
-            raise ValueError(
-                "The wrap:// scheme must be at the beginning of the URI string"
-            )
+        matched_uri = Uri.URI_REGEX.match(uri)
+        if not matched_uri:
+            raise ValueError("The provided URI is malformed")
 
-        # Extract the authoriy & path
-        result: List[str] = re.findall(
-            r"(wrap:\/\/([a-z][a-z0-9-_]+)\/(.*))", processed
-        )
+        uri_parts = matched_uri.groups()
 
-        # Remove all empty strings
-        if result:
-            result = list(filter(lambda x: x not in [" ", ""], result[0]))
+        scheme: Union[str, None] = uri_parts[1]
+        if scheme and scheme != "wrap":
+            return False
 
-        if not result or len(result) != 3:
-            raise ValueError(
-                f"""URI is malformed, here are some examples of valid URIs:\n
-                wrap://ipfs/QmHASH\n
-                wrap://ens/domain.eth\n
-                ens/domain.eth\n\n
-                Invalid URI Received: {uri}
-                """
-            )
+        authority: Union[str, None] = uri_parts[3]
+        path: Union[str, None] = uri_parts[4]
 
-        return UriConfig(uri=processed, authority=result[1], path=result[2])
+        return bool(path and path != "/") if authority else False
+
+    @classmethod
+    def from_str(cls, uri: str) -> Uri:
+        """Create a new instance of a wrapper URI from a string.
+
+        Args:
+            uri: The URI as a string.
+
+        Raises:
+            ValueError: If the provided URI is empty or malformed.
+
+        Returns:
+            A new instance of a valid wrapper URI.
+        """
+        if not uri:
+            raise ValueError("The provided URI is empty")
+
+        matched_uri = cls.URI_REGEX.match(uri)
+        if not matched_uri:
+            raise ValueError("The provided URI is malformed")
+
+        uri_parts = matched_uri.groups()
+
+        scheme: Union[str, None] = uri_parts[1]
+        authority: Union[str, None] = uri_parts[3]
+        path: Union[str, None] = uri_parts[4]
+
+        if scheme and scheme != "wrap":
+            raise ValueError("The provided URI has an invalid scheme (must be 'wrap')")
+
+        if authority and path and path.startswith("/"):
+            path = path[1:]
+        elif not authority and path and not path.startswith("/"):
+            authority, path = path.split("/", 1)
+        else:
+            raise ValueError("The provided URI has an invalid authority or path")
+
+        if not path:
+            raise ValueError("The provided URI has an invalid path")
+
+        return cls(authority, path)

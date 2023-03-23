@@ -13,7 +13,6 @@ python = "^3.10"
 gql = "3.4.0"
 graphql-core = "^3.2.1"
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
-polywrap-result = { path = "../polywrap-result", develop = true }
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
@@ -30,6 +29,10 @@ pydocstyle = "^6.1.1"
 
 [tool.poetry.group.temp.dependencies]
 pydeps = "^1.11.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pycln = "^2.1.3"
 
 [tool.bandit]
 exclude_dirs = ["tests"]

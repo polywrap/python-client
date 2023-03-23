@@ -10,8 +10,8 @@ class GetFileOptions:
     """Options for getting a file from a wrapper.
 
     Attributes:
-        path: Path to the file.
-        encoding: Encoding of the file.
+        path (str): Path to the file.
+        encoding (Optional[str]): Encoding of the file.
     """
 
     path: str

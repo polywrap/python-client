@@ -1,19 +1,22 @@
 """This module contains the Wrapper interface."""
 from abc import abstractmethod
-from typing import Any, Dict, Union
+from typing import Any, Dict, Generic, TypeVar, Union
 
 from polywrap_manifest import AnyWrapManifest
-from polywrap_result import Result
 
-from .invoke import Invocable, InvokeOptions, Invoker
+from .invocable import Invocable
+from .invoker import InvokeOptions, Invoker
 from .options import GetFileOptions
+from .uri_like import UriLike
+
+T = TypeVar("T", bound=UriLike)
 
 
-class Wrapper(Invocable):
+class Wrapper(Generic[T], Invocable[T]):
     """Defines the interface for a wrapper."""
 
     @abstractmethod
-    async def invoke(self, options: InvokeOptions, invoker: Invoker) -> Result[Any]:
+    async def invoke(self, options: InvokeOptions[T], invoker: Invoker[T]) -> Any:
         """Invoke the wrapper.
 
         Args:
@@ -21,27 +24,27 @@ class Wrapper(Invocable):
             invoker: The invoker to use for invoking the wrapper.
 
         Returns:
-            Result[Any]: The result of invoking the wrapper or an error.
+            Any: The result of the wrapper invocation.
         """
 
     @abstractmethod
-    async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
+    async def get_file(self, options: GetFileOptions) -> Union[str, bytes]:
         """Get a file from the wrapper.
 
         Args:
             options: The options for getting the file.
 
         Returns:
-            Result[Union[str, bytes]]: The file contents or an error.
+            Union[str, bytes]: The file contents
         """
 
     @abstractmethod
-    def get_manifest(self) -> Result[AnyWrapManifest]:
+    def get_manifest(self) -> AnyWrapManifest:
         """Get the manifest of the wrapper.
 
         Returns:
-            Result[AnyWrapManifest]: The manifest or an error.
+            AnyWrapManifest: The manifest of the wrapper.
         """
 
 
-WrapperCache = Dict[str, Wrapper]
+WrapperCache = Dict[str, Wrapper[T]]

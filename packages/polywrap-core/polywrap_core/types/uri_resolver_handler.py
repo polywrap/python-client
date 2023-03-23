@@ -2,25 +2,24 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 
-from polywrap_result import Result
+from .options.uri_resolver_options import TryResolveUriOptions
+from .uri_like import UriLike
 
-from .options.uri_resolver import TryResolveUriOptions
-from .uri_package_wrapper import UriPackageOrWrapper
+T = TypeVar("T", bound=UriLike)
 
 
-class UriResolverHandler(ABC):
+class UriResolverHandler(ABC, Generic[T]):
     """Uri resolver handler interface."""
 
     @abstractmethod
-    async def try_resolve_uri(
-        self, options: TryResolveUriOptions
-    ) -> Result[UriPackageOrWrapper]:
+    async def try_resolve_uri(self, options: TryResolveUriOptions[T]) -> T:
         """Try to resolve a uri.
 
         Args:
             options: The options for resolving the uri.
 
         Returns:
-            Result[UriPackageOrWrapper]: The resolved uri or an error.
+            T: result of the URI resolution. Must be a UriLike.
         """

@@ -3,21 +3,22 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from polywrap_result import Result
-
 from .invoker_client import InvokerClient
 from .uri import Uri
 from .uri_package_wrapper import UriPackageOrWrapper
 from .uri_resolution_context import IUriResolutionContext
 
 
-class IUriResolver(ABC):
-    """Uri resolver interface."""
+class UriResolver(ABC):
+    """Defines interface for wrapper uri resolver."""
 
     @abstractmethod
     async def try_resolve_uri(
-        self, uri: Uri, client: InvokerClient, resolution_context: IUriResolutionContext
-    ) -> Result[UriPackageOrWrapper]:
+        self,
+        uri: Uri,
+        client: InvokerClient[UriPackageOrWrapper],
+        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+    ) -> UriPackageOrWrapper:
         """Try to resolve a uri.
 
         Args:
@@ -26,5 +27,5 @@ class IUriResolver(ABC):
             resolution_context: The context for resolving the uri.
 
         Returns:
-            Result[UriPackageOrWrapper]: The resolved uri or an error.
+            UriPackageOrWrapper: result of the URI resolution.
         """
