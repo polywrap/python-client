@@ -2,7 +2,7 @@
 import traceback
 from typing import List, Optional, Union
 
-from ..types import IUriResolutionStep, IWrapPackage, Uri
+from ..types import IUriResolutionStep, WrapPackage, Uri
 
 CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
 
@@ -67,7 +67,7 @@ def _build_clean_history_step(step: IUriResolutionStep) -> str:
             if step.description
             else f"{step.source_uri} => uri ({uri_package_or_wrapper})"
         )
-    if isinstance(uri_package_or_wrapper, IWrapPackage):
+    if isinstance(uri_package_or_wrapper, WrapPackage):
         return (
             f"{step.source_uri} => {step.description} => package ({uri_package_or_wrapper})"
             if step.description

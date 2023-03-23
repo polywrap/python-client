@@ -1,7 +1,7 @@
 """This module contains implementation of IUriResolutionContext interface."""
 from typing import List, Optional, Set
 
-from ..types import IUriResolutionContext, IUriResolutionStep, Uri
+from polywrap_core import IUriResolutionContext, IUriResolutionStep, Uri, UriPackageOrWrapper
 
 
 class UriResolutionContext(IUriResolutionContext):
