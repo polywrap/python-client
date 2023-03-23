@@ -8,6 +8,7 @@ from polywrap_manifest import (
     DeserializeManifestOptions,
     WrapManifest_0_1,
     deserialize_wrap_manifest,
+    DeserializeManifestError
 )
 
 
@@ -45,9 +46,12 @@ def test_invalid_version(msgpack_manifest: bytes):
     decoded["version"] = "bad-str"
     manifest: bytes = msgpack_encode(decoded)
 
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(DeserializeManifestError) as e:
         deserialize_wrap_manifest(manifest)
-    assert e.match("'bad-str' is not a valid WrapManifestVersions")
+    assert e.match("Invalid wrap manifest version: bad-str")
+    assert e.value.__cause__ is not None
+    assert e.value.__cause__.__class__ is ValueError
+    assert "'bad-str' is not a valid WrapManifestVersions" in str(e.value.__cause__)
 
 
 def test_unaccepted_field(msgpack_manifest: bytes):
@@ -55,9 +59,12 @@ def test_unaccepted_field(msgpack_manifest: bytes):
     decoded["invalid_field"] = "not allowed"
     manifest: bytes = msgpack_encode(decoded)
 
-    with pytest.raises(ValidationError) as e:
+    with pytest.raises(DeserializeManifestError) as e:
         deserialize_wrap_manifest(manifest)
-    assert e.match("extra fields not permitted")
+    assert e.match("Invalid manifest")
+    assert e.value.__cause__ is not None
+    assert e.value.__cause__.__class__ is ValidationError
+    assert "invalid_field\n  extra fields not permitted" in str(e.value.__cause__)
 
 
 def test_invalid_name(msgpack_manifest: bytes):
@@ -65,7 +72,10 @@ def test_invalid_name(msgpack_manifest: bytes):
     decoded["name"] = ("foo bar baz $%##$@#$@#$@#$#$",)
     manifest: bytes = msgpack_encode(decoded)
 
-    with pytest.raises(ValidationError) as e:
+    with pytest.raises(DeserializeManifestError) as e:
         deserialize_wrap_manifest(manifest)
 
-    assert e.match("str type expected")
+    assert e.match("Invalid manifest")
+    assert e.value.__cause__ is not None
+    assert e.value.__cause__.__class__ is ValidationError
+    assert "name\n  str type expected" in str(e.value.__cause__)

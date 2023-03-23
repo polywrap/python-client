@@ -7,6 +7,8 @@ from typing import Optional
 
 from polywrap_msgpack import msgpack_decode
 
+from pydantic import ValidationError
+from .errors import DeserializeManifestError
 from .manifest import *
 
 
@@ -20,22 +22,34 @@ def deserialize_wrap_manifest(
         options: Options for deserialization. Defaults to None.
 
     Raises:
-        ValueError: If the manifest version is invalid.
-        ValidationError: If the manifest is invalid.
+        MsgpackDecodeError: If the manifest could not be decoded.
+        DeserializeManifestError: If the manifest could not be deserialized.
+        NotImplementedError: If no_validate is set to true or \
+            the manifest version is not implemented.
 
     Returns:
         AnyWrapManifest: The Result of deserialized manifest.
     """
     decoded_manifest = msgpack_decode(manifest)
     if not decoded_manifest.get("version"):
-        raise ValueError("Expected manifest version to be defined!")
+        raise DeserializeManifestError("Expected manifest version to be defined!")
 
     no_validate = options and options.no_validate
-    manifest_version = WrapManifestVersions(decoded_manifest["version"])
+    try:
+        manifest_version = WrapManifestVersions(decoded_manifest["version"])
+    except ValueError as e:
+        raise DeserializeManifestError(
+            f"Invalid wrap manifest version: {decoded_manifest['version']}"
+        ) from e
     match manifest_version.value:
         case "0.1":
             if no_validate:
                 raise NotImplementedError("No validate not implemented for 0.1")
-            return WrapManifest_0_1(**decoded_manifest)
+            try:
+                return WrapManifest_0_1.validate(decoded_manifest)
+            except ValidationError as e:
+                raise DeserializeManifestError("Invalid manifest") from e
         case _:
-            raise ValueError(f"Invalid wrap manifest version: {manifest_version}")
+            raise NotImplementedError(
+                f"Version {manifest_version.value} is not implemented"
+            )
