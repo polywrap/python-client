@@ -48,8 +48,9 @@ testpaths = [
 
 [tool.pylint]
 disable = [
-    "too-many-return-statements",
-    "protected-access",
+    "too-many-return-statements",  # too picky about return statements
+    "protected-access",  # Needed for internal use
+    "invalid-name",  # too picky about names
 ]
 ignore = [
     "tests/"

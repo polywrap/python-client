@@ -35,6 +35,9 @@ class GenericMap(MutableMapping[K, V]):
         Args:
             key: The key to look up. It must be a key in the mapping.
 
+        Raises:
+            KeyError: If the key is not in the map.
+
         Returns:
             The value associated with the key or None if
             the key doesn't exist in the dictionary or is out of range
@@ -46,7 +49,7 @@ class GenericMap(MutableMapping[K, V]):
 
         Args:
             key: The key to set.
-        value: The value to set.
+            value: The value to set.
         """
         self._map[key] = value
 
@@ -55,6 +58,9 @@ class GenericMap(MutableMapping[K, V]):
 
         Args:
             key: key of the item to delete.
+
+        Raises:
+            KeyError: If the key is not in the map.
         """
         del self._map[key]
 

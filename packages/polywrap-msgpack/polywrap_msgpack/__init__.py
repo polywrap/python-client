@@ -9,6 +9,7 @@ custom extension types defined by WRAP standard
 """
 from .decoder import *
 from .encoder import *
+from .errors import *
 from .extensions import *
 from .sanitize import *
 
@@ -20,4 +21,9 @@ __all__ = [
     "sanitize",
     "ExtensionTypes",
     "GenericMap",
+    "MsgpackError",
+    "MsgpackDecodeError",
+    "MsgpackEncodeError",
+    "MsgpackExtError",
+    "MsgpackSanitizeError",
 ]

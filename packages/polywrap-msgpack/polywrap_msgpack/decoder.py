@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import Any
 
 import msgpack
-from msgpack.exceptions import UnpackValueError
 
+from .errors import MsgpackDecodeError, MsgpackExtError
 from .extensions import ExtensionTypes, GenericMap
 
 
@@ -18,14 +18,15 @@ def decode_ext_hook(code: int, data: bytes) -> Any:
         data (bytes): msgpack deserializable data as payload
 
     Raises:
-        UnpackValueError: when given invalid extension type code
+        MsgpackExtError: when given invalid extension type code
+        MsgpackDecodeError: when payload for extension type is invalid
 
     Returns:
         Any: decoded object
     """
     if code == ExtensionTypes.GENERIC_MAP.value:
         return GenericMap(msgpack_decode(data))
-    raise UnpackValueError("Invalid extention type")
+    raise MsgpackExtError("Invalid extention type")
 
 
 def msgpack_decode(val: bytes) -> Any:
@@ -35,11 +36,15 @@ def msgpack_decode(val: bytes) -> Any:
         val (bytes): msgpack encoded bytes
 
     Raises:
-        UnpackValueError: when given invalid extension type code
+        MsgpackExtError: when given invalid extension type code
+        MsgpackDecodeError: when given invalid msgpack data
 
     Returns:
         Any: any python object
     """
-    return msgpack.unpackb(
-        val, ext_hook=decode_ext_hook
-    )  # pyright: reportUnknownMemberType=false
+    try:
+        return msgpack.unpackb(
+            val, ext_hook=decode_ext_hook
+        )  # pyright: reportUnknownMemberType=false
+    except Exception as e:
+        raise MsgpackDecodeError("Failed to decode msgpack data") from e
