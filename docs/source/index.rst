@@ -12,6 +12,7 @@ Welcome to polywrap-client's documentation!
 
    polywrap-msgpack/modules.rst
    polywrap-manifest/modules.rst
+   polywrap-core/modules.rst
 
 
 
