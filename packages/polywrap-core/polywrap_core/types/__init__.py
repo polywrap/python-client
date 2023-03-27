@@ -3,6 +3,7 @@ from .options import *
 from .client import *
 from .config import *
 from .env import *
+from .errors import *
 from .file_reader import *
 from .invocable import *
 from .invoke_args import *
