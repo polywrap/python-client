@@ -7,19 +7,19 @@ from .uri import Uri
 from .uri_like import UriLike
 from .wrapper import Wrapper
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class UriWrapper(Generic[T], Uri):
+class UriWrapper(Generic[TUriLike], Uri):
     """UriWrapper is a dataclass that contains a URI and a wrapper.
 
     Attributes:
         wrapper: The wrapper.
     """
 
-    _wrapper: Wrapper[T]
+    _wrapper: Wrapper[TUriLike]
 
-    def __init__(self, uri: Uri, wrapper: Wrapper[T]) -> None:
+    def __init__(self, uri: Uri, wrapper: Wrapper[TUriLike]) -> None:
         """Initialize a new instance of UriWrapper.
 
         Args:
@@ -30,6 +30,6 @@ class UriWrapper(Generic[T], Uri):
         self._wrapper = wrapper
 
     @property
-    def wrapper(self) -> Wrapper[T]:
+    def wrapper(self) -> Wrapper[TUriLike]:
         """Return the wrapper."""
         return self._wrapper

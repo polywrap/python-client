@@ -8,14 +8,14 @@ from .options import GetManifestOptions
 from .uri_like import UriLike
 from .wrapper import Wrapper
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class WrapPackage(ABC, Generic[T]):
+class WrapPackage(ABC, Generic[TUriLike]):
     """Wrapper package interface."""
 
     @abstractmethod
-    async def create_wrapper(self) -> Wrapper[T]:
+    async def create_wrapper(self) -> Wrapper[TUriLike]:
         """Create a new wrapper instance from the wrapper package.
 
         Returns:

@@ -8,11 +8,11 @@ from ..uri import Uri
 from ..uri_like import UriLike
 from ..uri_resolution_context import IUriResolutionContext
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
 @dataclass(slots=True, kw_only=True)
-class TryResolveUriOptions(Generic[T]):
+class TryResolveUriOptions(Generic[TUriLike]):
     """Options for resolving a uri.
 
     Args:
@@ -21,4 +21,4 @@ class TryResolveUriOptions(Generic[T]):
     """
 
     uri: Uri
-    resolution_context: Optional[IUriResolutionContext[T]] = None
+    resolution_context: Optional[IUriResolutionContext[TUriLike]] = None

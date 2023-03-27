@@ -10,11 +10,11 @@ from ..uri import Uri
 from ..uri_like import UriLike
 from ..uri_resolution_context import IUriResolutionContext
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
 @dataclass(slots=True, kw_only=True)
-class InvokeOptions(Generic[T]):
+class InvokeOptions(Generic[TUriLike]):
     """Options required for a wrapper invocation.
 
     Args:
@@ -29,4 +29,4 @@ class InvokeOptions(Generic[T]):
     method: str
     args: Optional[InvokeArgs] = field(default_factory=dict)
     env: Optional[Env] = None
-    resolution_context: Optional[IUriResolutionContext[T]] = None
+    resolution_context: Optional[IUriResolutionContext[TUriLike]] = None

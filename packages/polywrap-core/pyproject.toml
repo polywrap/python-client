@@ -13,6 +13,7 @@ python = "^3.10"
 gql = "3.4.0"
 graphql-core = "^3.2.1"
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
@@ -52,6 +53,7 @@ testpaths = [
 
 [tool.pylint]
 disable = [
+    "invalid-name",
     "too-many-return-statements",
     "too-few-public-methods",
 ]

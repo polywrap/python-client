@@ -9,14 +9,16 @@ from .invoker import InvokeOptions, Invoker
 from .options import GetFileOptions
 from .uri_like import UriLike
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class Wrapper(Generic[T], Invocable[T]):
+class Wrapper(Generic[TUriLike], Invocable[TUriLike]):
     """Defines the interface for a wrapper."""
 
     @abstractmethod
-    async def invoke(self, options: InvokeOptions[T], invoker: Invoker[T]) -> Any:
+    async def invoke(
+        self, options: InvokeOptions[TUriLike], invoker: Invoker[TUriLike]
+    ) -> Any:
         """Invoke the wrapper.
 
         Args:
@@ -47,4 +49,4 @@ class Wrapper(Generic[T], Invocable[T]):
         """
 
 
-WrapperCache = Dict[str, Wrapper[T]]
+WrapperCache = Dict[str, Wrapper[TUriLike]]

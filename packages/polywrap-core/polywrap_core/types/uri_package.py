@@ -7,19 +7,19 @@ from .uri import Uri
 from .uri_like import UriLike
 from .wrap_package import WrapPackage
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class UriPackage(Generic[T], Uri):
+class UriPackage(Generic[TUriLike], Uri):
     """UriPackage is a dataclass that contains a URI and a wrap package.
 
     Attributes:
         package (WrapPackage): The wrap package.
     """
 
-    _package: WrapPackage[T]
+    _package: WrapPackage[TUriLike]
 
-    def __init__(self, uri: Uri, package: WrapPackage[T]) -> None:
+    def __init__(self, uri: Uri, package: WrapPackage[TUriLike]) -> None:
         """Initialize a new instance of UriPackage.
 
         Args:
@@ -30,6 +30,6 @@ class UriPackage(Generic[T], Uri):
         self._package = package
 
     @property
-    def package(self) -> WrapPackage[T]:
+    def package(self) -> WrapPackage[TUriLike]:
         """Return the wrap package."""
         return self._package

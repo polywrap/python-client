@@ -3,19 +3,20 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from polywrap_result import Result
-
 
 class IFileReader(ABC):
     """File reader interface."""
 
     @abstractmethod
-    async def read_file(self, file_path: str) -> Result[bytes]:
+    async def read_file(self, file_path: str) -> bytes:
         """Read a file from the given file path.
 
         Args:
             file_path: The path of the file to read.
 
+        Raises:
+            OSError: If the file could not be read due to system errors.
+
         Returns:
-            Result[bytes]: The file contents or an error.
+            bytes: The file contents.
         """

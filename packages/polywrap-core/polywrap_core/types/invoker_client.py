@@ -7,9 +7,9 @@ from .invoker import Invoker
 from .uri_like import UriLike
 from .uri_resolver_handler import UriResolverHandler
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class InvokerClient(Generic[T], Invoker[T], UriResolverHandler[T]):
+class InvokerClient(Generic[TUriLike], Invoker[TUriLike], UriResolverHandler[TUriLike]):
     """InvokerClient interface defines core set of functionalities\
         for resolving and invoking a wrapper."""

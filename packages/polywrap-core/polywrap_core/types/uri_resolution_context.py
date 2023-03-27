@@ -8,10 +8,10 @@ from .uri import Uri
 from .uri_like import UriLike
 from .uri_resolution_step import IUriResolutionStep
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class IUriResolutionContext(ABC, Generic[T]):
+class IUriResolutionContext(ABC, Generic[TUriLike]):
     """Defines the interface for a URI resolution context."""
 
     @abstractmethod
@@ -46,7 +46,7 @@ class IUriResolutionContext(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def track_step(self, step: IUriResolutionStep[T]) -> None:
+    def track_step(self, step: IUriResolutionStep[TUriLike]) -> None:
         """Track the given step in the resolution history.
 
         Args:
@@ -56,7 +56,7 @@ class IUriResolutionContext(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def get_history(self) -> List[IUriResolutionStep[T]]:
+    def get_history(self) -> List[IUriResolutionStep[TUriLike]]:
         """Get the resolution history.
 
         Returns:
@@ -72,7 +72,7 @@ class IUriResolutionContext(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def create_sub_history_context(self) -> "IUriResolutionContext[T]":
+    def create_sub_history_context(self) -> "IUriResolutionContext[TUriLike]":
         """Create a new sub context that shares the same resolution path.
 
         Returns:
@@ -80,7 +80,7 @@ class IUriResolutionContext(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def create_sub_context(self) -> "IUriResolutionContext[T]":
+    def create_sub_context(self) -> "IUriResolutionContext[TUriLike]":
         """Create a new sub context that shares the same resolution history.
 
         Returns:

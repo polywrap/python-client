@@ -9,7 +9,7 @@ from .invoker import Invoker
 from .options.invoke_options import InvokeOptions
 from .uri_like import UriLike
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
 @dataclass(slots=True, kw_only=True)
@@ -26,12 +26,12 @@ class InvocableResult:
     encoded: Optional[bool] = None
 
 
-class Invocable(ABC, Generic[T]):
+class Invocable(ABC, Generic[TUriLike]):
     """Invocable interface."""
 
     @abstractmethod
     async def invoke(
-        self, options: InvokeOptions[T], invoker: Invoker[T]
+        self, options: InvokeOptions[TUriLike], invoker: Invoker[TUriLike]
     ) -> InvocableResult:
         """Invoke the Wrapper based on the provided InvokeOptions.
 

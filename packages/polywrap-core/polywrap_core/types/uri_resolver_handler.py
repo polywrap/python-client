@@ -7,14 +7,16 @@ from typing import Generic, TypeVar
 from .options.uri_resolver_options import TryResolveUriOptions
 from .uri_like import UriLike
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
-class UriResolverHandler(ABC, Generic[T]):
+class UriResolverHandler(ABC, Generic[TUriLike]):
     """Uri resolver handler interface."""
 
     @abstractmethod
-    async def try_resolve_uri(self, options: TryResolveUriOptions[T]) -> T:
+    async def try_resolve_uri(
+        self, options: TryResolveUriOptions[TUriLike]
+    ) -> TUriLike:
         """Try to resolve a uri.
 
         Args:

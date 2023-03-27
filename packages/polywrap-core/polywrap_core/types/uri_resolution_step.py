@@ -7,11 +7,11 @@ from typing import Generic, List, Optional, TypeVar
 from .uri import Uri
 from .uri_like import UriLike
 
-T = TypeVar("T", bound=UriLike)
+TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
 @dataclass(slots=True, kw_only=True)
-class IUriResolutionStep(Generic[T]):
+class IUriResolutionStep(Generic[TUriLike]):
     """Represents a single step in the resolution of a uri.
 
     Attributes:
@@ -22,6 +22,6 @@ class IUriResolutionStep(Generic[T]):
     """
 
     source_uri: Uri
-    result: T
+    result: TUriLike
     description: Optional[str] = None
-    sub_history: Optional[List["IUriResolutionStep[T]"]] = None
+    sub_history: Optional[List["IUriResolutionStep[TUriLike]"]] = None
