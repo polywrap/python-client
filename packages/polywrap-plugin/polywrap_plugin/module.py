@@ -1,24 +1,28 @@
 """This module contains the PluginModule class."""
 # pylint: disable=invalid-name
 from abc import ABC
-from typing import Any, Dict, Generic, List, TypeVar, cast
+from typing import Any, Generic, TypeVar
 
-from polywrap_core import Invoker, execute_maybe_async_function
-from polywrap_result import Err, Ok, Result
+from polywrap_core import (
+    InvokeOptions,
+    Invoker,
+    UriPackageOrWrapper,
+    WrapAbortError,
+    WrapInvocationError,
+    execute_maybe_async_function,
+)
+from polywrap_msgpack import msgpack_decode
 
 TConfig = TypeVar("TConfig")
-TResult = TypeVar("TResult")
 
 
 class PluginModule(Generic[TConfig], ABC):
     """PluginModule is the base class for all plugin modules.
 
     Attributes:
-        env: The environment variables of the plugin.
         config: The configuration of the plugin.
     """
 
-    env: Dict[str, Any]
     config: TConfig
 
     def __init__(self, config: TConfig):
@@ -29,17 +33,11 @@ class PluginModule(Generic[TConfig], ABC):
         """
         self.config = config
 
-    def set_env(self, env: Dict[str, Any]) -> None:
-        """Set the environment variables of the plugin.
-
-        Args:
-            env: The environment variables of the plugin.
-        """
-        self.env = env
-
     async def __wrap_invoke__(
-        self, method: str, args: Dict[str, Any], invoker: Invoker
-    ) -> Result[TResult]:
+        self,
+        options: InvokeOptions[UriPackageOrWrapper],
+        invoker: Invoker[UriPackageOrWrapper],
+    ) -> Any:
         """Invoke a method on the plugin.
 
         Args:
@@ -50,20 +48,24 @@ class PluginModule(Generic[TConfig], ABC):
         Returns:
             The result of the plugin method invocation or an error.
         """
-        methods: List[str] = [name for name in dir(self) if name == method]
+        if not hasattr(self, options.method):
+            raise WrapInvocationError(
+                options, f"{options.method} is not defined in plugin module"
+            )
 
-        if not methods:
-            return Err.with_tb(RuntimeError(f"{method} is not defined in plugin"))
-
-        callable_method = getattr(self, method)
+        callable_method = getattr(self, options.method)
         if callable(callable_method):
             try:
-                result = await execute_maybe_async_function(
-                    callable_method, args, invoker
+                decoded_args = (
+                    msgpack_decode(options.args)
+                    if isinstance(options.args, bytes)
+                    else options.args
                 )
-                if isinstance(result, (Ok, Err)):
-                    return cast(Result[TResult], result)
-                return Ok(result)
-            except Exception as e:
-                return Err(e)
-        return Err.with_tb(RuntimeError(f"{method} is an attribute, not a method"))
+                return await execute_maybe_async_function(
+                    callable_method, decoded_args, invoker, options.env
+                )
+            except Exception as err:
+                raise WrapAbortError(options, repr(err)) from err
+        raise WrapInvocationError(
+            options, f"{options.method} is not a callable method in plugin module"
+        )

@@ -2,9 +2,8 @@
 # pylint: disable=invalid-name
 from typing import Generic, Optional, TypeVar
 
-from polywrap_core import GetManifestOptions, IWrapPackage, Wrapper
+from polywrap_core import GetManifestOptions, UriPackageOrWrapper, WrapPackage, Wrapper
 from polywrap_manifest import AnyWrapManifest
-from polywrap_result import Ok, Result
 
 from .module import PluginModule
 from .wrapper import PluginWrapper
@@ -12,7 +11,7 @@ from .wrapper import PluginWrapper
 TConfig = TypeVar("TConfig")
 
 
-class PluginPackage(Generic[TConfig], IWrapPackage):
+class PluginPackage(Generic[TConfig], WrapPackage[UriPackageOrWrapper]):
     """PluginPackage implements IWrapPackage interface for the plugin.
 
     Attributes:
@@ -33,13 +32,13 @@ class PluginPackage(Generic[TConfig], IWrapPackage):
         self.module = module
         self.manifest = manifest
 
-    async def create_wrapper(self) -> Result[Wrapper]:
+    async def create_wrapper(self) -> Wrapper[UriPackageOrWrapper]:
         """Create a new plugin wrapper instance."""
-        return Ok(PluginWrapper(module=self.module, manifest=self.manifest))
+        return PluginWrapper(module=self.module, manifest=self.manifest)
 
     async def get_manifest(
         self, options: Optional[GetManifestOptions] = None
-    ) -> Result[AnyWrapManifest]:
+    ) -> AnyWrapManifest:
         """Get the manifest of the plugin.
 
         Args:
@@ -48,4 +47,4 @@ class PluginPackage(Generic[TConfig], IWrapPackage):
         Returns:
             The manifest of the plugin.
         """
-        return Ok(self.manifest)
+        return self.manifest
