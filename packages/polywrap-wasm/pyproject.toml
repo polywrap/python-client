@@ -16,7 +16,7 @@ polywrap-core = { path = "../polywrap-core", develop = true }
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
 polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 unsync = "^1.4.0"
-unsync-stubs = "^0.1.0"
+unsync-stubs = "^0.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
@@ -52,13 +52,10 @@ testpaths = [
 
 [tool.pylint]
 disable = [
-    "too-many-return-statements",
     "too-few-public-methods",
-    "too-many-instance-attributes",
     "broad-exception-caught",
     "too-many-arguments",
-    "too-many-locals",
-    "too-many-statements",
+    "duplicate-code",
 ]
 ignore = [
     "tests/"

@@ -1,7 +1,10 @@
+"""This module contains the debug family of imports for the Wasm module."""
 from .types import BaseWrapImports
 
 
 class WrapDebugImports(BaseWrapImports):
+    """Defines the debug family of imports for the Wasm module."""
+
     def wrap_debug_log(self, msg_ptr: int, msg_len: int) -> None:
         """Print the transmitted message from the Wasm module to host stdout.
 

@@ -1,3 +1,4 @@
+"""This module contains the linker for the get_implementations family of Wasm imports."""
 from wasmtime import FuncType, ValType
 
 from .types import BaseWrapLinker
@@ -31,10 +32,9 @@ class WrapGetImplementationsLinker(BaseWrapLinker):
             wrap_get_implementations,
         )
 
-
-
     def link_wrap_get_implementations_result_len(self) -> None:
-        """Link the __wrap_get_implementations_result_len function as an import to the Wasm module."""
+        """Link the __wrap_get_implementations_result_len function\
+            as an import to the Wasm module."""
         wrap_get_implementations_result_len_type = FuncType(
             [],
             [
@@ -51,7 +51,6 @@ class WrapGetImplementationsLinker(BaseWrapLinker):
             wrap_get_implementations_result_len_type,
             wrap_get_implementations_result_len,
         )
-
 
     def link_wrap_get_implementations_result(self) -> None:
         """Link the __wrap_get_implementations_result function as an import to the Wasm module."""

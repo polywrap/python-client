@@ -1,4 +1,6 @@
+"""This module contains the get_implementations imports for the Wasm module."""
 from typing import List
+
 from polywrap_core import Uri, WrapAbortError
 from polywrap_msgpack import msgpack_encode
 
@@ -6,6 +8,8 @@ from .types import BaseWrapImports
 
 
 class WrapGetImplementationsImports(BaseWrapImports):
+    """Defines the get_implementations family of imports for the Wasm module."""
+
     def wrap_get_implementations(self, uri_ptr: int, uri_len: int) -> bool:
         """Get the list of implementations URIs of the given interface URI\
             from the invoker and store it in the state.
@@ -52,10 +56,7 @@ class WrapGetImplementationsImports(BaseWrapImports):
         result = self._get_get_implementations_result(
             "__wrap_get_implementations_result"
         )
-        self.write_bytes(
-            ptr,
-            result
-        )
+        self.write_bytes(ptr, result)
 
     def _get_get_implementations_result(self, export_name: str):
         if not self.state.get_implementations_result:

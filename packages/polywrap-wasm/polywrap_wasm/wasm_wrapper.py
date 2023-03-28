@@ -8,10 +8,10 @@ from polywrap_core import (
     InvocableResult,
     InvokeOptions,
     Invoker,
+    UriPackageOrWrapper,
     WrapAbortError,
     WrapError,
     Wrapper,
-    UriPackageOrWrapper
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode
@@ -64,7 +64,11 @@ class WasmWrapper(Wrapper[UriPackageOrWrapper]):
         return data.decode(encoding=options.encoding) if options.encoding else data
 
     def create_wasm_instance(
-        self, store: Store, state: State, invoker: Invoker[UriPackageOrWrapper], options: InvokeOptions[UriPackageOrWrapper]
+        self,
+        store: Store,
+        state: State,
+        invoker: Invoker[UriPackageOrWrapper],
+        options: InvokeOptions[UriPackageOrWrapper],
     ) -> Instance:
         """Create a new Wasm instance for the wrapper.
 
@@ -79,11 +83,14 @@ class WasmWrapper(Wrapper[UriPackageOrWrapper]):
         try:
             return create_instance(store, self.wasm_module, state, invoker)
         except Exception as err:
-            raise WrapAbortError(options, "Unable to instantiate the wasm module") from err
-
+            raise WrapAbortError(
+                options, "Unable to instantiate the wasm module"
+            ) from err
 
     async def invoke(
-        self, options: InvokeOptions[UriPackageOrWrapper], invoker: Invoker[UriPackageOrWrapper]
+        self,
+        options: InvokeOptions[UriPackageOrWrapper],
+        invoker: Invoker[UriPackageOrWrapper],
     ) -> InvocableResult:
         """Invoke the wrapper.
 
@@ -96,18 +103,22 @@ class WasmWrapper(Wrapper[UriPackageOrWrapper]):
         """
         if not (options.uri and options.method):
             raise WrapError(
-                    dedent(
-                        f"""
+                dedent(
+                    f"""
                     Expected invocation uri and method to be defiened got:
                     uri: {options.uri}
                     method: {options.method}
                     """
-                    )
                 )
+            )
 
         state = State(invoke_options=options)
 
-        encoded_args = state.invoke_options.args if isinstance(state.invoke_options.args, bytes) else msgpack_encode(state.invoke_options.args)
+        encoded_args = (
+            state.invoke_options.args
+            if isinstance(state.invoke_options.args, bytes)
+            else msgpack_encode(state.invoke_options.args)
+        )
         encoded_env = msgpack_encode(state.invoke_options.env)
 
         method_length = len(state.invoke_options.method)
@@ -124,6 +135,6 @@ class WasmWrapper(Wrapper[UriPackageOrWrapper]):
             # Note: currently we only return not None result from Wasm module
             return InvocableResult(result=state.invoke_result.result, encoded=True)
         raise WrapAbortError(
-                options,
-                "Expected a result from the Wasm module",
-            )
+            options,
+            "Expected a result from the Wasm module",
+        )

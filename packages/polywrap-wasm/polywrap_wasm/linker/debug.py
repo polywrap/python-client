@@ -1,4 +1,6 @@
+"""This module contains the linker for the debug family of Wasm imports."""
 from wasmtime import FuncType, ValType
+
 from .types import BaseWrapLinker
 
 
@@ -15,7 +17,9 @@ class WrapDebugLinker(BaseWrapLinker):
         def wrap_debug_log(ptr: int, length: int) -> None:
             self.wrap_imports.wrap_debug_log(ptr, length)
 
-        self.linker.define_func("wrap", "__wrap_debug_log", wrap_debug_log_type, wrap_debug_log)
+        self.linker.define_func(
+            "wrap", "__wrap_debug_log", wrap_debug_log_type, wrap_debug_log
+        )
 
     def link_debug_imports(self) -> None:
         """Link all debug family of imports to the Wasm module."""

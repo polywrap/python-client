@@ -1,3 +1,4 @@
+"""This module contains the linker for the subinvoke family of Wasm imports."""
 from wasmtime import FuncType, ValType
 
 from .types import BaseWrapLinker
@@ -44,7 +45,7 @@ class WrapSubinvokeLinker(BaseWrapLinker):
 
         def wrap_subinvoke_result_len() -> int:
             return self.wrap_imports.wrap_subinvoke_result_len()
-        
+
         self.linker.define_func(
             "wrap",
             "__wrap_subinvoke_result_len",
@@ -67,12 +68,12 @@ class WrapSubinvokeLinker(BaseWrapLinker):
         )
 
     def link_wrap_subinvoke_error_len(self) -> None:
-        """Link the __wrap_subinvoke_error_len function as an import to the Wasm module. """
+        """Link the __wrap_subinvoke_error_len function as an import to the Wasm module."""
         wrap_subinvoke_error_len_type = FuncType([], [ValType.i32()])
 
         def wrap_subinvoke_error_len() -> int:
             return self.wrap_imports.wrap_subinvoke_error_len()
-        
+
         self.linker.define_func(
             "wrap",
             "__wrap_subinvoke_error_len",

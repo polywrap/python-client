@@ -1,3 +1,4 @@
+"""This module contains the linker for the invoke family of Wasm imports."""
 from wasmtime import FuncType, ValType
 
 from .types import BaseWrapLinker
@@ -19,19 +20,14 @@ class WrapInvokeLinker(BaseWrapLinker):
 
     def link_wrap_invoke_result(self) -> None:
         """Link the __wrap_invoke_result function as an import to the Wasm module."""
-        wrap_invoke_result_type = FuncType(
-            [ValType.i32(), ValType.i32()], []
-        )
+        wrap_invoke_result_type = FuncType([ValType.i32(), ValType.i32()], [])
 
-        def wrap_invoke_result(
-            ptr: int, length: int
-        ) -> None:
+        def wrap_invoke_result(ptr: int, length: int) -> None:
             self.wrap_imports.wrap_invoke_result(ptr, length)
 
         self.linker.define_func(
             "wrap", "__wrap_invoke_result", wrap_invoke_result_type, wrap_invoke_result
         )
-
 
     def link_wrap_invoke_error(self) -> None:
         """Link the __wrap_invoke_error function as an import to the Wasm module."""

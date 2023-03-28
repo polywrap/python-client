@@ -42,5 +42,4 @@ class State:
     invoke_options: InvokeOptions[UriPackageOrWrapper]
     invoke_result: Optional[InvokeResult[str]] = None
     subinvoke_result: Optional[InvokeResult[Exception]] = None
-    subinvoke_implementation_result: Optional[InvokeResult[Exception]] = None
     get_implementations_result: Optional[bytes] = None

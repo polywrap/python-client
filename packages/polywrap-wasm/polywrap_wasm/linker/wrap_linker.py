@@ -1,3 +1,5 @@
+"""This module contains the linker for all wrap imports."""
+# pylint: disable=too-many-ancestors
 from wasmtime import Linker
 
 from ..imports import WrapImports

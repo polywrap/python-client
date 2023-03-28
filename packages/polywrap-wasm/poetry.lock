@@ -1246,14 +1246,14 @@ files = [
 
 [[package]]
 name = "unsync-stubs"
-version = "0.1.0"
+version = "0.1.2"
 description = ""
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "unsync_stubs-0.1.0-py3-none-any.whl", hash = "sha256:14d19fca06ce151912161dbc68a4bfc829e1d07e260e61cf40fde288c1d32031"},
-    {file = "unsync_stubs-0.1.0.tar.gz", hash = "sha256:f4b59fcf3eb6566b97b473338629fc02c12d41f5c8b7cfa266ca6e2a247650d2"},
+    {file = "unsync_stubs-0.1.2-py3-none-any.whl", hash = "sha256:a65aa80480c6b7ba985681d3833a202f0a33e159801c2a747bfcf6a0fb328a07"},
+    {file = "unsync_stubs-0.1.2.tar.gz", hash = "sha256:9f5b7d5cd35a03e36b735be2ba5f1c2c3848c613ad124ccbf5fc0c3cdb21cc50"},
 ]
 
 [[package]]
@@ -1472,4 +1472,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b91e0e427f44cbe927cea400a90a1a6ae66b82ad88ba98cbab4218a34cd7dcc1"
+content-hash = "f27e3708b88017566e97301cc6920071b13eef5851963631b4e981d8dec94f7a"

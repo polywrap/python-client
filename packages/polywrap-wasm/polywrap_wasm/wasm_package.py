@@ -1,7 +1,13 @@
 """This module contains the WasmPackage type for loading a Wasm package."""
 from typing import Optional, Union
 
-from polywrap_core import GetManifestOptions, IFileReader, WrapPackage, Wrapper, UriPackageOrWrapper
+from polywrap_core import (
+    GetManifestOptions,
+    IFileReader,
+    UriPackageOrWrapper,
+    WrapPackage,
+    Wrapper,
+)
 from polywrap_manifest import AnyWrapManifest, deserialize_wrap_manifest
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH

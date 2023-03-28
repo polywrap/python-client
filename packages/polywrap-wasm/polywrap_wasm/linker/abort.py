@@ -1,3 +1,4 @@
+"""This module contains the linker for the abort family of Wasm imports."""
 from wasmtime import FuncType, ValType
 
 from .types import BaseWrapLinker

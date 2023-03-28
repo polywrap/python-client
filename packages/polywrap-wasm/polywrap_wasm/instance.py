@@ -2,8 +2,8 @@
 from polywrap_core import Invoker, UriPackageOrWrapper
 from wasmtime import Instance, Linker, Module, Store
 
-from .linker import WrapLinker
 from .imports import WrapImports
+from .linker import WrapLinker
 from .memory import create_memory
 from .types.state import State
 

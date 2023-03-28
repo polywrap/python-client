@@ -1,14 +1,18 @@
+"""This module contains the subinvoke imports for the Wasm module."""
 from typing import Any, cast
+
 from polywrap_core import InvokerOptions, Uri, WrapAbortError
 from polywrap_msgpack import msgpack_encode
 from unsync import Unfuture
 
-from .types import BaseWrapImports
 from ..types import InvokeResult
+from .types import BaseWrapImports
 from .utils import unsync_invoke
 
 
 class WrapSubinvokeImports(BaseWrapImports):
+    """Defines the subinvoke family of imports for the Wasm module."""
+
     def wrap_subinvoke(
         self,
         uri_ptr: int,
@@ -72,10 +76,7 @@ class WrapSubinvokeImports(BaseWrapImports):
             ptr: The pointer to the empty result bytes slot in memory.
         """
         result = self._get_subinvoke_result("__wrap_subinvoke_result")
-        self.write_bytes(
-            ptr,
-            result
-        )
+        self.write_bytes(ptr, result)
 
     def wrap_subinvoke_error_len(self) -> int:
         """Get the length of the subinocation error message in case of an error."""
@@ -92,10 +93,7 @@ class WrapSubinvokeImports(BaseWrapImports):
         """
         error = self._get_subinvoke_error("__wrap_subinvoke_error")
         error_message = repr(error)
-        self.write_string(
-            ptr,
-            error_message
-        )
+        self.write_string(ptr, error_message)
 
     def _get_subinvoke_uri(self, uri_ptr: int, uri_len: int) -> Uri:
         uri = self.read_string(

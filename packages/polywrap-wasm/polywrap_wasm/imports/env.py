@@ -1,3 +1,4 @@
+"""This module contains the env family of imports for the Wasm module."""
 from polywrap_core import WrapAbortError
 from polywrap_msgpack import msgpack_encode
 
@@ -5,6 +6,8 @@ from .types import BaseWrapImports
 
 
 class WrapEnvImports(BaseWrapImports):
+    """Defines the env family of imports for the Wasm module."""
+
     def wrap_load_env(self, ptr: int) -> None:
         """Write the env in the shared memory at Wasm allocated empty env slot.
 
