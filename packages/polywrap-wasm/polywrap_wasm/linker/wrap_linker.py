@@ -7,6 +7,7 @@ from .env import WrapEnvLinker
 from .get_implementations import WrapGetImplementationsLinker
 from .invoke import WrapInvokeLinker
 from .subinvoke import WrapSubinvokeLinker
+from .subinvoke_implementation import WrapSubinvokeImplementationLinker
 
 
 class WrapLinker(
@@ -16,6 +17,7 @@ class WrapLinker(
     WrapGetImplementationsLinker,
     WrapInvokeLinker,
     WrapSubinvokeLinker,
+    WrapSubinvokeImplementationLinker,
 ):
     """Linker for the Wrap Wasm module.
 
@@ -44,3 +46,4 @@ class WrapLinker(
         self.link_get_implementations_imports()
         self.link_invoke_imports()
         self.link_subinvoke_imports()
+        self.link_subinvoke_implementation_imports()
