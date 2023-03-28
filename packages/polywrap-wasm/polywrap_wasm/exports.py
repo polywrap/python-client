@@ -1,7 +1,7 @@
 """This module contains the exports of the Wasm wrapper module."""
 from wasmtime import Func, Instance, Store
 
-from .errors import ExportNotFoundError
+from .errors import WasmExportNotFoundError
 
 
 class WrapExports:
@@ -32,8 +32,8 @@ class WrapExports:
         exports = instance.exports(store)
         _wrap_invoke = exports.get("_wrap_invoke")
         if not _wrap_invoke or not isinstance(_wrap_invoke, Func):
-            raise ExportNotFoundError(
-                "Unable to find exported wasm module function: _wrap_invoke in the module"
+            raise WasmExportNotFoundError(
+                "Expected _wrap_invoke to be exported from the Wasm module."
             )
         self._wrap_invoke = _wrap_invoke
 
