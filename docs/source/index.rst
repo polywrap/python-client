@@ -14,6 +14,7 @@ Welcome to polywrap-client's documentation!
    polywrap-manifest/modules.rst
    polywrap-core/modules.rst
    polywrap-wasm/modules.rst
+   polywrap-plugin/modules.rst
 
 
 
