@@ -13,7 +13,6 @@ readme = "README.md"
 python = "^3.10"
 polywrap-core = { path = "../polywrap-core", develop = true }
 polywrap-wasm = { path = "../polywrap-wasm", develop = true }
-polywrap-result = { path = "../polywrap-result", develop = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

@@ -1,5 +1,9 @@
-from typing import Dict
+from typing import Dict, Union
 
-from polywrap_core import Uri, UriPackageOrWrapper
+from polywrap_core import Uri, UriPackageOrWrapper, WrapPackage, Wrapper
 
-StaticResolverLike = Dict[Uri, UriPackageOrWrapper]
+StaticResolverLike = Union[
+    Dict[Uri, Uri],
+    Dict[Uri, WrapPackage[UriPackageOrWrapper]],
+    Dict[Uri, Wrapper[UriPackageOrWrapper]],
+]
