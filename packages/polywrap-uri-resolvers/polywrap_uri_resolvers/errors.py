@@ -19,3 +19,15 @@ class InfiniteLoopError(UriResolutionError):
             f"An infinite loop was detected while resolving the URI: {uri.uri}\n"
             f"History: {json.dumps([asdict(step) for step in resolution_path], indent=2)}"
         )
+
+
+class UriResolverExtensionError(UriResolutionError):
+    """Base class for all errors related to URI resolver extensions."""
+
+
+class UriResolverExtensionNotFoundError(UriResolverExtensionError):
+    def __init__(self, uri: Uri, history: List[IUriResolutionStep[TUriLike]]):
+        super().__init__(
+            f"Could not find an extension resolver wrapper for the URI: {uri.uri}\n"
+            f"History: {json.dumps([asdict(step) for step in history], indent=2)}"
+        )
