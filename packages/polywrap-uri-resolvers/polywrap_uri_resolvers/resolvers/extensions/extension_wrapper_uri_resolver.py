@@ -66,7 +66,9 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
             return uri
 
         except Exception as err:
-            raise UriResolverExtensionError("") from err
+            raise UriResolverExtensionError(
+                f"Failed to resolve uri: {uri}, using extension resolver: ({self.extension_wrapper_uri})"
+            ) from err
 
     async def _load_resolver_extension(
         self,
