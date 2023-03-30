@@ -16,6 +16,7 @@ polywrap-manifest = { path = "../packages/polywrap-manifest", develop = true }
 polywrap-core = { path = "../packages/polywrap-core", develop = true }
 polywrap-wasm = { path = "../packages/polywrap-wasm", develop = true }
 polywrap-plugin = { path = "../packages/polywrap-plugin", develop = true }
+polywrap-uri-resolvers = { path = "../packages/polywrap-uri-resolvers", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "^6.1.3"

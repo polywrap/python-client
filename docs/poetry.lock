@@ -543,6 +543,24 @@ type = "directory"
 url = "../packages/polywrap-plugin"
 
 [[package]]
+name = "polywrap-uri-resolvers"
+version = "0.1.0"
+description = ""
+category = "main"
+optional = false
+python-versions = "^3.10"
+files = []
+develop = true
+
+[package.dependencies]
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+
+[package.source]
+type = "directory"
+url = "../packages/polywrap-uri-resolvers"
+
+[[package]]
 name = "polywrap-wasm"
 version = "0.1.0"
 description = ""
@@ -993,4 +1011,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b74ed17c7b2c58ebd2e8a1ea026594ee6298f77bbfe89ff7673b684d967d7823"
+content-hash = "fe60d6e1d69339cb98d40c93c4b04bbe3914b56d84f324fee0b5459e10f76f0f"
