@@ -1,17 +1,30 @@
+"""This module contains the UriResolverAggregator Resolver."""
 from typing import List, Optional
 
 from polywrap_core import (
     InvokerClient,
-    UriResolver,
+    IUriResolutionContext,
     Uri,
     UriPackageOrWrapper,
-    IUriResolutionContext,
+    UriResolver,
 )
 
 from ...types import UriResolutionStep
 
 
 class UriResolverAggregator(UriResolver):
+    """Defines a resolver that aggregates a list of resolvers.
+    
+    This resolver aggregates a list of resolvers and tries to resolve\
+        the uri with each of them. If a resolver returns a value\
+        other than the resolving uri, the value is returned.
+
+    Attributes:
+        resolvers (List[UriResolver]): The list of resolvers to aggregate.
+        step_description (Optional[str]): The description of the resolution\
+            step. Defaults to the class name.
+    """
+
     __slots__ = ("resolvers", "step_description")
 
     resolvers: List[UriResolver]
@@ -20,6 +33,13 @@ class UriResolverAggregator(UriResolver):
     def __init__(
         self, resolvers: List[UriResolver], step_description: Optional[str] = None
     ):
+        """Initialize a new UriResolverAggregator instance.
+
+        Args:
+            resolvers (List[UriResolver]): The list of resolvers to aggregate.
+            step_description (Optional[str]): The description of the resolution\
+                step. Defaults to the class name.
+        """
         self.step_description = step_description or self.__class__.__name__
         self.resolvers = resolvers
 
@@ -29,6 +49,19 @@ class UriResolverAggregator(UriResolver):
         client: InvokerClient[UriPackageOrWrapper],
         resolution_context: IUriResolutionContext[UriPackageOrWrapper],
     ) -> UriPackageOrWrapper:
+        """Try to resolve a URI to a wrap package, a wrapper, or a URI.
+
+        This method tries to resolve the uri with each of the aggregated\
+            resolvers. If a resolver returns a value other than the resolving\
+            uri, the value is returned.
+        
+        Args:
+            uri (Uri): The URI to resolve.
+            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
+                resolving the URI.
+            resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
+                The resolution context to update.
+        """
         sub_context = resolution_context.create_sub_history_context()
 
         for resolver in self.resolvers:

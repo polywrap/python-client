@@ -1,3 +1,4 @@
+"""This package contains the resolvers for the Polywrap client."""
 from .abc import *
 from .aggregator import *
 from .cache import *

@@ -1,7 +1,7 @@
 """This module contains an utility function for building a clean history of URI resolution steps."""
 from typing import List, Optional, TypeVar, Union
 
-from polywrap_core import UriPackage, Uri, UriLike, IUriResolutionStep
+from polywrap_core import IUriResolutionStep, Uri, UriLike, UriPackage
 
 CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
 

@@ -1,4 +1,5 @@
-from .types import *
+"""This package contains URI resolvers for polywrap-client."""
 from .errors import *
-from .utils import *
 from .resolvers import *
+from .types import *
+from .utils import *

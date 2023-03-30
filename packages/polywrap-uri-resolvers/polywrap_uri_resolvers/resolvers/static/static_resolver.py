@@ -1,13 +1,14 @@
+"""This module contains the StaticResolver class."""
 from polywrap_core import (
     InvokerClient,
     IUriResolutionContext,
     IUriResolutionStep,
+    Uri,
     UriPackage,
+    UriPackageOrWrapper,
     UriResolver,
     UriWrapper,
     WrapPackage,
-    Uri,
-    UriPackageOrWrapper,
     Wrapper,
 )
 
@@ -15,11 +16,22 @@ from ...types import StaticResolverLike
 
 
 class StaticResolver(UriResolver):
+    """Defines the static URI resolver.
+
+    Attributes:
+        uri_map (StaticResolverLike): The URI map to use.
+    """
+
     __slots__ = ("uri_map",)
 
     uri_map: StaticResolverLike
 
     def __init__(self, uri_map: StaticResolverLike):
+        """Initialize a new StaticResolver instance.
+
+        Args:
+            uri_map (StaticResolverLike): The URI map to use.
+        """
         self.uri_map = uri_map
 
     async def try_resolve_uri(
@@ -28,6 +40,16 @@ class StaticResolver(UriResolver):
         client: InvokerClient[UriPackageOrWrapper],
         resolution_context: IUriResolutionContext[UriPackageOrWrapper],
     ) -> UriPackageOrWrapper:
+        """Try to resolve a URI to a wrap package, a wrapper, or a URI.
+
+        Args:
+            uri (Uri): The URI to resolve.
+            client (InvokerClient[UriPackageOrWrapper]): The client to use for resolving the URI.
+            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The resolution context.
+
+        Returns:
+            UriPackageOrWrapper: The resolved URI.
+        """
         result = self.uri_map.get(uri)
         uri_package_or_wrapper: UriPackageOrWrapper = uri
         description: str = "StaticResolver - Miss"

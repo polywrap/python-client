@@ -3,8 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from polywrap_core import UriPackageOrWrapper
-from polywrap_core import IUriResolutionStep
+from polywrap_core import IUriResolutionStep, UriPackageOrWrapper
 
 
 @dataclass(slots=True, kw_only=True)
