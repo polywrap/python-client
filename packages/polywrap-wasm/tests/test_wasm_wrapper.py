@@ -5,7 +5,7 @@ from pathlib import Path
 
 from polywrap_msgpack import msgpack_decode
 from polywrap_core import Uri, InvokeOptions, Invoker, InvokerOptions, UriPackageOrWrapper
-from polywrap_wasm import IFileReader, WasmPackage, WasmWrapper, WRAP_MODULE_PATH
+from polywrap_wasm import FileReader, WasmPackage, WasmWrapper, WRAP_MODULE_PATH
 from polywrap_manifest import deserialize_wrap_manifest
 
 from polywrap_wasm.constants import WRAP_MANIFEST_PATH
@@ -38,16 +38,16 @@ def simple_wrap_manifest():
 
 @pytest.fixture
 def dummy_file_reader():
-    class FileReader(IFileReader):
+    class DummyFileReader(FileReader):
         async def read_file(self, file_path: str) -> bytes:
             raise NotImplementedError()
 
-    yield FileReader()
+    yield DummyFileReader()
 
 
 @pytest.fixture
 def simple_file_reader(simple_wrap_module: bytes, simple_wrap_manifest: bytes):
-    class FileReader(IFileReader):
+    class DummyFileReader(FileReader):
         async def read_file(self, file_path: str) -> bytes:
             if file_path == WRAP_MODULE_PATH:
                 return simple_wrap_module
@@ -55,12 +55,12 @@ def simple_file_reader(simple_wrap_module: bytes, simple_wrap_manifest: bytes):
                 return simple_wrap_manifest
             raise NotImplementedError()
 
-    yield FileReader()
+    yield DummyFileReader()
 
 
 @pytest.mark.asyncio
 async def test_invoke_with_wrapper(
-    dummy_file_reader: IFileReader, simple_wrap_module: bytes, simple_wrap_manifest: bytes, mock_invoker: Invoker[UriPackageOrWrapper]
+    dummy_file_reader: FileReader, simple_wrap_module: bytes, simple_wrap_manifest: bytes, mock_invoker: Invoker[UriPackageOrWrapper]
 ):
     wrapper = WasmWrapper(dummy_file_reader, simple_wrap_module, deserialize_wrap_manifest(simple_wrap_manifest))
 
@@ -73,7 +73,7 @@ async def test_invoke_with_wrapper(
 
 
 @pytest.mark.asyncio
-async def test_invoke_with_package(simple_file_reader: IFileReader, mock_invoker: Invoker[UriPackageOrWrapper]):
+async def test_invoke_with_package(simple_file_reader: FileReader, mock_invoker: Invoker[UriPackageOrWrapper]):
     package = WasmPackage(simple_file_reader)
     wrapper = await package.create_wrapper()
 
