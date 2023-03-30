@@ -19,7 +19,7 @@ class ClientConfig:
         interfaces (Dict[Uri, List[Uri]]): Dictionary of interfaces \
             and their implementations where key is interface URI \
             and value is list of implementation URIs.
-        resolver (IUriResolver): URI resolver.
+        resolver (UriResolver): URI resolver.
     """
 
     envs: Dict[Uri, Env] = field(default_factory=dict)
