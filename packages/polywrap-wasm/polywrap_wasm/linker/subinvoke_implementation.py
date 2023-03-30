@@ -48,7 +48,7 @@ class WrapSubinvokeImplementationLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_subinvoke_implementation",
+            "__wrap_subinvokeImplementation",
             wrap_subinvoke_implementation_type,
             wrap_subinvoke_implementation,
         )
@@ -63,7 +63,7 @@ class WrapSubinvokeImplementationLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_subinvoke_implementation_result_len",
+            "__wrap_subinvokeImplementation_result_len",
             wrap_subinvoke_implementation_result_len_type,
             wrap_subinvoke_implementation_result_len,
         )
@@ -78,7 +78,7 @@ class WrapSubinvokeImplementationLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_subinvoke_implementation_result",
+            "__wrap_subinvokeImplementation_result",
             wrap_subinvoke_implementation_result_type,
             wrap_subinvoke_implementation_result,
         )
@@ -93,13 +93,13 @@ class WrapSubinvokeImplementationLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_subinvoke_implementation_error_len",
+            "__wrap_subinvokeImplementation_error_len",
             wrap_subinvoke_implementation_error_len_type,
             wrap_subinvoke_implementation_error_len,
         )
 
     def link_wrap_subinvoke_implementation_error(self) -> None:
-        """Link the __wrap_subinvoke_implementation_error function\
+        """Link the __wrap_subinvokeImplementation_error function\
             as an import to the Wasm module."""
         wrap_subinvoke_implementation_error_type = FuncType([ValType.i32()], [])
 
@@ -108,7 +108,7 @@ class WrapSubinvokeImplementationLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_subinvoke_implementation_error",
+            "__wrap_subinvokeImplementation_error",
             wrap_subinvoke_implementation_error_type,
             wrap_subinvoke_implementation_error,
         )

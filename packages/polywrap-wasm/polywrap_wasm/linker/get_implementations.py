@@ -27,7 +27,7 @@ class WrapGetImplementationsLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_get_implementations",
+            "__wrap_getImplementations",
             wrap_get_implementations_type,
             wrap_get_implementations,
         )
@@ -47,7 +47,7 @@ class WrapGetImplementationsLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_get_implementations_result_len",
+            "__wrap_getImplementations_result_len",
             wrap_get_implementations_result_len_type,
             wrap_get_implementations_result_len,
         )
@@ -68,7 +68,7 @@ class WrapGetImplementationsLinker(BaseWrapLinker):
 
         self.linker.define_func(
             "wrap",
-            "__wrap_get_implementations_result",
+            "__wrap_getImplementations_result",
             wrap_get_implementations_result_type,
             wrap_get_implementations_result,
         )
