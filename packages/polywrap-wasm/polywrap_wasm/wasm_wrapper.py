@@ -3,8 +3,8 @@ from textwrap import dedent
 from typing import Union
 
 from polywrap_core import (
+    FileReader,
     GetFileOptions,
-    IFileReader,
     InvocableResult,
     InvokeOptions,
     Invoker,
@@ -31,12 +31,12 @@ class WasmWrapper(Wrapper[UriPackageOrWrapper]):
         manifest: The manifest of the wrapper.
     """
 
-    file_reader: IFileReader
+    file_reader: FileReader
     wasm_module: bytes
     manifest: AnyWrapManifest
 
     def __init__(
-        self, file_reader: IFileReader, wasm_module: bytes, manifest: AnyWrapManifest
+        self, file_reader: FileReader, wasm_module: bytes, manifest: AnyWrapManifest
     ):
         """Initialize a new WasmWrapper instance."""
         self.file_reader = file_reader

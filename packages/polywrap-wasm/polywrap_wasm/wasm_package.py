@@ -2,8 +2,8 @@
 from typing import Optional, Union
 
 from polywrap_core import (
+    FileReader,
     GetManifestOptions,
-    IFileReader,
     UriPackageOrWrapper,
     WrapPackage,
     Wrapper,
@@ -24,13 +24,13 @@ class WasmPackage(WrapPackage[UriPackageOrWrapper]):
         wasm_module: The Wasm module file of the wrapper.
     """
 
-    file_reader: IFileReader
+    file_reader: FileReader
     manifest: Optional[Union[bytes, AnyWrapManifest]]
     wasm_module: Optional[bytes]
 
     def __init__(
         self,
-        file_reader: IFileReader,
+        file_reader: FileReader,
         manifest: Optional[Union[bytes, AnyWrapManifest]] = None,
         wasm_module: Optional[bytes] = None,
     ):

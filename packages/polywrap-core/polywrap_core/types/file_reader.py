@@ -4,7 +4,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 
-class IFileReader(ABC):
+class FileReader(ABC):
     """File reader interface."""
 
     @abstractmethod

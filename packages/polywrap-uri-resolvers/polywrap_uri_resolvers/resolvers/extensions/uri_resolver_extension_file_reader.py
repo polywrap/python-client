@@ -1,9 +1,9 @@
 
 from pathlib import Path
-from polywrap_core import IFileReader, Invoker, InvokerOptions, Uri, UriPackageOrWrapper
+from polywrap_core import FileReader, Invoker, InvokerOptions, Uri, UriPackageOrWrapper
 
 
-class UriResolverExtensionFileReader(IFileReader):
+class UriResolverExtensionFileReader(FileReader):
     extension_uri: Uri
     wrapper_uri: Uri
     invoker: Invoker[UriPackageOrWrapper]

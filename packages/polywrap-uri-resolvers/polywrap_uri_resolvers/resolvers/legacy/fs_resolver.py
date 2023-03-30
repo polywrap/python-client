@@ -2,7 +2,7 @@ from pathlib import Path
 
 from polywrap_core import (
     InvokerClient,
-    IFileReader,
+    FileReader,
     IUriResolutionContext,
     UriResolver,
     Uri,
@@ -12,16 +12,16 @@ from polywrap_core import (
 from polywrap_wasm import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, WasmPackage
 
 
-class SimpleFileReader(IFileReader):
+class SimpleFileReader(FileReader):
     async def read_file(self, file_path: str) -> bytes:
         with open(file_path, "rb") as f:
             return f.read()
 
 
 class FsUriResolver(UriResolver):
-    file_reader: IFileReader
+    file_reader: FileReader
 
-    def __init__(self, file_reader: IFileReader):
+    def __init__(self, file_reader: FileReader):
         self.file_reader = file_reader
 
     async def try_resolve_uri(

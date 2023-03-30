@@ -2,7 +2,7 @@ from typing import Dict
 
 from polywrap_core import (
     InvokerClient,
-    IFileReader,
+    FileReader,
     IUriResolutionContext,
     UriResolver,
     Uri,
@@ -17,7 +17,7 @@ class BaseUriResolver(UriResolver):
     _fs_resolver: FsUriResolver
     _redirect_resolver: RedirectUriResolver
 
-    def __init__(self, file_reader: IFileReader, redirects: Dict[Uri, Uri]):
+    def __init__(self, file_reader: FileReader, redirects: Dict[Uri, Uri]):
         self._fs_resolver = FsUriResolver(file_reader)
         self._redirect_resolver = RedirectUriResolver(redirects)
 

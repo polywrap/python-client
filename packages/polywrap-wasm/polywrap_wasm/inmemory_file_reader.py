@@ -1,12 +1,12 @@
 """This module contains the InMemoryFileReader type for reading files from memory."""
 from typing import Optional
 
-from polywrap_core import IFileReader
+from polywrap_core import FileReader
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
 
-class InMemoryFileReader(IFileReader):
+class InMemoryFileReader(FileReader):
     """InMemoryFileReader is an implementation of the IFileReader interface\
         that reads files from memory.
 
@@ -18,11 +18,11 @@ class InMemoryFileReader(IFileReader):
 
     _wasm_manifest: Optional[bytes]
     _wasm_module: Optional[bytes]
-    _base_file_reader: IFileReader
+    _base_file_reader: FileReader
 
     def __init__(
         self,
-        base_file_reader: IFileReader,
+        base_file_reader: FileReader,
         wasm_module: Optional[bytes] = None,
         wasm_manifest: Optional[bytes] = None,
     ):
