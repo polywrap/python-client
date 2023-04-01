@@ -6,8 +6,8 @@
 from typing import Optional
 
 from polywrap_msgpack import msgpack_decode
-
 from pydantic import ValidationError
+
 from .errors import DeserializeManifestError
 from .manifest import *
 
@@ -37,18 +37,18 @@ def deserialize_wrap_manifest(
     no_validate = options and options.no_validate
     try:
         manifest_version = WrapManifestVersions(decoded_manifest["version"])
-    except ValueError as e:
+    except ValueError as err:
         raise DeserializeManifestError(
             f"Invalid wrap manifest version: {decoded_manifest['version']}"
-        ) from e
+        ) from err
     match manifest_version.value:
         case "0.1":
             if no_validate:
                 raise NotImplementedError("No validate not implemented for 0.1")
             try:
                 return WrapManifest_0_1.validate(decoded_manifest)
-            except ValidationError as e:
-                raise DeserializeManifestError("Invalid manifest") from e
+            except ValidationError as err:
+                raise DeserializeManifestError("Invalid manifest") from err
         case _:
             raise NotImplementedError(
                 f"Version {manifest_version.value} is not implemented"
