@@ -31,6 +31,7 @@ pycln = "^2.1.3"
 
 [tool.bandit]
 exclude_dirs = ["tests"]
+skips = ["B113"]  # False positive, we aren't using requests
 
 [tool.black]
 target-version = ["py310"]
