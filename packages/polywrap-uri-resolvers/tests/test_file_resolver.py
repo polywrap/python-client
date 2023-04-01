@@ -2,7 +2,7 @@ import pytest
 
 from pathlib import Path
 
-from polywrap_core import IFileReader, IUriResolver, Uri, IWrapPackage
+from polywrap_core import FileReader, UriPackage, UriResolver, Uri
 from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
 
 @pytest.fixture
@@ -10,16 +10,16 @@ def file_reader():
     return SimpleFileReader()
 
 @pytest.fixture
-def fs_resolver(file_reader: IFileReader):
+def fs_resolver(file_reader: FileReader):
     return FsUriResolver(file_reader=file_reader)
 
 
 @pytest.mark.asyncio
-async def test_file_resolver(fs_resolver: IUriResolver):
+async def test_file_resolver(fs_resolver: UriResolver):
     path = Path(__file__).parent / "cases" / "simple"
-    uri = Uri(f"wrap://fs/{path}")
+    uri = Uri.from_str(f"wrap://fs/{path}")
 
     result = await fs_resolver.try_resolve_uri(uri, None, None) # type: ignore
 
-    assert result.is_ok
-    assert isinstance(result.unwrap(), IWrapPackage)
+    assert result
+    assert isinstance(result, UriPackage)

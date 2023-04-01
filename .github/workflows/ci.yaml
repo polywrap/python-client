@@ -35,12 +35,11 @@ jobs:
         run: curl -sSL https://install.python-poetry.org | python3 -
       - name: Install dependencies
         run: poetry install
-      # FIXME: make this work
-      # - name: Typecheck
-      #   run: poetry run tox -e typecheck
-      # - name: Lint
-      #   run: poetry run tox -e lint
-      # - name: Security
-      #   run: poetry run tox -e secure
+      - name: Typecheck
+        run: poetry run tox -e typecheck
+      - name: Lint
+        run: poetry run tox -e lint
+      - name: Security
+        run: poetry run tox -e secure
       - name: Test
         run: poetry run tox

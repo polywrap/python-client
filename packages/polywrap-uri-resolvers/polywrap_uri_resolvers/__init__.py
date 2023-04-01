@@ -1,11 +1,5 @@
-from .types import *
-from .abc import *
+"""This package contains URI resolvers for polywrap-client."""
 from .errors import *
-from .helpers import *
-from .legacy import *
-from .cache import *
-from .recursive_resolver import *
-from .static_resolver import *
-from .redirect_resolver import *
-from .package_resolver import *
-from .wrapper_resolver import *
+from .resolvers import *
+from .types import *
+from .utils import *

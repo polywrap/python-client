@@ -59,7 +59,7 @@ def render_wrap(path: Path) -> None:
         # Import Union from typing
         content = content.replace("from typing import ", "from typing import Union, ")
 
-        generic_def_pattern = re.compile(r"class GenericDefinition\(WithKind\):\s*type: str")
+        generic_def_pattern = re.compile(r"class GenericDefinition\(WithKind\):\s*\"{3}\s*[A-Za-z.\s]*\"{3}\s*type: str")
         generic_def_match = generic_def_pattern.search(content)
 
         if not generic_def_match:
@@ -69,7 +69,7 @@ def render_wrap(path: Path) -> None:
         
         generic_def = content[generic_def_span[0]:generic_def_span[1]]
 
-        updated_generic_def = generic_def.replace("str", "Union[str, Enum, None]")
+        updated_generic_def = generic_def.replace("type: str", "type: Union[str, Enum, None]")
         content = content.replace(generic_def, updated_generic_def)
 
         f.seek(0)
@@ -113,7 +113,7 @@ def main():
             / f"wrap_{manifest_module_version}.py"
         )
         url = urlparse(
-            f"https://raw.githubusercontent.com/polywrap/wrap/master/manifest/wrap.info/{version}.json"
+            f"https://raw.githubusercontent.com/polywrap/wrap/nk/wrap-0-1-docs/manifest/wrap.info/{version}.json"
         )
         generate(
             url,
@@ -123,6 +123,7 @@ def main():
             snake_case_field=True,
             use_schema_description=True,
             output=output,
+            disable_timestamp=True,
         )
 
         render_wrap(output)
