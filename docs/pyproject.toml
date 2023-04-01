@@ -1,0 +1,25 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "docs"
+version = "0.1.0"
+description = ""
+authors = ["Niraj <niraj@polywrap.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+polywrap-msgpack = { path = "../packages/polywrap-msgpack", develop = true }
+polywrap-manifest = { path = "../packages/polywrap-manifest", develop = true }
+polywrap-core = { path = "../packages/polywrap-core", develop = true }
+polywrap-wasm = { path = "../packages/polywrap-wasm", develop = true }
+polywrap-plugin = { path = "../packages/polywrap-plugin", develop = true }
+polywrap-uri-resolvers = { path = "../packages/polywrap-uri-resolvers", develop = true }
+polywrap-client = { path = "../packages/polywrap-client", develop = true }
+
+[tool.poetry.group.dev.dependencies]
+sphinx = "^6.1.3"
+sphinx-rtd-theme = "^1.2.0"
+

@@ -1,43 +1,78 @@
-from typing import Any, Dict, Union, cast, Generic
+"""This module contains the PluginWrapper class."""
+# pylint: disable=invalid-name
+from typing import Generic, TypeVar, Union
 
 from polywrap_core import (
     GetFileOptions,
     InvocableResult,
     InvokeOptions,
     Invoker,
-    Wrapper
+    UriPackageOrWrapper,
+    Wrapper,
 )
 from polywrap_manifest import AnyWrapManifest
-from polywrap_msgpack import msgpack_decode
-from polywrap_result import Err, Ok, Result
 
-from .module import PluginModule, TConfig, TResult
+from .module import PluginModule
 
-class PluginWrapper(Wrapper, Generic[TConfig, TResult]):
-    module: PluginModule[TConfig, TResult]
+TConfig = TypeVar("TConfig")
+TResult = TypeVar("TResult")
 
-    def __init__(self, module: PluginModule[TConfig, TResult], manifest: AnyWrapManifest) -> None:
+
+class PluginWrapper(Generic[TConfig], Wrapper[UriPackageOrWrapper]):
+    """PluginWrapper implements the Wrapper interface for plugin wrappers.
+
+    Attributes:
+        module: The plugin module.
+        manifest: The manifest of the plugin.
+    """
+
+    module: PluginModule[TConfig]
+    manifest: AnyWrapManifest
+
+    def __init__(
+        self, module: PluginModule[TConfig], manifest: AnyWrapManifest
+    ) -> None:
+        """Initialize a new PluginWrapper instance.
+
+        Args:
+            module: The plugin module.
+            manifest: The manifest of the plugin.
+        """
         self.module = module
         self.manifest = manifest
 
     async def invoke(
-        self, options: InvokeOptions, invoker: Invoker
-    ) -> Result[InvocableResult]:
-        env = options.env or {}
-        self.module.set_env(env)
+        self,
+        options: InvokeOptions[UriPackageOrWrapper],
+        invoker: Invoker[UriPackageOrWrapper],
+    ) -> InvocableResult:
+        """Invoke a method on the plugin.
 
-        args: Union[Dict[str, Any], bytes] = options.args or {}
-        decoded_args: Dict[str, Any] = msgpack_decode(args) if isinstance(args, bytes) else args
+        Args:
+            options (InvokeOptions): options to use when invoking the plugin.
+            invoker (Invoker): the invoker to use when invoking the plugin.
 
-        result: Result[TResult] = await self.module.__wrap_invoke__(options.method, decoded_args, invoker)
+        Returns:
+            Result[InvocableResult]: the result of the invocation.
+        """
+        result = await self.module.__wrap_invoke__(options, invoker)
+        return InvocableResult(result=result, encoded=False)
 
-        if result.is_err():
-            return cast(Err, result.err)
-        return Ok(InvocableResult(result=result.unwrap(),encoded=False))
+    async def get_file(self, options: GetFileOptions) -> Union[str, bytes]:
+        """Get a file from the plugin.
 
+        Args:
+            options (GetFileOptions): options to use when getting the file.
 
-    async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
-        return Err.from_str("client.get_file(..) is not implemented for plugins")
+        Returns:
+            Result[Union[str, bytes]]: the file contents or an error.
+        """
+        raise NotImplementedError("client.get_file(..) is not implemented for plugins")
 
-    def get_manifest(self) -> Result[AnyWrapManifest]:
-        return Ok(self.manifest)
+    def get_manifest(self) -> AnyWrapManifest:
+        """Get the manifest of the plugin.
+
+        Returns:
+            Result[AnyWrapManifest]: the manifest of the plugin.
+        """
+        return self.manifest

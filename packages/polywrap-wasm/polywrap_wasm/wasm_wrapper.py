@@ -1,101 +1,140 @@
+"""This module contains the WasmWrapper class for invoking Wasm wrappers."""
 from textwrap import dedent
-from typing import Union, cast
+from typing import Union
 
 from polywrap_core import (
+    FileReader,
     GetFileOptions,
-    IFileReader,
     InvocableResult,
     InvokeOptions,
     Invoker,
+    UriPackageOrWrapper,
+    WrapAbortError,
+    WrapError,
     Wrapper,
 )
 from polywrap_manifest import AnyWrapManifest
 from polywrap_msgpack import msgpack_encode
-from polywrap_result import Result, Ok, Err
-from wasmtime import Module, Store
+from wasmtime import Instance, Store
 
 from .exports import WrapExports
-from .imports import create_instance
+from .instance import create_instance
 from .types.state import State
 
 
-class WasmWrapper(Wrapper):
-    file_reader: IFileReader
+class WasmWrapper(Wrapper[UriPackageOrWrapper]):
+    """WasmWrapper implements the Wrapper interface for Wasm wrappers.
+
+    Attributes:
+        file_reader: The file reader used to read the wrapper files.
+        wasm_module: The Wasm module file of the wrapper.
+        manifest: The manifest of the wrapper.
+    """
+
+    file_reader: FileReader
     wasm_module: bytes
     manifest: AnyWrapManifest
 
     def __init__(
-        self, file_reader: IFileReader, wasm_module: bytes, manifest: AnyWrapManifest
+        self, file_reader: FileReader, wasm_module: bytes, manifest: AnyWrapManifest
     ):
+        """Initialize a new WasmWrapper instance."""
         self.file_reader = file_reader
         self.wasm_module = wasm_module
         self.manifest = manifest
 
-    def get_manifest(self) -> Result[AnyWrapManifest]:
-        return Ok(self.manifest)
+    def get_manifest(self) -> AnyWrapManifest:
+        """Get the manifest of the wrapper."""
+        return self.manifest
 
-    def get_wasm_module(self) -> Result[bytes]:
-        return Ok(self.wasm_module)
+    def get_wasm_module(self) -> bytes:
+        """Get the Wasm module of the wrapper."""
+        return self.wasm_module
 
-    async def get_file(self, options: GetFileOptions) -> Result[Union[str, bytes]]:
-        result = await self.file_reader.read_file(options.path)
-        if result.is_err():
-            return cast(Err, result)
-        data = result.unwrap()
-        return Ok(data.decode(encoding=options.encoding) if options.encoding else data)
+    async def get_file(self, options: GetFileOptions) -> Union[str, bytes]:
+        """Get a file from the wrapper.
 
-    def create_wasm_instance(self, store: Store, state: State, invoker: Invoker):
-        if self.wasm_module:
+        Args:
+            options: The options to use when getting the file.
+
+        Returns:
+            The file contents as string or bytes according to encoding or an error.
+        """
+        data = await self.file_reader.read_file(options.path)
+        return data.decode(encoding=options.encoding) if options.encoding else data
+
+    def create_wasm_instance(
+        self,
+        store: Store,
+        state: State,
+        invoker: Invoker[UriPackageOrWrapper],
+        options: InvokeOptions[UriPackageOrWrapper],
+    ) -> Instance:
+        """Create a new Wasm instance for the wrapper.
+
+        Args:
+            store: The Wasm store to use when creating the instance.
+            state: The Wasm wrapper state to use when creating the instance.
+            invoker: The invoker to use when creating the instance.
+
+        Returns:
+            The Wasm instance of the wrapper Wasm module.
+        """
+        try:
             return create_instance(store, self.wasm_module, state, invoker)
+        except Exception as err:
+            raise WrapAbortError(
+                options, "Unable to instantiate the wasm module"
+            ) from err
 
     async def invoke(
-        self, options: InvokeOptions, invoker: Invoker
-    ) -> Result[InvocableResult]:
-        state = State()
-        state.method = options.method
-        state.args = (
-            options.args
-            if isinstance(options.args, (bytes, bytearray))
-            else msgpack_encode(options.args)
-        )
-        state.env = (
-            options.env
-            if isinstance(options.env, (bytes, bytearray))
-            else msgpack_encode(options.env)
-        )
+        self,
+        options: InvokeOptions[UriPackageOrWrapper],
+        invoker: Invoker[UriPackageOrWrapper],
+    ) -> InvocableResult:
+        """Invoke the wrapper.
 
-        if not (state.method and state.args and state.env):
-            raise ValueError(
+        Args:
+            options: The options to use when invoking the wrapper.
+            invoker: The invoker to use when invoking the wrapper.
+
+        Returns:
+            The result of the invocation or an error.
+        """
+        if not (options.uri and options.method):
+            raise WrapError(
                 dedent(
-                    """
-                    Expected invocation state to be definied got:
-                    method: ${state.method}
-                    args: ${state.args}
-                    env: ${state.env}
+                    f"""
+                    Expected invocation uri and method to be defiened got:
+                    uri: {options.uri}
+                    method: {options.method}
                     """
                 )
             )
 
-        method_length = len(state.method)
-        args_length = len(state.args)
-        env_length = len(state.env)
+        state = State(invoke_options=options)
 
-        # TODO: Pass all necessary args to this log
+        encoded_args = (
+            state.invoke_options.args
+            if isinstance(state.invoke_options.args, bytes)
+            else msgpack_encode(state.invoke_options.args)
+        )
+        encoded_env = msgpack_encode(state.invoke_options.env)
+
+        method_length = len(state.invoke_options.method)
+        args_length = len(encoded_args)
+        env_length = len(encoded_env)
 
         store = Store()
-        instance = self.create_wasm_instance(store, state, invoker)
-        if not instance:
-            raise RuntimeError("Unable to instantiate the wasm module")
+        instance = self.create_wasm_instance(store, state, invoker, options)
+
         exports = WrapExports(instance, store)
-
         result = exports.__wrap_invoke__(method_length, args_length, env_length)
-        return self._process_invoke_result(state, result)
 
-    @staticmethod
-    def _process_invoke_result(state: State, result: bool) -> Result[InvocableResult]:
-        if result and state.invoke["result"]:
-            return Ok(InvocableResult(result=state.invoke["result"], encoded=True))
-        elif result or not state.invoke["error"]:
-            return Err.from_str("Invoke result is missing")
-        else:
-            return Err.from_str(state.invoke["error"])
+        if result and state.invoke_result and state.invoke_result.result:
+            # Note: currently we only return not None result from Wasm module
+            return InvocableResult(result=state.invoke_result.result, encoded=True)
+        raise WrapAbortError(
+            options,
+            "Expected a result from the Wasm module",
+        )

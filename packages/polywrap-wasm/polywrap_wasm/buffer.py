@@ -1,7 +1,14 @@
-import ctypes
-from typing import TYPE_CHECKING, Any, Optional
+"""This module provides a set of functions to read and write bytes from a memory buffer."""
+# pylint: disable=protected-access
 
-BufferPointer = ctypes._Pointer[ctypes.c_ubyte] if TYPE_CHECKING else Any  # type: ignore
+import ctypes
+from typing import TYPE_CHECKING, Any, Optional  # pyright: ignore[reportUnusedImport]
+
+BufferPointer = (
+    ctypes._Pointer[ctypes.c_ubyte]  # pyright: ignore[reportPrivateUsage]
+    if TYPE_CHECKING
+    else Any
+)
 
 
 def read_bytes(
@@ -9,35 +16,35 @@ def read_bytes(
     memory_length: int,
     offset: Optional[int] = None,
     length: Optional[int] = None,
-) -> bytearray:
+) -> bytes:
+    """Read bytes from a memory buffer.
+
+    Args:
+        memory_pointer: The pointer to the memory buffer.
+        memory_length: The length of the memory buffer.
+        offset: The offset to start reading from.
+        length: The number of bytes to read.
+    """
     result = bytearray(memory_length)
     buffer = (ctypes.c_ubyte * memory_length).from_buffer(result)
     ctypes.memmove(buffer, memory_pointer, memory_length)
 
-    return result[offset : offset + length] if offset and length else result
+    return bytes(result[offset : offset + length] if offset and length else result)
 
 
 def read_string(
     memory_pointer: BufferPointer, memory_length: int, offset: int, length: int
 ) -> str:
+    """Read a UTF-8 encoded string from a memory buffer.
+
+    Args:
+        memory_pointer: The pointer to the memory buffer.
+        memory_length: The length of the memory buffer.
+        offset: The offset to start reading from.
+        length: The number of bytes to read.
+    """
     value = read_bytes(memory_pointer, memory_length, offset, length)
     return value.decode("utf-8")
-
-
-def write_string(
-    memory_pointer: BufferPointer,
-    memory_length: int,
-    value: str,
-    value_offset: int,
-) -> None:
-    value_buffer = value.encode("utf-8")
-    mem_cpy(
-        memory_pointer,
-        memory_length,
-        bytearray(value_buffer),
-        len(value_buffer),
-        value_offset,
-    )
 
 
 def write_bytes(
@@ -46,7 +53,38 @@ def write_bytes(
     value: bytes,
     value_offset: int,
 ) -> None:
+    """Write bytes to a memory buffer.
+
+    Args:
+        memory_pointer: The pointer to the memory buffer.
+        memory_length: The length of the memory buffer.
+        value: The bytes to write.
+        value_offset: The offset to start writing to.
+    """
     mem_cpy(memory_pointer, memory_length, bytearray(value), len(value), value_offset)
+
+
+def write_string(
+    memory_pointer: BufferPointer,
+    memory_length: int,
+    value: str,
+    value_offset: int,
+) -> None:
+    """Write a UTF-8 encoded string to a memory buffer.
+
+    Args:
+        memory_pointer: The pointer to the memory buffer.
+        memory_length: The length of the memory buffer.
+        value: The string to write.
+        value_offset: The offset to start writing to.
+    """
+    value_buffer = value.encode("utf-8")
+    write_bytes(
+        memory_pointer,
+        memory_length,
+        value_buffer,
+        value_offset,
+    )
 
 
 def mem_cpy(
@@ -56,9 +94,20 @@ def mem_cpy(
     value_length: int,
     value_offset: int,
 ) -> None:
-    current_value = read_bytes(
-        memory_pointer,
-        memory_length,
+    """Copy bytearray from the given value to a memory buffer.
+
+    Args:
+        memory_pointer: The pointer to the memory buffer.
+        memory_length: The length of the memory buffer.
+        value: The bytearray to copy.
+        value_length: The length of the bytearray to copy.
+        value_offset: The offset to start copying from.
+    """
+    current_value = bytearray(
+        read_bytes(
+            memory_pointer,
+            memory_length,
+        )
     )
 
     new_value = (ctypes.c_ubyte * value_length).from_buffer(value)

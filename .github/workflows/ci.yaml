@@ -1,10 +1,8 @@
-name: Python package
-
+name: CI
 on:
   push: 
     branches:
       - main
-      - dev
   pull_request:
 
 jobs:
@@ -29,7 +27,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
@@ -39,10 +37,9 @@ jobs:
         run: poetry install
       - name: Typecheck
         run: poetry run tox -e typecheck
-      # FIXME: make this work
-      # - name: Lint
-      #   run: poetry run tox -e lint
-      # - name: Security
-      #   run: poetry run tox -e secure
+      - name: Lint
+        run: poetry run tox -e lint
+      - name: Security
+        run: poetry run tox -e secure
       - name: Test
         run: poetry run tox

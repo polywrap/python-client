@@ -1,10 +1,5 @@
-from .abc import *
-from .aggregator import *
-from .helpers import *
-from .legacy import *
-from .fs_resolver import *
-from .legacy.redirect_resolver import *
-from .static_resolver import *
-from .recursive_resolver import *
-from .uri_resolver_wrapper import *
-from .builder import *
+"""This package contains URI resolvers for polywrap-client."""
+from .errors import *
+from .resolvers import *
+from .types import *
+from .utils import *

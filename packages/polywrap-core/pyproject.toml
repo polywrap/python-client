@@ -13,7 +13,7 @@ python = "^3.10"
 gql = "3.4.0"
 graphql-core = "^3.2.1"
 polywrap-manifest = { path = "../polywrap-manifest", develop = true }
-polywrap-result = { path = "../polywrap-result", develop = true }
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
@@ -28,6 +28,13 @@ isort = "^5.10.1"
 pyright = "^1.1.275"
 pydocstyle = "^6.1.1"
 
+[tool.poetry.group.temp.dependencies]
+pydeps = "^1.11.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pycln = "^2.1.3"
+
 [tool.bandit]
 exclude_dirs = ["tests"]
 
@@ -35,7 +42,8 @@ exclude_dirs = ["tests"]
 target-version = ["py310"]
 
 [tool.pyright]
-# default
+typeCheckingMode = "strict"
+reportShadowedImports = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -45,7 +53,9 @@ testpaths = [
 
 [tool.pylint]
 disable = [
+    "invalid-name",
     "too-many-return-statements",
+    "too-few-public-methods",
 ]
 ignore = [
     "tests/"
