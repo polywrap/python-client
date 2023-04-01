@@ -58,49 +58,102 @@ class PolywrapClient(Client):
         """
         self._config = config
 
-    def get_config(self):
-        """Get the client configuration."""
+    def get_config(self) -> PolywrapClientConfig:
+        """Get the client configuration.
+
+        Returns:
+            PolywrapClientConfig: The polywrap client configuration.
+        """
         return self._config
 
     def get_uri_resolver(self) -> UriResolver:
-        """Get the URI resolver."""
+        """Get the URI resolver.
+
+        Returns:
+            UriResolver: The URI resolver.
+        """
         return self._config.resolver
 
     def get_envs(self) -> Dict[Uri, Env]:
-        """Get the dictionary of environment variables."""
+        """Get the dictionary of environment variables.
+
+        Returns:
+            Dict[Uri, Env]: The dictionary of environment variables.
+        """
         envs: Dict[Uri, Env] = self._config.envs
         return envs
 
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
-        """Get the interfaces."""
+        """Get the interfaces.
+
+        Returns:
+            Dict[Uri, List[Uri]]: The dictionary of interface-implementations.
+        """
         interfaces: Dict[Uri, List[Uri]] = self._config.interfaces
         return interfaces
 
     def get_implementations(self, uri: Uri) -> Union[List[Uri], None]:
-        """Get the implementations for the given interface URI."""
+        """Get the implementations for the given interface URI.
+
+        Args:
+            uri (Uri): The interface URI.
+
+        Returns:
+            Union[List[Uri], None]: The list of implementation URIs.
+        """
         interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
         return interfaces.get(uri)
 
     def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
-        """Get the environment variables for the given URI."""
+        """Get the environment variables for the given URI.
+
+        Args:
+            uri (Uri): The URI of the wrapper.
+
+        Returns:
+            Union[Env, None]: The environment variables.
+        """
         return self._config.envs.get(uri)
 
     async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
-        """Get the file from the given wrapper URI."""
+        """Get the file from the given wrapper URI.
+
+        Args:
+            uri (Uri): The wrapper URI.
+            options (GetFileOptions): The options for getting the file.
+
+        Returns:
+            Union[bytes, str]: The file contents.
+        """
         loaded_wrapper = await self.load_wrapper(uri)
         return await loaded_wrapper.get_file(options)
 
     async def get_manifest(
         self, uri: Uri, options: Optional[GetManifestOptions] = None
     ) -> AnyWrapManifest:
-        """Get the manifest from the given wrapper URI."""
+        """Get the manifest from the given wrapper URI.
+
+        Args:
+            uri (Uri): The wrapper URI.
+            options (Optional[GetManifestOptions]): The options for getting the manifest.
+
+        Returns:
+            AnyWrapManifest: The manifest.
+        """
         loaded_wrapper = await self.load_wrapper(uri)
         return loaded_wrapper.get_manifest()
 
     async def try_resolve_uri(
         self, options: TryResolveUriOptions[UriPackageOrWrapper]
     ) -> UriPackageOrWrapper:
-        """Try to resolve the given URI."""
+        """Try to resolve the given URI.
+
+        Args:
+            options (TryResolveUriOptions[UriPackageOrWrapper]): The options for resolving the URI.
+
+        Returns:
+            UriPackageOrWrapper: The resolved URI, package or wrapper.
+        """
         uri = options.uri
         uri_resolver = self._config.resolver
         resolution_context = options.resolution_context or UriResolutionContext()
@@ -112,7 +165,16 @@ class PolywrapClient(Client):
         uri: Uri,
         resolution_context: Optional[IUriResolutionContext[UriPackageOrWrapper]] = None,
     ) -> Wrapper[UriPackageOrWrapper]:
-        """Load the wrapper for the given URI."""
+        """Load the wrapper for the given URI.
+
+        Args:
+            uri (Uri): The wrapper URI.
+            resolution_context (Optional[IUriResolutionContext[UriPackageOrWrapper]]):\
+                The resolution context.
+
+        Returns:
+            Wrapper[UriPackageOrWrapper]: initialized wrapper instance.
+        """
         resolution_context = resolution_context or UriResolutionContext()
 
         uri_package_or_wrapper = await self.try_resolve_uri(
@@ -144,7 +206,14 @@ class PolywrapClient(Client):
         )
 
     async def invoke(self, options: InvokerOptions[UriPackageOrWrapper]) -> Any:
-        """Invoke the given wrapper URI."""
+        """Invoke the given wrapper URI.
+
+        Args:
+            options (InvokerOptions[UriPackageOrWrapper]): The options for invoking the wrapper.
+
+        Returns:
+            Any: The result of the invocation.
+        """
         resolution_context = options.resolution_context or UriResolutionContext()
         wrapper = await self.load_wrapper(
             options.uri, resolution_context=resolution_context
