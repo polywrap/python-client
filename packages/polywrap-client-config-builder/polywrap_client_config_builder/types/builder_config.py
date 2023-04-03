@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List
-from polywrap_client import Wrapper
 
 from polywrap_core import (
     Uri,
     UriPackageOrWrapper,
     UriResolver,
     WrapPackage,
+    Wrapper
 )
 
 

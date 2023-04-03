@@ -27,12 +27,12 @@ def env_varS():
 
 @fixture
 def env_uriX():
-    return Uri("wrap://ens/eth.plugin.one/X")
+    return Uri.from_str("wrap://ens/eth.plugin.one/X")
 
 @fixture
 def env_uriY():
-    return Uri("wrap://ipfs/filecoin.wrapper.two/Y")
+    return Uri.from_str("wrap://ipfs/filecoin.wrapper.two/Y")
 
 @fixture
 def env_uriZ():
-    return Uri("wrap://pinlist/dev.wrappers.io/Z")
+    return Uri.from_str("wrap://pinlist/dev.wrappers.io/Z")

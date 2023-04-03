@@ -11,8 +11,8 @@ from polywrap_core import (
     Wrapper,
     WrapPackage,
     UriResolver,
+    ClientConfig
 )
-from polywrap_client import PolywrapClientConfig
 
 from polywrap_uri_resolvers import (
     RecursiveResolver,
@@ -42,7 +42,7 @@ class ClientConfigBuilder:
             envs={}, interfaces={}, resolvers=[], wrappers={}, packages={}, redirects={}
         )
 
-    def build(self, options: Optional[BuildOptions] = None) -> PolywrapClientConfig:
+    def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""
         resolver = (
             options.resolver
@@ -69,7 +69,7 @@ class ClientConfigBuilder:
             )
         )
 
-        return PolywrapClientConfig(
+        return ClientConfig(
             envs=self.config.envs,
             interfaces=self.config.interfaces,
             resolver=resolver,
