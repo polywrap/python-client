@@ -13,6 +13,10 @@
           "path": "packages/polywrap-client"
       },
       {
+          "name": "polywrap-client-config-builder",
+          "path": "packages/polywrap-client-config-builder"
+      },
+      {
           "name": "polywrap-core",
           "path": "packages/polywrap-core"
       },

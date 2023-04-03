@@ -25,61 +25,33 @@ class ExtendableUriResolver(UriResolver):
     Attributes:
         DEFAULT_EXT_INTERFACE_URIS (List[Uri]): The default list of extension\
             interface uris.
-        resolver_aggregator (UriResolverAggregator): The resolver aggregator\
-            to use for resolving the extension interface uris.
+        ext_interface_uris (List[Uri]): The list of extension interface uris.
+        resolver_name (str): The name of the resolver.
     """
 
     DEFAULT_EXT_INTERFACE_URIS = [
         Uri.from_str("wrap://ens/wraps.eth:uri-resolver-ext@1.1.0"),
         Uri.from_str("wrap://ens/wraps.eth:uri-resolver-ext@1.0.0"),
     ]
-    resolver_aggregator: UriResolverAggregator
+    ext_interface_uris: List[Uri]
+    resolver_name: str
 
-    def __init__(self, resolver_aggregator: UriResolverAggregator):
-        """Initialize a new ExtendableUriResolver instance.
-        
-        Args:
-            resolver_aggregator (UriResolverAggregator): The resolver aggregator\
-                to use for resolving the extension interface uris.
-        """
-        self.resolver_aggregator = resolver_aggregator
-
-    @classmethod
-    def from_interface(
-        cls,
-        client: InvokerClient[UriPackageOrWrapper],
+    def __init__(
+        self,
         ext_interface_uris: Optional[List[Uri]] = None,
         resolver_name: Optional[str] = None,
     ):
-        """Create a new ExtendableUriResolver instance from a list of extension interface uris.
-
+        """Initialize a new ExtendableUriResolver instance.
+        
         Args:
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
-                resolving the extension interface uris.
             ext_interface_uris (Optional[List[Uri]]): The list of extension\
                 interface uris. Defaults to the default list of extension\
                 interface uris.
             resolver_name (Optional[str]): The name of the resolver. Defaults\
                 to the class name.
-
-        Returns:
-            ExtendableUriResolver: The new ExtendableUriResolver instance.
         """
-        ext_interface_uris = ext_interface_uris or cls.DEFAULT_EXT_INTERFACE_URIS
-        resolver_name = resolver_name or cls.__name__
-
-        uri_resolvers_uris: List[Uri] = []
-
-        for ext_interface_uri in ext_interface_uris:
-            uri_resolvers_uris.extend(
-                client.get_implementations(ext_interface_uri) or []
-            )
-
-        resolvers = [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]
-
-        return cls(
-            UriResolverAggregator(cast(List[UriResolver], resolvers), resolver_name)
-        )
+        self.ext_interface_uris = ext_interface_uris or self.DEFAULT_EXT_INTERFACE_URIS
+        self.resolver_name = resolver_name or self.__class__.__name__
 
     async def try_resolve_uri(
         self,
@@ -99,6 +71,17 @@ class ExtendableUriResolver(UriResolver):
         Returns:
             UriPackageOrWrapper: The resolved URI, wrap package, or wrapper.
         """
-        return await self.resolver_aggregator.try_resolve_uri(
-            uri, client, resolution_context
+
+        uri_resolvers_uris: List[Uri] = []
+
+        for ext_interface_uri in self.ext_interface_uris:
+            uri_resolvers_uris.extend(
+                client.get_implementations(ext_interface_uri) or []
+            )
+
+        resolvers = [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]
+        aggregator = UriResolverAggregator(
+            cast(List[UriResolver], resolvers), self.resolver_name
         )
+
+        return await aggregator.try_resolve_uri(uri, client, resolution_context)
