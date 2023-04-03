@@ -1,8 +1,8 @@
+"""This module contains the BuildOptions class."""
 from dataclasses import dataclass
 from typing import Optional
 
 from polywrap_core import UriResolver
-
 from polywrap_uri_resolvers import WrapperCache
 
 

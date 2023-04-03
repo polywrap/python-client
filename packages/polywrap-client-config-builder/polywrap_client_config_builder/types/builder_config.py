@@ -1,13 +1,8 @@
+"""This module contains the BuilderConfig class."""
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
-from polywrap_core import (
-    Uri,
-    UriPackageOrWrapper,
-    UriResolver,
-    WrapPackage,
-    Wrapper
-)
+from polywrap_core import Uri, UriPackageOrWrapper, UriResolver, WrapPackage, Wrapper
 
 
 @dataclass(slots=True, kw_only=True)

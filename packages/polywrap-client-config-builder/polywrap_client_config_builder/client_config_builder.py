@@ -3,26 +3,25 @@
 from typing import Any, Dict, List, Optional, cast
 
 from polywrap_core import (
+    ClientConfig,
     Env,
     Uri,
     UriPackage,
-    UriWrapper,
     UriPackageOrWrapper,
-    Wrapper,
-    WrapPackage,
     UriResolver,
-    ClientConfig
+    UriWrapper,
+    WrapPackage,
+    Wrapper,
 )
-
 from polywrap_uri_resolvers import (
-    RecursiveResolver,
-    RequestSynchronizerResolver,
-    WrapperCacheResolver,
-    PackageToWrapperResolver,
-    StaticResolver,
     ExtendableUriResolver,
     InMemoryWrapperCache,
+    PackageToWrapperResolver,
+    RecursiveResolver,
+    RequestSynchronizerResolver,
+    StaticResolver,
     UriResolverAggregator,
+    WrapperCacheResolver,
 )
 
 from .types import BuilderConfig, BuildOptions
@@ -31,9 +30,11 @@ from .types import BuilderConfig, BuildOptions
 class ClientConfigBuilder:
     """Defines a simple builder for building a ClientConfig object.
 
-    The ClientConfigBuilder is used to create a ClientConfig object, which is used to configure
-    the Polywrap Client and its sub-components. ClientConfigBuilder provides a simple interface
-    for setting the redirects, wrappers, packages, and other configuration options for the Polywrap Client.
+    The ClientConfigBuilder is used to create a ClientConfig object,\
+        which is used to configure the Polywrap Client and its sub-components.\
+        ClientConfigBuilder provides a simple interface for setting\
+        the redirects, wrappers, packages, and other configuration options\
+        for the Polywrap Client.
     """
 
     def __init__(self):
@@ -134,7 +135,7 @@ class ClientConfigBuilder:
         return self
 
     def add_wrapper(self, uri: Uri, wrapper: Wrapper[UriPackageOrWrapper]):
-        """Add a wrapper by its URI to the builder's config"""
+        """Add a wrapper by its URI to the builder's config."""
         self.config.wrappers[uri] = wrapper
         return self
 
@@ -150,7 +151,7 @@ class ClientConfigBuilder:
         return self
 
     def remove_wrappers(self, uris: List[Uri]):
-        """Remove a list of wrappers by its URIs"""
+        """Remove a list of wrappers by its URIs."""
         for uri in uris:
             self.remove_wrapper(uri)
         return self
