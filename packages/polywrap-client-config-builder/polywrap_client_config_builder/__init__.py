@@ -1,11 +1,3 @@
-"""
-Polywrap Python Client.
-
-ClientConfigBuilder Package
-
-docs.polywrap.io
-
-Copyright 2022 Polywrap
-"""
+"""This package contains modules related to client config builder."""
 
 from .client_config_builder import *

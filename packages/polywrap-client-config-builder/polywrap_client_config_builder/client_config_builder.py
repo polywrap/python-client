@@ -1,208 +1,204 @@
-"""
-Polywrap Python Client.
+"""This module provides a simple builder for building a ClientConfig object."""
 
-The ClientConfigBuilder Package provides a simple interface for building a ClientConfig object,
-which is used to configure the Polywrap Client and its sub-components. You can use the
-ClientConfigBuilder to set the wrappers, packages, and other configuration options for the
-Polywrap Client.
+from typing import Any, Dict, List, Optional, cast
 
-docs.polywrap.io
-Copyright 2022 Polywrap
-"""
+from polywrap_core import (
+    Env,
+    Uri,
+    UriPackage,
+    UriWrapper,
+    UriPackageOrWrapper,
+    Wrapper,
+    WrapPackage,
+    UriResolver,
+)
+from polywrap_client import PolywrapClientConfig
 
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Any, Dict, List, Union
+from polywrap_uri_resolvers import (
+    RecursiveResolver,
+    RequestSynchronizerResolver,
+    WrapperCacheResolver,
+    PackageToWrapperResolver,
+    StaticResolver,
+    ExtendableUriResolver,
+    InMemoryWrapperCache,
+    UriResolverAggregator,
+)
 
-from polywrap_core import Env, Uri, UriPackage, UriWrapper
-
-UriResolverLike = Union[Uri, UriPackage, UriWrapper, List["UriResolverLike"]]
-
-
-@dataclass(slots=True, kw_only=True)
-class ClientConfig:
-    """
-    Abstract class used to configure the polywrap client before it executes a call.
-
-    The ClientConfig class is created and modified with the ClientConfigBuilder module.
-    """
-
-    envs: Dict[Uri, Dict[str, Any]]
-    interfaces: Dict[Uri, List[Uri]]
-    wrappers: List[UriWrapper]
-    packages: List[UriPackage]
-    resolver: List[UriResolverLike]
-    redirects: Dict[Uri, Uri]
+from .types import BuilderConfig, BuildOptions
 
 
-class BaseClientConfigBuilder(ABC):
-    """
-    An abstract base class of the `ClientConfigBuilder`.
+class ClientConfigBuilder:
+    """Defines a simple builder for building a ClientConfig object.
 
-    It uses the ABC module to define the methods that can be used to
-    configure the `ClientConfig` object.
+    The ClientConfigBuilder is used to create a ClientConfig object, which is used to configure
+    the Polywrap Client and its sub-components. ClientConfigBuilder provides a simple interface
+    for setting the redirects, wrappers, packages, and other configuration options for the Polywrap Client.
     """
 
     def __init__(self):
         """Initialize the builder's config attributes with empty values."""
-        self.config = ClientConfig(
-            envs={}, interfaces={}, resolver=[], wrappers=[], packages=[], redirects={}
+        self.config = BuilderConfig(
+            envs={}, interfaces={}, resolvers=[], wrappers={}, packages={}, redirects={}
         )
 
-    @abstractmethod
-    def build(self) -> ClientConfig:
-        """Return a sanitized config object from the builder's config."""
+    def build(self, options: Optional[BuildOptions] = None) -> PolywrapClientConfig:
+        """Build the ClientConfig object from the builder's config."""
+        resolver = (
+            options.resolver
+            if options and options.resolver
+            else RecursiveResolver(
+                RequestSynchronizerResolver(
+                    WrapperCacheResolver(
+                        PackageToWrapperResolver(
+                            UriResolverAggregator(
+                                [
+                                    StaticResolver(self.config.redirects),
+                                    StaticResolver(self.config.wrappers),
+                                    StaticResolver(self.config.packages),
+                                    *self.config.resolvers,
+                                    ExtendableUriResolver(),
+                                ]
+                            )
+                        ),
+                        options.wrapper_cache
+                        if options and options.wrapper_cache
+                        else InMemoryWrapperCache(),
+                    )
+                )
+            )
+        )
 
-    def add(self, new_config: ClientConfig):
-        """
-        Return a sanitized config object from the builder's config.
+        return PolywrapClientConfig(
+            envs=self.config.envs,
+            interfaces=self.config.interfaces,
+            resolver=resolver,
+        )
 
-        Input is a partial `ClientConfig` object.
-        """
-        if new_config.envs:
-            self.config.envs.update(new_config.envs)
-        if new_config.interfaces:
-            self.config.interfaces.update(new_config.interfaces)
-        if new_config.resolver:
-            self.config.resolver.extend(new_config.resolver)
-        if new_config.wrappers:
-            self.config.wrappers.extend(new_config.wrappers)
-        if new_config.packages:
-            self.config.packages.extend(new_config.packages)
+    def add(self, config: BuilderConfig):
+        """Add the values from the given config to the builder's config."""
+        if config.envs:
+            self.config.envs.update(config.envs)
+        if config.interfaces:
+            self.config.interfaces.update(config.interfaces)
+        if config.redirects:
+            self.config.redirects.update(config.redirects)
+        if config.resolvers:
+            self.config.resolvers.extend(config.resolvers)
+        if config.wrappers:
+            self.config.wrappers.update(config.wrappers)
+        if config.packages:
+            self.config.packages.update(config.packages)
         return self
 
     def get_envs(self) -> Dict[Uri, Dict[str, Any]]:
-        """Return the envs dictionary from the builder's config."""
+        """Return the envs from the builder's config."""
         return self.config.envs
 
-    def set_env(self, env: Env, uri: Uri):
-        """Set the envs dictionary in the builder's config, overiding any existing values."""
+    def set_env(self, uri: Uri, env: Env):
+        """Set the env by uri in the builder's config, overiding any existing values."""
         self.config.envs[uri] = env
         return self
 
-    def add_env(self, env: Env, uri: Uri):
-        """
-        Add an environment (in the form of an `Env`) for a given uri.
+    def set_envs(self, uri_envs: Dict[Uri, Env]):
+        """Set the envs in the builder's config, overiding any existing values."""
+        self.config.envs.update(uri_envs)
+        return self
 
-        Note it is not overwriting existing environments, unless the
-        env key already exists in the environment, then it will overwrite the existing value.
+    def add_env(self, uri: Uri, env: Env):
+        """Add an env for the given uri.
+
+        If an Env is already associated with the uri, it is modified.
         """
-        if uri in self.config.envs.keys():
-            for key in env.keys():
+        if self.config.envs.get(uri):
+            for key in self.config.envs[uri]:
                 self.config.envs[uri][key] = env[key]
         else:
             self.config.envs[uri] = env
         return self
 
-    def add_envs(self, envs: List[Env], uri: Uri = None):
-        """Add a list of environments (each in the form of an `Env`) for a given uri."""
-        for env in envs:
-            self.add_env(env, uri)
+    def add_envs(self, uri_envs: Dict[Uri, Env]):
+        """Add a list of envs to the builder's config."""
+        for uri, env in uri_envs.items():
+            self.add_env(uri, env)
         return self
 
     def add_interface_implementations(
         self, interface_uri: Uri, implementations_uris: List[Uri]
     ):
-        """Add a list of implementations (each in the form of an `Uri`) for a given interface."""
-        if interface_uri is None:
-            raise ValueError()
+        """Add a list of implementation URIs for the given interface URI to the builder's config."""
         if interface_uri in self.config.interfaces.keys():
-            self.config.interfaces[interface_uri] = (
-                self.config.interfaces[interface_uri] + implementations_uris
-            )
+            self.config.interfaces[interface_uri].extend(implementations_uris)
         else:
             self.config.interfaces[interface_uri] = implementations_uris
         return self
 
-    def add_wrapper(self, wrapper_uri: UriWrapper):
-        """Add a wrapper to the list of wrappers."""
-        self.config.wrappers.append(wrapper_uri)
+    def add_wrapper(self, uri: Uri, wrapper: Wrapper[UriPackageOrWrapper]):
+        """Add a wrapper by its URI to the builder's config"""
+        self.config.wrappers[uri] = wrapper
         return self
 
-    def add_wrappers(self, wrappers_uris: List[UriWrapper]):
-        """Add a list of wrappers to the list of wrappers."""
-        for wrapper_uri in wrappers_uris:
-            self.add_wrapper(wrapper_uri)
+    def add_wrappers(self, uri_wrappers: List[UriWrapper[UriPackageOrWrapper]]):
+        """Add a list of URI-wrapper pairs to the builder's config."""
+        for uri_wrapper in uri_wrappers:
+            self.add_wrapper(cast(Uri, uri_wrapper), uri_wrapper.wrapper)
         return self
 
-    def remove_wrapper(self, wrapper_uri: UriWrapper):
-        """Remove a wrapper from the list of wrappers."""
-        self.config.wrappers.remove(wrapper_uri)
+    def remove_wrapper(self, uri: Uri):
+        """Remove a wrapper by its URI from the builder's config."""
+        del self.config.wrappers[uri]
         return self
 
-    def set_package(self, uri_package: UriPackage):
-        """Set the package in the builder's config, overiding any existing values."""
-        self.config.packages = [uri_package]
+    def remove_wrappers(self, uris: List[Uri]):
+        """Remove a list of wrappers by its URIs"""
+        for uri in uris:
+            self.remove_wrapper(uri)
         return self
 
-    def add_package(self, uri_package: UriPackage):
-        """Add a package to the list of packages."""
-        self.config.packages.append(uri_package)
+    def add_package(self, uri: Uri, package: WrapPackage[UriPackageOrWrapper]):
+        """Add a package by its URI to the builder's config."""
+        self.config.packages[uri] = package
         return self
 
-    def add_packages(self, uri_packages: List[UriPackage]):
-        """Add a list of packages to the list of packages."""
+    def add_packages(self, uri_packages: List[UriPackage[UriPackageOrWrapper]]):
+        """Add a list of URI-package pairs to the builder's config."""
         for uri_package in uri_packages:
-            self.add_package(uri_package)
+            self.add_package(cast(Uri, uri_package), uri_package.package)
         return self
 
-    def remove_package(self, uri_package: UriPackage):
-        """Remove a package from the list of packages."""
-        self.config.packages.remove(uri_package)
+    def remove_package(self, uri: Uri):
+        """Remove a package by its URI from the builder's config."""
+        del self.config.packages[uri]
         return self
 
-    def set_resolver(self, uri_resolver: UriResolverLike):
-        """Set a single resolver for the `ClientConfig` object."""
-        self.config.resolver = [uri_resolver]
+    def remove_packages(self, uris: List[Uri]):
+        """Remove a list of packages by its URIs from the builder's config."""
+        for uri in uris:
+            self.remove_package(uri)
         return self
 
-    def add_resolver(self, resolver: UriResolverLike):
-        """Add a resolver to the list of resolvers."""
-        if self.config.resolver is None:
-            raise ValueError(
-                "This resolver is not set. Please set a resolver before adding resolvers."
-            )
-        self.config.resolver.append(resolver)
+    def add_resolver(self, resolver: UriResolver):
+        """Add a resolver to the builder's config."""
+        self.config.resolvers.append(resolver)
         return self
 
-    def add_resolvers(self, resolvers_list: List[UriResolverLike]):
-        """Add a list of resolvers to the list of resolvers."""
+    def add_resolvers(self, resolvers_list: List[UriResolver]):
+        """Add a list of resolvers to the builder's config."""
         for resolver in resolvers_list:
             self.add_resolver(resolver)
         return self
 
-    def set_uri_redirect(self, uri_from: Uri, uri_to: Uri):
-        """
-        Set an uri redirect, from one uri to another.
-
-        If there was a redirect previously listed, it's changed to the new one.
-        """
-        self.config.redirects[uri_from] = uri_to
+    def add_redirect(self, from_uri: Uri, to_uri: Uri):
+        """Add a URI redirect from `from_uri` to `to_uri`."""
+        self.config.redirects[from_uri] = to_uri
         return self
 
-    def remove_uri_redirect(self, uri_from: Uri):
-        """Remove an uri redirect, from one uri to another."""
-        self.config.redirects.pop(uri_from)
+    def remove_redirect(self, from_uri: Uri):
+        """Remove a URI redirect by `from_uri`."""
+        del self.config.redirects[from_uri]
         return self
 
-    def set_uri_redirects(self, redirects: List[Dict[Uri, Uri]]):
-        """Set various Uri redirects from a list simultaneously."""
-        count = 0
-        for redir in redirects:
-            for key, value in redir.items():
-                self.set_uri_redirect(key, value)
-            count += 1
+    def add_redirects(self, redirects: Dict[Uri, Uri]):
+        """Add a list of URI redirects to the builder's config."""
+        self.config.redirects.update(redirects)
         return self
-
-
-class ClientConfigBuilder(BaseClientConfigBuilder):
-    """
-    A class that can build the `ClientConfig` object.
-
-    This class inherits the `BaseClientConfigBuilder` class,
-    and adds the `build` method
-    """
-
-    def build(self) -> ClientConfig:
-        """Return a sanitized config object from the builder's config."""
-        return self.config

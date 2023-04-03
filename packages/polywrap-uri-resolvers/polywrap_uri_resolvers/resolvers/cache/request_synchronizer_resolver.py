@@ -54,7 +54,7 @@ class RequestSynchronizerResolver(UriResolver):
     def __init__(
         self,
         resolver_to_synchronize: UriResolver,
-        options: Optional[RequestSynchronizerResolverOptions],
+        options: Optional[RequestSynchronizerResolverOptions] = None,
     ):
         """Initialize a new RequestSynchronizerResolver instance.
 

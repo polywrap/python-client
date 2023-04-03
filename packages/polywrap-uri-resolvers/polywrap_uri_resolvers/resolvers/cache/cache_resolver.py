@@ -54,7 +54,7 @@ class WrapperCacheResolver(UriResolver):
         self,
         resolver_to_cache: UriResolver,
         cache: WrapperCache,
-        options: Optional[WrapperCacheResolverOptions],
+        options: Optional[WrapperCacheResolverOptions] = None,
     ):
         """Initialize a new PackageToWrapperCacheResolver instance.
 

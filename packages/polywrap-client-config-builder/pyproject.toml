@@ -12,7 +12,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 polywrap-core = { path = "../polywrap-core", develop = true }
-polywrap-result = { path = "../polywrap-result", develop = true }
 
 [tool.poetry.dev-dependencies]
 polywrap-client = { path = "../polywrap-client", develop = true }
