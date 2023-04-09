@@ -1,3 +1,4 @@
+"""This module contains the resolver configure class for the client config builder."""
 from typing import List
 
 from polywrap_core import UriResolver

@@ -1,8 +1,9 @@
+"""This module contains the base configure class for the client config builder."""
 from ..types import BuilderConfig, ClientConfigBuilder
 
 
 class BaseConfigure(ClientConfigBuilder):
-    """BaseConfigure is the base class for builder configures.
+    """BaseConfigure is the base configure class for the client config builder.
 
     Attributes:
         config (BuilderConfig): The internal configuration.

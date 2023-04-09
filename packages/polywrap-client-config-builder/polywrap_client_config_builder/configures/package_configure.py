@@ -1,3 +1,4 @@
+"""This module contains the package configure class for the client config builder."""
 from typing import Dict, List, Union
 
 from polywrap_core import Uri, UriPackageOrWrapper, WrapPackage

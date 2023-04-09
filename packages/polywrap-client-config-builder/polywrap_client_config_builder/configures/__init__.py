@@ -1,3 +1,4 @@
+"""This package contains the configure classes for the client config builder."""
 from .base_configure import *
 from .env_configure import *
 from .interface_configure import *

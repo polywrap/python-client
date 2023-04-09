@@ -1,3 +1,4 @@
+"""This module contains the client config builder class."""
 # pylint: disable=too-many-public-methods
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Union
@@ -17,6 +18,8 @@ from .builder_config import BuilderConfig
 
 
 class ClientConfigBuilder(ABC):
+    """Defines the interface for the client config builder."""
+
     config: BuilderConfig
 
     @abstractmethod
