@@ -8,10 +8,11 @@ from polywrap_uri_resolvers import WrapperCache
 
 @dataclass(slots=True, kw_only=True)
 class BuildOptions:
-    """
-    Abstract class used to configure the polywrap client before it executes a call.
+    """BuildOptions defines the options for build method of the client config builder.
 
-    The ClientConfig class is created and modified with the ClientConfigBuilder module.
+    Attributes:
+        wrapper_cache: The wrapper cache.
+        resolver: The URI resolver.
     """
 
     wrapper_cache: Optional[WrapperCache] = None
