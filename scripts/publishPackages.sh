@@ -297,7 +297,7 @@ fi
 
 # Patching Version of polywrap-client-config-builder
 echo "Patching Version of polywrap-client-config-builder to $1"
-deps=(polywrap-core)
+deps=(polywrap-core polywrap-uri-resolvers)
 patchVersion polywrap-client-config-builder $1 deps
 patchVersionResult=$?
 if [ "$patchVersionResult" -ne "0" ]; then
