@@ -140,7 +140,7 @@ function waitForPackagePublish() {
   fi
 }
 
-# Patching Verion of polywrap-msgpack
+# Patching Version of polywrap-msgpack
 echo "Patching Version of polywrap-msgpack to $1"
 patchVersion polywrap-msgpack $1
 patchVersionResult=$?
@@ -165,7 +165,7 @@ if [ "$waitForPackagePublishResult" -ne "0" ]; then
   exit 1
 fi
 
-# Patching Verion of polywrap-manifest
+# Patching Version of polywrap-manifest
 echo "Patching Version of polywrap-manifest to $1"
 deps=(polywrap-msgpack)
 patchVersion polywrap-manifest $1 deps
@@ -191,7 +191,7 @@ if [ "$waitForPackagePublishResult" -ne "0" ]; then
   exit 1
 fi
 
-# Patching Verion of polywrap-core
+# Patching Version of polywrap-core
 echo "Patching Version of polywrap-core to $1"
 deps=(polywrap-manifest)
 patchVersion polywrap-core $1 deps
@@ -217,7 +217,7 @@ if [ "$waitForPackagePublishResult" -ne "0" ]; then
   exit 1
 fi
 
-# Patching Verion of polywrap-wasm
+# Patching Version of polywrap-wasm
 echo "Patching Version of polywrap-wasm to $1"
 deps=(polywrap-msgpack polywrap-manifest polywrap-core)
 patchVersion polywrap-wasm $1 deps
@@ -243,7 +243,7 @@ if [ "$waitForPackagePublishResult" -ne "0" ]; then
   exit 1
 fi
 
-# Patching Verion of polywrap-plugin
+# Patching Version of polywrap-plugin
 echo "Patching Version of polywrap-plugin to $1"
 deps=(polywrap-msgpack polywrap-manifest polywrap-core)
 patchVersion polywrap-plugin $1 deps
@@ -269,7 +269,7 @@ if [ "$waitForPackagePublishResult" -ne "0" ]; then
   exit 1
 fi
 
-# Patching Verion of polywrap-uri-resolvers
+# Patching Version of polywrap-uri-resolvers
 echo "Patching Version of polywrap-uri-resolvers to $1"
 deps=(polywrap-wasm polywrap-core)
 patchVersion polywrap-uri-resolvers $1 deps
@@ -295,7 +295,33 @@ if [ "$waitForPackagePublishResult" -ne "0" ]; then
   exit 1
 fi
 
-# Patching Verion of polywrap-client
+# Patching Version of polywrap-client-config-builder
+echo "Patching Version of polywrap-client-config-builder to $1"
+deps=(polywrap-core polywrap-uri-resolvers)
+patchVersion polywrap-client-config-builder $1 deps
+patchVersionResult=$?
+if [ "$patchVersionResult" -ne "0" ]; then
+  echo "Failed to bump version of polywrap-client-config-builder to $1"
+  exit 1
+fi
+
+echo "Publishing polywrap-client-config-builder"
+publishPackage polywrap-client-config-builder $1 $2 $3
+publishResult=$?
+if [ "$publishResult" -ne "0" ]; then
+  echo "Failed to publish polywrap-client-config-builder"
+  exit 1
+fi
+
+echo "Waiting for the package to be published"
+waitForPackagePublish polywrap-client-config-builder $1
+waitForPackagePublishResult=$?
+if [ "$waitForPackagePublishResult" -ne "0" ]; then
+  echo "Failed to publish polywrap-client-config-builder"
+  exit 1
+fi
+
+# Patching Version of polywrap-client
 echo "Patching Version of polywrap-client to $1"
 deps=(polywrap-msgpack polywrap-manifest polywrap-core  polywrap-uri-resolvers)
 patchVersion polywrap-client $1 deps
