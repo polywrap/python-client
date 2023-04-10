@@ -193,7 +193,7 @@ fi
 
 # Patching Version of polywrap-core
 echo "Patching Version of polywrap-core to $1"
-deps=(polywrap-manifest)
+deps=(polywrap-manifest polywrap-msgpack)
 patchVersion polywrap-core $1 deps
 patchVersionResult=$?
 if [ "$patchVersionResult" -ne "0" ]; then
