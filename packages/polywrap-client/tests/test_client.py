@@ -1,7 +1,7 @@
 from pathlib import Path
-from polywrap_client import PolywrapClient, PolywrapClientConfig
+from polywrap_client import PolywrapClient
 from polywrap_manifest import deserialize_wrap_manifest
-from polywrap_core import Uri, InvokerOptions, FileReader, UriPackageOrWrapper
+from polywrap_core import Uri, InvokerOptions, FileReader, UriPackageOrWrapper, ClientConfig
 from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader, StaticResolver
 from polywrap_wasm import WasmWrapper
 
@@ -32,7 +32,7 @@ async def test_invoke(
     )
     resolver = StaticResolver({Uri.from_str("ens/wrapper.eth"): wrapper})
 
-    config = PolywrapClientConfig(resolver=resolver)
+    config = ClientConfig(resolver=resolver)
     client = PolywrapClient(config=config)
 
     args = {"arg": "hello polywrap"}
@@ -57,7 +57,7 @@ async def test_subinvoke():
         },
     )
 
-    client = PolywrapClient(config=PolywrapClientConfig(resolver=uri_resolver))
+    client = PolywrapClient(config=ClientConfig(resolver=uri_resolver))
     uri = Uri.from_str(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
@@ -82,7 +82,7 @@ async def test_interface_implementation():
     )
 
     client = PolywrapClient(
-        config=PolywrapClientConfig(
+        config=ClientConfig(
             resolver=uri_resolver, interfaces={interface_uri: [impl_uri]}
         )
     )
@@ -109,7 +109,7 @@ def test_get_env_by_uri():
     env = {"externalArray": [1, 2, 3], "externalString": "hello"}
 
     client = PolywrapClient(
-        config=PolywrapClientConfig(
+        config=ClientConfig(
             envs={uri: env},
             resolver=uri_resolver,
         )
@@ -129,7 +129,7 @@ async def test_env():
     env = {"externalArray": [1, 2, 3], "externalString": "hello"}
 
     client = PolywrapClient(
-        config=PolywrapClientConfig(
+        config=ClientConfig(
             envs={uri: env},
             resolver=uri_resolver,
         )
