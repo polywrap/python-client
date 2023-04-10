@@ -2,11 +2,19 @@
   "folders": [
       {
         "name": "root",
-        "path": ".",
+        "path": "."
+      },
+      {
+        "name": "docs",
+        "path": "docs"
       },
       {
           "name": "polywrap-client",
           "path": "packages/polywrap-client"
+      },
+      {
+          "name": "polywrap-client-config-builder",
+          "path": "packages/polywrap-client-config-builder"
       },
       {
           "name": "polywrap-core",
@@ -29,21 +37,22 @@
         "path": "packages/polywrap-manifest"
       },
       {
-        "name": "polywrap-result",
-        "path": "packages/polywrap-result"
-      },
-      {
         "name": "polywrap-plugin",
         "path": "packages/polywrap-plugin"
       }
   ],
   "settings": {
       "files.exclude": {
-        "**/packages/*": true
+        "**/packages/*": true,
+        "**/docs/*": true
       },
       "docify.programmingLanguage": "python",
       "docify.style": "Google",
       "docify.intelligentDetection": true,
-      "docify.sidePanelReviewMode": true
+      "docify.sidePanelReviewMode": true,
+      "liveServer.settings.multiRootWorkspaceName": "root",
+      "docify.commentService.docstringFormat": "Google",
+      "docify.commentService.sidePanelReviewMode": false,
+      "docify.translateService.docstringFormat": "Google"
   }
 }

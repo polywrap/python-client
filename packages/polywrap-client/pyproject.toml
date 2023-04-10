@@ -11,16 +11,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-wasmtime = "^1.0.1"
-unsync = "^1.4.0"
-polywrap-core = "0.1.0a14"
-polywrap-msgpack = "0.1.0a14"
-polywrap-manifest = "0.1.0a14"
-polywrap-result = "0.1.0a14"
-polywrap-uri-resolvers = "0.1.0a14"
-result = "^0.8.0"
-pysha3 = "^1.0.2"
-pycryptodome = "^3.14.1"
+polywrap-core = { path = "../polywrap-core", develop = true }
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
+polywrap-manifest = { path = "../polywrap-manifest", develop = true }
+polywrap-uri-resolvers = { path = "../polywrap-uri-resolvers", develop = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
@@ -33,6 +27,10 @@ tox-poetry = "^0.4.1"
 isort = "^5.10.1"
 pyright = "^1.1.275"
 pydocstyle = "^6.1.1"
+
+[tool.poetry.group.test.dependencies]
+pysha3 = "^1.0.2"
+pycryptodome = "^3.17"
 
 [tool.bandit]
 exclude_dirs = ["tests"]
@@ -52,7 +50,6 @@ testpaths = [
 
 [tool.pylint]
 disable = [
-    "too-many-return-statements",
 ]
 ignore = [
     "tests/"

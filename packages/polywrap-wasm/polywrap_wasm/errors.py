@@ -1,14 +1,14 @@
-class WasmAbortError(RuntimeError):
-    def __init__(self, message: str):
-        return super().__init__(
-            f"""
-            WasmWrapper: Wasm module aborted execution
-            URI:
-            Method:
-            Args:
-            Message: {message}"""
-        )
+"""This module contains the error classes used by polywrap-wasm package."""
+from polywrap_core import WrapError
 
 
-class ExportNotFoundError(Exception):
-    """raises when an export isn't found in the wasm module"""
+class WasmError(WrapError):
+    """Base class for all exceptions related to wasm wrappers."""
+
+
+class WasmExportNotFoundError(WasmError):
+    """Raises when an export isn't found in the wasm module."""
+
+
+class WasmMemoryError(WasmError):
+    """Raises when the Wasm memory is not found."""
