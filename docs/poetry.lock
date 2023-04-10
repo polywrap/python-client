@@ -488,6 +488,23 @@ type = "directory"
 url = "../packages/polywrap-client"
 
 [[package]]
+name = "polywrap-client-config-builder"
+version = "0.1.0"
+description = ""
+category = "main"
+optional = false
+python-versions = "^3.10"
+files = []
+develop = true
+
+[package.dependencies]
+polywrap-core = {path = "../polywrap-core", develop = true}
+
+[package.source]
+type = "directory"
+url = "../packages/polywrap-client-config-builder"
+
+[[package]]
 name = "polywrap-core"
 version = "0.1.0"
 description = ""
@@ -1031,4 +1048,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f32a9f3b0ecd9d425f2277ac8799a9f5aede3991da63517f868e6741cfa9c765"
+content-hash = "a8690bafae94db13ca99c62add2144a33a72c993b07148ec00738438708e43ca"
