@@ -17,6 +17,7 @@ Welcome to polywrap-client's documentation!
    polywrap-plugin/modules.rst
    polywrap-uri-resolvers/modules.rst
    polywrap-client/modules.rst
+   polywrap-client-config-builder/modules.rst
 
 
 

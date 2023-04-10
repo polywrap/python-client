@@ -1,14 +1,14 @@
 
 from pathlib import Path
-from polywrap_core import FileReader
+from polywrap_core import FileReader, ClientConfig
 from polywrap_uri_resolvers import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, FsUriResolver, SimpleFileReader
-from polywrap_client import PolywrapClient, PolywrapClientConfig
 from pytest import fixture
+from polywrap_client import PolywrapClient
 
 
 @fixture
 def client():
-    config = PolywrapClientConfig(
+    config = ClientConfig(
             resolver=FsUriResolver(file_reader=SimpleFileReader())
         )
     return PolywrapClient(config)

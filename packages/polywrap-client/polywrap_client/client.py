@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
 from textwrap import dedent
 from typing import Any, Dict, List, Optional, Union, cast
 
@@ -27,42 +26,28 @@ from polywrap_msgpack import msgpack_decode, msgpack_encode
 from polywrap_uri_resolvers import UriResolutionContext, build_clean_uri_history
 
 
-@dataclass(slots=True, kw_only=True)
-class PolywrapClientConfig(ClientConfig):
-    """Defines the config type for the Polywrap client.
-
-    Attributes:
-        envs (Dict[Uri, Env]): Dictionary of environments \
-            where key is URI and value is env.
-        interfaces (Dict[Uri, List[Uri]]): Dictionary of interfaces \
-            and their implementations where key is interface URI \
-            and value is list of implementation URIs.
-        resolver (UriResolver): URI resolver.
-    """
-
-
 class PolywrapClient(Client):
     """Defines the Polywrap client.
 
     Attributes:
-        _config (PolywrapClientConfig): The client configuration.
+        _config (ClientConfig): The client configuration.
     """
 
-    _config: PolywrapClientConfig
+    _config: ClientConfig
 
-    def __init__(self, config: PolywrapClientConfig):
+    def __init__(self, config: ClientConfig):
         """Initialize a new PolywrapClient instance.
 
         Args:
-            config (PolywrapClientConfig): The polywrap client config.
+            config (ClientConfig): The polywrap client config.
         """
         self._config = config
 
-    def get_config(self) -> PolywrapClientConfig:
+    def get_config(self) -> ClientConfig:
         """Get the client configuration.
 
         Returns:
-            PolywrapClientConfig: The polywrap client configuration.
+            ClientConfig: The polywrap client configuration.
         """
         return self._config
 

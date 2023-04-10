@@ -71,7 +71,6 @@ class ExtendableUriResolver(UriResolver):
         Returns:
             UriPackageOrWrapper: The resolved URI, wrap package, or wrapper.
         """
-
         uri_resolvers_uris: List[Uri] = []
 
         for ext_interface_uri in self.ext_interface_uris:
