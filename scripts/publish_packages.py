@@ -26,7 +26,7 @@ def patch_version(version: str):
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
 
-    subprocess.check_call(["poetry", "lock"])
+    subprocess.check_call(["poetry", "lock", "--no-interaction", "--no-cache"])
     subprocess.check_call(["poetry", "install"])
 
 
