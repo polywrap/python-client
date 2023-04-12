@@ -6,7 +6,7 @@ def link_dependencies():
     with open("pyproject.toml", "r") as f:
         pyproject = tomlkit.load(f)
 
-        for dep in pyproject["tool"]["poetry"]["dependencies"]:
+        for dep in list(pyproject["tool"]["poetry"]["dependencies"].keys()):
             if dep.startswith("polywrap-"):
                 pyproject["tool"]["poetry"]["dependencies"][dep] = { "path": f"../{dep}", "develop": True }
     

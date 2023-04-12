@@ -19,7 +19,7 @@ def patch_version(version: str):
         pyproject = tomlkit.load(f)
         pyproject["tool"]["poetry"]["version"] = version
 
-        for dep in pyproject["tool"]["poetry"]["dependencies"]:
+        for dep in list(pyproject["tool"]["poetry"]["dependencies"].keys()):
             if dep.startswith("polywrap-"):
                 pyproject["tool"]["poetry"]["dependencies"][dep] = version
     
