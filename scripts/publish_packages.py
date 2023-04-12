@@ -1,89 +1,77 @@
-import subprocess
+"""Publishes all packages in the monorepo to PyPI
+
+Usage:
+    python scripts/publish_packages.py
+"""
 import os
-import toml
+from pathlib import Path
+import subprocess
+import logging
+from time import sleep
+import tomlkit
+from utils import is_package_published
+from color_logger import ColoredLogger
 
-class ChangeDir:
-    def __init__(self, new_path):
-        self.new_path = new_path
-        self.saved_path = os.getcwd()
-
-    def __enter__(self):
-        os.chdir(self.new_path)
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        os.chdir(self.saved_path)
+logger = ColoredLogger("PackagePublisher")
 
 
-def is_package_published(package, version):
-    output = subprocess.check_output(["poetry", "search", package]).decode()
-    return f"{package} ({version})" in output
+def patch_version(version: str):
+    with open("pyproject.toml", "r") as f:
+        pyproject = tomlkit.load(f)
+        pyproject["tool"]["poetry"]["version"] = version
 
-def patch_version(package, version, deps=None):
-    deps = [] if deps is None else list(deps)
-    print(f"deps: {deps}")
-
-    with ChangeDir(f"packages/{package}"):
-        subprocess.check_call(["poetry", "version", version])
-
-        if deps and deps[0]:
-            pass
-            # patchedDeps = [f"{dep}@{version}" for dep in deps]
-            # patchedDeps = joinByString(" ", *patchedDeps) + f"@{version}"
-            # try:
-            #     subprocess.check_call(["poetry", "add", patchedDeps])
-            # except subprocess.CalledProcessError:
-            #     print(f"Failed to add {patchedDeps} to {package}")
-            #     subprocess.check_call(["cd", pwd])
-            #     return False
-
-        try:
-            subprocess.check_call(["poetry", "lock"])
-            subprocess.check_call(["poetry", "install", "--no-root"])
-        except subprocess.CalledProcessError:
-            print(f"Failed to lock or install {package}")
-            return False
-    return True
-
-def publishPackage(package, version, username, password):
-    pwd = subprocess.check_output(["echo", "$PWD"]).decode().strip()
+        for dep in pyproject["tool"]["poetry"]["dependencies"]:
+            if dep.startswith("polywrap-"):
+                pyproject["tool"]["poetry"]["dependencies"][dep] = version
     
-    subprocess.check_call(["cd", f"packages/{package}"])
-    
-    if is_package_published(package, version):
-        print(f"Skip publish: Package {package} with version {version} is already published")
-        subprocess.check_call(["cd", pwd])
-        return True
-    
-    try:
-        subprocess.check_call(["poetry", "publish", "--build", "--username", username, "--password", password])
-    except subprocess.CalledProcessError:
-        print(f"Failed to publish {package}")
-        subprocess.check_call(["cd", pwd])
-        return False
-    
-    subprocess.check_call(["cd", pwd])
-    return True
+    with open("pyproject.toml", "w") as f:
+        tomlkit.dump(pyproject, f)
 
-def waitForPackagePublish(package, version):
-    pwd = subprocess.check_output(["echo", "$PWD"]).decode().strip()
-    
-    subprocess.check_call(["cd", f"packages/{package}"])
-    
+    subprocess.check_call(["poetry", "lock"])
+    subprocess.check_call(["poetry", "install", "--no-root"])
+
+
+def wait_for_package_publish(package: str, version: str) -> None:
     seconds = 0
-    
+    increment = 5
     while seconds < 600: # Wait for 10 minutes
         if is_package_published(package, version):
-            print(f"Package {package} with version {version} is published")
+            logger.info(f"Package {package} with version {version} is published")
             break
-        
-        time.sleep(5)
-        seconds += 5
-        print(f"Waiting for {seconds} seconds for the {package} to be published")
-    
-    subprocess.check_call(["cd", pwd])
+        sleep(increment)
+        seconds += increment
+        logger.info(f"Waiting for {package} to be published for {seconds} seconds")
     
     if seconds == 600:
-        print(f"Package {package} with version {version} is not published")
-        return False
+        raise TimeoutError(f"Package {package} with version {version} is not published after 10 minutes")
+
+
+def publish_package(package: str, version: str) -> None:
+    if is_package_published(package, version):
+        logger.warning(f"Skip publish: Package {package} with version {version} is already published")
+        return
     
-    return True
+
+    logger.info(f"Patch version for {package} to {version}")
+    patch_version(package, version)
+
+    try:
+        subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])
+    except subprocess.CalledProcessError:
+        logger.error(f"Failed to publish {package}")
+
+    wait_for_package_publish(package, version)
+
+
+if __name__ == "__main__":
+    from dependency_graph import publish_order
+    from utils import ChangeDir
+
+    root_dir = Path(__file__).parent.parent
+    version_file = root_dir.joinpath("VERSION")
+    with open(version_file, "r") as f:
+        version = f.read().strip()
+
+    for package in publish_order():
+        with ChangeDir(str(root_dir.joinpath("packages", package))):
+            publish_package(package, version)

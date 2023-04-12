@@ -115,6 +115,9 @@ jobs:
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 -
 
+      - name: Install tomlkit
+        run: pip3 install tomlkit
+
       - name: Set Git Identity
         run: |
           git config --global user.name '${{env.BUILD_BOT}}'
@@ -122,8 +125,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
 
-      - name: Apply Python Version & Commit
-        run: bash ./scripts/publishPackages.sh ${{env.RELEASE_VERSION}} __token__ ${{secrets.POLYWRAP_BUILD_BOT_PYPI_PAT}}
+      - name: Publish to PyPI
+        run: python3 scripts/publish_packages.py
 
       - name: Create Pull Request
         id: cpr
