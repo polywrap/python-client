@@ -76,12 +76,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: dev
+          fetch-depth: 2
 
       - name: Merge main into dev
         run: |
           git config --global user.name '${{env.BUILD_BOT}}'
           git config --global user.email '${{ env.BUILD_BOT }}@users.noreply.github.com'
-          git merge refs/remotes/origin/main
+          git merge main
 
       - name: set env.RELEASE_FORKS to Release Forks' Organization
         run: echo RELEASE_FORKS=polywrap-release-forks >> $GITHUB_ENV
