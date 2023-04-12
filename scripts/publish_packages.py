@@ -53,7 +53,7 @@ def publish_package(package: str, version: str) -> None:
     
 
     logger.info(f"Patch version for {package} to {version}")
-    patch_version(package, version)
+    patch_version(version)
 
     try:
         subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])
