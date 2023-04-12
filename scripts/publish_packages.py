@@ -35,13 +35,12 @@ def patch_version_with_retries(version: str, retries: int = 30):
     for i in range(retries):
         try:
             patch_version(version)
-            sleep(10)
             break
         except subprocess.CalledProcessError as e:
             logger.error(f"Failed to patch version for {package} with {i} retries")
             if i == retries - 1:
                 raise TimeoutError(f"Failed to patch version for {package} after {retries} retries") from e
-
+            sleep(10)
 
 
 def wait_for_package_publish(package: str, version: str) -> None:
