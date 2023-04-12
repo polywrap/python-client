@@ -11,9 +11,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap_core = "0.1.0a15"
-polywrap_manifest = "0.1.0a15"
-polywrap_msgpack = "0.1.0a15"
+polywrap-core = { path = "../polywrap-core", develop = true }
+polywrap-manifest = { path = "../polywrap-manifest", develop = true }
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

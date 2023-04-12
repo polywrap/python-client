@@ -11,7 +11,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-msgpack = "0.1.0a15"
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 pydantic = "^1.10.2"
 
 [tool.poetry.dev-dependencies]
