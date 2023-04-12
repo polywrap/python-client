@@ -12,9 +12,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 wasmtime = "^6.0.0"
-polywrap-core = "0.1.0a15"
-polywrap-manifest = "0.1.0a15"
-polywrap-msgpack = "0.1.0a15"
+polywrap-core = { path = "../polywrap-core", develop = true }
+polywrap-manifest = { path = "../polywrap-manifest", develop = true }
+polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
 unsync = "^1.4.0"
 unsync-stubs = "^0.1.2"
 
