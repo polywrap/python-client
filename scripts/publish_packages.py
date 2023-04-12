@@ -27,7 +27,21 @@ def patch_version(version: str):
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
 
-    subprocess.check_call(["poetry", "update"])
+    subprocess.check_call(["poetry", "lock"])
+    subprocess.check_call(["poetry", "install"])
+
+
+def patch_version_with_retries(version: str, retries: int = 30):
+    for i in range(retries):
+        try:
+            patch_version(version)
+            sleep(10)
+            break
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to patch version for {package} with {i} retries")
+            if i == retries - 1:
+                raise TimeoutError(f"Failed to patch version for {package} after {retries} retries") from e
+
 
 
 def wait_for_package_publish(package: str, version: str) -> None:
@@ -37,10 +51,6 @@ def wait_for_package_publish(package: str, version: str) -> None:
         if is_package_published(package, version):
             logger.info(f"Package {package} with version {version} is published")
             logger.info("Waiting for 30 seconds to make sure the package remains available on PyPI")
-            sleep(30)
-            if is_package_published(package, version):
-                logger.info(f"Package {package} with version {version} is published and available on PyPI")
-                break
         sleep(increment)
         seconds += increment
         logger.info(f"Waiting for {package} to be published for {seconds} seconds")
@@ -53,10 +63,9 @@ def publish_package(package: str, version: str) -> None:
     if is_package_published(package, version):
         logger.warning(f"Skip publish: Package {package} with version {version} is already published")
         return
-    
 
     logger.info(f"Patch version for {package} to {version}")
-    patch_version(version)
+    patch_version_with_retries(version)
 
     try:
         subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])
