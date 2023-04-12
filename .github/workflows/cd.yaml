@@ -93,18 +93,6 @@ jobs:
       - name: Read VERSION into env.RELEASE_VERSION
         run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
 
-      - name: Building Dev PR...
-        uses: actions/github-script@0.8.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '[Building Dev PR](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}) after Version (`${{env.RELEASE_VERSION}}`) Release.'
-            })
-
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -137,15 +125,3 @@ jobs:
           title: 'Link packages in dev after (${{env.RELEASE_VERSION}})'
           body: |
             ## Link packages in dev after (${{env.RELEASE_VERSION}})
-
-      - name: Release PR Created...
-        uses: actions/github-script@0.8.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '**[Release PR Created](https://github.com/${{github.repository}}/pull/${{ steps.cpr.outputs.pull-request-number }}) (`${{env.RELEASE_VERSION}}`)**'
-            })
