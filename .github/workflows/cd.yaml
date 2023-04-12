@@ -78,11 +78,15 @@ jobs:
           ref: dev
           fetch-depth: 0
 
-      - name: Merge main into dev
+      - name: Set Git Identity
         run: |
           git config --global user.name '${{env.BUILD_BOT}}'
-          git config --global user.email '${{ env.BUILD_BOT }}@users.noreply.github.com'
-          git merge origin/main
+          git config --global user.email '${{env.BUILD_BOT}}@users.noreply.github.com'
+        env:
+          GITHUB_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
+
+      - name: Merge main into dev
+        run: git merge origin/main
 
       - name: set env.RELEASE_FORKS to Release Forks' Organization
         run: echo RELEASE_FORKS=polywrap-release-forks >> $GITHUB_ENV
@@ -93,26 +97,19 @@ jobs:
       - name: Read VERSION into env.RELEASE_VERSION
         run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
 
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+      # - name: Set up Python 3.10
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: "3.10"
 
-      - name: Install poetry
-        run: curl -sSL https://install.python-poetry.org | python3 -
+      # - name: Install poetry
+      #   run: curl -sSL https://install.python-poetry.org | python3 -
 
-      - name: Install tomlkit
-        run: pip3 install tomlkit
+      # - name: Install tomlkit
+      #   run: pip3 install tomlkit
 
-      - name: Set Git Identity
-        run: |
-          git config --global user.name '${{env.BUILD_BOT}}'
-          git config --global user.email '${{env.BUILD_BOT}}@users.noreply.github.com'
-        env:
-          GITHUB_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
-
-      - name: Link Packages in dev branch
-        run: python3 scripts/link_packages.py
+      # - name: Link Packages in dev branch
+      #   run: python3 scripts/link_packages.py
 
       - name: Create Pull Request
         id: cpr
@@ -120,8 +117,8 @@ jobs:
         with:
           token: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
           push-to-fork: ${{env.RELEASE_FORKS}}/${{github.event.pull_request.base.repo.name}}
-          branch: post-release/origin-${{env.RELEASE_VERSION}}
-          base: origin/dev
+          # branch: post-release/origin-${{env.RELEASE_VERSION}}
+          # base: origin/dev
           committer: GitHub <noreply@github.com>
           author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
           commit-message: "DEV ${{env.RELEASE_VERSION}}"
