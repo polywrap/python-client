@@ -1,8 +1,11 @@
 name: CD
 on:
+  push:
+    branches:
+      - main
   # When Pull Request is merged
-  pull_request_target:
-    types: [closed]
+  # pull_request_target:
+  #   types: [closed]
 
 jobs:
   GetVersion:
@@ -10,15 +13,15 @@ jobs:
     timeout-minutes: 60
     outputs:
       version: ${{ env.RELEASE_VERSION }}
-    if: |
-      github.event.pull_request.user.login == 'polywrap-build-bot' &&
-      github.event.pull_request.merged == true
+    # if: |
+    #   github.event.pull_request.user.login == 'polywrap-build-bot' &&
+    #   github.event.pull_request.merged == true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Halt release if CI failed
-        run: exit 1
-        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+      # - name: Halt release if CI failed
+      #   run: exit 1
+      #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
       - name: Read VERSION into env.RELEASE_VERSION
         run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
       - name: Check if tag Exists
@@ -65,7 +68,8 @@ jobs:
           prerelease: false
 
   Dev-PR:
-    needs: Pre-Check
+    needs:
+      - GetVersion
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
