@@ -27,8 +27,7 @@ def patch_version(version: str):
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
 
-    subprocess.check_call(["poetry", "lock"])
-    subprocess.check_call(["poetry", "install", "--no-root"])
+    subprocess.check_call(["poetry", "update"])
 
 
 def wait_for_package_publish(package: str, version: str) -> None:
