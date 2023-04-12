@@ -36,7 +36,11 @@ def wait_for_package_publish(package: str, version: str) -> None:
     while seconds < 600: # Wait for 10 minutes
         if is_package_published(package, version):
             logger.info(f"Package {package} with version {version} is published")
-            break
+            logger.info("Waiting for 30 seconds to make sure the package remains available on PyPI")
+            sleep(30)
+            if is_package_published(package, version):
+                logger.info(f"Package {package} with version {version} is published and available on PyPI")
+                break
         sleep(increment)
         seconds += increment
         logger.info(f"Waiting for {package} to be published for {seconds} seconds")
