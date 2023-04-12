@@ -82,7 +82,7 @@ jobs:
         run: |
           git config --global user.name '${{env.BUILD_BOT}}'
           git config --global user.email '${{ env.BUILD_BOT }}@users.noreply.github.com'
-          git merge main
+          git merge origin/main
 
       - name: set env.RELEASE_FORKS to Release Forks' Organization
         run: echo RELEASE_FORKS=polywrap-release-forks >> $GITHUB_ENV
