@@ -6,7 +6,6 @@ Usage:
 import os
 from pathlib import Path
 import subprocess
-import logging
 from time import sleep
 import tomlkit
 from utils import is_package_published
@@ -43,7 +42,7 @@ def patch_version_with_retries(version: str, retries: int = 30):
             sleep(10)
 
 
-def wait_for_package_publish(package: str, version: str) -> None:
+def wait_for_pypi_publish(package: str, version: str) -> None:
     seconds = 0
     increment = 5
     while seconds < 600: # Wait for 10 minutes
@@ -56,6 +55,24 @@ def wait_for_package_publish(package: str, version: str) -> None:
     
     if seconds == 600:
         raise TimeoutError(f"Package {package} with version {version} is not published after 10 minutes")
+
+
+def wait_for_poetry_available(package: str, version: str) -> None:
+    seconds = 0
+    increment = 5
+    while seconds < 600: # Wait for 10 minutes
+        try:
+            pacver = subprocess.check_output(["poetry", "search", f"{package}@{version}", "|", "grep", package], encoding="utf-8")
+            if version in pacver:
+                logger.info(f"{package} with version {version} is available with poetry.")
+                break
+        except subprocess.CalledProcessError:
+            sleep(increment)
+            seconds += increment
+            logger.info(f"Waiting for poetry to be available for {seconds} seconds")
+    
+    if seconds == 600:
+        raise TimeoutError(f"Package {package} with version {version} is not available on poetry after 10 minutes")
 
 
 def publish_package(package: str, version: str) -> None:
@@ -71,7 +88,8 @@ def publish_package(package: str, version: str) -> None:
     except subprocess.CalledProcessError:
         logger.error(f"Failed to publish {package}")
 
-    wait_for_package_publish(package, version)
+    wait_for_pypi_publish(package, version)
+    wait_for_poetry_available(package, version)
 
 
 if __name__ == "__main__":
