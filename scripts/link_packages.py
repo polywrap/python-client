@@ -13,8 +13,7 @@ def link_dependencies():
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
 
-    subprocess.check_call(["poetry", "lock"])
-    subprocess.check_call(["poetry", "install", "--no-root"])
+    subprocess.check_call(["poetry", "update"])
 
 
 if __name__ == "__main__":
