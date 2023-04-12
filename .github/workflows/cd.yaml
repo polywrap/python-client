@@ -1,30 +1,49 @@
 name: CD
 on:
-  push:
-    branches:
-      - main
-  # When Pull Request is merged
-  # pull_request_target:
-  #   types: [closed]
+  pull_request:
+    types: [closed]
 
 jobs:
-  GetVersion:
+  Pre-Check:
+    if: |
+      github.event.pull_request.merged &&
+      endsWith(github.event.pull_request.title, '/workflows/cd') &&
+      github.event.pull_request.user.login != 'polywrap-build-bot'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    outputs:
-      version: ${{ env.RELEASE_VERSION }}
-    # if: |
-    #   github.event.pull_request.user.login == 'polywrap-build-bot' &&
-    #   github.event.pull_request.merged == true
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      # - name: Halt release if CI failed
-      #   run: exit 1
-      #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{github.event.pull_request.base.ref}}
+
+      - name: Pull-Request Creator Is Publisher?
+        run: |
+          exists=$(echo $(grep -Fxcs ${CREATOR} .github/PUBLISHERS))
+          if [ "$exists" == "1" ] ; then
+            echo IS_PUBLISHER=true >> $GITHUB_ENV
+          else
+            echo IS_PUBLISHER=false >> $GITHUB_ENV
+          fi
+        env:
+          CREATOR: ${{github.event.pull_request.user.login}}
+
+      - name: Creator Is Not Publisher...
+        if: env.IS_PUBLISHER == 'false'
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '${{github.event.pull_request.user.login}} is not a PUBLISHER. Please see the .github/PUBLISHERS file...'
+            })
+
       - name: Read VERSION into env.RELEASE_VERSION
         run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
-      - name: Check if tag Exists
+
+      - name: Tag Exists?
         id: tag_check
         shell: bash -ex {0}
         run: |
@@ -32,27 +51,164 @@ jobs:
           http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
             -H "Authorization: token ${GITHUB_TOKEN}")
           if [ "$http_status_code" -ne "404" ] ; then
-            exit 1
+            echo TAG_EXISTS=true >> $GITHUB_ENV
+          else
+            echo TAG_EXISTS=false >> $GITHUB_ENV
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  Github-release:
+      - name: Release Already Exists...
+        if: env.TAG_EXISTS == 'true'
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '[Release Already Exists](https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}) (`${{env.RELEASE_VERSION}}`)'
+            })
+
+      - name: Fail If Conditions Aren't Met...
+        if: |
+          env.IS_PUBLISHER != 'true' ||
+          env.TAG_EXISTS != 'false'
+        run: exit 1
+
+  CD:
+    needs: Pre-Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{github.event.pull_request.base.ref}}
+
+      - name: Set env.BUILD_BOT to Build Bot's Username
+        run: echo BUILD_BOT=polywrap-build-bot >> $GITHUB_ENV
+
+      - name: Read VERSION into env.RELEASE_VERSION
+        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
+
+      - name: Building CD PR...
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '[Building CD PR](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}) (`${{env.RELEASE_VERSION}}`)'
+            })
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install tomlkit
+        run: pip3 install tomlkit
+
+      - name: Set Git Identity
+        run: |
+          git config --global user.name '${{env.BUILD_BOT}}'
+          git config --global user.email '${{env.BUILD_BOT}}@users.noreply.github.com'
+
+      - name: Publish to PyPI
+        run: python3 scripts/publish_packages.py
+        env:
+          POLYWRAP_BUILD_BOT_PYPI_PAT: ${{ secrets.POLYWRAP_BUILD_BOT_PYPI_PAT }}
+
+      - name: Commit Changes
+        run: |
+          git add .
+          git commit -m "chore: patch version to ${{env.RELEASE_VERSION}}"
+
+      - name: Create Pull Request from dev to main
+        id: cpr-cd
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: cd/${{env.RELEASE_VERSION}}
+          base: ${{github.event.pull_request.base.ref}}
+          committer: GitHub <noreply@github.com>
+          author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
+          commit-message: "chore: CD ${{env.RELEASE_VERSION}}"
+          title: 'Python client CD (${{env.RELEASE_VERSION}})'
+          body: |
+            ## Python client CD (${{env.RELEASE_VERSION}})
+
+      - name: Release PR Created...
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '**[Release PR Created](https://github.com/${{github.repository}}/pull/${{ steps.cpr-cd.outputs.pull-request-number }}) (`${{env.RELEASE_VERSION}}`)**'
+            })
+
+      - name: Building POST CD PR...
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '[Building POST CD PR](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}) (`${{env.RELEASE_VERSION}}`)'
+            })
+
+      - name: Link Packages in dev branch
+        run: python3 scripts/link_packages.py
+
+      - name: Create Pull Request from main to dev
+        id: cpr-post-cd
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: cd/${{env.RELEASE_VERSION}}
+          base: ${{github.event.pull_request.compare.ref}}
+          committer: GitHub <noreply@github.com>
+          author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
+          commit-message: "chore: POST CD ${{env.RELEASE_VERSION}}"
+          title: 'Python client POST CD (${{env.RELEASE_VERSION}})'
+          body: |
+            ## Python client POST CD (${{env.RELEASE_VERSION}})
+
+      - name: POST CD PR Created...
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '**[POST CD PR Created](https://github.com/${{github.repository}}/pull/${{ steps.cpr-post-cd.outputs.pull-request-number }}) (`${{env.RELEASE_VERSION}}`)**'
+            })
+
+   Github-release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs:
-      - GetVersion
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: print version with needs
-        run: echo ${{ needs.GetVersion.outputs.version }}
+        uses: actions/checkout@v3
+      - name: Read VERSION into env.RELEASE_VERSION
+        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
       - id: changelog
         name: "Generate release changelog"
         uses: heinrichreimer/github-changelog-generator-action@v2.3
         with:
           unreleasedOnly: true
-          unreleasedLabel: ${{ needs.GetVersion.outputs.version }}
+          unreleasedLabel: ${{ env.RELEASE_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
       - name: Create Release
@@ -61,67 +217,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.GetVersion.outputs.version }}
-          release_name: Release ${{ needs.GetVersion.outputs.version }}
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
           body: ${{ steps.changelog.outputs.changelog }}
           draft: true
-          prerelease: false
-
-  Dev-PR:
-    needs:
-      - GetVersion
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: dev
-          fetch-depth: 0
-
-      - name: Set Git Identity
-        run: |
-          git config --global user.name '${{env.BUILD_BOT}}'
-          git config --global user.email '${{env.BUILD_BOT}}@users.noreply.github.com'
-        env:
-          GITHUB_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
-
-      - name: Merge main into dev
-        run: git merge origin/main
-
-      - name: set env.RELEASE_FORKS to Release Forks' Organization
-        run: echo RELEASE_FORKS=polywrap-release-forks >> $GITHUB_ENV
-
-      - name: Set env.BUILD_BOT to Build Bot's Username
-        run: echo BUILD_BOT=polywrap-build-bot >> $GITHUB_ENV
-
-      - name: Read VERSION into env.RELEASE_VERSION
-        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
-
-      # - name: Set up Python 3.10
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: "3.10"
-
-      # - name: Install poetry
-      #   run: curl -sSL https://install.python-poetry.org | python3 -
-
-      # - name: Install tomlkit
-      #   run: pip3 install tomlkit
-
-      # - name: Link Packages in dev branch
-      #   run: python3 scripts/link_packages.py
-
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
-          push-to-fork: ${{env.RELEASE_FORKS}}/${{github.event.pull_request.base.repo.name}}
-          # branch: post-release/origin-${{env.RELEASE_VERSION}}
-          # base: origin/dev
-          committer: GitHub <noreply@github.com>
-          author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
-          commit-message: "DEV ${{env.RELEASE_VERSION}}"
-          title: 'Link packages in dev after (${{env.RELEASE_VERSION}})'
-          body: |
-            ## Link packages in dev after (${{env.RELEASE_VERSION}})
+          prerelease: true
