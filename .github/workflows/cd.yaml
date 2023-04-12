@@ -195,7 +195,7 @@ jobs:
               body: '**[POST CD PR Created](https://github.com/${{github.repository}}/pull/${{ steps.cpr-post-cd.outputs.pull-request-number }}) (`${{env.RELEASE_VERSION}}`)**'
             })
 
-   Github-release:
+  Github-release:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
