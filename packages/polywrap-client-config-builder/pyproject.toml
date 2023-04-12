@@ -11,8 +11,13 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-core = "0.1.0a17"
-polywrap-uri-resolvers = "0.1.0a17"
+[tool.poetry.dependencies.polywrap-uri-resolvers]
+path = "../polywrap-uri-resolvers"
+develop = true
+
+[tool.poetry.dependencies.polywrap-core]
+path = "../polywrap-core"
+develop = true
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
