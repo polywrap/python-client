@@ -127,6 +127,8 @@ jobs:
 
       - name: Publish to PyPI
         run: python3 scripts/publish_packages.py
+        env:
+          POLYWRAP_BUILD_BOT_PYPI_PAT: ${{ secrets.POLYWRAP_BUILD_BOT_PYPI_PAT }}
 
       - name: Create Pull Request
         id: cpr

@@ -1,5 +1,6 @@
 
 from collections import Counter, defaultdict
+from typing import Generator
 import tomlkit
 from pathlib import Path
 
@@ -23,18 +24,16 @@ def build_dependency_graph():
     return dependent_graph, deps_counter
 
 
-def topological_order(graph: dict[str, set[str]], counter: dict[str, int]) -> list[str]:
-    order = []
+def topological_order(graph: dict[str, set[str]], counter: dict[str, int]) -> Generator[str, None, None]:
     while counter:
         for dep in list(counter.keys()):
             if counter[dep] == 0:
-                order.append(dep)
+                yield dep
                 for dependent in graph[dep]:
                     counter[dependent] -= 1
                 del counter[dep]
-    return order
 
 
-def publish_order() -> list[str]:
+def package_build_order() -> Generator[str, None, None]:
     graph, counter = build_dependency_graph()
     return topological_order(graph, counter)

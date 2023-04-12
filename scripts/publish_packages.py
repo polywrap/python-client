@@ -64,7 +64,7 @@ def publish_package(package: str, version: str) -> None:
 
 
 if __name__ == "__main__":
-    from dependency_graph import publish_order
+    from dependency_graph import package_build_order
     from utils import ChangeDir
 
     root_dir = Path(__file__).parent.parent
@@ -72,6 +72,6 @@ if __name__ == "__main__":
     with open(version_file, "r") as f:
         version = f.read().strip()
 
-    for package in publish_order():
+    for package in package_build_order():
         with ChangeDir(str(root_dir.joinpath("packages", package))):
             publish_package(package, version)
