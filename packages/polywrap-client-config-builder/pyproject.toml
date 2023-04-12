@@ -4,15 +4,15 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-client-config-builder"
-version = "0.1.0a15"
+version = "0.1.0a17"
 description = ""
 authors = ["Media <media@polywrap.io>", "Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-core = { path = "../polywrap-core", develop = true }
-polywrap-uri-resolvers = { path = "../polywrap-uri-resolvers", develop = true }
+polywrap-core = "0.1.0a17"
+polywrap-uri-resolvers = "0.1.0a17"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
