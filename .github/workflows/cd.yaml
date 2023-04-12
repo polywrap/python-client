@@ -98,6 +98,9 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
       - name: Install tomlkit
         run: pip3 install tomlkit
 
