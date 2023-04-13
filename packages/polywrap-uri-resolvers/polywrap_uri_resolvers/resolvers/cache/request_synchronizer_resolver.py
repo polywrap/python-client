@@ -64,6 +64,7 @@ class RequestSynchronizerResolver(UriResolver):
             options (Optional[RequestSynchronizerResolverOptions]):\
                 The options to use.
         """
+        self.existing_requests = {}
         self.resolver_to_synchronize = resolver_to_synchronize
         self.options = options
 
