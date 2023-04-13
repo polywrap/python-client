@@ -1,13 +1,20 @@
 name: POST-CD
 on:
-  push:
-    branches:
-      - main
-  
+  # When Pull Request is merged
+  pull_request_target:
+    types: [closed]
 
 jobs:
+  TEST:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test pull request
+        run: echo ${{github.event.pull_request.user.login}}
   Dev-PR:
     runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.user.login == 'polywrap-build-bot' &&
+      github.event.pull_request.merged == true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
