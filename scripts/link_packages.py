@@ -8,7 +8,10 @@ def link_dependencies():
 
         for dep in list(pyproject["tool"]["poetry"]["dependencies"].keys()):
             if dep.startswith("polywrap-"):
-                pyproject["tool"]["poetry"]["dependencies"][dep] = { "path": f"../{dep}", "develop": True }
+                inline_table = tomlkit.inline_table()
+                inline_table.update({"path": f"../{dep}", "develop": True})
+                pyproject["tool"]["poetry"]["dependencies"].pop(dep)
+                pyproject["tool"]["poetry"]["dependencies"].add(dep, inline_table)
     
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
