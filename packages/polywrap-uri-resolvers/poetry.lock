@@ -538,7 +538,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0a27"
+version = "0.1.0a28"
 description = ""
 category = "main"
 optional = false
@@ -556,7 +556,7 @@ url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0a27"
+version = "0.1.0a28"
 description = "WRAP manifest"
 category = "main"
 optional = false
@@ -574,7 +574,7 @@ url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a27"
+version = "0.1.0a28"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
@@ -591,7 +591,7 @@ url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0a27"
+version = "0.1.0a28"
 description = ""
 category = "main"
 optional = false
