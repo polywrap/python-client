@@ -1033,20 +1033,18 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a27"
+version = "0.1.0a28"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_msgpack-0.1.0a28-py3-none-any.whl", hash = "sha256:0cfae5da732c219648b391ed3835715c03f510bd7d96045916f1d1f0e42a38a4"},
+    {file = "polywrap_msgpack-0.1.0a28.tar.gz", hash = "sha256:3a73a4d0c4f820509e992abec326e1203519e880837c07eef84a2f5e600c82b5"},
+]
 
 [package.dependencies]
-msgpack = "^1.0.4"
-
-[package.source]
-type = "directory"
-url = "../polywrap-msgpack"
+msgpack = ">=1.0.4,<2.0.0"
 
 [[package]]
 name = "prance"
@@ -1894,4 +1892,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "24823609dd2e915662d783a087ef84230b11f8720ee5441ecac7fa758ae01270"
+content-hash = "312ca9408158641da7a25ba04c934ce333204b75193567957a3cd5f1a887cb14"
