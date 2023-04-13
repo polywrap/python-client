@@ -5,10 +5,10 @@ from polywrap_core import (
     InvokerClient,
     IUriResolutionContext,
     Uri,
+    UriPackage,
     UriPackageOrWrapper,
     UriResolver,
-    UriPackage,
-    UriWrapper
+    UriWrapper,
 )
 
 from ...types import UriResolutionStep
@@ -70,7 +70,9 @@ class UriResolverAggregator(UriResolver):
             uri_package_or_wrapper = await resolver.try_resolve_uri(
                 uri, client, sub_context
             )
-            if uri_package_or_wrapper != uri or isinstance(uri_package_or_wrapper, (UriPackage, UriWrapper)):
+            if uri_package_or_wrapper != uri or isinstance(
+                uri_package_or_wrapper, (UriPackage, UriWrapper)
+            ):
                 step = UriResolutionStep(
                     source_uri=uri,
                     result=cast(UriPackageOrWrapper, uri_package_or_wrapper),
