@@ -1,5 +1,5 @@
 """This module contains the UriResolverAggregator Resolver."""
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from polywrap_core import (
     InvokerClient,
@@ -7,6 +7,8 @@ from polywrap_core import (
     Uri,
     UriPackageOrWrapper,
     UriResolver,
+    UriPackage,
+    UriWrapper
 )
 
 from ...types import UriResolutionStep
@@ -68,15 +70,15 @@ class UriResolverAggregator(UriResolver):
             uri_package_or_wrapper = await resolver.try_resolve_uri(
                 uri, client, sub_context
             )
-            if uri_package_or_wrapper != uri:
+            if uri_package_or_wrapper != uri or isinstance(uri_package_or_wrapper, (UriPackage, UriWrapper)):
                 step = UriResolutionStep(
                     source_uri=uri,
-                    result=uri_package_or_wrapper,
+                    result=cast(UriPackageOrWrapper, uri_package_or_wrapper),
                     sub_history=sub_context.get_history(),
                     description=self.step_description,
                 )
                 resolution_context.track_step(step)
-                return uri_package_or_wrapper
+                return cast(UriPackageOrWrapper, uri_package_or_wrapper)
 
         step = UriResolutionStep(
             source_uri=uri,
