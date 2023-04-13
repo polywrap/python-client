@@ -125,10 +125,11 @@ jobs:
         env:
           POLYWRAP_BUILD_BOT_PYPI_PAT: ${{ secrets.POLYWRAP_BUILD_BOT_PYPI_PAT }}
 
-      - name: Commit Changes
+      - name: Commit Version Changes
         run: |
           git add .
-          git commit -m "chore: patch version to ${{env.RELEASE_VERSION}}"
+          git commit -m "chore: patch version to ${{env.RELEASE_VERSION}}" --allow-empty
+        continue-on-error: true
 
       - name: Create Pull Request from dev to main
         id: cpr-cd
@@ -138,7 +139,7 @@ jobs:
           base: main
           committer: GitHub <noreply@github.com>
           author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
-          commit-message: "chore: CD ${{env.RELEASE_VERSION}}"
+          commit-message: "chore: patch version to ${{env.RELEASE_VERSION}}"
           title: 'Python client CD (${{env.RELEASE_VERSION}})'
           body: |
             ## Python client CD (${{env.RELEASE_VERSION}})
@@ -170,6 +171,12 @@ jobs:
       - name: Link Packages in dev branch
         run: python3 scripts/link_packages.py
 
+      - name: Commit Linking Changes
+        run: |
+          git add .
+          git commit -m "chore: link dependencies post ${{env.RELEASE_VERSION}} release" --allow-empty
+        continue-on-error: true
+
       - name: Create Pull Request from main to dev
         id: cpr-post-cd
         uses: peter-evans/create-pull-request@v3
@@ -178,7 +185,7 @@ jobs:
           base: dev
           committer: GitHub <noreply@github.com>
           author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
-          commit-message: "chore: POST CD ${{env.RELEASE_VERSION}}"
+          commit-message: "chore: link dependencies post ${{env.RELEASE_VERSION}} release"
           title: 'Python client POST CD (${{env.RELEASE_VERSION}})'
           body: |
             ## Python client POST CD (${{env.RELEASE_VERSION}})
