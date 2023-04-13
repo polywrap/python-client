@@ -196,6 +196,8 @@ jobs:
             })
 
   Github-release:
+    needs: 
+      - Pre-Check
     name: Create Release
     runs-on: ubuntu-latest
     steps:

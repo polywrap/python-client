@@ -21,7 +21,8 @@ def patch_version(version: str):
 
         for dep in list(pyproject["tool"]["poetry"]["dependencies"].keys()):
             if dep.startswith("polywrap-"):
-                pyproject["tool"]["poetry"]["dependencies"][dep] = version
+                pyproject["tool"]["poetry"]["dependencies"].pop(dep)
+                pyproject["tool"]["poetry"]["dependencies"].add(dep, f"^{version}")
     
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
