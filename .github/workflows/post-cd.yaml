@@ -1,4 +1,4 @@
-name: CD
+name: POST-CD
 on:
   # When Pull Request is merged
   pull_request_target:
@@ -6,7 +6,11 @@ on:
 
 jobs:
   Dev-PR:
+    needs: Pre-Check
     runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.user.login == 'github-actions' &&
+      github.event.pull_request.merged == true
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,6 +56,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           branch: post-cd/${{env.RELEASE_VERSION}}
+          delete-branch: true
           committer: GitHub <noreply@github.com>
           author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
           commit-message: "chore: link dependencies post ${{env.RELEASE_VERSION}} release"
