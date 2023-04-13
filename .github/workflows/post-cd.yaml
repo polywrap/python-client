@@ -1,0 +1,60 @@
+name: CD
+on:
+  # When Pull Request is merged
+  pull_request_target:
+    types: [closed]
+
+jobs:
+  Dev-PR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Set Git Identity
+        run: |
+          git config --global user.name '${{env.BUILD_BOT}}'
+          git config --global user.email '${{env.BUILD_BOT}}@users.noreply.github.com'
+        env:
+          GITHUB_TOKEN: ${{ secrets.POLYWRAP_BUILD_BOT_PAT }}
+
+      - name: Merge main into dev
+        run: git merge origin/main
+
+      - name: set env.RELEASE_FORKS to Release Forks' Organization
+        run: echo RELEASE_FORKS=polywrap-release-forks >> $GITHUB_ENV
+
+      - name: Set env.BUILD_BOT to Build Bot's Username
+        run: echo BUILD_BOT=polywrap-build-bot >> $GITHUB_ENV
+
+      - name: Read VERSION into env.RELEASE_VERSION
+        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install tomlkit
+        run: pip3 install tomlkit
+
+      - name: Link Packages in dev branch
+        run: python3 scripts/link_packages.py
+
+      - name: Create Pull Request from main to dev
+        id: cpr-post-cd
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: post-cd/${{env.RELEASE_VERSION}}
+          committer: GitHub <noreply@github.com>
+          author: ${{env.BUILD_BOT}} <${{env.BUILD_BOT}}@users.noreply.github.com>
+          commit-message: "chore: link dependencies post ${{env.RELEASE_VERSION}} release"
+          title: 'Python client POST CD (${{env.RELEASE_VERSION}})'
+          body: |
+            ## Python client POST CD (${{env.RELEASE_VERSION}})
