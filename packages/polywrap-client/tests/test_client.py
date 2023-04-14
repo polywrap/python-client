@@ -144,3 +144,29 @@ async def test_env():
     result = await client.invoke(options)
 
     assert result == env
+
+
+async def test_complex_subinvocation():
+    uri_resolver = BaseUriResolver(
+        file_reader=SimpleFileReader(),
+        redirects={
+            Uri.from_str("ens/imported-subinvoke.eth"): Uri.from_str(
+                f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "00-subinvoke").absolute()}'
+            ),
+            Uri.from_str("ens/imported-invoke.eth"): Uri.from_str(
+                f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "01-invoke").absolute()}'
+            ),
+        },
+    )
+
+    client = PolywrapClient(config=ClientConfig(resolver=uri_resolver))
+    uri = Uri.from_str(
+        f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "02-consumer").absolute()}'
+    )
+    args = {"a": 1, "b": 1}
+    options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
+        uri=uri, method="addFromPluginAndIncrement", args=args
+    )
+    result = await client.invoke(options)
+
+    assert result == 4
