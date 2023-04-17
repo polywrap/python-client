@@ -1,13 +1,14 @@
 """This module contains the subinvoke imports for the Wasm module."""
-from typing import Any, cast
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 from polywrap_core import InvokerOptions, Uri, WrapAbortError
 from polywrap_msgpack import msgpack_encode
-from unsync import Unfuture
 
 from ..types import InvokeResult
 from .types import BaseWrapImports
-from .utils import unsync_invoke
+
+pool = ThreadPoolExecutor()
 
 
 class WrapSubinvokeImports(BaseWrapImports):
@@ -42,19 +43,17 @@ class WrapSubinvokeImports(BaseWrapImports):
         args = self._get_subinvoke_args(args_ptr, args_len)
 
         try:
-            unfuture_result = cast(
-                Unfuture[Any],
-                unsync_invoke(
-                    self.invoker,
+            result = pool.submit(
+                asyncio.run,
+                self.invoker.invoke(
                     InvokerOptions(
                         uri=uri,
                         method=method,
                         args=args,
                         encode_result=True,
-                    ),
-                ),
-            )
-            result = unfuture_result.result()  # type: ignore
+                    )
+                )
+            ).result()
             if isinstance(result, bytes):
                 self.state.subinvoke_result = InvokeResult(result=result)
                 return True
