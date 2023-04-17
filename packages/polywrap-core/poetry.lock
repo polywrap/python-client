@@ -2,14 +2,14 @@
 
 [[package]]
 name = "astroid"
-version = "2.15.2"
+version = "2.15.3"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
 python-versions = ">=3.7.2"
 files = [
-    {file = "astroid-2.15.2-py3-none-any.whl", hash = "sha256:dea89d9f99f491c66ac9c04ebddf91e4acf8bd711722175fe6245c0725cc19bb"},
-    {file = "astroid-2.15.2.tar.gz", hash = "sha256:6e61b85c891ec53b07471aec5878f4ac6446a41e590ede0f2ce095f39f7d49dd"},
+    {file = "astroid-2.15.3-py3-none-any.whl", hash = "sha256:f11e74658da0f2a14a8d19776a8647900870a63de71db83713a8e77a6af52662"},
+    {file = "astroid-2.15.3.tar.gz", hash = "sha256:44224ad27c54d770233751315fa7f74c46fa3ee0fab7beef1065f99f09897efe"},
 ]
 
 [package.dependencies]
@@ -538,7 +538,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = "WRAP manifest"
 category = "main"
 optional = false
@@ -556,7 +556,7 @@ url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
@@ -657,14 +657,14 @@ email = ["email-validator (>=1.0.3)"]
 
 [[package]]
 name = "pydeps"
-version = "1.11.2"
+version = "1.12.1"
 description = "Display module dependencies"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pydeps-1.11.2-py3-none-any.whl", hash = "sha256:b889c3b37b1b9f7daba4ba92077ada602ba6db1254a2c5e8c1e3eea42a0b9b91"},
-    {file = "pydeps-1.11.2.tar.gz", hash = "sha256:06c69e83e7f93c0409e0421938fbf34df3c364e2fd848cb0da8ed225d2490641"},
+    {file = "pydeps-1.12.1-py3-none-any.whl", hash = "sha256:aa8d307b31434e451f4b505ffc3cf280996eaae35bee85b59c8e80a3f8d51014"},
+    {file = "pydeps-1.12.1.tar.gz", hash = "sha256:fc3aa0c02c0ac2d7a0caea869d47b6b4aaf4b15d41a1b79a1c529189efb86e13"},
 ]
 
 [package.dependencies]
@@ -734,14 +734,14 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pyright"
-version = "1.1.302"
+version = "1.1.303"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.302-py3-none-any.whl", hash = "sha256:1929e3126b664b5281dba66a789e8e04358afca48c10994ee0243b8c2a14acdf"},
-    {file = "pyright-1.1.302.tar.gz", hash = "sha256:e74a7dfbbb1d754941d015cccea8a6d29b395d8e4cb0e45dcfcaf3b6c6cfd540"},
+    {file = "pyright-1.1.303-py3-none-any.whl", hash = "sha256:8fe3d122d7e965e2df2cef64e1ceb98cff8200f458e7892d92a4c21ee85689c7"},
+    {file = "pyright-1.1.303.tar.gz", hash = "sha256:7daa516424555681e8974b21a95c108c5def791bf5381522b1410026d4da62c1"},
 ]
 
 [package.dependencies]
@@ -753,14 +753,14 @@ dev = ["twine (>=3.4.1)"]
 
 [[package]]
 name = "pytest"
-version = "7.3.0"
+version = "7.3.1"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.3.0-py3-none-any.whl", hash = "sha256:933051fa1bfbd38a21e73c3960cebdad4cf59483ddba7696c48509727e17f201"},
-    {file = "pytest-7.3.0.tar.gz", hash = "sha256:58ecc27ebf0ea643ebfdf7fb1249335da761a00c9f955bcd922349bcb68ee57d"},
+    {file = "pytest-7.3.1-py3-none-any.whl", hash = "sha256:3799fa815351fea3a5e96ac7e503a96fa51cc9942c3753cda7651b93c1cfa362"},
+    {file = "pytest-7.3.1.tar.gz", hash = "sha256:434afafd78b1d78ed0addf160ad2b77a30d35d4bdf8af234fe621919d9ed15e3"},
 ]
 
 [package.dependencies]
