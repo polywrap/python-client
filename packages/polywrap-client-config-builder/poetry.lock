@@ -2,14 +2,14 @@
 
 [[package]]
 name = "astroid"
-version = "2.15.2"
+version = "2.15.3"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
 python-versions = ">=3.7.2"
 files = [
-    {file = "astroid-2.15.2-py3-none-any.whl", hash = "sha256:dea89d9f99f491c66ac9c04ebddf91e4acf8bd711722175fe6245c0725cc19bb"},
-    {file = "astroid-2.15.2.tar.gz", hash = "sha256:6e61b85c891ec53b07471aec5878f4ac6446a41e590ede0f2ce095f39f7d49dd"},
+    {file = "astroid-2.15.3-py3-none-any.whl", hash = "sha256:f11e74658da0f2a14a8d19776a8647900870a63de71db83713a8e77a6af52662"},
+    {file = "astroid-2.15.3.tar.gz", hash = "sha256:44224ad27c54d770233751315fa7f74c46fa3ee0fab7beef1065f99f09897efe"},
 ]
 
 [package.dependencies]
@@ -490,96 +490,86 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = ""
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_core-0.1.0a29-py3-none-any.whl", hash = "sha256:ea3111a0a2a4287c0f7a180fd7bb024530e720cd5ec97767b52502679d42a097"},
+    {file = "polywrap_core-0.1.0a29.tar.gz", hash = "sha256:b879c8b621eaa4ae5ad1cc48a6b304596fe9586163395782584207886e793eba"},
+]
 
 [package.dependencies]
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-
-[package.source]
-type = "directory"
-url = "../polywrap-core"
+polywrap-manifest = ">=0.1.0a29,<0.2.0"
+polywrap-msgpack = ">=0.1.0a29,<0.2.0"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = "WRAP manifest"
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_manifest-0.1.0a29-py3-none-any.whl", hash = "sha256:1d13b2075aca5a65c86b9d0ec9c35f564eab4c9cc8caa77674ed720193dcd60b"},
+    {file = "polywrap_manifest-0.1.0a29.tar.gz", hash = "sha256:9f2bcf10b7ffd73a750e712bee8a24f5d6e0cd59a3d131a7d32b37b2366075c2"},
+]
 
 [package.dependencies]
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-pydantic = "^1.10.2"
-
-[package.source]
-type = "directory"
-url = "../polywrap-manifest"
+polywrap-msgpack = ">=0.1.0a29,<0.2.0"
+pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_msgpack-0.1.0a29-py3-none-any.whl", hash = "sha256:898af76cb278630c0e826ffd1052d9cc1fa832082046ebf8d96f9eddacba7ba1"},
+    {file = "polywrap_msgpack-0.1.0a29.tar.gz", hash = "sha256:286c93c3bdc97c18c5afcd8be93b286012ffb937d75f15336f6293b632070c89"},
+]
 
 [package.dependencies]
-msgpack = "^1.0.4"
-
-[package.source]
-type = "directory"
-url = "../polywrap-msgpack"
+msgpack = ">=1.0.4,<2.0.0"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = ""
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_uri_resolvers-0.1.0a29-py3-none-any.whl", hash = "sha256:d8e1eb8284640dbcff754ef81d7558d241d4b7c23334be93596bd924cc1ab502"},
+    {file = "polywrap_uri_resolvers-0.1.0a29.tar.gz", hash = "sha256:0c1784f03ad54000b3caf46ebeaaeae50cfb4070134e66ce67e270977e99e80c"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-wasm = {path = "../polywrap-wasm", develop = true}
-
-[package.source]
-type = "directory"
-url = "../polywrap-uri-resolvers"
+polywrap-core = ">=0.1.0a29,<0.2.0"
+polywrap-wasm = ">=0.1.0a29,<0.2.0"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0a28"
+version = "0.1.0a29"
 description = ""
 category = "main"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_wasm-0.1.0a29-py3-none-any.whl", hash = "sha256:462ae2d043abbed45f94b9615339834029af7d503d2f8e6037959fef953edd7b"},
+    {file = "polywrap_wasm-0.1.0a29.tar.gz", hash = "sha256:97c2bb2c057e260376a99e5cea44ce2a78097c1ee670be1b6f0269f233f772fe"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-unsync = "^1.4.0"
-unsync-stubs = "^0.1.2"
-wasmtime = "^6.0.0"
-
-[package.source]
-type = "directory"
-url = "../polywrap-wasm"
+polywrap-core = ">=0.1.0a29,<0.2.0"
+polywrap-manifest = ">=0.1.0a29,<0.2.0"
+polywrap-msgpack = ">=0.1.0a29,<0.2.0"
+unsync = ">=1.4.0,<2.0.0"
+unsync-stubs = ">=0.1.2,<0.2.0"
+wasmtime = ">=6.0.0,<7.0.0"
 
 [[package]]
 name = "py"
@@ -710,14 +700,14 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pyright"
-version = "1.1.302"
+version = "1.1.303"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.302-py3-none-any.whl", hash = "sha256:1929e3126b664b5281dba66a789e8e04358afca48c10994ee0243b8c2a14acdf"},
-    {file = "pyright-1.1.302.tar.gz", hash = "sha256:e74a7dfbbb1d754941d015cccea8a6d29b395d8e4cb0e45dcfcaf3b6c6cfd540"},
+    {file = "pyright-1.1.303-py3-none-any.whl", hash = "sha256:8fe3d122d7e965e2df2cef64e1ceb98cff8200f458e7892d92a4c21ee85689c7"},
+    {file = "pyright-1.1.303.tar.gz", hash = "sha256:7daa516424555681e8974b21a95c108c5def791bf5381522b1410026d4da62c1"},
 ]
 
 [package.dependencies]
@@ -729,14 +719,14 @@ dev = ["twine (>=3.4.1)"]
 
 [[package]]
 name = "pytest"
-version = "7.3.0"
+version = "7.3.1"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.3.0-py3-none-any.whl", hash = "sha256:933051fa1bfbd38a21e73c3960cebdad4cf59483ddba7696c48509727e17f201"},
-    {file = "pytest-7.3.0.tar.gz", hash = "sha256:58ecc27ebf0ea643ebfdf7fb1249335da761a00c9f955bcd922349bcb68ee57d"},
+    {file = "pytest-7.3.1-py3-none-any.whl", hash = "sha256:3799fa815351fea3a5e96ac7e503a96fa51cc9942c3753cda7651b93c1cfa362"},
+    {file = "pytest-7.3.1.tar.gz", hash = "sha256:434afafd78b1d78ed0addf160ad2b77a30d35d4bdf8af234fe621919d9ed15e3"},
 ]
 
 [package.dependencies]
@@ -1150,4 +1140,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "af1d9b727002057dee7ece1fa89fbeb5810309387c53f9fdc3ef38f778755dee"
+content-hash = "49644c642295eecdf5b7c4cf107f7cbd05d5dd195a4585e4762a6105fd9a831a"
