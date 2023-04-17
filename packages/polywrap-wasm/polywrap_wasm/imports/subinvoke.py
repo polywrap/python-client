@@ -52,7 +52,7 @@ class WrapSubinvokeImports(BaseWrapImports):
                         args=args,
                         encode_result=True,
                     )
-                )
+                ),
             ).result()
             if isinstance(result, bytes):
                 self.state.subinvoke_result = InvokeResult(result=result)
