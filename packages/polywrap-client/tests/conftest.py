@@ -17,14 +17,14 @@ from polywrap_client import PolywrapClient
 import time
 
 @fixture
-def client():
+def client(memory_storage_plugin: PluginPackage[None]):
     memory_storage_uri = Uri.from_str("wrap://ens/memory-storage.polywrap.eth")
     config = ClientConfig(
         resolver=RecursiveResolver(
             UriResolverAggregator(
                 [
                     FsUriResolver(file_reader=SimpleFileReader()),
-                    StaticResolver({ memory_storage_uri: memory_storage_plugin()})
+                    StaticResolver({ memory_storage_uri: memory_storage_plugin})
                 ]
             )
         )
@@ -70,5 +70,17 @@ class MemoryStorage(PluginModule[None]):
         self.value = args["value"]
         return True
 
+
+@fixture
 def memory_storage_plugin() -> PluginPackage[None]:
     return PluginPackage(module=MemoryStorage(), manifest={})  # type: ignore
+
+
+class Adder(PluginModule[None]):
+    def add(self, args: Dict[str, Any], client: Invoker[UriPackageOrWrapper], env: Optional[Env]) -> int:
+        return args["a"] + args["b"]
+
+
+@fixture
+def adder_plugin() -> PluginPackage[None]:
+    return PluginPackage(module=Adder(None), manifest={})  # type: ignore

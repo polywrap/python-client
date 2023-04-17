@@ -1,8 +1,22 @@
 from pathlib import Path
+
+from polywrap_client_config_builder import PolywrapClientConfigBuilder
+from polywrap_plugin import PluginPackage
 from polywrap_client import PolywrapClient
 from polywrap_manifest import deserialize_wrap_manifest
-from polywrap_core import Uri, InvokerOptions, FileReader, UriPackageOrWrapper, ClientConfig
-from polywrap_uri_resolvers import BaseUriResolver, SimpleFileReader, StaticResolver
+from polywrap_core import (
+    Uri,
+    InvokerOptions,
+    FileReader,
+    UriPackageOrWrapper,
+    ClientConfig,
+)
+from polywrap_uri_resolvers import (
+    BaseUriResolver,
+    FsUriResolver,
+    SimpleFileReader,
+    StaticResolver,
+)
 from polywrap_wasm import WasmWrapper
 
 
@@ -146,20 +160,29 @@ async def test_env():
     assert result == env
 
 
-async def test_complex_subinvocation():
-    uri_resolver = BaseUriResolver(
-        file_reader=SimpleFileReader(),
-        redirects={
-            Uri.from_str("ens/imported-subinvoke.eth"): Uri.from_str(
+async def test_complex_subinvocation(adder_plugin: PluginPackage[None]):
+    config = (
+        PolywrapClientConfigBuilder()
+        .add_resolver(FsUriResolver(SimpleFileReader()))
+        .set_redirect(
+            Uri.from_str("ens/imported-subinvoke.eth"),
+            Uri.from_str(
                 f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "00-subinvoke").absolute()}'
             ),
-            Uri.from_str("ens/imported-invoke.eth"): Uri.from_str(
+        )
+        .set_redirect(
+            Uri.from_str("ens/imported-invoke.eth"),
+            Uri.from_str(
                 f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "01-invoke").absolute()}'
             ),
-        },
-    )
+        )
+        .set_package(
+            Uri.from_str("plugin/adder"),
+            adder_plugin,
+        )
+    ).build()
 
-    client = PolywrapClient(config=ClientConfig(resolver=uri_resolver))
+    client = PolywrapClient(config)
     uri = Uri.from_str(
         f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "02-consumer").absolute()}'
     )
