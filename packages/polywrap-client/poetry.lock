@@ -499,8 +499,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0a29"
-polywrap-uri-resolvers = "^0.1.0a29"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
 
 [package.source]
 type = "directory"
