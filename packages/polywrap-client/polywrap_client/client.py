@@ -203,7 +203,17 @@ class PolywrapClient(Client):
         wrapper = await self.load_wrapper(
             options.uri, resolution_context=resolution_context
         )
-        options.env = options.env or self.get_env_by_uri(options.uri)
+
+        options.env = options.env or next(
+            filter(
+                lambda env: env is not None,
+                map(
+                    lambda uri: self.get_env_by_uri(uri),
+                    resolution_context.get_resolution_path(),
+                ),
+            ),
+            None,
+        )
 
         invocable_result = await wrapper.invoke(options, invoker=self)
 

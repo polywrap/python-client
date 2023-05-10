@@ -8,7 +8,7 @@ from urllib.error import HTTPError
 
 
 def get_path_to_test_wrappers() -> str:
-    return os.path.join(os.path.dirname(__file__), '..', 'wrappers')
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'wrappers'))
 
 
 def fetch_from_github(url: str) -> bytes:

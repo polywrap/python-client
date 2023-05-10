@@ -21,6 +21,7 @@ pytest = "^7.1.2"
 pytest-asyncio = "^0.19.0"
 polywrap-plugin = {path = "../polywrap-plugin", develop = true}
 polywrap-client-config-builder = {path = "../polywrap-client-config-builder", develop = true}
+polywrap-test-cases = {path = "../polywrap-test-cases", develop = true}
 pylint = "^2.15.4"
 black = "^22.10.0"
 bandit = { version = "^1.7.4", extras = ["toml"]}
