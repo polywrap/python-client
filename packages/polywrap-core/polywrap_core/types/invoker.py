@@ -38,11 +38,14 @@ class Invoker(ABC, Generic[TUriLike]):
         """
 
     @abstractmethod
-    def get_implementations(self, uri: Uri) -> Union[List[Uri], None]:
+    async def get_implementations(
+        self, uri: Uri, apply_resolution: bool = True
+    ) -> Union[List[Uri], None]:
         """Get implementations of an interface with its URI.
 
         Args:
             uri (Uri): URI of the interface.
+            apply_resolution (bool): If true, apply resolution.
 
         Returns:
             Union[List[Uri], None]: List of implementations or None if not found.

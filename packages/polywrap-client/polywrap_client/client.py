@@ -1,9 +1,10 @@
 """This module contains the Polywrap client implementation."""
 from __future__ import annotations
 
+import asyncio
 import json
 from textwrap import dedent
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, List, Optional, Set, Union, cast
 
 from polywrap_core import (
     Client,
@@ -77,7 +78,9 @@ class PolywrapClient(Client):
         interfaces: Dict[Uri, List[Uri]] = self._config.interfaces
         return interfaces
 
-    def get_implementations(self, uri: Uri) -> Union[List[Uri], None]:
+    async def get_implementations(
+        self, uri: Uri, apply_resolution: bool = True
+    ) -> Union[List[Uri], None]:
         """Get the implementations for the given interface URI.
 
         Args:
@@ -86,10 +89,22 @@ class PolywrapClient(Client):
         Returns:
             Union[List[Uri], None]: The list of implementation URIs.
         """
-        interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
-        return interfaces.get(uri)
+        if not apply_resolution:
+            return self._config.interfaces.get(uri)
 
-    def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
+        uri_resolution_path = set(await self._get_uri_resolution_path(uri))
+        all_impls_result = await asyncio.gather(*(
+            self._get_implementations_by_resolution_path(interface, uri_resolution_path)
+            for interface in self._config.interfaces
+        ))
+        print(all_impls_result)
+        return list({impl for impls in all_impls_result for impl in impls if impls})
+
+    def get_env_by_uri(
+        self,
+        uri: Uri,
+        resolution_context: Optional[IUriResolutionContext[UriPackageOrWrapper]],
+    ) -> Union[Env, None]:
         """Get the environment variables for the given URI.
 
         Args:
@@ -98,7 +113,21 @@ class PolywrapClient(Client):
         Returns:
             Union[Env, None]: The environment variables.
         """
-        return self._config.envs.get(uri)
+
+        return (
+            next(
+                filter(
+                    lambda env: env is not None,
+                    map(
+                        lambda uri: self._config.envs.get(uri),
+                        resolution_context.get_resolution_path(),
+                    ),
+                ),
+                None,
+            )
+            if resolution_context
+            else self._config.envs.get(uri)
+        )
 
     async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
         """Get the file from the given wrapper URI.
@@ -204,15 +233,8 @@ class PolywrapClient(Client):
             options.uri, resolution_context=resolution_context
         )
 
-        options.env = options.env or next(
-            filter(
-                lambda env: env is not None,
-                map(
-                    lambda uri: self.get_env_by_uri(uri),
-                    resolution_context.get_resolution_path(),
-                ),
-            ),
-            None,
+        options.env = options.env or self.get_env_by_uri(
+            options.uri, resolution_context
         )
 
         invocable_result = await wrapper.invoke(options, invoker=self)
@@ -230,3 +252,26 @@ class PolywrapClient(Client):
             return decoded
 
         return invocable_result.result
+
+    async def _get_uri_resolution_path(self, uri: Uri) -> List[Uri]:
+        """Get the URI Resolution Path.
+
+        Args:
+            uri (Uri): The URI.
+
+        Returns:
+            List[Uri]: The URI Resolution Path.
+        """
+        context = UriResolutionContext()
+        await self.try_resolve_uri(
+            TryResolveUriOptions(uri=uri, resolution_context=context)
+        )
+        return context.get_resolution_path()
+
+    async def _get_implementations_by_resolution_path(
+        self, interface: Uri, uri_resolution_path: Set[Uri]
+    ) -> Optional[List[Uri]]:
+        interface_resolution_path = set(await self._get_uri_resolution_path(interface))
+        if uri_resolution_path & interface_resolution_path:
+            return self._config.interfaces.get(interface)
+        return None

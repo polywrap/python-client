@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Union
 
 from polywrap_manifest import AnyWrapManifest
 
+from .uri_resolution_context import IUriResolutionContext
 from .env import Env
 from .invoker_client import InvokerClient
 from .options.file_options import GetFileOptions
@@ -37,11 +38,17 @@ class Client(InvokerClient[UriPackageOrWrapper]):
         """
 
     @abstractmethod
-    def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
+    def get_env_by_uri(
+        self,
+        uri: Uri,
+        resolution_context: Optional[IUriResolutionContext[UriPackageOrWrapper]],
+    ) -> Union[Env, None]:
         """Get environment by URI.
 
         Args:
             uri (Uri): URI of the Wrapper.
+            resolution_context (Optional[IUriResolutionContext[UriPackageOrWrapper]]): \
+                Resolution context.
 
         Returns:
             Union[Env, None]: env if found, otherwise None.
