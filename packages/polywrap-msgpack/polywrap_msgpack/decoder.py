@@ -43,8 +43,8 @@ def msgpack_decode(val: bytes) -> Any:
         Any: any python object
     """
     try:
-        return msgpack.unpackb(
+        return msgpack.unpackb(  # pyright: ignore[reportUnknownMemberType]
             val, ext_hook=decode_ext_hook
-        )  # pyright: reportUnknownMemberType=false
+        )
     except Exception as e:
         raise MsgpackDecodeError("Failed to decode msgpack data") from e
