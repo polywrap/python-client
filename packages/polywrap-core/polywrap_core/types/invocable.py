@@ -1,15 +1,14 @@
 """This module contains the interface for invoking any invocables."""
+# pylint: disable=too-many-arguments
+
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, Dict, Optional, Protocol
 
 from .invoker import Invoker
-from .options.invoke_options import InvokeOptions
-from .uri_like import UriLike
-
-TUriLike = TypeVar("TUriLike", bound=UriLike)
+from .uri import Uri
+from .uri_resolution_context import UriResolutionContext
 
 
 @dataclass(slots=True, kw_only=True)
@@ -26,20 +25,33 @@ class InvocableResult:
     encoded: Optional[bool] = None
 
 
-class Invocable(ABC, Generic[TUriLike]):
+class Invocable(Protocol):
     """Invocable interface."""
 
-    @abstractmethod
-    async def invoke(
-        self, options: InvokeOptions[TUriLike], invoker: Invoker[TUriLike]
+    def invoke(
+        self,
+        uri: Uri,
+        method: str,
+        args: Optional[Dict[str, Any]] = None,
+        env: Optional[Dict[str, Any]] = None,
+        resolution_context: Optional[UriResolutionContext] = None,
+        invoker: Optional[Invoker] = None,
     ) -> InvocableResult:
         """Invoke the Wrapper based on the provided InvokeOptions.
 
         Args:
-            options (InvokeOptions): InvokeOptions for this invocation.
-            invoker (Invoker): The invoker instance requesting this invocation.\
+            uri (Uri): Uri of the wrapper
+            method (str): Method to be executed
+            args (Optional[InvokeArgs]) : Arguments for the method, structured as a dictionary
+            env (Optional[Env]): Override the client's config for all invokes within this invoke.
+            resolution_context (Optional[UriResolutionContext]): A URI resolution context
+            invoker (Optional[Invoker]): The invoker instance requesting this invocation.\
                 This invoker will be used for any subinvocation that may occur.
 
         Returns:
             InvocableResult: Result of the invocation.
         """
+        ...
+
+
+__all__ = ["Invocable", "InvocableResult"]

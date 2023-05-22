@@ -7,6 +7,6 @@ from .uri import Uri
 from .uri_package import UriPackage
 from .uri_wrapper import UriWrapper
 
-UriPackageOrWrapper = Union[
-    Uri, UriWrapper["UriPackageOrWrapper"], UriPackage["UriPackageOrWrapper"]
-]
+UriPackageOrWrapper = Union[Uri, UriWrapper, UriPackage]
+
+__all__ = ["UriPackageOrWrapper"]
