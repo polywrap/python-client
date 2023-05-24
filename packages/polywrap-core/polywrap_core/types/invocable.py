@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, Optional, Protocol
+from typing import Any, Optional, Protocol
 
 from .invoker import Invoker
 from .uri import Uri
@@ -32,8 +32,8 @@ class Invocable(Protocol):
         self,
         uri: Uri,
         method: str,
-        args: Optional[Dict[str, Any]] = None,
-        env: Optional[Dict[str, Any]] = None,
+        args: Optional[Any] = None,
+        env: Optional[Any] = None,
         resolution_context: Optional[UriResolutionContext] = None,
         invoker: Optional[Invoker] = None,
     ) -> InvocableResult:
@@ -42,8 +42,8 @@ class Invocable(Protocol):
         Args:
             uri (Uri): Uri of the wrapper
             method (str): Method to be executed
-            args (Optional[InvokeArgs]) : Arguments for the method, structured as a dictionary
-            env (Optional[Env]): Override the client's config for all invokes within this invoke.
+            args (Optional[Any]) : Arguments for the method, structured as a dictionary
+            env (Optional[Any]): Override the client's config for all invokes within this invoke.
             resolution_context (Optional[UriResolutionContext]): A URI resolution context
             invoker (Optional[Invoker]): The invoker instance requesting this invocation.\
                 This invoker will be used for any subinvocation that may occur.

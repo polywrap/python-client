@@ -1,19 +1,40 @@
 """This module contains the PluginModule class."""
 # pylint: disable=invalid-name
 from abc import ABC
-from typing import Any, Generic, TypeVar
+from dataclasses import dataclass
+from typing import Any, Generic, Optional, TypeVar
 
 from polywrap_core import (
-    InvokeOptions,
     Invoker,
-    UriPackageOrWrapper,
+    Uri,
+    UriResolutionContext,
     WrapAbortError,
     WrapInvocationError,
-    execute_maybe_async_function,
 )
 from polywrap_msgpack import msgpack_decode
 
 TConfig = TypeVar("TConfig")
+
+
+@dataclass(kw_only=True, slots=True)
+class InvokeOptions:
+    """InvokeOptions is a dataclass that holds the options for an invocation.
+
+    Attributes:
+        uri: The URI of the wrapper.
+        method: The method to invoke.
+        args: The arguments to pass to the method.
+        env: The environment variables to set for the invocation.
+        resolution_context: A URI resolution context.
+        invoker: The invoker to use for subinvocations.
+    """
+
+    uri: Uri
+    method: str
+    args: Optional[Any] = None
+    env: Optional[Any] = None
+    resolution_context: Optional[UriResolutionContext] = None
+    invoker: Optional[Invoker] = None
 
 
 class PluginModule(Generic[TConfig], ABC):
@@ -35,18 +56,15 @@ class PluginModule(Generic[TConfig], ABC):
 
     async def __wrap_invoke__(
         self,
-        options: InvokeOptions[UriPackageOrWrapper],
-        invoker: Invoker[UriPackageOrWrapper],
+        options: InvokeOptions,
     ) -> Any:
         """Invoke a method on the plugin.
 
         Args:
-            method: The name of the method to invoke.
-            args: The arguments to pass to the method.
-            invoker: The invoker to use for subinvocations.
+            options: The options to use when invoking the plugin.
 
         Returns:
-            The result of the plugin method invocation or an error.
+            The result of the plugin method invocation.
         """
         if not hasattr(self, options.method):
             raise WrapInvocationError(
@@ -61,11 +79,12 @@ class PluginModule(Generic[TConfig], ABC):
                     if isinstance(options.args, bytes)
                     else options.args
                 )
-                return await execute_maybe_async_function(
-                    callable_method, decoded_args, invoker, options.env
-                )
+                callable_method(decoded_args, options.invoker, options.env)
             except Exception as err:
                 raise WrapAbortError(options, repr(err)) from err
         raise WrapInvocationError(
             options, f"{options.method} is not a callable method in plugin module"
         )
+
+
+__all__ = ["PluginModule"]

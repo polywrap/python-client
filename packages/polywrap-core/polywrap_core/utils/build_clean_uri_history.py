@@ -1,15 +1,13 @@
 """This module contains an utility function for building a clean history of URI resolution steps."""
-from typing import List, Optional, TypeVar, Union
+from typing import List, Optional, Union
 
-from polywrap_core import IUriResolutionStep, Uri, UriLike, UriPackage
+from polywrap_core import Uri, UriPackage, UriResolutionStep
 
 CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
 
-TUriLike = TypeVar("TUriLike", bound=UriLike)
-
 
 def build_clean_uri_history(
-    history: List[IUriResolutionStep[TUriLike]], depth: Optional[int] = None
+    history: List[UriResolutionStep], depth: Optional[int] = None
 ) -> CleanResolutionStep:
     """Build a clean history of the URI resolution steps.
 
@@ -45,7 +43,7 @@ def build_clean_uri_history(
     return clean_history
 
 
-def _build_clean_history_step(step: IUriResolutionStep[TUriLike]) -> str:
+def _build_clean_history_step(step: UriResolutionStep) -> str:
     uri_package_or_wrapper = step.result
 
     if isinstance(uri_package_or_wrapper, Uri):

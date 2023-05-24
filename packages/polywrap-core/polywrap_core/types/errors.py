@@ -5,10 +5,11 @@ from __future__ import annotations
 
 import json
 from textwrap import dedent
-from typing import Any, Dict, Optional
+from typing import Optional
 
 from polywrap_msgpack import msgpack_decode
 
+from .invoke_options import InvokeOptions
 from .uri import Uri
 
 
@@ -33,35 +34,32 @@ class WrapAbortError(WrapError):
 
     def __init__(
         self,
-        uri: Uri,
-        method: str,
+        invoke_options: InvokeOptions,
         message: str,
-        invoke_args: Optional[Dict[str, Any]] = None,
-        invoke_env: Optional[Dict[str, Any]] = None,
     ):
         """Initialize a new instance of WasmAbortError."""
-        self.uri = uri
-        self.method = method
+        self.uri = invoke_options.uri
+        self.method = invoke_options.method
         self.message = message
 
         self.invoke_args = (
             json.dumps(
-                msgpack_decode(invoke_args)
-                if isinstance(invoke_args, bytes)
-                else invoke_args,
+                msgpack_decode(invoke_options.args)
+                if isinstance(invoke_options.args, bytes)
+                else invoke_options.args,
                 indent=2,
             )
-            if invoke_args is not None
+            if invoke_options.args is not None
             else None
         )
         self.invoke_env = (
             json.dumps(
-                msgpack_decode(invoke_env)
-                if isinstance(invoke_env, bytes)
-                else invoke_env,
+                msgpack_decode(invoke_options.env)
+                if isinstance(invoke_options.env, bytes)
+                else invoke_options.env,
                 indent=2,
             )
-            if invoke_env is not None
+            if invoke_options.env is not None
             else None
         )
 
@@ -69,8 +67,8 @@ class WrapAbortError(WrapError):
             dedent(
                 f"""
                 WrapAbortError: The following wrapper aborted execution with the given message:
-                URI: {uri}
-                Method: {method}
+                URI: {invoke_options.uri}
+                Method: {invoke_options.method}
                 Args: {self.invoke_args}
                 env: {self.invoke_env}
                 Message: {message}

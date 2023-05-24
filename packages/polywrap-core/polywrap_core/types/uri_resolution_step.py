@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List
+from typing import Any, List, Optional
 
 from .uri import Uri
 
@@ -14,15 +14,15 @@ class UriResolutionStep:
     Attributes:
         source_uri (Uri): The uri that was resolved.
         result (Any): The result of the resolution.
-        description (str): A description of the resolution step.
-        sub_history (List[UriResolutionStep]): A list of sub steps\
+        description (Optional[str]): A description of the resolution step.
+        sub_history (Optional[List[UriResolutionStep]]): A list of sub steps\
             that were taken to resolve the uri.
     """
 
     source_uri: Uri
     result: Any
-    description: str
-    sub_history: List[UriResolutionStep]
+    description: Optional[str] = None
+    sub_history: Optional[List[UriResolutionStep]] = None
 
 
 __all__ = ["UriResolutionStep"]

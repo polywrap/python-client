@@ -29,8 +29,10 @@ def encode_ext_hook(obj: Any) -> ExtType:
             ExtensionTypes.GENERIC_MAP.value,
             # pylint: disable=protected-access
             msgpack_encode(
-                cast(GenericMap[Any, Any], obj)._map
-            ),  # pyright: ignore[reportPrivateUsage]
+                cast(
+                    GenericMap[Any, Any], obj
+                )._map  # pyright: ignore[reportPrivateUsage]
+            ),
         )
     raise MsgpackExtError(f"Object of type {type(obj)} is not supported")
 

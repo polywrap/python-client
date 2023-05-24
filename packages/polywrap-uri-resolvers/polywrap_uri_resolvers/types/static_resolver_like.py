@@ -11,10 +11,10 @@ StaticResolverLike is a type that represents a union of types\
 """
 from typing import Dict, Union
 
-from polywrap_core import Uri, UriPackageOrWrapper, WrapPackage, Wrapper
+from polywrap_core import Uri, WrapPackage, Wrapper
 
 StaticResolverLike = Union[
     Dict[Uri, Uri],
-    Dict[Uri, WrapPackage[UriPackageOrWrapper]],
-    Dict[Uri, Wrapper[UriPackageOrWrapper]],
+    Dict[Uri, WrapPackage],
+    Dict[Uri, Wrapper],
 ]

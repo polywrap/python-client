@@ -23,22 +23,22 @@ class Client(InvokerClient, Protocol):
         """
         ...
 
-    def get_envs(self) -> Dict[Uri, Dict[str, Any]]:
+    def get_envs(self) -> Dict[Uri, Any]:
         """Get dictionary of environments.
 
         Returns:
-            Dict[Uri, Dict[str, Any]]: Dictionary of environments where key is URI and value is env.
+            Dict[Uri, Any]: Dictionary of environments where key is URI and value is env.
         """
         ...
 
-    def get_env_by_uri(self, uri: Uri) -> Union[Dict[str, Any], None]:
+    def get_env_by_uri(self, uri: Uri) -> Union[Any, None]:
         """Get environment by URI.
 
         Args:
             uri (Uri): URI of the Wrapper.
 
         Returns:
-            Union[Dict[str, Any], None]: env if found, otherwise None.
+            Union[Any, None]: env if found, otherwise None.
         """
         ...
 

@@ -1,21 +1,19 @@
 """This module contains the WasmPackage type for loading a Wasm package."""
 from typing import Optional, Union
 
-from polywrap_core import (
-    FileReader,
-    GetManifestOptions,
-    UriPackageOrWrapper,
-    WrapPackage,
-    Wrapper,
+from polywrap_core import FileReader, WrapPackage, Wrapper
+from polywrap_manifest import (
+    AnyWrapManifest,
+    DeserializeManifestOptions,
+    deserialize_wrap_manifest,
 )
-from polywrap_manifest import AnyWrapManifest, deserialize_wrap_manifest
 
 from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 from .inmemory_file_reader import InMemoryFileReader
 from .wasm_wrapper import WasmWrapper
 
 
-class WasmPackage(WrapPackage[UriPackageOrWrapper]):
+class WasmPackage(WrapPackage):
     """WasmPackage is a type that represents a Wasm WRAP package.
 
     Attributes:
@@ -43,8 +41,8 @@ class WasmPackage(WrapPackage[UriPackageOrWrapper]):
             else file_reader
         )
 
-    async def get_manifest(
-        self, options: Optional[GetManifestOptions] = None
+    def get_manifest(
+        self, options: Optional[DeserializeManifestOptions] = None
     ) -> AnyWrapManifest:
         """Get the manifest of the wrapper.
 
@@ -54,13 +52,13 @@ class WasmPackage(WrapPackage[UriPackageOrWrapper]):
         if isinstance(self.manifest, AnyWrapManifest):
             return self.manifest
 
-        encoded_manifest = self.manifest or await self.file_reader.read_file(
+        encoded_manifest = self.manifest or self.file_reader.read_file(
             WRAP_MANIFEST_PATH
         )
         manifest = deserialize_wrap_manifest(encoded_manifest, options)
         return manifest
 
-    async def get_wasm_module(self) -> bytes:
+    def get_wasm_module(self) -> bytes:
         """Get the Wasm module of the wrapper if it exists or return an error.
 
         Returns:
@@ -69,13 +67,16 @@ class WasmPackage(WrapPackage[UriPackageOrWrapper]):
         if isinstance(self.wasm_module, bytes):
             return self.wasm_module
 
-        wasm_module = await self.file_reader.read_file(WRAP_MODULE_PATH)
+        wasm_module = self.file_reader.read_file(WRAP_MODULE_PATH)
         self.wasm_module = wasm_module
         return self.wasm_module
 
-    async def create_wrapper(self) -> Wrapper[UriPackageOrWrapper]:
+    def create_wrapper(self) -> Wrapper:
         """Create a new WasmWrapper instance."""
-        wasm_module = await self.get_wasm_module()
-        wasm_manifest = await self.get_manifest()
+        wasm_module = self.get_wasm_module()
+        wasm_manifest = self.get_manifest()
 
         return WasmWrapper(self.file_reader, wasm_module, wasm_manifest)
+
+
+__all__ = ["WasmPackage"]

@@ -13,7 +13,7 @@ class ClientConfig:
     """Client configuration.
 
     Attributes:
-        envs (Dict[Uri, Dict[str, Any]]): Dictionary of environments \
+        envs (Dict[Uri, Any]): Dictionary of environments \
             where key is URI and value is env.
         interfaces (Dict[Uri, List[Uri]]): Dictionary of interfaces \
             and their implementations where key is interface URI \
@@ -21,7 +21,7 @@ class ClientConfig:
         resolver (UriResolver): URI resolver.
     """
 
-    envs: Dict[Uri, Dict[str, Any]] = field(default_factory=dict)
+    envs: Dict[Uri, Any] = field(default_factory=dict)
     interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: UriResolver
 

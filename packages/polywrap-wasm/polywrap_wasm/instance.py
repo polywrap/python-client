@@ -1,5 +1,7 @@
 """This module contains the imports of the Wasm wrapper module."""
-from polywrap_core import Invoker, UriPackageOrWrapper
+from typing import Optional
+
+from polywrap_core import Invoker
 from wasmtime import Instance, Linker, Module, Store
 
 from .imports import WrapImports
@@ -12,7 +14,7 @@ def create_instance(
     store: Store,
     module: bytes,
     state: State,
-    invoker: Invoker[UriPackageOrWrapper],
+    invoker: Optional[Invoker],
 ) -> Instance:
     """Create a Wasm instance for a Wasm module.
 

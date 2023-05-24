@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, List, Optional, Protocol
 
 from .uri import Uri
 from .uri_resolution_context import UriResolutionContext
@@ -16,8 +16,8 @@ class Invoker(Protocol):
         self,
         uri: Uri,
         method: str,
-        args: Optional[Dict[str, Any]] = None,
-        env: Optional[Dict[str, Any]] = None,
+        args: Optional[Any] = None,
+        env: Optional[Any] = None,
         resolution_context: Optional[UriResolutionContext] = None,
         encode_result: Optional[bool] = False,
     ) -> Any:
@@ -26,8 +26,8 @@ class Invoker(Protocol):
         Args:
             uri (Uri): Uri of the wrapper
             method (str): Method to be executed
-            args (Optional[InvokeArgs]) : Arguments for the method, structured as a dictionary
-            env (Optional[Env]): Override the client's config for all invokes within this invoke.
+            args (Optional[Any]) : Arguments for the method, structured as a dictionary
+            env (Optional[Any]): Override the client's config for all invokes within this invoke.
             resolution_context (Optional[UriResolutionContext]): A URI resolution context
             encode_result (Optional[bool]): If True, the result will be encoded
 

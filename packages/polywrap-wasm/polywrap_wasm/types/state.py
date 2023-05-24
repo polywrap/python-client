@@ -1,10 +1,29 @@
 """This module contains the State type for holding the state of a Wasm wrapper."""
 from dataclasses import dataclass
-from typing import Generic, Optional, TypeVar
+from typing import Any, Generic, Optional, TypeVar
 
-from polywrap_core import InvokeOptions, UriPackageOrWrapper
+from polywrap_core import Uri, UriResolutionContext
 
 E = TypeVar("E")
+
+
+@dataclass(kw_only=True, slots=True)
+class InvokeOptions:
+    """InvokeOptions is a dataclass that holds the options for an invocation.
+
+    Attributes:
+        uri: The URI of the wrapper.
+        method: The method to invoke.
+        args: The arguments to pass to the method.
+        env: The environment variables to set for the invocation.
+        resolution_context: A URI resolution context.
+    """
+
+    uri: Uri
+    method: str
+    args: Optional[dict[str, Any]] = None
+    env: Optional[dict[str, Any]] = None
+    resolution_context: Optional[UriResolutionContext] = None
 
 
 @dataclass(kw_only=True, slots=True)
@@ -39,7 +58,7 @@ class State:
         get_implementations_result: The result of a get implementations call.
     """
 
-    invoke_options: InvokeOptions[UriPackageOrWrapper]
+    invoke_options: InvokeOptions
     invoke_result: Optional[InvokeResult[str]] = None
     subinvoke_result: Optional[InvokeResult[Exception]] = None
     get_implementations_result: Optional[bytes] = None

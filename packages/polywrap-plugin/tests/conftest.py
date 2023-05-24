@@ -2,15 +2,15 @@ from pytest import fixture
 from typing import Any, Dict, List, Union, Optional
 
 from polywrap_plugin import PluginModule
-from polywrap_core import Invoker, Uri, InvokerOptions, UriPackageOrWrapper, Env
+from polywrap_core import Invoker, Uri
 
 @fixture
-def invoker() -> Invoker[UriPackageOrWrapper]:
-    class MockInvoker(Invoker[UriPackageOrWrapper]):
-        async def invoke(self, options: InvokerOptions[UriPackageOrWrapper]) -> Any:
+def invoker() -> Invoker:
+    class MockInvoker(Invoker):
+        async def invoke(self, *args: Any) -> Any:
             raise NotImplementedError()
 
-        def get_implementations(self, uri: Uri) -> Union[List[Uri], None]:
+        def get_implementations(self, *args: Any) -> Union[List[Uri], None]:
             raise NotImplementedError()
     
     return MockInvoker()
@@ -22,7 +22,7 @@ def greeting_module():
         def __init__(self, config: None):
             super().__init__(config)
 
-        def greeting(self, args: Dict[str, Any], client: Invoker[UriPackageOrWrapper], env: Optional[Env] = None):
+        def greeting(self, args: Dict[str, Any], client: Invoker, env: Optional[Any] = None):
             return f"Greetings from: {args['name']}"
 
     return GreetingModule(None)

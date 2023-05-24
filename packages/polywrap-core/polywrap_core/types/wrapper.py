@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Optional, Protocol, Union
 
-from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
+from polywrap_manifest import AnyWrapManifest
 
 from .invocable import Invocable
 
@@ -25,9 +25,7 @@ class Wrapper(Invocable, Protocol):
         """
         ...
 
-    def get_manifest(
-        self, options: Optional[DeserializeManifestOptions] = None
-    ) -> AnyWrapManifest:
+    def get_manifest(self) -> AnyWrapManifest:
         """Get the manifest of the wrapper.
 
         Returns:

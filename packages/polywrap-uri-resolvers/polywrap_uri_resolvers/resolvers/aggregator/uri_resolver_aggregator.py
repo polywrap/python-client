@@ -3,15 +3,14 @@ from typing import List, Optional, cast
 
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
+    UriResolutionContext,
+    UriResolutionStep,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
     UriResolver,
     UriWrapper,
 )
-
-from ...types import UriResolutionStep
 
 
 class UriResolverAggregator(UriResolver):
@@ -45,11 +44,11 @@ class UriResolverAggregator(UriResolver):
         self.step_description = step_description or self.__class__.__name__
         self.resolvers = resolvers
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
@@ -59,15 +58,15 @@ class UriResolverAggregator(UriResolver):
         
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
+            client (InvokerClient): The client to use for\
                 resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
+            resolution_context (UriResolutionContext):\
                 The resolution context to update.
         """
         sub_context = resolution_context.create_sub_history_context()
 
         for resolver in self.resolvers:
-            uri_package_or_wrapper = await resolver.try_resolve_uri(
+            uri_package_or_wrapper = resolver.try_resolve_uri(
                 uri, client, sub_context
             )
             if uri_package_or_wrapper != uri or isinstance(

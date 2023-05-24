@@ -14,13 +14,18 @@ from .extensions import *
 from .sanitize import *
 
 __all__ = [
+    # Serializer
     "msgpack_decode",
     "msgpack_encode",
+    # Extensions
     "decode_ext_hook",
     "encode_ext_hook",
-    "sanitize",
     "ExtensionTypes",
+    # Sanitizers
+    "sanitize",
+    # Extention types
     "GenericMap",
+    # Errors
     "MsgpackError",
     "MsgpackDecodeError",
     "MsgpackEncodeError",

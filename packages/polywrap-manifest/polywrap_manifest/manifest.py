@@ -22,17 +22,6 @@ class DeserializeManifestOptions:
     no_validate: Optional[bool] = None
 
 
-@dataclass(slots=True, kw_only=True)
-class SerializeManifestOptions:
-    """Options for serializing a manifest to msgpack encoded bytes.
-
-    Attributes:
-        no_validate: If true, do not validate the manifest.
-    """
-
-    no_validate: Optional[bool] = None
-
-
 class WrapManifestVersions(Enum):
     """The versions of the Wrap manifest."""
 
@@ -68,3 +57,24 @@ WrapAbi = WrapAbi_0_1_0_1
 
 LATEST_WRAP_MANIFEST_VERSION = "0.1"
 LATEST_WRAP_ABI_VERSION = "0.1"
+
+__all__ = [
+    # Options
+    "DeserializeManifestOptions",
+    # Enums
+    "WrapManifestVersions",
+    "WrapManifestAbiVersions",
+    "WrapAbiVersions",
+    # Concrete Versions
+    "WrapManifest_0_1",
+    "WrapAbi_0_1_0_1",
+    # Any Versions
+    "AnyWrapManifest",
+    "AnyWrapAbi",
+    # Latest Versions
+    "WrapManifest",
+    "WrapAbi",
+    # Latest Version constants
+    "LATEST_WRAP_MANIFEST_VERSION",
+    "LATEST_WRAP_ABI_VERSION",
+]

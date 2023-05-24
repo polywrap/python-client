@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 from abc import ABC
+from typing import Optional
 
-from polywrap_core import Invoker, UriPackageOrWrapper
+from polywrap_core import Invoker
 from wasmtime import Memory, Store
 
 from ...buffer import read_bytes, read_string, write_bytes, write_string
@@ -16,7 +17,7 @@ class BaseWrapImports(ABC):
     memory: Memory
     store: Store
     state: State
-    invoker: Invoker[UriPackageOrWrapper]
+    invoker: Optional[Invoker]
 
     def read_string(self, ptr: int, length: int) -> str:
         """Read a UTF-8 encoded string from the memory buffer."""
