@@ -3,11 +3,7 @@ import json
 from dataclasses import asdict
 from typing import List, TypeVar
 
-from polywrap_core import IUriResolutionStep, Uri, UriLike
-
-from .utils import get_uri_resolution_path
-
-TUriLike = TypeVar("TUriLike", bound=UriLike)
+from polywrap_core import UriResolutionStep, Uri, get_uri_resolution_path
 
 
 class UriResolutionError(Exception):
@@ -17,12 +13,12 @@ class UriResolutionError(Exception):
 class InfiniteLoopError(UriResolutionError):
     """Raised when an infinite loop is detected while resolving a URI."""
 
-    def __init__(self, uri: Uri, history: List[IUriResolutionStep[TUriLike]]):
+    def __init__(self, uri: Uri, history: List[UriResolutionStep]):
         """Initialize a new InfiniteLoopError instance.
 
         Args:
             uri (Uri): The URI that caused the infinite loop.
-            history (List[IUriResolutionStep[TUriLike]]): The resolution history.
+            history (List[UriResolutionStep]): The resolution history.
         """
         resolution_path = get_uri_resolution_path(history)
         super().__init__(
@@ -38,12 +34,12 @@ class UriResolverExtensionError(UriResolutionError):
 class UriResolverExtensionNotFoundError(UriResolverExtensionError):
     """Raised when an extension resolver wrapper could not be found for a URI."""
 
-    def __init__(self, uri: Uri, history: List[IUriResolutionStep[TUriLike]]):
+    def __init__(self, uri: Uri, history: List[UriResolutionStep]):
         """Initialize a new UriResolverExtensionNotFoundError instance.
 
         Args:
             uri (Uri): The URI that caused the error.
-            history (List[IUriResolutionStep[TUriLike]]): The resolution history.
+            history (List[UriResolutionStep]): The resolution history.
         """
         super().__init__(
             f"Could not find an extension resolver wrapper for the URI: {uri.uri}\n"

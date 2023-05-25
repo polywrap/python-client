@@ -44,7 +44,7 @@ class ResolverWithHistory(UriResolver):
         """
         result = self._try_resolve_uri(uri, client, resolution_context)
         step = UriResolutionStep(
-            source_uri=uri, result=result, description=self.get_step_description(), sub_history=[]
+            source_uri=uri, result=result, description=self.get_step_description()
         )
         resolution_context.track_step(step)
 

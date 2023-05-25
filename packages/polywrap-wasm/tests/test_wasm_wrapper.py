@@ -5,10 +5,9 @@ from pathlib import Path
 
 from polywrap_msgpack import msgpack_decode
 from polywrap_core import Uri, Invoker, FileReader
-from polywrap_wasm import WasmPackage, WasmWrapper, WRAP_MODULE_PATH
+from polywrap_wasm import WasmPackage, WasmWrapper, WRAP_MODULE_PATH, WRAP_MANIFEST_PATH
 from polywrap_manifest import deserialize_wrap_manifest
 
-from polywrap_wasm.constants import WRAP_MANIFEST_PATH
 
 
 @pytest.fixture
