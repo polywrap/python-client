@@ -1,31 +1,34 @@
 """This module contains the package configure class for the client config builder."""
+from abc import ABC
 from typing import Dict, List, Union
 
-from polywrap_core import Uri, UriPackageOrWrapper, WrapPackage
+from polywrap_core import Uri, WrapPackage
 
-from ..types import ClientConfigBuilder
+from ..types import ClientConfigBuilder, BuilderConfig
 
 
-class PackageConfigure(ClientConfigBuilder):
+class PackageConfigure(ClientConfigBuilder, ABC):
     """Allows configuring the WRAP packages."""
 
-    def get_package(self, uri: Uri) -> Union[WrapPackage[UriPackageOrWrapper], None]:
+    config: BuilderConfig
+
+    def get_package(self, uri: Uri) -> Union[WrapPackage, None]:
         """Return the package for the given uri."""
         return self.config.packages.get(uri)
 
-    def get_packages(self) -> Dict[Uri, WrapPackage[UriPackageOrWrapper]]:
+    def get_packages(self) -> Dict[Uri, WrapPackage]:
         """Return the packages from the builder's config."""
         return self.config.packages
 
     def set_package(
-        self, uri: Uri, package: WrapPackage[UriPackageOrWrapper]
+        self, uri: Uri, package: WrapPackage
     ) -> ClientConfigBuilder:
         """Set the package by uri in the builder's config, overiding any existing values."""
         self.config.packages[uri] = package
         return self
 
     def set_packages(
-        self, uri_packages: Dict[Uri, WrapPackage[UriPackageOrWrapper]]
+        self, uri_packages: Dict[Uri, WrapPackage]
     ) -> ClientConfigBuilder:
         """Set the packages in the builder's config, overiding any existing values."""
         self.config.packages.update(uri_packages)

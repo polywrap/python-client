@@ -1,13 +1,11 @@
 """This module contains the client config builder class."""
 # pylint: disable=too-many-public-methods
-from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Union
+from abc import abstractmethod
+from typing import Dict, List, Optional, Protocol, Union, Any
 
 from polywrap_core import (
     ClientConfig,
-    Env,
     Uri,
-    UriPackageOrWrapper,
     UriResolver,
     WrapPackage,
     Wrapper,
@@ -17,7 +15,7 @@ from .build_options import BuildOptions
 from .builder_config import BuilderConfig
 
 
-class ClientConfigBuilder(ABC):
+class ClientConfigBuilder(Protocol):
     """Defines the interface for the client config builder."""
 
     config: BuilderConfig
@@ -33,30 +31,30 @@ class ClientConfigBuilder(ABC):
     # ENV CONFIGURE
 
     @abstractmethod
-    def get_env(self, uri: Uri) -> Union[Env, None]:
+    def get_env(self, uri: Uri) -> Union[Any, None]:
         """Return the env for the given uri."""
 
     @abstractmethod
-    def get_envs(self) -> Dict[Uri, Env]:
+    def get_envs(self) -> Dict[Uri, Any]:
         """Return the envs from the builder's config."""
 
     @abstractmethod
-    def set_env(self, uri: Uri, env: Env) -> "ClientConfigBuilder":
+    def set_env(self, uri: Uri, env: Any) -> "ClientConfigBuilder":
         """Set the env by uri in the builder's config, overiding any existing values."""
 
     @abstractmethod
-    def set_envs(self, uri_envs: Dict[Uri, Env]) -> "ClientConfigBuilder":
+    def set_envs(self, uri_envs: Dict[Uri, Any]) -> "ClientConfigBuilder":
         """Set the envs in the builder's config, overiding any existing values."""
 
     @abstractmethod
-    def add_env(self, uri: Uri, env: Env) -> "ClientConfigBuilder":
+    def add_env(self, uri: Uri, env: Any) -> "ClientConfigBuilder":
         """Add an env for the given uri.
 
-        If an Env is already associated with the uri, it is modified.
+        If an Any is already associated with the uri, it is modified.
         """
 
     @abstractmethod
-    def add_envs(self, uri_envs: Dict[Uri, Env]) -> "ClientConfigBuilder":
+    def add_envs(self, uri_envs: Dict[Uri, Any]) -> "ClientConfigBuilder":
         """Add a list of envs to the builder's config."""
 
     @abstractmethod
@@ -96,22 +94,22 @@ class ClientConfigBuilder(ABC):
     # PACKAGE CONFIGURE
 
     @abstractmethod
-    def get_package(self, uri: Uri) -> Union[WrapPackage[UriPackageOrWrapper], None]:
+    def get_package(self, uri: Uri) -> Union[WrapPackage, None]:
         """Return the package for the given uri."""
 
     @abstractmethod
-    def get_packages(self) -> Dict[Uri, WrapPackage[UriPackageOrWrapper]]:
+    def get_packages(self) -> Dict[Uri, WrapPackage]:
         """Return the packages from the builder's config."""
 
     @abstractmethod
     def set_package(
-        self, uri: Uri, package: WrapPackage[UriPackageOrWrapper]
+        self, uri: Uri, package: WrapPackage
     ) -> "ClientConfigBuilder":
         """Set the package by uri in the builder's config, overiding any existing values."""
 
     @abstractmethod
     def set_packages(
-        self, uri_packages: Dict[Uri, WrapPackage[UriPackageOrWrapper]]
+        self, uri_packages: Dict[Uri, WrapPackage]
     ) -> "ClientConfigBuilder":
         """Set the packages in the builder's config, overiding any existing values."""
 
@@ -167,22 +165,22 @@ class ClientConfigBuilder(ABC):
     # WRAPPER CONFIGURE
 
     @abstractmethod
-    def get_wrapper(self, uri: Uri) -> Union[Wrapper[UriPackageOrWrapper], None]:
+    def get_wrapper(self, uri: Uri) -> Union[Wrapper, None]:
         """Return the set wrapper for the given uri."""
 
     @abstractmethod
-    def get_wrappers(self) -> Dict[Uri, Wrapper[UriPackageOrWrapper]]:
+    def get_wrappers(self) -> Dict[Uri, Wrapper]:
         """Return the wrappers from the builder's config."""
 
     @abstractmethod
     def set_wrapper(
-        self, uri: Uri, wrapper: Wrapper[UriPackageOrWrapper]
+        self, uri: Uri, wrapper: Wrapper
     ) -> "ClientConfigBuilder":
         """Set the wrapper by uri in the builder's config, overiding any existing values."""
 
     @abstractmethod
     def set_wrappers(
-        self, uri_wrappers: Dict[Uri, Wrapper[UriPackageOrWrapper]]
+        self, uri_wrappers: Dict[Uri, Wrapper]
     ) -> "ClientConfigBuilder":
         """Set the wrappers in the builder's config, overiding any existing values."""
 

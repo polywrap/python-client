@@ -1,13 +1,16 @@
 """This module contains the redirect configure class for the client config builder."""
+from abc import ABC
 from typing import Dict, List, Union
 
 from polywrap_core import Uri
 
-from ..types import ClientConfigBuilder
+from ..types import ClientConfigBuilder, BuilderConfig
 
 
-class RedirectConfigure(ClientConfigBuilder):
+class RedirectConfigure(ClientConfigBuilder, ABC):
     """Allows configuring the URI redirects."""
+
+    config: BuilderConfig
 
     def get_redirect(self, uri: Uri) -> Union[Uri, None]:
         """Return the redirect for the given uri."""

@@ -9,7 +9,6 @@ from polywrap_uri_resolvers import (
     InMemoryWrapperCache,
     PackageToWrapperResolver,
     RecursiveResolver,
-    RequestSynchronizerResolver,
     StaticResolver,
     UriResolverAggregator,
     WrapperCacheResolver,
@@ -58,23 +57,21 @@ class PolywrapClientConfigBuilder(
             options.resolver
             if options and options.resolver
             else RecursiveResolver(
-                RequestSynchronizerResolver(
-                    WrapperCacheResolver(
-                        PackageToWrapperResolver(
-                            UriResolverAggregator(
-                                [
-                                    StaticResolver(self.config.redirects),
-                                    StaticResolver(self.config.wrappers),
-                                    StaticResolver(self.config.packages),
-                                    *self.config.resolvers,
-                                    ExtendableUriResolver(),
-                                ]
-                            )
-                        ),
-                        options.wrapper_cache
-                        if options and options.wrapper_cache
-                        else InMemoryWrapperCache(),
-                    )
+                WrapperCacheResolver(
+                    PackageToWrapperResolver(
+                        UriResolverAggregator(
+                            [
+                                StaticResolver(self.config.redirects),
+                                StaticResolver(self.config.wrappers),
+                                StaticResolver(self.config.packages),
+                                *self.config.resolvers,
+                                ExtendableUriResolver(),
+                            ]
+                        )
+                    ),
+                    options.wrapper_cache
+                    if options and options.wrapper_cache
+                    else InMemoryWrapperCache(),
                 )
             )
         )

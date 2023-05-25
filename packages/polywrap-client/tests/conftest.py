@@ -1,6 +1,6 @@
 
 from pathlib import Path
-from polywrap_core import FileReader, ClientConfig, Invoker, UriPackageOrWrapper, Env, Uri
+from polywrap_core import FileReader, ClientConfig, Invoker, Uri
 from polywrap_uri_resolvers import (
     RecursiveResolver,
     UriResolverAggregator,
