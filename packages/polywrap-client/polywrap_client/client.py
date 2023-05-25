@@ -231,3 +231,6 @@ class PolywrapClient(Client):
             return decoded
 
         return invocable_result.result
+
+
+__all__ = ["PolywrapClient"]
