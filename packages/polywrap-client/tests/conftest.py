@@ -47,7 +47,7 @@ def simple_wrap_manifest():
 @fixture
 def simple_file_reader(simple_wrap_module: bytes, simple_wrap_manifest: bytes):
     class SimpleFileReader(FileReader):
-        async def read_file(self, file_path: str) -> bytes:
+        def read_file(self, file_path: str) -> bytes:
             if file_path == WRAP_MODULE_PATH:
                 return simple_wrap_module
             if file_path == WRAP_MANIFEST_PATH:
@@ -61,11 +61,11 @@ class MemoryStorage(PluginModule[None]):
         super().__init__(None)
         self.value = 0
 
-    def getData(self, args: Dict[str, Any], client: Invoker[UriPackageOrWrapper], env: Optional[Env]) -> int:
+    def getData(self, args: Dict[str, Any], client: Invoker, env: Optional[Any]) -> int:
         time.sleep(0.05)  # Sleep for 50 milliseconds
         return self.value
 
-    def setData(self, args: Dict[str, Any], client: Invoker[UriPackageOrWrapper], env: Optional[Env]) -> bool:
+    def setData(self, args: Dict[str, Any], client: Invoker, env: Optional[Any]) -> bool:
         time.sleep(0.05)  # Sleep for 50 milliseconds
         self.value = args["value"]
         return True
@@ -77,7 +77,7 @@ def memory_storage_plugin() -> PluginPackage[None]:
 
 
 class Adder(PluginModule[None]):
-    def add(self, args: Dict[str, Any], client: Invoker[UriPackageOrWrapper], env: Optional[Env]) -> int:
+    def add(self, args: Dict[str, Any], client: Invoker, env: Optional[Any]) -> int:
         return args["a"] + args["b"]
 
 

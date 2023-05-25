@@ -3,52 +3,42 @@
 
 from pathlib import Path
 from polywrap_client import PolywrapClient
-from polywrap_core import Uri, InvokerOptions, UriPackageOrWrapper
+from polywrap_core import Uri
 
 
 async def test_asyncify(client: PolywrapClient):
     uri = Uri.from_str(
         f'fs/{Path(__file__).parent.joinpath("cases", "asyncify").absolute()}'
     )
-    args = {
-        "numberOfTimes": 40
-    }
-    subsequent_invokes_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
+    args = {"numberOfTimes": 40}
+    subsequent_invokes_result = await client.invoke(
         uri=uri, method="subsequentInvokes", args=args
     )
-    subsequent_invokes_result = await client.invoke(subsequent_invokes_options)
     subsequent_invokes_expected = [str(i) for i in range(40)]
 
     assert subsequent_invokes_result == subsequent_invokes_expected
 
-    local_var_method_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
+    local_var_method_result = await client.invoke(
         uri=uri, method="localVarMethod", args=None
     )
 
-    local_var_method_result = await client.invoke(local_var_method_options)
-
     assert local_var_method_result == True
 
-    global_var_method_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
+    global_var_method_result = await client.invoke(
         uri=uri, method="globalVarMethod", args=None
     )
-
-    global_var_method_result = await client.invoke(global_var_method_options)
     assert global_var_method_result == True
 
-
     large_str = "polywrap" * 10000
-    set_data_with_large_args_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="setDataWithLargeArgs", args={"value":large_str}
+    set_data_with_large_args_result = await client.invoke(
+        uri=uri, method="setDataWithLargeArgs", args={"value": large_str}
     )
-    set_data_with_large_args_result = await client.invoke(set_data_with_large_args_options)
     assert set_data_with_large_args_result == large_str
 
     large_str = "polywrap" * 10000
-    set_data_with_large_args_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="setDataWithLargeArgs", args={"value":large_str}
+    set_data_with_large_args_result = await client.invoke(
+        uri=uri, method="setDataWithLargeArgs", args={"value": large_str}
     )
-    set_data_with_large_args_result = await client.invoke(set_data_with_large_args_options)
     assert set_data_with_large_args_result == large_str
 
     set_data_with_many_args_args = {
@@ -65,11 +55,10 @@ async def test_asyncify(client: PolywrapClient):
         "valueK": "polywrap k",
         "valueL": "polywrap l",
     }
-    set_data_with_many_args_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
+
+    set_data_with_many_args_result = await client.invoke(
         uri=uri, method="setDataWithManyArgs", args=set_data_with_many_args_args
     )
-
-    set_data_with_many_args_result = await client.invoke(set_data_with_many_args_options)
 
     set_data_with_many_args_expected = "polywrap apolywrap bpolywrap cpolywrap dpolywrap epolywrap fpolywrap gpolywrap hpolywrap ipolywrap jpolywrap kpolywrap l"
     assert set_data_with_many_args_result == set_data_with_many_args_expected
@@ -87,7 +76,7 @@ async def test_asyncify(client: PolywrapClient):
             "propI": f"i-{i}",
             "propJ": f"j-{i}",
             "propK": f"k-{i}",
-            "propL": f"l-{i}"
+            "propL": f"l-{i}",
         }
 
     set_data_with_many_structure_args_args = {
@@ -104,8 +93,9 @@ async def test_asyncify(client: PolywrapClient):
         "valueK": create_obj(11),
         "valueL": create_obj(12),
     }
-    set_data_with_many_structured_args_options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="setDataWithManyStructuredArgs", args=set_data_with_many_structure_args_args
+    set_data_with_many_structured_args_result = await client.invoke(
+        uri=uri,
+        method="setDataWithManyStructuredArgs",
+        args=set_data_with_many_structure_args_args,
     )
-    set_data_with_many_structured_args_result = await client.invoke(set_data_with_many_structured_args_options)
     assert set_data_with_many_structured_args_result == True

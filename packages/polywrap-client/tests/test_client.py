@@ -6,9 +6,7 @@ from polywrap_client import PolywrapClient
 from polywrap_manifest import deserialize_wrap_manifest
 from polywrap_core import (
     Uri,
-    InvokerOptions,
     FileReader,
-    UriPackageOrWrapper,
     ClientConfig,
 )
 from polywrap_uri_resolvers import (
@@ -20,7 +18,7 @@ from polywrap_uri_resolvers import (
 from polywrap_wasm import WasmWrapper
 
 
-async def test_invoke(
+def test_invoke(
     client: PolywrapClient,
     simple_file_reader: FileReader,
     simple_wrap_module: bytes,
@@ -30,10 +28,7 @@ async def test_invoke(
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-invoke").absolute()}'
     )
     args = {"arg": "hello polywrap"}
-    options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="simpleMethod", args=args, encode_result=False
-    )
-    result = await client.invoke(options)
+    result = client.invoke(uri=uri, method="simpleMethod", args=args, encode_result=False)
 
     assert result == args["arg"]
 
@@ -50,18 +45,15 @@ async def test_invoke(
     client = PolywrapClient(config=config)
 
     args = {"arg": "hello polywrap"}
-    options = InvokerOptions(
-        uri=Uri.from_str("ens/wrapper.eth"),
+    result =  client.invoke(        uri=Uri.from_str("ens/wrapper.eth"),
         method="simpleMethod",
         args=args,
-        encode_result=False,
-    )
-    result = await client.invoke(options)
+        encode_result=False,)
 
     assert result == args["arg"]
 
 
-async def test_subinvoke():
+def test_subinvoke():
     uri_resolver = BaseUriResolver(
         file_reader=SimpleFileReader(),
         redirects={
@@ -76,10 +68,7 @@ async def test_subinvoke():
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-subinvoke", "invoke").absolute()}'
     )
     args = {"a": 1, "b": 2}
-    options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="add", args=args, encode_result=False
-    )
-    result = await client.invoke(options)
+    result = client.invoke(uri=uri, method="add", args=args, encode_result=False)
 
     assert result == "1 + 2 = 3"
 
@@ -104,10 +93,7 @@ async def test_interface_implementation():
         f'fs/{Path(__file__).parent.joinpath("cases", "simple-interface", "wrapper").absolute()}'
     )
     args = {"arg": {"str": "hello", "uint8": 2}}
-    options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="moduleMethod", args=args, encode_result=False
-    )
-    result = await client.invoke(options)
+    result = client.invoke(uri=uri, method="moduleMethod", args=args, encode_result=False)
     assert client.get_implementations(interface_uri) == [impl_uri]
     assert result == {"str": "hello", "uint8": 2}
 
@@ -148,14 +134,11 @@ async def test_env():
             resolver=uri_resolver,
         )
     )
-    options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri,
+
+    result = client.invoke(        uri=uri,
         method="externalEnvMethod",
         args={},
-        encode_result=False,
-    )
-
-    result = await client.invoke(options)
+        encode_result=False,)
 
     assert result == env
 
@@ -187,9 +170,6 @@ async def test_complex_subinvocation(adder_plugin: PluginPackage[None]):
         f'fs/{Path(__file__).parent.joinpath("cases", "subinvoke", "02-consumer").absolute()}'
     )
     args = {"a": 1, "b": 1}
-    options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-        uri=uri, method="addFromPluginAndIncrement", args=args
-    )
-    result = await client.invoke(options)
+    result = client.invoke(uri=uri, method="addFromPluginAndIncrement", args=args)
 
     assert result == 4
