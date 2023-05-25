@@ -6,12 +6,11 @@ from typing import Optional
 from polywrap_core import ClientConfig
 from polywrap_uri_resolvers import (
     ExtendableUriResolver,
-    InMemoryWrapperCache,
-    PackageToWrapperResolver,
+    InMemoryResolutionResultCache,
     RecursiveResolver,
     StaticResolver,
     UriResolverAggregator,
-    WrapperCacheResolver,
+    ResolutionResultCacheResolver,
 )
 
 from .configures import (
@@ -57,21 +56,19 @@ class PolywrapClientConfigBuilder(
             options.resolver
             if options and options.resolver
             else RecursiveResolver(
-                WrapperCacheResolver(
-                    PackageToWrapperResolver(
-                        UriResolverAggregator(
-                            [
-                                StaticResolver(self.config.redirects),
-                                StaticResolver(self.config.wrappers),
-                                StaticResolver(self.config.packages),
-                                *self.config.resolvers,
-                                ExtendableUriResolver(),
-                            ]
-                        )
+                ResolutionResultCacheResolver(
+                    UriResolverAggregator(
+                        [
+                            StaticResolver(self.config.redirects),
+                            StaticResolver(self.config.wrappers),
+                            StaticResolver(self.config.packages),
+                            *self.config.resolvers,
+                            ExtendableUriResolver(),
+                        ]
                     ),
                     options.wrapper_cache
                     if options and options.wrapper_cache
-                    else InMemoryWrapperCache(),
+                    else InMemoryResolutionResultCache(),
                 )
             )
         )

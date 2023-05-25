@@ -1,4 +1,5 @@
 """This module contains the ExtensionWrapperUriResolver class."""
+from __future__ import annotations
 from typing import Optional, TypedDict, cast
 
 from polywrap_core import (
@@ -20,7 +21,7 @@ from ..abc import ResolverWithHistory
 from .uri_resolver_extension_file_reader import UriResolverExtensionFileReader
 
 
-class MaybeUriOrManifest(TypedDict):
+class MaybeUriOrManifest(TypedDict, total=False):
     """Defines a type for the return value of the extension wrapper's\
         tryResolveUri function.
 
@@ -104,7 +105,7 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
                     ),
                     uri_or_manifest["manifest"],
                 )
-                return UriPackage(uri, package)
+                return UriPackage(uri=uri, package=package)
 
             return uri
 
@@ -143,7 +144,7 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
             )
         return extension_wrapper
 
-    async def _try_resolve_uri_with_extension(
+    def _try_resolve_uri_with_extension(
         self,
         uri: Uri,
         extension_wrapper: Wrapper,

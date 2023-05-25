@@ -1,7 +1,7 @@
 """This module contains an utility function for building a clean history of URI resolution steps."""
 from typing import List, Optional, Union
 
-from polywrap_core import Uri, UriPackage, UriResolutionStep
+from polywrap_core import Uri, UriPackage, UriWrapper, UriResolutionStep
 
 CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
 
@@ -46,26 +46,28 @@ def build_clean_uri_history(
 def _build_clean_history_step(step: UriResolutionStep) -> str:
     uri_package_or_wrapper = step.result
 
-    if isinstance(uri_package_or_wrapper, Uri):
-        if step.source_uri == uri_package_or_wrapper:
+    match uri_package_or_wrapper:
+        case UriPackage(uri=uri):
             return (
-                f"{step.source_uri} => {step.description}"
+                f"{step.source_uri} => {step.description} => package ({uri})"
                 if step.description
-                else f"{step.source_uri}"
+                else f"{step.source_uri} => package ({uri})"
             )
-        return (
-            f"{step.source_uri} => {step.description} => uri ({uri_package_or_wrapper.uri})"
-            if step.description
-            else f"{step.source_uri} => uri ({uri_package_or_wrapper})"
-        )
-    if isinstance(uri_package_or_wrapper, UriPackage):
-        return (
-            f"{step.source_uri} => {step.description} => package ({uri_package_or_wrapper})"
-            if step.description
-            else f"{step.source_uri} => package ({uri_package_or_wrapper})"
-        )
-    return (
-        f"{step.source_uri} => {step.description} => wrapper ({uri_package_or_wrapper})"
-        if step.description
-        else f"{step.source_uri} => wrapper ({uri_package_or_wrapper})"
-    )
+        case UriWrapper(uri=uri):
+            return (
+                f"{step.source_uri} => {step.description} => wrapper ({uri})"
+                if step.description
+                else f"{step.source_uri} => wrapper ({uri})"
+            )
+        case uri:
+            if step.source_uri == uri:
+                return (
+                    f"{step.source_uri} => {step.description}"
+                    if step.description
+                    else f"{step.source_uri}"
+                )
+            return (
+                f"{step.source_uri} => {step.description} => uri ({uri})"
+                if step.description
+                else f"{step.source_uri} => uri ({uri})"
+            )

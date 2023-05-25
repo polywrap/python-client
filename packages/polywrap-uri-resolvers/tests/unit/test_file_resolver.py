@@ -14,12 +14,11 @@ def fs_resolver(file_reader: FileReader):
     return FsUriResolver(file_reader=file_reader)
 
 
-@pytest.mark.asyncio
-async def test_file_resolver(fs_resolver: UriResolver):
+def test_file_resolver(fs_resolver: UriResolver):
     path = Path(__file__).parent / "cases" / "simple"
     uri = Uri.from_str(f"wrap://fs/{path}")
 
-    result = await fs_resolver.try_resolve_uri(uri, None, None) # type: ignore
+    result = fs_resolver.try_resolve_uri(uri, None, None) # type: ignore
 
     assert result
     assert isinstance(result, UriPackage)

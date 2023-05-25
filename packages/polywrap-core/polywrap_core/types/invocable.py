@@ -16,12 +16,12 @@ class InvocableResult:
     """Result of a wrapper invocation.
 
     Args:
-        result (Optional[Any]): Invocation result. The type of this value is \
+        result (Any): Invocation result. The type of this value is \
             the return type of the method.
         encoded (Optional[bool]): It will be set true if result is encoded
     """
 
-    result: Optional[Any] = None
+    result: Any
     encoded: Optional[bool] = None
 
 
