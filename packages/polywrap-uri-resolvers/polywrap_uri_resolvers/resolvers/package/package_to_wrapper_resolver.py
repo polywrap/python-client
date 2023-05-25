@@ -1,10 +1,11 @@
 """This module contains the PackageToWrapperResolver class."""
 from dataclasses import dataclass
-from typing import Optional, cast
+from typing import Optional
 
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
+    UriResolutionContext,
+    UriResolutionStep,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
@@ -13,7 +14,6 @@ from polywrap_core import (
 )
 from polywrap_manifest import DeserializeManifestOptions
 
-from ...types import UriResolutionStep
 from ..abc import ResolverWithHistory
 
 
@@ -59,30 +59,28 @@ class PackageToWrapperResolver(ResolverWithHistory):
         self.resolver = resolver
         self.options = options
 
-    async def _try_resolve_uri(
+    def _try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve the given URI to a wrapper or a redirected URI.
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
+            client (InvokerClient): The client to use.
+            resolution_context (IUriResolutionContext):\
                 The resolution context to use.
         
         Returns:
             UriPackageOrWrapper: The resolved URI or wrapper.
         """
         sub_context = resolution_context.create_sub_context()
-        result = await self.resolver.try_resolve_uri(uri, client, sub_context)
+        result = self.resolver.try_resolve_uri(uri, client, sub_context)
         if isinstance(result, UriPackage):
-            wrapper = await cast(
-                UriPackage[UriPackageOrWrapper], result
-            ).package.create_wrapper()
-            result = UriWrapper(uri, wrapper)
+            wrapper = result.package.create_wrapper()
+            result = UriWrapper(uri=uri, wrapper=wrapper)
 
         resolution_context.track_step(
             UriResolutionStep(

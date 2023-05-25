@@ -1,13 +1,14 @@
 """This module contains the Wrapper interface."""
 from __future__ import annotations
 
-from typing import Optional, Protocol, Union
+from typing import Optional, Protocol, Union, runtime_checkable
 
 from polywrap_manifest import AnyWrapManifest
 
 from .invocable import Invocable
 
 
+@runtime_checkable
 class Wrapper(Invocable, Protocol):
     """Defines the interface for a wrapper."""
 

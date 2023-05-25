@@ -1,19 +1,19 @@
 """This module contains the WrapperCacheResolver."""
 from dataclasses import dataclass
-from typing import List, Optional, Union, cast
+from typing import List, Optional, Union
 
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
+    UriResolutionContext,
+    UriResolutionStep,
     Uri,
     UriPackageOrWrapper,
     UriResolver,
     UriWrapper,
-    Wrapper,
 )
 from polywrap_manifest import DeserializeManifestOptions
 
-from ...types import UriResolutionStep, WrapperCache
+from ...types import WrapperCache
 
 
 @dataclass(kw_only=True, slots=True)
@@ -75,11 +75,11 @@ class WrapperCacheResolver(UriResolver):
         """
         return self.options
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrapper, or a URI.
 
@@ -90,37 +90,35 @@ class WrapperCacheResolver(UriResolver):
         Args:
             uri (Uri): The URI to resolve.
             client (InvokerClient): The client to use.
-            resolution_context (IUriResolutionContext): The resolution\
+            resolution_context (UriResolutionContext): The resolution\
                 context to use.
         
         Returns:
             UriPackageOrWrapper: The result of the resolution.
         """
-        if wrapper := self.cache.get(uri):
-            result = UriWrapper(uri, wrapper)
+        if uri_wrapper := self.cache.get(uri):
             resolution_context.track_step(
                 UriResolutionStep(
                     source_uri=uri,
-                    result=result,
+                    result=uri_wrapper,
                     description="WrapperCacheResolver (Cache Hit)",
                 )
             )
-            return result
+            return uri_wrapper
 
         sub_context = resolution_context.create_sub_history_context()
 
-        result = await self.resolver_to_cache.try_resolve_uri(
+        result = self.resolver_to_cache.try_resolve_uri(
             uri,
             client,
             sub_context,
         )
 
-        if isinstance(result, Wrapper):
-            uri_wrapper = cast(UriWrapper[UriPackageOrWrapper], result)
+        if isinstance(result, UriWrapper):
             resolution_path: List[Uri] = sub_context.get_resolution_path()
 
             for cache_uri in resolution_path:
-                self.cache.set(cache_uri, uri_wrapper.wrapper)
+                self.cache.set(cache_uri, result)
 
         resolution_context.track_step(
             UriResolutionStep(

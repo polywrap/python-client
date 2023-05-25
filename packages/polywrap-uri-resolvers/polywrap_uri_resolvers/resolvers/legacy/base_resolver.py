@@ -4,7 +4,7 @@ from typing import Dict
 from polywrap_core import (
     FileReader,
     InvokerClient,
-    IUriResolutionContext,
+    UriResolutionContext,
     Uri,
     UriPackageOrWrapper,
     UriResolver,
@@ -30,26 +30,26 @@ class BaseUriResolver(UriResolver):
         self._fs_resolver = FsUriResolver(file_reader)
         self._redirect_resolver = RedirectUriResolver(redirects)
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The resolution context.
+            client (InvokerClient): The client to use for resolving the URI.
+            resolution_context (UriResolutionContext): The resolution context.
 
         Returns:
             UriPackageOrWrapper: The resolved URI.
         """
-        redirected_uri = await self._redirect_resolver.try_resolve_uri(
+        redirected_uri = self._redirect_resolver.try_resolve_uri(
             uri, client, resolution_context
         )
 
-        return await self._fs_resolver.try_resolve_uri(
+        return self._fs_resolver.try_resolve_uri(
             redirected_uri, client, resolution_context
         )

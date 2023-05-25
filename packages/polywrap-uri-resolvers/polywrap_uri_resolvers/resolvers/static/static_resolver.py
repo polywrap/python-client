@@ -1,8 +1,8 @@
 """This module contains the StaticResolver class."""
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
-    IUriResolutionStep,
+    UriResolutionContext,
+    UriResolutionStep,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
@@ -34,18 +34,18 @@ class StaticResolver(UriResolver):
         """
         self.uri_map = uri_map
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The resolution context.
+            client (InvokerClient): The client to use for resolving the URI.
+            resolution_context (UriResolutionContext): The resolution context.
 
         Returns:
             UriPackageOrWrapper: The resolved URI.
@@ -57,15 +57,15 @@ class StaticResolver(UriResolver):
         if result:
             if isinstance(result, WrapPackage):
                 description = f"Static - Package ({uri})"
-                uri_package_or_wrapper = UriPackage(uri, result)
+                uri_package_or_wrapper = UriPackage(uri=uri, package=result)
             elif isinstance(result, Wrapper):
                 description = f"Static - Wrapper ({uri})"
-                uri_package_or_wrapper = UriWrapper(uri, result)
+                uri_package_or_wrapper = UriWrapper(uri=uri, wrapper=result)
             else:
                 description = f"Static - Redirect ({uri}, {result})"
                 uri_package_or_wrapper = result
 
-        step = IUriResolutionStep(
+        step = UriResolutionStep(
             source_uri=uri, result=uri_package_or_wrapper, description=description
         )
         resolution_context.track_step(step)

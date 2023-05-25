@@ -1,7 +1,7 @@
 """This module contains all the errors related to URI resolution."""
 import json
 from dataclasses import asdict
-from typing import List, TypeVar
+from typing import List
 
 from polywrap_core import UriResolutionStep, Uri, get_uri_resolution_path
 

@@ -1,7 +1,7 @@
 """This module contains the PackageResolver class."""
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
+    UriResolutionContext,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
@@ -17,14 +17,14 @@ class PackageResolver(ResolverWithHistory):
     __slots__ = ("uri", "wrap_package")
 
     uri: Uri
-    wrap_package: WrapPackage[UriPackageOrWrapper]
+    wrap_package: WrapPackage
 
-    def __init__(self, uri: Uri, wrap_package: WrapPackage[UriPackageOrWrapper]):
+    def __init__(self, uri: Uri, wrap_package: WrapPackage):
         """Initialize a new PackageResolver instance.
 
         Args:
             uri (Uri): The uri to resolve.
-            wrap_package (WrapPackage[UriPackageOrWrapper]): The wrap package to return.
+            wrap_package (WrapPackage): The wrap package to return.
         """
         self.uri = uri
         self.wrap_package = wrap_package
@@ -37,11 +37,11 @@ class PackageResolver(ResolverWithHistory):
         """
         return f"Package ({self.uri.uri})"
 
-    async def _try_resolve_uri(
+    def _try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
@@ -51,12 +51,12 @@ class PackageResolver(ResolverWithHistory):
         
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
+            client (InvokerClient): The client to use for\
                 resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The\
+            resolution_context (UriResolutionContext): The\
                 resolution context.
         
         Returns:
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.
         """
-        return uri if uri != self.uri else UriPackage(uri, self.wrap_package)
+        return uri if uri != self.uri else UriPackage(uri=uri, package=self.wrap_package)

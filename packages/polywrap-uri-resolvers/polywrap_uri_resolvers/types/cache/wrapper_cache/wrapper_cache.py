@@ -2,7 +2,7 @@
 from abc import abstractmethod
 from typing import Protocol, Union
 
-from polywrap_core import Uri, Wrapper
+from polywrap_core import Uri, UriWrapper
 
 
 class WrapperCache(Protocol):
@@ -12,9 +12,9 @@ class WrapperCache(Protocol):
     """
 
     @abstractmethod
-    def get(self, uri: Uri) -> Union[Wrapper, None]:
+    def get(self, uri: Uri) -> Union[UriWrapper, None]:
         """Get a wrapper from the cache by its uri."""
 
     @abstractmethod
-    def set(self, uri: Uri, wrapper: Wrapper) -> None:
+    def set(self, uri: Uri, wrapper: UriWrapper) -> None:
         """Set a wrapper in the cache by its uri."""

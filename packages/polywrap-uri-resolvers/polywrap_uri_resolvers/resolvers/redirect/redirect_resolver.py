@@ -1,5 +1,5 @@
 """This module contains the RedirectResolver class."""
-from polywrap_core import InvokerClient, IUriResolutionContext, Uri, UriPackageOrWrapper
+from polywrap_core import InvokerClient, UriResolutionContext, Uri, UriPackageOrWrapper
 
 from ..abc import ResolverWithHistory
 
@@ -39,11 +39,11 @@ class RedirectResolver(ResolverWithHistory):
         """
         return f"Redirect ({self.from_uri} - {self.to_uri})"
 
-    async def _try_resolve_uri(
+    def _try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
@@ -53,10 +53,8 @@ class RedirectResolver(ResolverWithHistory):
         
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
-                resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The\
-                resolution context.
+            client (InvokerClient): The client to use for resolving the URI.
+            resolution_context (UriResolutionContext): The resolution context.
         
         Returns:
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.

@@ -1,7 +1,7 @@
 """This module contains the UriResolverAggregator Resolver."""
 from typing import List, Optional
 
-from polywrap_core import UriResolver
+from polywrap_core import InvokerClient, UriResolutionContext, UriResolver
 
 from .uri_resolver_aggregator_base import UriResolverAggregatorBase
 
@@ -41,6 +41,8 @@ class UriResolverAggregator(UriResolverAggregatorBase):
         """Get the description of the resolution step."""
         return self._step_description
 
-    def get_resolvers(self) -> List[UriResolver]:
+    def get_resolvers(
+        self, client: InvokerClient, resolution_context: UriResolutionContext
+    ) -> List[UriResolver]:
         """Get the list of resolvers to aggregate."""
         return self._resolvers

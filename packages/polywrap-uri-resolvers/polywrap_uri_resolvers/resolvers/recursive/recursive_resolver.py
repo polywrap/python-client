@@ -1,7 +1,7 @@
 """This module contains the recursive resolver."""
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
+    UriResolutionContext,
     Uri,
     UriPackageOrWrapper,
     UriResolver,
@@ -32,18 +32,18 @@ class RecursiveResolver(UriResolver):
         """
         self.resolver = resolver
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The resolution context.
+            client (InvokerClient): The client to use for resolving the URI.
+            resolution_context (UriResolutionContext): The resolution context.
 
         Returns:
             UriPackageOrWrapper: The resolved URI.
@@ -53,12 +53,12 @@ class RecursiveResolver(UriResolver):
 
         resolution_context.start_resolving(uri)
 
-        uri_package_or_wrapper = await self.resolver.try_resolve_uri(
+        uri_package_or_wrapper = self.resolver.try_resolve_uri(
             uri, client, resolution_context
         )
 
-        if uri_package_or_wrapper != uri:
-            uri_package_or_wrapper = await self.try_resolve_uri(
+        if isinstance(uri_package_or_wrapper, Uri) and uri_package_or_wrapper != uri:
+            uri_package_or_wrapper = self.try_resolve_uri(
                 uri_package_or_wrapper, client, resolution_context
             )
 

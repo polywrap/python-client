@@ -1,6 +1,6 @@
 """This module contains the UriResolverAggregator Resolver."""
 from abc import ABC, abstractmethod
-from typing import List, Optional, cast
+from typing import List, Optional
 
 from polywrap_core import (
     InvokerClient,
@@ -23,7 +23,9 @@ class UriResolverAggregatorBase(UriResolver, ABC):
     """
 
     @abstractmethod
-    def get_resolvers(self) -> List[UriResolver]:
+    def get_resolvers(
+        self, client: InvokerClient, resolution_context: UriResolutionContext
+    ) -> List[UriResolver]:
         """The list of resolvers to aggregate."""
         ...
 
@@ -53,21 +55,20 @@ class UriResolverAggregatorBase(UriResolver, ABC):
         """
         sub_context = resolution_context.create_sub_history_context()
 
-        for resolver in self.get_resolvers():
-            uri_package_or_wrapper = resolver.try_resolve_uri(
-                uri, client, sub_context
-            )
-            if uri_package_or_wrapper != uri or isinstance(
-                uri_package_or_wrapper, (UriPackage, UriWrapper)
+        for resolver in self.get_resolvers(client, sub_context):
+            uri_package_or_wrapper = resolver.try_resolve_uri(uri, client, sub_context)
+            if (
+                isinstance(uri_package_or_wrapper, (UriPackage, UriWrapper))
+                or uri_package_or_wrapper != uri
             ):
                 step = UriResolutionStep(
                     source_uri=uri,
-                    result=cast(UriPackageOrWrapper, uri_package_or_wrapper),
+                    result=uri_package_or_wrapper,
                     sub_history=sub_context.get_history(),
                     description=self.get_step_description(),
                 )
                 resolution_context.track_step(step)
-                return cast(UriPackageOrWrapper, uri_package_or_wrapper)
+                return uri_package_or_wrapper
 
         step = UriResolutionStep(
             source_uri=uri,

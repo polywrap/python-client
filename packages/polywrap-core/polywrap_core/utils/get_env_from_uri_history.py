@@ -6,7 +6,7 @@ from polywrap_core import Client, Uri
 
 def get_env_from_uri_history(
     uri_history: List[Uri], client: Client
-) -> Union[Dict[str, Any], None]:
+) -> Union[Any, None]:
     """Get environment variable from URI resolution history.
 
     Args:
