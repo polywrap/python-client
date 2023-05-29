@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Any, Generic, Optional, TypeVar
 
 from polywrap_core import (
-    Invoker,
+    InvokerClient,
     Uri,
     UriResolutionContext,
     WrapAbortError,
@@ -26,7 +26,7 @@ class InvokeOptions:
         args: The arguments to pass to the method.
         env: The environment variables to set for the invocation.
         resolution_context: A URI resolution context.
-        invoker: The invoker to use for subinvocations.
+        client: The client to use for subinvocations.
     """
 
     uri: Uri
@@ -34,7 +34,7 @@ class InvokeOptions:
     args: Optional[Any] = None
     env: Optional[Any] = None
     resolution_context: Optional[UriResolutionContext] = None
-    invoker: Optional[Invoker] = None
+    client: Optional[InvokerClient] = None
 
 
 class PluginModule(Generic[TConfig], ABC):
@@ -79,7 +79,7 @@ class PluginModule(Generic[TConfig], ABC):
                     if isinstance(options.args, bytes)
                     else options.args
                 )
-                return callable_method(decoded_args, options.invoker, options.env)
+                return callable_method(decoded_args, options.client, options.env)
             except Exception as err:
                 raise WrapAbortError(options, repr(err)) from err
         raise WrapInvocationError(

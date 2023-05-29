@@ -1,14 +1,8 @@
 from typing import Dict, Optional
-from polywrap_client import PolywrapClient
-from polywrap_core import Any, ClientConfig, Uri
+from polywrap_core import Any, InvokerClient, Uri
 from polywrap_plugin import PluginModule, PluginPackage
-import pytest
 from polywrap_uri_resolvers import (
     MaybeUriOrManifest,
-    PackageResolver,
-    RecursiveResolver,
-    UriResolverAggregator,
-    ExtendableUriResolver,
 )
 
 
@@ -35,3 +29,23 @@ class MockPluginExtensionResolver(PluginModule[None]):
                 return None
 
 
+def mock_plugin_extension_resolver():
+    return PluginPackage(MockPluginExtensionResolver(), NotImplemented)
+
+
+class MockSubinvokePluginResolver(PluginModule[None]):
+    URI = Uri.from_str("wrap://package/test-subinvoke-resolver")
+
+    def __init__(self):
+        super().__init__(None)
+
+    def tryResolveUri(
+        self, args: Dict[str, Any], client: InvokerClient, *_: Any
+    ) -> Optional[MaybeUriOrManifest]:
+        return client.invoke(
+            uri=Uri.from_str("package/test-resolver"), method="tryResolveUri", args=args
+        )
+
+
+def mock_subinvoke_plugin_resolver():
+    return PluginPackage(MockSubinvokePluginResolver(), NotImplemented)

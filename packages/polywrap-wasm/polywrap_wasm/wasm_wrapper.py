@@ -66,20 +66,20 @@ class WasmWrapper(Wrapper):
         return data.decode(encoding=encoding) if encoding else data
 
     def create_wasm_instance(
-        self, store: Store, state: State, invoker: Optional[Invoker]
+        self, store: Store, state: State, client: Optional[Invoker]
     ) -> Instance:
         """Create a new Wasm instance for the wrapper.
 
         Args:
             store: The Wasm store to use when creating the instance.
             state: The Wasm wrapper state to use when creating the instance.
-            invoker: The invoker to use when creating the instance.
+            client: The client to use when creating the instance.
 
         Returns:
             The Wasm instance of the wrapper Wasm module.
         """
         try:
-            return create_instance(store, self.wasm_module, state, invoker)
+            return create_instance(store, self.wasm_module, state, client)
         except Exception as err:
             raise WrapAbortError(
                 state.invoke_options, "Unable to instantiate the wasm module"
@@ -92,13 +92,13 @@ class WasmWrapper(Wrapper):
         args: Optional[Dict[str, Any]] = None,
         env: Optional[Dict[str, Any]] = None,
         resolution_context: Optional[UriResolutionContext] = None,
-        invoker: Optional[Invoker] = None,
+        client: Optional[Invoker] = None,
     ) -> InvocableResult:
         """Invoke the wrapper.
 
         Args:
             options: The options to use when invoking the wrapper.
-            invoker: The invoker to use when invoking the wrapper.
+            client: The client to use when invoking the wrapper.
 
         Returns:
             The result of the invocation or an error.
@@ -136,7 +136,7 @@ class WasmWrapper(Wrapper):
         env_length = len(encoded_env)
 
         store = Store()
-        instance = self.create_wasm_instance(store, state, invoker)
+        instance = self.create_wasm_instance(store, state, client)
 
         exports = WrapExports(instance, store)
         result = exports.__wrap_invoke__(method_length, args_length, env_length)

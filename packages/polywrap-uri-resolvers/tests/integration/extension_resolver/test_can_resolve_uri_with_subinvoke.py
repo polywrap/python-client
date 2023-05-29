@@ -13,7 +13,7 @@ from polywrap_uri_resolvers import (
 )
 import pytest
 
-from .mocker import mock_plugin_extension_resolver, MockPluginExtensionResolver
+from .mocker import mock_subinvoke_plugin_resolver, mock_plugin_extension_resolver, MockPluginExtensionResolver, MockSubinvokePluginResolver
 
 
 @pytest.fixture
@@ -21,6 +21,10 @@ def client() -> PolywrapClient:
     resolver = RecursiveResolver(
         UriResolverAggregator(
             [
+                PackageResolver(
+                    MockSubinvokePluginResolver.URI,
+                    mock_subinvoke_plugin_resolver(),
+                ),
                 PackageResolver(
                     MockPluginExtensionResolver.URI,
                     mock_plugin_extension_resolver(),
@@ -34,7 +38,7 @@ def client() -> PolywrapClient:
             resolver=resolver,
             interfaces={
                 ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS[0]: [
-                    MockPluginExtensionResolver.URI
+                    MockSubinvokePluginResolver.URI
                 ]
             },
         )
@@ -50,8 +54,8 @@ def test_can_resolve_uri_with_plugin_extension(client: PolywrapClient) -> None:
         uri=source_uri, resolution_context=resolution_context
     )
 
-    from .histories.can_resolve_uri import EXPECTED
-
+    from .histories.can_resolve_uri_with_subinvoke import EXPECTED
+    print(build_clean_uri_history(resolution_context.get_history()))
     assert build_clean_uri_history(resolution_context.get_history()) == EXPECTED
 
     assert isinstance(result, Uri), "Expected a Uri result."

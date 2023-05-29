@@ -1,10 +1,10 @@
-from typing import Any, List, cast
+from typing import Any, cast
 import pytest
 
 from pathlib import Path
 
 from polywrap_msgpack import msgpack_decode
-from polywrap_core import Uri, Invoker, FileReader
+from polywrap_core import InvokerClient, Uri, Invoker, FileReader
 from polywrap_wasm import WasmPackage, WasmWrapper, WRAP_MODULE_PATH, WRAP_MANIFEST_PATH
 from polywrap_manifest import deserialize_wrap_manifest
 
@@ -12,11 +12,15 @@ from polywrap_manifest import deserialize_wrap_manifest
 
 @pytest.fixture
 def mock_invoker():
-    class MockInvoker(Invoker):
-        async def invoke(self, *args: Any, **kwargs: Any) -> Any:
+    class MockInvoker(InvokerClient):
+
+        def try_resolve_uri(self, *args: Any, **kwargs: Any) -> Any:
             raise NotImplementedError()
 
-        def get_implementations(self, *args: Any, **kwargs: Any) -> List[Uri]:
+        def invoke(self, *args: Any, **kwargs: Any) -> Any:
+            raise NotImplementedError()
+
+        def get_implementations(self, *args: Any, **kwargs: Any) -> Any:
             raise NotImplementedError()
 
     return MockInvoker()
@@ -82,7 +86,7 @@ def test_invoke_with_wrapper(
     assert msgpack_decode(cast(bytes, result.result)) == message
 
 
-def test_invoke_with_package(simple_file_reader: FileReader, mock_invoker: Invoker):
+def test_invoke_with_package(simple_file_reader: FileReader, mock_invoker: InvokerClient):
     package = WasmPackage(simple_file_reader)
     wrapper = package.create_wrapper()
 
@@ -92,7 +96,7 @@ def test_invoke_with_package(simple_file_reader: FileReader, mock_invoker: Invok
         uri=Uri.from_str("fs/./build"),
         method="simpleMethod",
         args=args,
-        invoker=mock_invoker,
+        client=mock_invoker,
     )
     assert result.encoded is True
     assert msgpack_decode(cast(bytes, result.result)) == message

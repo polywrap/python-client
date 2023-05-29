@@ -8,7 +8,7 @@ def test_plugin_module(
 ):
     result = greeting_module.__wrap_invoke__(
         InvokeOptions(
-            uri=Uri.from_str("plugin/greeting"), method="greeting", args={"name": "Joe"}, invoker=invoker
+            uri=Uri.from_str("plugin/greeting"), method="greeting", args={"name": "Joe"}, client=invoker
         ),
     )
     assert result, "Greetings from: Joe"

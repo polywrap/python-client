@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Optional, Protocol
 
-from .invoker import Invoker
+from .invoker_client import InvokerClient
 from .uri import Uri
 from .uri_resolution_context import UriResolutionContext
 
@@ -35,7 +35,7 @@ class Invocable(Protocol):
         args: Optional[Any] = None,
         env: Optional[Any] = None,
         resolution_context: Optional[UriResolutionContext] = None,
-        invoker: Optional[Invoker] = None,
+        client: Optional[InvokerClient] = None,
     ) -> InvocableResult:
         """Invoke the Wrapper based on the provided InvokeOptions.
 
@@ -45,8 +45,9 @@ class Invocable(Protocol):
             args (Optional[Any]) : Arguments for the method, structured as a dictionary
             env (Optional[Any]): Override the client's config for all invokes within this invoke.
             resolution_context (Optional[UriResolutionContext]): A URI resolution context
-            invoker (Optional[Invoker]): The invoker instance requesting this invocation.\
-                This invoker will be used for any subinvocation that may occur.
+            client (Optional[InvokerClient]): The invoker client instance requesting\
+                this invocation. This invoker client will be used for any subinvocation\
+                that may occur.
 
         Returns:
             InvocableResult: Result of the invocation.

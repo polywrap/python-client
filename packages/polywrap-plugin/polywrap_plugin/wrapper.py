@@ -3,10 +3,11 @@
 # pylint: disable=too-many-arguments
 from typing import Any, Generic, Optional, TypeVar, Union
 
-from polywrap_core import InvocableResult, Invoker, Uri, UriResolutionContext, Wrapper
+from polywrap_core import InvocableResult, InvokerClient, Uri, UriResolutionContext, Wrapper
 from polywrap_manifest import AnyWrapManifest
 
 from .module import InvokeOptions, PluginModule
+from .resolution_context_override_client import ResolutionContextOverrideClient
 
 TConfig = TypeVar("TConfig")
 TResult = TypeVar("TResult")
@@ -42,7 +43,7 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
         args: Optional[Any] = None,
         env: Optional[Any] = None,
         resolution_context: Optional[UriResolutionContext] = None,
-        invoker: Optional[Invoker] = None,
+        client: Optional[InvokerClient] = None,
     ) -> InvocableResult:
         """Invoke the Wrapper based on the provided InvokeOptions.
 
@@ -52,7 +53,7 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
             args (Optional[Any]) : Arguments for the method, structured as a dictionary
             env (Optional[Any]): Override the client's config for all invokes within this invoke.
             resolution_context (Optional[UriResolutionContext]): A URI resolution context
-            invoker (Optional[Invoker]): The invoker instance requesting this invocation.\
+            client (Optional[Invoker]): The invoker instance requesting this invocation.\
                 This invoker will be used for any subinvocation that may occur.
 
         Returns:
@@ -64,7 +65,9 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
             args=args,
             env=env,
             resolution_context=resolution_context,
-            invoker=invoker,
+            client=ResolutionContextOverrideClient(client, resolution_context)
+            if client
+            else None,
         )
         result = self.module.__wrap_invoke__(options)
         return InvocableResult(result=result, encoded=False)

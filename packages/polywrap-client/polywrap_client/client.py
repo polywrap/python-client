@@ -242,7 +242,7 @@ class PolywrapClient(Client):
             args=args,
             env=env,
             resolution_context=wrapper_invoke_context,
-            invoker=self,
+            client=self,
         )
 
         resolution_context.track_step(
