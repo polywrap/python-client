@@ -54,7 +54,7 @@ class PluginModule(Generic[TConfig], ABC):
         """
         self.config = config
 
-    async def __wrap_invoke__(
+    def __wrap_invoke__(
         self,
         options: InvokeOptions,
     ) -> Any:
@@ -79,7 +79,7 @@ class PluginModule(Generic[TConfig], ABC):
                     if isinstance(options.args, bytes)
                     else options.args
                 )
-                callable_method(decoded_args, options.invoker, options.env)
+                return callable_method(decoded_args, options.invoker, options.env)
             except Exception as err:
                 raise WrapAbortError(options, repr(err)) from err
         raise WrapInvocationError(

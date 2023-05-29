@@ -608,6 +608,25 @@ type = "directory"
 url = "../polywrap-msgpack"
 
 [[package]]
+name = "polywrap-plugin"
+version = "0.1.0a29"
+description = "Plugin package"
+category = "dev"
+optional = false
+python-versions = "^3.10"
+files = []
+develop = true
+
+[package.dependencies]
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../polywrap-plugin"
+
+[[package]]
 name = "polywrap-wasm"
 version = "0.1.0a29"
 description = ""
@@ -1254,4 +1273,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ed172795f0aa03f9191401d03a57e589a030713e631efa9f8da2e573f0596a57"
+content-hash = "90591e9b61cf9f21649d4ab97c915e90624d361743e014639eb6158ee43dd280"

@@ -95,6 +95,9 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
                 uri, extension_wrapper, client, sub_context
             )
 
+            if uri_or_manifest is None:
+                return uri
+
             if uri_or_manifest.get("uri"):
                 return Uri.from_str(cast(str, uri_or_manifest["uri"]))
 
@@ -150,7 +153,7 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
         extension_wrapper: Wrapper,
         client: InvokerClient,
         resolution_context: UriResolutionContext,
-    ) -> MaybeUriOrManifest:
+    ) -> Optional[MaybeUriOrManifest]:
         """Try to resolve a URI to a uri or a manifest using the extension wrapper.
 
         Args:

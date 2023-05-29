@@ -14,10 +14,10 @@ from ..abc import ResolverWithHistory
 class PackageResolver(ResolverWithHistory):
     """Defines a resolver that resolves a uri to a package."""
 
-    __slots__ = ("uri", "wrap_package")
+    __slots__ = ("uri", "package")
 
     uri: Uri
-    wrap_package: WrapPackage
+    package: WrapPackage
 
     def __init__(self, uri: Uri, wrap_package: WrapPackage):
         """Initialize a new PackageResolver instance.
@@ -27,7 +27,7 @@ class PackageResolver(ResolverWithHistory):
             wrap_package (WrapPackage): The wrap package to return.
         """
         self.uri = uri
-        self.wrap_package = wrap_package
+        self.package = wrap_package
 
     def get_step_description(self) -> str:
         """Get the description of the resolver step.
@@ -59,4 +59,4 @@ class PackageResolver(ResolverWithHistory):
         Returns:
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.
         """
-        return uri if uri != self.uri else UriPackage(uri=uri, package=self.wrap_package)
+        return uri if uri != self.uri else UriPackage(uri=uri, package=self.package)
