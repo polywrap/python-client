@@ -11,10 +11,13 @@ from polywrap_core import (
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionStep,
     UriResolver,
     UriWrapper,
     Wrapper,
     build_clean_uri_history,
+    get_env_from_resolution_path,
+    get_implementations as core_get_implementations,
 )
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
@@ -73,7 +76,10 @@ class PolywrapClient(Client):
         return interfaces
 
     def get_implementations(
-        self, uri: Uri, apply_resolution: bool = True
+        self,
+        uri: Uri,
+        apply_resolution: bool = True,
+        resolution_context: Optional[UriResolutionContext] = None,
     ) -> Optional[List[Uri]]:
         """Get implementations of an interface with its URI.
 
@@ -85,7 +91,10 @@ class PolywrapClient(Client):
             Optional[List[Uri]]: List of implementations or None if not found.
         """
         interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
-        return interfaces.get(uri)
+        if not apply_resolution:
+            return interfaces.get(uri)
+
+        return core_get_implementations(uri, interfaces, self, resolution_context)
 
     def get_env_by_uri(self, uri: Uri) -> Union[Any, None]:
         """Get the environment variables for the given URI.
@@ -96,6 +105,7 @@ class PolywrapClient(Client):
         Returns:
             Union[Any, None]: The environment variables.
         """
+
         return self._config.envs.get(uri)
 
     def get_file(
@@ -206,16 +216,42 @@ class PolywrapClient(Client):
             Any: The result of the invocation.
         """
         resolution_context = resolution_context or UriResolutionContext()
-        wrapper = self.load_wrapper(uri, resolution_context=resolution_context)
-        env = env or self.get_env_by_uri(uri)
+        load_wrapper_context = resolution_context.create_sub_history_context()
+        wrapper = self.load_wrapper(uri, resolution_context=load_wrapper_context)
+        wrapper_resolution_path = load_wrapper_context.get_resolution_path()
+        wrapper_resolved_uri = wrapper_resolution_path[-1]
+
+        resolution_context.track_step(
+            UriResolutionStep(
+                source_uri=uri,
+                result=UriWrapper(uri=uri, wrapper=wrapper),
+                description="Client.load_wrapper",
+                sub_history=load_wrapper_context.get_history(),
+            )
+        )
+
+        env = env or get_env_from_resolution_path(
+            resolution_context.get_resolution_path(), self
+        )
+
+        wrapper_invoke_context = resolution_context.create_sub_history_context()
 
         invocable_result = wrapper.invoke(
-            uri=uri,
+            uri=wrapper_resolved_uri,
             method=method,
             args=args,
             env=env,
-            resolution_context=resolution_context,
+            resolution_context=wrapper_invoke_context,
             invoker=self,
+        )
+
+        resolution_context.track_step(
+            UriResolutionStep(
+                source_uri=wrapper_resolved_uri,
+                result=wrapper_resolved_uri,
+                description="Wrapper.invoke",
+                sub_history=wrapper_invoke_context.get_history(),
+            )
         )
 
         if encode_result and not invocable_result.encoded:

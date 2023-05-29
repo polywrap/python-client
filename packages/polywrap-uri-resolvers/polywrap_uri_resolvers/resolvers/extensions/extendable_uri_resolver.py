@@ -62,7 +62,7 @@ class ExtendableUriResolver(UriResolverAggregatorBase):
 
         for ext_interface_uri in self.ext_interface_uris:
             uri_resolvers_uris.extend(
-                client.get_implementations(ext_interface_uri) or []
+                client.get_implementations(ext_interface_uri, apply_resolution=False) or []
             )
 
         return [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]

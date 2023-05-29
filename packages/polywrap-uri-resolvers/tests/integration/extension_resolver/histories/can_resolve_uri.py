@@ -6,14 +6,14 @@ EXPECTED = [
         [
             "wrap://test/from => ResolverExtension (wrap://package/test-resolver) => uri (wrap://test/to)",
             [
-                "wrap://package/test-resolver => Client.loadWrapper => wrapper (wrap://package/test-resolver)",
+                "wrap://package/test-resolver => Client.load_wrapper => wrapper (wrap://package/test-resolver)",
                 [
                     "wrap://package/test-resolver => UriResolverAggregator => package (wrap://package/test-resolver)",
                     [
                         "wrap://package/test-resolver => Package (wrap://package/test-resolver) => package (wrap://package/test-resolver)"
                     ],
                 ],
-                "wrap://package/test-resolver => Client.invokeWrapper",
+                "wrap://package/test-resolver => Wrapper.invoke",
             ],
         ],
     ],
@@ -24,14 +24,14 @@ EXPECTED = [
         [
             "wrap://test/to => ResolverExtension (wrap://package/test-resolver)",
             [
-                "wrap://package/test-resolver => Client.loadWrapper => wrapper (wrap://package/test-resolver)",
+                "wrap://package/test-resolver => Client.load_wrapper => wrapper (wrap://package/test-resolver)",
                 [
                     "wrap://package/test-resolver => UriResolverAggregator => package (wrap://package/test-resolver)",
                     [
                         "wrap://package/test-resolver => Package (wrap://package/test-resolver) => package (wrap://package/test-resolver)"
                     ],
                 ],
-                "wrap://package/test-resolver => Client.invokeWrapper",
+                "wrap://package/test-resolver => Wrapper.invoke",
             ],
         ],
     ],

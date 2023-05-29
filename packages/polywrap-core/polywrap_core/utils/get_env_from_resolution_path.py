@@ -1,10 +1,10 @@
 """This module contains the utility function for getting the env from the URI history."""
-from typing import Any, Dict, List, Union
+from typing import Any, List, Union
 
 from polywrap_core import Client, Uri
 
 
-def get_env_from_uri_history(
+def get_env_from_resolution_path(
     uri_history: List[Uri], client: Client
 ) -> Union[Any, None]:
     """Get environment variable from URI resolution history.

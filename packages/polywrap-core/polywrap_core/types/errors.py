@@ -87,4 +87,32 @@ class WrapInvocationError(WrapAbortError):
     """
 
 
-__all__ = ["WrapError", "WrapAbortError", "WrapInvocationError"]
+class WrapGetImplementationsError(WrapError):
+    """Raises when there is an error getting implementations of an interface.
+    
+    Attributes:
+        uri (Uri): URI of the interface.
+        message: The message provided by the wrapper.
+    """
+
+    uri: Uri
+    message: str
+
+    def __init__(self, uri: Uri, message: str):
+        """Initialize a new instance of WrapGetImplementationsError."""
+        self.uri = uri
+        self.message = message
+
+        super().__init__(
+            dedent(
+                f"""
+                WrapGetImplementationsError: Failed to get implementations of \
+                    the following interface URI with the given message:
+                URI: {uri}
+                Message: {message}
+                """
+            )
+        )
+
+
+__all__ = ["WrapError", "WrapAbortError", "WrapInvocationError", "WrapGetImplementationsError"]

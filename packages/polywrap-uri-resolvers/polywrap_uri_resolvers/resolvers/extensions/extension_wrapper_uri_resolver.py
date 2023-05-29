@@ -1,23 +1,19 @@
 """This module contains the ExtensionWrapperUriResolver class."""
 from __future__ import annotations
-from typing import Optional, TypedDict, cast
+from typing import Optional, TypedDict
 
 from polywrap_core import (
-    Client,
     InvokerClient,
     UriResolutionContext,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
-    UriWrapper,
-    Wrapper,
-    get_env_from_uri_history,
+    UriResolutionStep,
+    UriResolver,
 )
-from polywrap_msgpack import msgpack_decode
 from polywrap_wasm import WasmPackage
 
 from ...errors import UriResolverExtensionError, UriResolverExtensionNotFoundError
-from ..abc import ResolverWithHistory
 from .uri_resolver_extension_file_reader import UriResolverExtensionFileReader
 
 
@@ -33,7 +29,7 @@ class MaybeUriOrManifest(TypedDict, total=False):
     manifest: Optional[bytes]
 
 
-class ExtensionWrapperUriResolver(ResolverWithHistory):
+class ExtensionWrapperUriResolver(UriResolver):
     """Defines a resolver that resolves a uri to a wrapper by using an extension wrapper.
 
     This resolver resolves a uri to a wrapper by using an extension wrapper.\
@@ -64,7 +60,7 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
         """
         return f"ResolverExtension ({self.extension_wrapper_uri})"
 
-    def _try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
         client: InvokerClient,
@@ -90,27 +86,20 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
         sub_context = resolution_context.create_sub_context()
 
         try:
-            extension_wrapper = self._load_resolver_extension(client, sub_context)
-            uri_or_manifest = self._try_resolve_uri_with_extension(
-                uri, extension_wrapper, client, sub_context
+            uri_package_or_wrapper = self._try_resolve_uri_with_extension(
+                uri, client, sub_context
             )
 
-            if uri_or_manifest is None:
-                return uri
-
-            if uri_or_manifest.get("uri"):
-                return Uri.from_str(cast(str, uri_or_manifest["uri"]))
-
-            if uri_or_manifest.get("manifest"):
-                package = WasmPackage(
-                    UriResolverExtensionFileReader(
-                        self.extension_wrapper_uri, uri, client
-                    ),
-                    uri_or_manifest["manifest"],
+            resolution_context.track_step(
+                UriResolutionStep(
+                    source_uri=uri,
+                    result=uri_package_or_wrapper,
+                    description=self.get_step_description(),
+                    sub_history=sub_context.get_history(),
                 )
-                return UriPackage(uri=uri, package=package)
+            )
 
-            return uri
+            return uri_package_or_wrapper
 
         except Exception as err:
             raise UriResolverExtensionError(
@@ -118,47 +107,16 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
                 f"({self.extension_wrapper_uri})"
             ) from err
 
-    def _load_resolver_extension(
-        self,
-        client: InvokerClient,
-        resolution_context: UriResolutionContext,
-    ) -> Wrapper:
-        """Load the URI resolver extension wrapper.
-
-        Args:
-            client (InvokerClient): The client to use for\
-                resolving the URI.
-            resolution_context (UriResolutionContext): The\
-                resolution context.
-        """
-        result: UriPackageOrWrapper = client.try_resolve_uri(
-            uri=self.extension_wrapper_uri, resolution_context=resolution_context
-        )
-
-        extension_wrapper: Wrapper
-
-        if isinstance(result, UriPackage):
-            extension_wrapper = result.package.create_wrapper()
-        elif isinstance(result, UriWrapper):
-            extension_wrapper = result.wrapper
-        else:
-            raise UriResolverExtensionNotFoundError(
-                self.extension_wrapper_uri, resolution_context.get_history()
-            )
-        return extension_wrapper
-
     def _try_resolve_uri_with_extension(
         self,
         uri: Uri,
-        extension_wrapper: Wrapper,
         client: InvokerClient,
         resolution_context: UriResolutionContext,
-    ) -> Optional[MaybeUriOrManifest]:
+    ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a uri or a manifest using the extension wrapper.
 
         Args:
             uri (Uri): The URI to resolve.
-            extension_wrapper (Wrapper): The extension wrapper.
             client (InvokerClient): The client to use for\
                 resolving the URI.
             resolution_context (UriResolutionContext): The\
@@ -167,23 +125,29 @@ class ExtensionWrapperUriResolver(ResolverWithHistory):
         Returns:
             MaybeUriOrManifest: The resolved URI or manifest.
         """
-        env = (
-            get_env_from_uri_history(
-                resolution_context.get_resolution_path(), cast(Client, client)
-            )
-            if hasattr(client, "get_env_by_uri")
-            else None
-        )
 
-        result = extension_wrapper.invoke(
+        uri_or_manifest: Optional[MaybeUriOrManifest] = client.invoke(
             uri=self.extension_wrapper_uri,
             method="tryResolveUri",
             args={
                 "authority": uri.authority,
                 "path": uri.path,
             },
-            env=env,
-            invoker=client,
+            encode_result=False,
+            resolution_context=resolution_context,
         )
 
-        return msgpack_decode(result.result) if result.encoded else result.result
+        if uri_or_manifest is None:
+            return uri
+
+        if result_uri := uri_or_manifest.get("uri"):
+            return Uri.from_str(result_uri)
+
+        if result_manifest := uri_or_manifest.get("manifest"):
+            package = WasmPackage(
+                UriResolverExtensionFileReader(self.extension_wrapper_uri, uri, client),
+                result_manifest,
+            )
+            return UriPackage(uri=uri, package=package)
+
+        return uri
