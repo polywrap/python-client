@@ -8,8 +8,6 @@ from polywrap_core import (
     UriPackageOrWrapper,
     UriResolver,
     UriWrapper,
-    WrapPackage,
-    Wrapper,
 )
 
 from ...types import StaticResolverLike
@@ -51,18 +49,19 @@ class StaticResolver(UriResolver):
             UriPackageOrWrapper: The resolved URI.
         """
         result = self.uri_map.get(uri)
-        uri_package_or_wrapper: UriPackageOrWrapper = uri
-        description: str = "StaticResolver - Miss"
 
-        if result:
-            if isinstance(result, WrapPackage):
-                description = f"Static - Package ({uri})"
-                uri_package_or_wrapper = UriPackage(uri=uri, package=result)
-            elif isinstance(result, Wrapper):
-                description = f"Static - Wrapper ({uri})"
-                uri_package_or_wrapper = UriWrapper(uri=uri, wrapper=result)
-            else:
-                description = f"Static - Redirect ({uri}, {result})"
+        match result:
+            case None:
+                description: str = "Static - Miss"
+                uri_package_or_wrapper: UriPackageOrWrapper = uri
+            case UriPackage():
+                description = "Static - Package"
+                uri_package_or_wrapper = result
+            case UriWrapper():
+                description = "Static - Wrapper"
+                uri_package_or_wrapper = result
+            case _:
+                description = f"Static - Redirect ({uri} - {result})"
                 uri_package_or_wrapper = result
 
         step = UriResolutionStep(

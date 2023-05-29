@@ -1,5 +1,4 @@
 """This module contains the ResolutionResultCacheResolver."""
-from dataclasses import dataclass
 
 from polywrap_core import (
     InvokerClient,
@@ -12,15 +11,6 @@ from polywrap_core import (
 
 from ...errors import UriResolutionError
 from ...types import ResolutionResultCache
-
-
-@dataclass(kw_only=True, slots=True)
-class ResolutionResultCacheResolverOptions:
-    """Defines the options for the ResolutionResultCacheResolver.
-
-    Attributes:
-        cache_errors (Optional[bool]): Whether to cache errors. Defaults to False.
-    """
 
 
 class ResolutionResultCacheResolver(UriResolver):

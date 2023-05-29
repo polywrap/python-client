@@ -13,7 +13,7 @@ from polywrap_core import (
 )
 from polywrap_manifest import DeserializeManifestOptions
 
-from ...types import WrapperCache
+from .wrapper_cache import WrapperCache
 
 
 @dataclass(kw_only=True, slots=True)

@@ -28,3 +28,7 @@ class InMemoryResolutionResultCache(ResolutionResultCache):
     def set(self, uri: Uri, result: Union[UriPackageOrWrapper, UriResolutionError]) -> None:
         """Set the resolution result in the cache by its uri."""
         self.map[uri] = result
+
+    def __str__(self) -> str:
+        """Display cache as a string."""
+        return f"{self.map}"
