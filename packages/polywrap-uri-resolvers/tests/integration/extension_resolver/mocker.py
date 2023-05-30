@@ -22,7 +22,7 @@ class MockPluginExtensionResolver(PluginModule[None]):
             case "from":
                 return {"uri": Uri.from_str("test/to").uri}
             case "package":
-                return {"manifest": bytes()}
+                return {"manifest": b"test"}
             case "error":
                 raise ValueError("test error")
             case _:

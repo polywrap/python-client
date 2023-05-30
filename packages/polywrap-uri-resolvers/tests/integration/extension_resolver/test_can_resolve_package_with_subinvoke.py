@@ -2,14 +2,15 @@ from polywrap_client import PolywrapClient
 from polywrap_core import (
     ClientConfig,
     Uri,
+    UriPackage,
     UriResolutionContext,
     build_clean_uri_history,
 )
 from polywrap_uri_resolvers import (
     ExtendableUriResolver,
     RecursiveResolver,
+    StaticResolver,
     UriResolverAggregator,
-    PackageResolver,
 )
 import pytest
 
@@ -21,13 +22,17 @@ def client() -> PolywrapClient:
     resolver = RecursiveResolver(
         UriResolverAggregator(
             [
-                PackageResolver(
-                    MockSubinvokePluginResolver.URI,
-                    mock_subinvoke_plugin_resolver(),
-                ),
-                PackageResolver(
-                    MockPluginExtensionResolver.URI,
-                    mock_plugin_extension_resolver(),
+                StaticResolver(
+                    {
+                        MockPluginExtensionResolver.URI: UriPackage(
+                            uri=MockPluginExtensionResolver.URI,
+                            package=mock_plugin_extension_resolver(),
+                        ),
+                        MockSubinvokePluginResolver.URI: UriPackage(
+                            uri=MockSubinvokePluginResolver.URI,
+                            package=mock_subinvoke_plugin_resolver(),
+                        ),
+                    }
                 ),
                 ExtendableUriResolver(),
             ]
@@ -45,16 +50,15 @@ def client() -> PolywrapClient:
     )
 
 
-def test_can_resolve_uri_with_plugin_extension(client: PolywrapClient) -> None:
+def test_can_resolve_package_with_plugin_extension(client: PolywrapClient) -> None:
     resolution_context = UriResolutionContext()
-    source_uri = Uri.from_str("test/from")
-    redirected_uri = Uri.from_str("test/to")
+    source_uri = Uri.from_str("test/package")
 
     result = client.try_resolve_uri(
         uri=source_uri, resolution_context=resolution_context
     )
 
-    from .histories.can_resolve_uri_with_subinvoke import EXPECTED
-    assert isinstance(result, Uri), "Expected a Uri result."
-    assert result == redirected_uri
+    from .histories.can_resolve_package_with_subinvoke import EXPECTED
+    print(build_clean_uri_history(resolution_context.get_history()))
+    assert isinstance(result, UriPackage), "Expected a UriPackage result."
     assert build_clean_uri_history(resolution_context.get_history()) == EXPECTED

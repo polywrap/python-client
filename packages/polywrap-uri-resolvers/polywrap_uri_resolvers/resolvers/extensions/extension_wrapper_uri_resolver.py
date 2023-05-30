@@ -1,5 +1,6 @@
 """This module contains the ExtensionWrapperUriResolver class."""
 from __future__ import annotations
+import traceback
 from typing import Optional, TypedDict
 
 from polywrap_core import (
@@ -10,10 +11,11 @@ from polywrap_core import (
     UriPackageOrWrapper,
     UriResolutionStep,
     UriResolver,
+    WrapError,
 )
 from polywrap_wasm import WasmPackage
 
-from ...errors import UriResolverExtensionError, UriResolverExtensionNotFoundError
+from ...errors import UriResolverExtensionError
 from .uri_resolver_extension_file_reader import UriResolverExtensionFileReader
 
 
@@ -100,8 +102,7 @@ class ExtensionWrapperUriResolver(UriResolver):
             )
 
             return uri_package_or_wrapper
-
-        except Exception as err:
+        except WrapError as err:
             raise UriResolverExtensionError(
                 f"Failed to resolve uri: {uri}, using extension resolver: "
                 f"({self.extension_wrapper_uri})"
