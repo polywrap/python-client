@@ -51,3 +51,7 @@ class UriResolverExtensionNotFoundError(UriResolverExtensionError):
             f"Could not find an extension resolver wrapper for the URI: {uri.uri}\n"
             f"History: {json.dumps(build_clean_uri_history(history), indent=2)}"
         )
+
+
+class UriResolverExtensionNotFoundError(UriResolutionError):
+    """Raised when an extension resolver could not be found for a URI."""

@@ -1,6 +1,5 @@
 """This module contains the ExtensionWrapperUriResolver class."""
 from __future__ import annotations
-import traceback
 from typing import Optional, TypedDict
 
 from polywrap_core import (
@@ -15,7 +14,11 @@ from polywrap_core import (
 )
 from polywrap_wasm import WasmPackage
 
-from ...errors import UriResolverExtensionError
+from ...errors import (
+    InfiniteLoopError,
+    UriResolverExtensionError,
+    UriResolverExtensionNotFoundError,
+)
 from .uri_resolver_extension_file_reader import UriResolverExtensionFileReader
 
 
@@ -107,6 +110,12 @@ class ExtensionWrapperUriResolver(UriResolver):
                 f"Failed to resolve uri: {uri}, using extension resolver: "
                 f"({self.extension_wrapper_uri})"
             ) from err
+        except InfiniteLoopError as err:
+            if err.uri == self.extension_wrapper_uri:
+                raise UriResolverExtensionNotFoundError(
+                    f"Extension wrapper: {self.extension_wrapper_uri} not found"
+                ) from err
+            raise err
 
     def _try_resolve_uri_with_extension(
         self,
@@ -118,10 +127,8 @@ class ExtensionWrapperUriResolver(UriResolver):
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient): The client to use for\
-                resolving the URI.
-            resolution_context (UriResolutionContext): The\
-                resolution context.
+            client (InvokerClient): The client to use for resolving the URI.
+            resolution_context (UriResolutionContext): The resolution context.
 
         Returns:
             MaybeUriOrManifest: The resolved URI or manifest.
