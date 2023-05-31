@@ -231,7 +231,7 @@ class PolywrapClient(Client):
         )
 
         env = env or get_env_from_resolution_path(
-            resolution_context.get_resolution_path(), self
+            load_wrapper_context.get_resolution_path(), self
         )
 
         wrapper_invoke_context = resolution_context.create_sub_history_context()

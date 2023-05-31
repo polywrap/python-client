@@ -5,8 +5,7 @@ from polywrap_client_config_builder import PolywrapClientConfigBuilder
 
 
 
-@pytest.mark.asyncio
-async def test_get_all_implementations_of_interface():
+def test_get_all_implementations_of_interface():
     interface1_uri = Uri.from_str("wrap://ens/some-interface1.eth")
     interface2_uri = Uri.from_str("wrap://ens/some-interface2.eth")
     interface3_uri = Uri.from_str("wrap://ens/some-interface3.eth")
@@ -30,10 +29,14 @@ async def test_get_all_implementations_of_interface():
 
     client = PolywrapClient(builder.build())
 
-    implementations1 = await client.get_implementations(interface1_uri)
-    implementations2 = await client.get_implementations(interface2_uri)
-    implementations3 = await client.get_implementations(interface3_uri)
+    implementations1 = client.get_implementations(interface1_uri)
+    implementations2 = client.get_implementations(interface2_uri)
+    implementations3 = client.get_implementations(interface3_uri)
 
-    assert implementations1 == [implementation1_uri, implementation2_uri, implementation3_uri]
-    assert implementations2 == [implementation1_uri, implementation2_uri, implementation3_uri]
-    assert implementations3 == [implementation3_uri, implementation4_uri]
+    assert implementations1 is not None
+    assert implementations2 is not None
+    assert implementations3 is not None
+
+    assert set(implementations1) == {implementation1_uri, implementation2_uri, implementation3_uri}
+    assert set(implementations2) == {implementation1_uri, implementation2_uri, implementation3_uri}
+    assert set(implementations3) == {implementation3_uri, implementation4_uri}

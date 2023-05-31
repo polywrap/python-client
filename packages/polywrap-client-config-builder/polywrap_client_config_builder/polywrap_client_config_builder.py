@@ -75,8 +75,8 @@ class PolywrapClientConfigBuilder(
                             ExtendableUriResolver(),
                         ]
                     ),
-                    options.wrapper_cache
-                    if options and options.wrapper_cache
+                    options.resolution_result_cache
+                    if options and options.resolution_result_cache
                     else InMemoryResolutionResultCache(),
                 )
             )

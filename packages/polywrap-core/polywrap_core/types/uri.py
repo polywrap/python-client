@@ -158,7 +158,7 @@ class Uri:
 
     def __repr__(self) -> str:
         """Return the string URI representation."""
-        return f"Uri({self.uri})"
+        return f'Uri("{self._authority}", "{self._path}")'
 
     def __hash__(self) -> int:
         """Return the hash of the URI."""
