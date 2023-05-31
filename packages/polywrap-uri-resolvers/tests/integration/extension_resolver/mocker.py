@@ -1,9 +1,12 @@
+import os
 from typing import Dict, Optional
-from polywrap_core import Any, InvokerClient, Uri
+from polywrap_core import Any, InvokerClient, Uri, UriPackage
 from polywrap_plugin import PluginModule, PluginPackage
 from polywrap_uri_resolvers import (
     MaybeUriOrManifest,
+    WasmPackage,
 )
+from polywrap_test_cases import get_path_to_test_wrappers
 
 
 class MockPluginExtensionResolver(PluginModule[None]):
@@ -47,5 +50,22 @@ class MockSubinvokePluginResolver(PluginModule[None]):
         )
 
 
-def mock_subinvoke_plugin_resolver():
+def mock_subinvoke_plugin_resolver() -> PluginPackage[None]:
     return PluginPackage(MockSubinvokePluginResolver(), NotImplemented)
+
+
+def mock_fs_wasm_package_resolver() -> UriPackage:
+    wrapper_module_path = os.path.join(
+        get_path_to_test_wrappers(), "resolver", "02-fs", "implementations", "as", "wrap.wasm"
+    )
+    wrapper_manifest_path = os.path.join(
+        get_path_to_test_wrappers(), "resolver", "02-fs", "implementations", "as", "wrap.info"
+    )
+    with open(wrapper_module_path, "rb") as f:
+        module = f.read()
+
+    with open(wrapper_manifest_path, "rb") as f:
+        manifest = f.read()
+    
+    package = WasmPackage(NotImplemented, manifest=manifest, wasm_module=module)
+    return UriPackage(uri=Uri.from_str("package/test-fs-resolver"),package=package)

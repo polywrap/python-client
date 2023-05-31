@@ -1,14 +1,15 @@
 """This module provides a simple builder for building a ClientConfig object."""
 # pylint: disable=too-many-ancestors
 
-from typing import Optional
+from typing import Optional, cast
 
-from polywrap_core import ClientConfig
+from polywrap_core import ClientConfig, UriPackage, UriWrapper
 from polywrap_uri_resolvers import (
     ExtendableUriResolver,
     InMemoryResolutionResultCache,
     RecursiveResolver,
     StaticResolver,
+    StaticResolverLike,
     UriResolverAggregator,
     ResolutionResultCacheResolver,
 )
@@ -52,6 +53,16 @@ class PolywrapClientConfigBuilder(
 
     def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""
+        static_resolver_like = cast(
+            StaticResolverLike, self.config.redirects
+        )
+
+        for uri, wrapper in self.config.wrappers.items():
+            static_resolver_like[uri] = UriWrapper(uri=uri, wrapper=wrapper)
+
+        for uri, package in self.config.packages.items():
+            static_resolver_like[uri] = UriPackage(uri=uri, package=package)
+
         resolver = (
             options.resolver
             if options and options.resolver
@@ -59,9 +70,7 @@ class PolywrapClientConfigBuilder(
                 ResolutionResultCacheResolver(
                     UriResolverAggregator(
                         [
-                            StaticResolver(self.config.redirects),
-                            StaticResolver(self.config.wrappers),
-                            StaticResolver(self.config.packages),
+                            StaticResolver(static_resolver_like),
                             *self.config.resolvers,
                             ExtendableUriResolver(),
                         ]
