@@ -8,7 +8,6 @@ from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from .invoker_client import InvokerClient
 from .uri import Uri
 from .uri_resolver import UriResolver
-from .uri_resolution_context import UriResolutionContext
 
 
 class Client(InvokerClient, Protocol):

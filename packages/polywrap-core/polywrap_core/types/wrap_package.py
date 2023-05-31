@@ -1,14 +1,13 @@
 """This module contains the IWrapPackage interface."""
 from __future__ import annotations
 
-from typing import Optional, Protocol, runtime_checkable
+from typing import Optional, Protocol
 
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 
 from .wrapper import Wrapper
 
 
-@runtime_checkable
 class WrapPackage(Protocol):
     """Wrapper package interface."""
 

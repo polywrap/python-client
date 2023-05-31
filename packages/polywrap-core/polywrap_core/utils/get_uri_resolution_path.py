@@ -1,7 +1,7 @@
 """This module contains the get_uri_resolution_path function."""
 from typing import List
 
-from polywrap_core import UriResolutionStep
+from ..types import UriResolutionStep
 
 
 def get_uri_resolution_path(
@@ -26,8 +26,6 @@ def get_uri_resolution_path(
 
     return [
         add_uri_resolution_path_for_sub_history(step)
-        for step in filter(
-            lambda step: step.source_uri != step.result,
-            history,
-        )
+        for step in history
+        if step.source_uri != step.result
     ]

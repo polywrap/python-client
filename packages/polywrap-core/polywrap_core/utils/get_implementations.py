@@ -1,6 +1,8 @@
-from typing import Dict, List, Optional
-from polywrap_core import InvokerClient, Uri, UriResolutionContext
-from polywrap_core.types.errors import WrapGetImplementationsError
+"""This module contains the get_implementations utility."""
+from typing import Dict, List, Optional, Set
+
+from ..types import InvokerClient, Uri, UriResolutionContext
+from ..types.errors import WrapGetImplementationsError
 
 
 def _get_final_uri(
@@ -33,12 +35,13 @@ def get_implementations(
     Returns:
         Optional[List[Uri]]: List of implementations or None if not found.
     """
-
     final_interface_uri = _get_final_uri(interface_uri, client, resolution_context)
-    final_implementations = set()
+    final_implementations: Set[Uri] = set()
 
     for interface in interfaces:
-        final_current_interface_uri = _get_final_uri(interface, client, resolution_context)
+        final_current_interface_uri = _get_final_uri(
+            interface, client, resolution_context
+        )
         if final_current_interface_uri == final_interface_uri:
             impls = set(interfaces.get(interface, []))
             final_implementations = final_implementations.union(impls)

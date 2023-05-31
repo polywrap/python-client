@@ -89,7 +89,7 @@ class WrapInvocationError(WrapAbortError):
 
 class WrapGetImplementationsError(WrapError):
     """Raises when there is an error getting implementations of an interface.
-    
+
     Attributes:
         uri (Uri): URI of the interface.
         message: The message provided by the wrapper.
@@ -115,4 +115,9 @@ class WrapGetImplementationsError(WrapError):
         )
 
 
-__all__ = ["WrapError", "WrapAbortError", "WrapInvocationError", "WrapGetImplementationsError"]
+__all__ = [
+    "WrapError",
+    "WrapAbortError",
+    "WrapInvocationError",
+    "WrapGetImplementationsError",
+]

@@ -1,7 +1,7 @@
 """This module contains the utility function for getting the env from the URI history."""
 from typing import Any, List, Union
 
-from polywrap_core import Client, Uri
+from ..types import Client, Uri
 
 
 def get_env_from_resolution_path(
