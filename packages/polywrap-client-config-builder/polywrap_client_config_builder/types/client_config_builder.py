@@ -191,3 +191,6 @@ class ClientConfigBuilder(Protocol):
     @abstractmethod
     def remove_wrappers(self, uris: List[Uri]) -> "ClientConfigBuilder":
         """Remove the wrappers for the given uris."""
+
+
+__all__ = ["ClientConfigBuilder"]

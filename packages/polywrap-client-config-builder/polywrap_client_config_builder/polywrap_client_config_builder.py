@@ -87,3 +87,6 @@ class PolywrapClientConfigBuilder(
             interfaces=self.config.interfaces,
             resolver=resolver,
         )
+
+
+__all__ = ["PolywrapClientConfigBuilder"]

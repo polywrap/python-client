@@ -29,3 +29,6 @@ class BuilderConfig:
     packages: Dict[Uri, WrapPackage]
     resolvers: List[UriResolver]
     redirects: Dict[Uri, Uri]
+
+
+__all__ = ["BuilderConfig"]

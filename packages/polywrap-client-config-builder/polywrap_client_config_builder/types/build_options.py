@@ -17,3 +17,6 @@ class BuildOptions:
 
     resolution_result_cache: Optional[ResolutionResultCache] = None
     resolver: Optional[UriResolver] = None
+
+
+__all__ = ["BuildOptions"]
