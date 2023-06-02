@@ -1,5 +1,5 @@
 """This module contains the RedirectResolver class."""
-from polywrap_core import InvokerClient, UriResolutionContext, Uri, UriPackageOrWrapper
+from polywrap_core import InvokerClient, Uri, UriPackageOrWrapper, UriResolutionContext
 
 from ..abc import ResolverWithHistory
 
@@ -30,6 +30,7 @@ class RedirectResolver(ResolverWithHistory):
         """
         self.from_uri = from_uri
         self.to_uri = to_uri
+        super().__init__()
 
     def get_step_description(self) -> str:
         """Get the description of the resolver step.

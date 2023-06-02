@@ -36,6 +36,7 @@ class UriResolverAggregator(UriResolverAggregatorBase):
         """
         self._step_description = step_description or self.__class__.__name__
         self._resolvers = resolvers
+        super().__init__()
 
     def get_step_description(self) -> Optional[str]:
         """Get the description of the resolution step."""

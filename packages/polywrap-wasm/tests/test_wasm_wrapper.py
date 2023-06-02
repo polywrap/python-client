@@ -5,7 +5,8 @@ from pathlib import Path
 
 from polywrap_msgpack import msgpack_decode
 from polywrap_core import InvokerClient, Uri, Invoker, FileReader
-from polywrap_wasm import WasmPackage, WasmWrapper, WRAP_MODULE_PATH, WRAP_MANIFEST_PATH
+from polywrap_wasm import WasmPackage, WasmWrapper
+from polywrap_wasm.constants import WRAP_MODULE_PATH, WRAP_MANIFEST_PATH
 from polywrap_manifest import deserialize_wrap_manifest
 
 
@@ -80,7 +81,7 @@ def test_invoke_with_wrapper(
         uri=Uri.from_str("fs/./build"),
         method="simpleMethod",
         args=args,
-        invoker=mock_invoker,
+        client=mock_invoker,
     )
     assert result.encoded is True
     assert msgpack_decode(cast(bytes, result.result)) == message

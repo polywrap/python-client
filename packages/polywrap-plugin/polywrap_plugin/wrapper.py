@@ -3,7 +3,13 @@
 # pylint: disable=too-many-arguments
 from typing import Any, Generic, Optional, TypeVar, Union
 
-from polywrap_core import InvocableResult, InvokerClient, Uri, UriResolutionContext, Wrapper
+from polywrap_core import (
+    InvocableResult,
+    InvokerClient,
+    Uri,
+    UriResolutionContext,
+    Wrapper,
+)
 from polywrap_manifest import AnyWrapManifest
 
 from .module import InvokeOptions, PluginModule

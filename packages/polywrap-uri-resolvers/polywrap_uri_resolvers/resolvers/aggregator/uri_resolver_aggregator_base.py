@@ -1,14 +1,15 @@
 """This module contains the UriResolverAggregator Resolver."""
+# pylint: disable=unnecessary-ellipsis
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
-    UriResolutionStep,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
     UriWrapper,
 )
@@ -26,12 +27,12 @@ class UriResolverAggregatorBase(UriResolver, ABC):
     def get_resolvers(
         self, client: InvokerClient, resolution_context: UriResolutionContext
     ) -> List[UriResolver]:
-        """The list of resolvers to aggregate."""
+        """Get the list of resolvers to aggregate."""
         ...
 
     @abstractmethod
     def get_step_description(self) -> Optional[str]:
-        """The description of the resolution step. Defaults to the class name."""
+        """Get the description of the resolution step. Defaults to the class name."""
         ...
 
     def try_resolve_uri(

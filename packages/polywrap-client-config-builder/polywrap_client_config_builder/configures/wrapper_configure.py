@@ -4,7 +4,7 @@ from typing import Dict, List, Union
 
 from polywrap_core import Uri, Wrapper
 
-from ..types import ClientConfigBuilder, BuilderConfig
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
 class WrapperConfigure(ClientConfigBuilder, ABC):
@@ -20,16 +20,12 @@ class WrapperConfigure(ClientConfigBuilder, ABC):
         """Return the wrappers from the builder's config."""
         return self.config.wrappers
 
-    def set_wrapper(
-        self, uri: Uri, wrapper: Wrapper
-    ) -> ClientConfigBuilder:
+    def set_wrapper(self, uri: Uri, wrapper: Wrapper) -> ClientConfigBuilder:
         """Set the wrapper by uri in the builder's config, overiding any existing values."""
         self.config.wrappers[uri] = wrapper
         return self
 
-    def set_wrappers(
-        self, uri_wrappers: Dict[Uri, Wrapper]
-    ) -> ClientConfigBuilder:
+    def set_wrappers(self, uri_wrappers: Dict[Uri, Wrapper]) -> ClientConfigBuilder:
         """Set the wrappers in the builder's config, overiding any existing values."""
         self.config.wrappers.update(uri_wrappers)
         return self

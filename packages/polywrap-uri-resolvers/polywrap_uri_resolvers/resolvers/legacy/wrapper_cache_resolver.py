@@ -4,10 +4,10 @@ from typing import List, Optional, Union
 
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
-    UriResolutionStep,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
     UriWrapper,
 )

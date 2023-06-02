@@ -2,10 +2,10 @@
 
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
-    UriResolutionStep,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
 )
 
@@ -56,9 +56,10 @@ class ResolutionResultCacheResolver(UriResolver):
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI.
 
-        This method tries to resolve the URI with the resolver to cache.
-        If the result is in the cache, it returns the cached result.
-        If the result is not in the cache, it resolves the URI using the inner resolver and caches the result.
+        This method tries to resolve the URI with the resolver to cache.\
+        If the result is in the cache, it returns the cached result.\
+        If the result is not in the cache, it resolves the URI using\
+        the inner resolver and caches the result.
 
         Args:
             uri (Uri): The URI to resolve.

@@ -3,8 +3,8 @@ from typing import Dict, Union
 
 from polywrap_core import Uri, UriPackageOrWrapper
 
-from .resolution_result_cache import ResolutionResultCache
 from ....errors import UriResolutionError
+from .resolution_result_cache import ResolutionResultCache
 
 
 class InMemoryResolutionResultCache(ResolutionResultCache):
@@ -12,7 +12,8 @@ class InMemoryResolutionResultCache(ResolutionResultCache):
         of the resolution result cache interface.
 
     Attributes:
-        map (Dict[Uri, Union[UriPackageOrWrapper, UriResolutionError]]): The map of uris to resolution result.
+        map (Dict[Uri, Union[UriPackageOrWrapper, UriResolutionError]]):\
+            The map of uris to resolution result.
     """
 
     map: Dict[Uri, Union[UriPackageOrWrapper, UriResolutionError]]
@@ -25,7 +26,9 @@ class InMemoryResolutionResultCache(ResolutionResultCache):
         """Get the resolution result from the cache by its uri."""
         return self.map.get(uri)
 
-    def set(self, uri: Uri, result: Union[UriPackageOrWrapper, UriResolutionError]) -> None:
+    def set(
+        self, uri: Uri, result: Union[UriPackageOrWrapper, UriResolutionError]
+    ) -> None:
         """Set the resolution result in the cache by its uri."""
         self.map[uri] = result
 

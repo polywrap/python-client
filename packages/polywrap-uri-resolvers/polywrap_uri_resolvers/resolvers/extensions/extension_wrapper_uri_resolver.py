@@ -1,13 +1,14 @@
 """This module contains the ExtensionWrapperUriResolver class."""
 from __future__ import annotations
+
 from typing import Optional, TypedDict
 
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolutionStep,
     UriResolver,
     WrapError,
@@ -113,7 +114,7 @@ class ExtensionWrapperUriResolver(UriResolver):
         except InfiniteLoopError as err:
             if err.uri == self.extension_wrapper_uri:
                 raise UriResolverExtensionNotFoundError(
-                    f"Extension wrapper: {self.extension_wrapper_uri} not found"
+                    self.extension_wrapper_uri, sub_context.get_history()
                 ) from err
             raise err
 
@@ -133,7 +134,6 @@ class ExtensionWrapperUriResolver(UriResolver):
         Returns:
             MaybeUriOrManifest: The resolved URI or manifest.
         """
-
         uri_or_manifest: Optional[MaybeUriOrManifest] = client.invoke(
             uri=self.extension_wrapper_uri,
             method="tryResolveUri",

@@ -4,7 +4,7 @@ from typing import List
 
 from polywrap_core import UriResolver
 
-from ..types import ClientConfigBuilder, BuilderConfig
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
 class ResolverConfigure(ClientConfigBuilder, ABC):

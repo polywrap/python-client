@@ -2,7 +2,8 @@
 import json
 from typing import List
 
-from polywrap_core import UriResolutionStep, Uri, build_clean_uri_history
+from polywrap_core import Uri, UriResolutionStep, build_clean_uri_history
+
 
 class UriResolutionError(Exception):
     """Base class for all errors related to URI resolution."""
@@ -10,6 +11,7 @@ class UriResolutionError(Exception):
 
 class InfiniteLoopError(UriResolutionError):
     """Raised when an infinite loop is detected while resolving a URI."""
+
     uri: Uri
     history: List[UriResolutionStep]
 
@@ -51,7 +53,3 @@ class UriResolverExtensionNotFoundError(UriResolverExtensionError):
             f"Could not find an extension resolver wrapper for the URI: {uri.uri}\n"
             f"History: {json.dumps(build_clean_uri_history(history), indent=2)}"
         )
-
-
-class UriResolverExtensionNotFoundError(UriResolutionError):
-    """Raised when an extension resolver could not be found for a URI."""

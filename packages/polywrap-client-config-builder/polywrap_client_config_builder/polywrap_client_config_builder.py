@@ -8,10 +8,10 @@ from polywrap_uri_resolvers import (
     ExtendableUriResolver,
     InMemoryResolutionResultCache,
     RecursiveResolver,
+    ResolutionResultCacheResolver,
     StaticResolver,
     StaticResolverLike,
     UriResolverAggregator,
-    ResolutionResultCacheResolver,
 )
 
 from .configures import (
@@ -50,12 +50,11 @@ class PolywrapClientConfigBuilder(
         self.config = BuilderConfig(
             envs={}, interfaces={}, resolvers=[], wrappers={}, packages={}, redirects={}
         )
+        super().__init__()
 
     def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""
-        static_resolver_like = cast(
-            StaticResolverLike, self.config.redirects
-        )
+        static_resolver_like = cast(StaticResolverLike, self.config.redirects)
 
         for uri, wrapper in self.config.wrappers.items():
             static_resolver_like[uri] = UriWrapper(uri=uri, wrapper=wrapper)

@@ -52,6 +52,7 @@ testpaths = [
 
 [tool.pylint]
 disable = [
+    "too-many-arguments",
 ]
 ignore = [
     "tests/"

@@ -3,10 +3,10 @@ from abc import abstractmethod
 
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
-    UriResolutionStep,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
 )
 

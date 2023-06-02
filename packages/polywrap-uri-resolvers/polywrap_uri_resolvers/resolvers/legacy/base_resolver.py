@@ -4,9 +4,9 @@ from typing import Dict
 from polywrap_core import (
     FileReader,
     InvokerClient,
-    UriResolutionContext,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolver,
 )
 

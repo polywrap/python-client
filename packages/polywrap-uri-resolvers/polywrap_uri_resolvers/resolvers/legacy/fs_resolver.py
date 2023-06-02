@@ -4,13 +4,14 @@ from pathlib import Path
 from polywrap_core import (
     FileReader,
     InvokerClient,
-    UriResolutionContext,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolver,
 )
-from polywrap_wasm import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, WasmPackage
+from polywrap_wasm import WasmPackage
+from polywrap_wasm.constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
 
 class SimpleFileReader(FileReader):
@@ -63,13 +64,9 @@ class FsUriResolver(UriResolver):
 
         wrapper_path = Path(uri.path)
 
-        wasm_module = self.file_reader.read_file(
-            str(wrapper_path / WRAP_MODULE_PATH)
-        )
+        wasm_module = self.file_reader.read_file(str(wrapper_path / WRAP_MODULE_PATH))
 
-        manifest = self.file_reader.read_file(
-            str(wrapper_path / WRAP_MANIFEST_PATH)
-        )
+        manifest = self.file_reader.read_file(str(wrapper_path / WRAP_MANIFEST_PATH))
 
         return UriPackage(
             uri=uri,

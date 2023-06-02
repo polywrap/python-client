@@ -1,7 +1,7 @@
+"""This module defines the ResolutionContextOverrideClient class."""
 from typing import Any, List, Optional
+
 from polywrap_core import InvokerClient, Uri, UriResolutionContext
-from polywrap_core.types.uri import Uri
-from polywrap_core.types.uri_resolution_context import UriResolutionContext
 
 
 class ResolutionContextOverrideClient(InvokerClient):
@@ -20,6 +20,7 @@ class ResolutionContextOverrideClient(InvokerClient):
     def __init__(
         self, client: InvokerClient, resolution_context: Optional[UriResolutionContext]
     ):
+        """Initialize a new ResolutionContextOverrideClient instance."""
         self.client = client
         self.resolution_context = resolution_context
 
@@ -71,4 +72,13 @@ class ResolutionContextOverrideClient(InvokerClient):
     def try_resolve_uri(
         self, uri: Uri, resolution_context: UriResolutionContext | None = None
     ) -> Any:
+        """Try to resolve a URI to a wrap package, a wrapper, or a URI.
+
+        Args:
+            uri (Uri): The URI to resolve.
+            resolution_context (UriResolutionContext): The resolution context.
+
+        Returns:
+            Any: URI Resolution Result.
+        """
         return self.client.try_resolve_uri(uri, self.resolution_context)

@@ -1,9 +1,9 @@
 """This module contains the recursive resolver."""
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolver,
 )
 
@@ -59,7 +59,9 @@ class RecursiveResolver(UriResolver):
 
         if isinstance(uri_package_or_wrapper, Uri) and uri_package_or_wrapper != uri:
             uri_package_or_wrapper = self.try_resolve_uri(
-                uri_package_or_wrapper, client, resolution_context,
+                uri_package_or_wrapper,
+                client,
+                resolution_context,
             )
 
         resolution_context.stop_resolving(uri)

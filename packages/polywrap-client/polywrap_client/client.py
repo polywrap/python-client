@@ -17,8 +17,8 @@ from polywrap_core import (
     Wrapper,
     build_clean_uri_history,
     get_env_from_resolution_path,
-    get_implementations as core_get_implementations,
 )
+from polywrap_core import get_implementations as core_get_implementations
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
 from polywrap_uri_resolvers import UriResolutionContext
@@ -105,7 +105,6 @@ class PolywrapClient(Client):
         Returns:
             Union[Any, None]: The environment variables.
         """
-
         return self._config.envs.get(uri)
 
     def get_file(
@@ -149,7 +148,6 @@ class PolywrapClient(Client):
         Returns:
             UriPackageOrWrapper: The resolved URI, package or wrapper.
         """
-        uri = uri
         uri_resolver = self._config.resolver
         resolution_context = resolution_context or UriResolutionContext()
 

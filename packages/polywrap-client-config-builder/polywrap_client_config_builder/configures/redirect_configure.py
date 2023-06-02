@@ -4,7 +4,7 @@ from typing import Dict, List, Union
 
 from polywrap_core import Uri
 
-from ..types import ClientConfigBuilder, BuilderConfig
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
 class RedirectConfigure(ClientConfigBuilder, ABC):

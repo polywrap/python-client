@@ -4,11 +4,11 @@ from typing import Optional
 
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
-    UriResolutionStep,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
     UriWrapper,
 )
@@ -58,6 +58,7 @@ class PackageToWrapperResolver(ResolverWithHistory):
         """
         self.resolver = resolver
         self.options = options
+        super().__init__()
 
     def _try_resolve_uri(
         self,

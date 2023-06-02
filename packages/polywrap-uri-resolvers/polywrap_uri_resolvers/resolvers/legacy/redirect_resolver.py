@@ -1,12 +1,7 @@
 """This module contains the RedirectUriResolver class."""
 from typing import Dict
 
-from polywrap_core import (
-    InvokerClient,
-    UriResolutionContext,
-    Uri,
-    UriResolver,
-)
+from polywrap_core import InvokerClient, Uri, UriResolutionContext, UriResolver
 
 
 class RedirectUriResolver(UriResolver):

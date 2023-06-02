@@ -1,12 +1,7 @@
 """This module contains the ExtendableUriResolver class."""
 from typing import List, Optional
 
-from polywrap_core import (
-    InvokerClient,
-    UriResolutionContext,
-    Uri,
-    UriResolver,
-)
+from polywrap_core import InvokerClient, Uri, UriResolutionContext, UriResolver
 
 from ..aggregator import UriResolverAggregatorBase
 from .extension_wrapper_uri_resolver import ExtensionWrapperUriResolver
@@ -51,18 +46,22 @@ class ExtendableUriResolver(UriResolverAggregatorBase):
         """
         self.ext_interface_uris = ext_interface_uris or self.DEFAULT_EXT_INTERFACE_URIS
         self.resolver_name = resolver_name or self.__class__.__name__
+        super().__init__()
 
     def get_step_description(self) -> Optional[str]:
         """Get the description of the resolution step."""
         return self.resolver_name
 
-    def get_resolvers(self, client: InvokerClient, resolution_context: UriResolutionContext) -> List[UriResolver]:
+    def get_resolvers(
+        self, client: InvokerClient, resolution_context: UriResolutionContext
+    ) -> List[UriResolver]:
         """Get the list of resolvers to aggregate."""
         uri_resolvers_uris: List[Uri] = []
 
         for ext_interface_uri in self.ext_interface_uris:
             uri_resolvers_uris.extend(
-                client.get_implementations(ext_interface_uri, apply_resolution=False) or []
+                client.get_implementations(ext_interface_uri, apply_resolution=False)
+                or []
             )
 
         return [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]

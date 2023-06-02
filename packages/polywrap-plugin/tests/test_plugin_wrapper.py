@@ -18,6 +18,6 @@ def test_plugin_wrapper_invoke(
         uri=Uri.from_str("ens/greeting.eth"),
         method="greeting",
         args=args,
-        invoker=invoker,
+        client=invoker,
     )
     assert result, "Greetings from: Joe"

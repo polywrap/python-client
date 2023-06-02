@@ -1,15 +1,9 @@
 """This module contains the client config builder class."""
 # pylint: disable=too-many-public-methods
 from abc import abstractmethod
-from typing import Dict, List, Optional, Protocol, Union, Any
+from typing import Any, Dict, List, Optional, Protocol, Union
 
-from polywrap_core import (
-    ClientConfig,
-    Uri,
-    UriResolver,
-    WrapPackage,
-    Wrapper,
-)
+from polywrap_core import ClientConfig, Uri, UriResolver, WrapPackage, Wrapper
 
 from .build_options import BuildOptions
 from .builder_config import BuilderConfig
@@ -102,9 +96,7 @@ class ClientConfigBuilder(Protocol):
         """Return the packages from the builder's config."""
 
     @abstractmethod
-    def set_package(
-        self, uri: Uri, package: WrapPackage
-    ) -> "ClientConfigBuilder":
+    def set_package(self, uri: Uri, package: WrapPackage) -> "ClientConfigBuilder":
         """Set the package by uri in the builder's config, overiding any existing values."""
 
     @abstractmethod
@@ -173,15 +165,11 @@ class ClientConfigBuilder(Protocol):
         """Return the wrappers from the builder's config."""
 
     @abstractmethod
-    def set_wrapper(
-        self, uri: Uri, wrapper: Wrapper
-    ) -> "ClientConfigBuilder":
+    def set_wrapper(self, uri: Uri, wrapper: Wrapper) -> "ClientConfigBuilder":
         """Set the wrapper by uri in the builder's config, overiding any existing values."""
 
     @abstractmethod
-    def set_wrappers(
-        self, uri_wrappers: Dict[Uri, Wrapper]
-    ) -> "ClientConfigBuilder":
+    def set_wrappers(self, uri_wrappers: Dict[Uri, Wrapper]) -> "ClientConfigBuilder":
         """Set the wrappers in the builder's config, overiding any existing values."""
 
     @abstractmethod

@@ -1,10 +1,10 @@
 """This module contains the env configure class for the client config builder."""
 from abc import ABC
-from typing import Dict, List, Union, Any
+from typing import Any, Dict, List, Union
 
 from polywrap_core import Uri
 
-from ..types import ClientConfigBuilder, BuilderConfig
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
 class EnvConfigure(ClientConfigBuilder, ABC):

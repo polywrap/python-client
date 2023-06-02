@@ -1,9 +1,9 @@
 """This module contains the resolver for wrappers."""
 from polywrap_core import (
     InvokerClient,
-    UriResolutionContext,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriWrapper,
     Wrapper,
 )
@@ -33,6 +33,7 @@ class WrapperResolver(ResolverWithHistory):
         """
         self.uri = uri
         self.wrapper = wrapper
+        super().__init__()
 
     def get_step_description(self) -> str:
         """Get the description of the resolver step.

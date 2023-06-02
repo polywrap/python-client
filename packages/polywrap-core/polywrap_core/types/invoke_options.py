@@ -6,7 +6,7 @@ from .uri_resolution_context import UriResolutionContext
 
 
 class InvokeOptions(Protocol):
-    """InvokeOptions is a dataclass that holds the options for an invocation."""
+    """InvokeOptions holds the options for an invocation."""
 
     @property
     def uri(self) -> Uri:

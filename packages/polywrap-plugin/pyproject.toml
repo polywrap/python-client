@@ -50,6 +50,7 @@ disable = [
     "too-many-return-statements",
     "broad-exception-caught",
     "too-few-public-methods",
+    "too-many-arguments",
 ]
 ignore = [
     "tests/"
