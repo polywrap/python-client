@@ -4,7 +4,7 @@ from polywrap_core import Uri
 from polywrap_client_config_builder.types import ClientConfigBuilder
 import pytest
 
-from ...consts import SUPPORTED_IMPLEMENTATIONS
+from ..consts import SUPPORTED_IMPLEMENTATIONS
 
 
 @pytest.mark.parametrize("implementation", SUPPORTED_IMPLEMENTATIONS)

@@ -5,12 +5,20 @@ from __future__ import annotations
 
 import json
 from textwrap import dedent
-from typing import Optional
+from typing import Any, List, Optional
 
-from polywrap_msgpack import msgpack_decode
+from polywrap_msgpack import GenericMap, msgpack_decode
 
 from .invoke_options import InvokeOptions
 from .uri import Uri
+
+
+def default_encoder(obj: Any) -> Any:
+    if isinstance(obj, bytes):
+        return list(obj)
+    if isinstance(obj, (Uri, GenericMap)):
+        return repr(obj)
+    raise TypeError(f"Object of type '{type(obj).__name__}' is not JSON serializable")
 
 
 class WrapError(Exception):
@@ -48,6 +56,7 @@ class WrapAbortError(WrapError):
                 if isinstance(invoke_options.args, bytes)
                 else invoke_options.args,
                 indent=2,
+                default=default_encoder,
             )
             if invoke_options.args is not None
             else None
@@ -58,6 +67,7 @@ class WrapAbortError(WrapError):
                 if isinstance(invoke_options.env, bytes)
                 else invoke_options.env,
                 indent=2,
+                default=default_encoder,
             )
             if invoke_options.env is not None
             else None
