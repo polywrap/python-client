@@ -72,7 +72,7 @@ class Client(InvokerClient, Protocol):
 
         Args:
             uri (Uri): URI of the wrapper.
-            options (Optional[GetManifestOptions]): \
+            options (Optional[DeserializeManifestOptions]): \
                 Options for getting manifest from the wrapper.
 
         Returns:
