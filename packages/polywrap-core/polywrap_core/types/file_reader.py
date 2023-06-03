@@ -1,14 +1,13 @@
 """This module contains file reader interface."""
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from typing import Protocol
 
 
-class FileReader(ABC):
+class FileReader(Protocol):
     """File reader interface."""
 
-    @abstractmethod
-    async def read_file(self, file_path: str) -> bytes:
+    def read_file(self, file_path: str) -> bytes:
         """Read a file from the given file path.
 
         Args:
@@ -20,3 +19,7 @@ class FileReader(ABC):
         Returns:
             bytes: The file contents.
         """
+        ...
+
+
+__all__ = ["FileReader"]
