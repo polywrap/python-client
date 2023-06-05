@@ -43,7 +43,7 @@ def get_implementations(
             interface, client, resolution_context
         )
         if final_current_interface_uri == final_interface_uri:
-            impls = set(interfaces.get(interface, []))
+            impls: Set[Uri] = set(interfaces.get(interface, []))
             final_implementations = final_implementations.union(impls)
 
     return list(final_implementations) if final_implementations else None
