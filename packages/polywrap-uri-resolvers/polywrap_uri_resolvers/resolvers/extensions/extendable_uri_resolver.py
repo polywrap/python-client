@@ -1,19 +1,13 @@
 """This module contains the ExtendableUriResolver class."""
-from typing import List, Optional, cast
+from typing import List, Optional
 
-from polywrap_core import (
-    InvokerClient,
-    IUriResolutionContext,
-    Uri,
-    UriPackageOrWrapper,
-    UriResolver,
-)
+from polywrap_core import InvokerClient, Uri, UriResolutionContext, UriResolver
 
-from ..aggregator import UriResolverAggregator
+from ..aggregator import UriResolverAggregatorBase
 from .extension_wrapper_uri_resolver import ExtensionWrapperUriResolver
 
 
-class ExtendableUriResolver(UriResolver):
+class ExtendableUriResolver(UriResolverAggregatorBase):
     """Defines a resolver that resolves a uri to a wrapper by using extension wrappers.
 
     This resolver resolves a uri to a wrapper by using extension wrappers.\
@@ -52,35 +46,22 @@ class ExtendableUriResolver(UriResolver):
         """
         self.ext_interface_uris = ext_interface_uris or self.DEFAULT_EXT_INTERFACE_URIS
         self.resolver_name = resolver_name or self.__class__.__name__
+        super().__init__()
 
-    async def try_resolve_uri(
-        self,
-        uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
-    ) -> UriPackageOrWrapper:
-        """Try to resolve a URI to a wrap package, a wrapper, or a URI.
+    def get_step_description(self) -> Optional[str]:
+        """Get the description of the resolution step."""
+        return self.resolver_name
 
-        Args:
-            uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
-                resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The\
-                resolution context.
-        
-        Returns:
-            UriPackageOrWrapper: The resolved URI, wrap package, or wrapper.
-        """
+    def get_resolvers(
+        self, client: InvokerClient, resolution_context: UriResolutionContext
+    ) -> List[UriResolver]:
+        """Get the list of resolvers to aggregate."""
         uri_resolvers_uris: List[Uri] = []
 
         for ext_interface_uri in self.ext_interface_uris:
             uri_resolvers_uris.extend(
-                client.get_implementations(ext_interface_uri) or []
+                client.get_implementations(ext_interface_uri, apply_resolution=False)
+                or []
             )
 
-        resolvers = [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]
-        aggregator = UriResolverAggregator(
-            cast(List[UriResolver], resolvers), self.resolver_name
-        )
-
-        return await aggregator.try_resolve_uri(uri, client, resolution_context)
+        return [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]
