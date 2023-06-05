@@ -3,7 +3,9 @@
 # pylint: disable=too-many-ancestors
 from __future__ import annotations
 
-from polywrap_core import Invoker, UriPackageOrWrapper
+from typing import Optional
+
+from polywrap_core import Invoker
 from wasmtime import Memory, Store
 
 from ..types.state import State
@@ -39,7 +41,7 @@ class WrapImports(
         memory: Memory,
         store: Store,
         state: State,
-        invoker: Invoker[UriPackageOrWrapper],
+        invoker: Optional[Invoker],
     ) -> None:
         """Initialize the WrapImports instance.
 

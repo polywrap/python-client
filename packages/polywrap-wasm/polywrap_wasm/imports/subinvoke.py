@@ -1,14 +1,9 @@
 """This module contains the subinvoke imports for the Wasm module."""
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
-
-from polywrap_core import InvokerOptions, Uri, WrapAbortError
+from polywrap_core import Uri, WrapAbortError
 from polywrap_msgpack import msgpack_encode
 
 from ..types import InvokeResult
 from .types import BaseWrapImports
-
-pool = ThreadPoolExecutor()
 
 
 class WrapSubinvokeImports(BaseWrapImports):
@@ -42,18 +37,19 @@ class WrapSubinvokeImports(BaseWrapImports):
         method = self._get_subinvoke_method(method_ptr, method_len)
         args = self._get_subinvoke_args(args_ptr, args_len)
 
+        if not self.invoker:
+            raise WrapAbortError(
+                invoke_options=self.state.invoke_options,
+                message="Expected invoker to be defined got None",
+            )
+
         try:
-            result = pool.submit(
-                asyncio.run,
-                self.invoker.invoke(
-                    InvokerOptions(
-                        uri=uri,
-                        method=method,
-                        args=args,
-                        encode_result=True,
-                    )
-                ),
-            ).result()
+            result = self.invoker.invoke(
+                uri=uri,
+                method=method,
+                args=args,
+                encode_result=True,
+            )
             if isinstance(result, bytes):
                 self.state.subinvoke_result = InvokeResult(result=result)
                 return True
