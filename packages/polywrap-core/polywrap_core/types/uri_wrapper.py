@@ -12,8 +12,8 @@ class UriWrapper:
     """UriWrapper is a dataclass that contains a URI and a wrapper.
 
     Attributes:
-        uri: The URI.
-        wrapper: The wrapper.
+        uri (Uri): The URI.
+        wrapper (Wrapper): The wrapper.
     """
 
     uri: Uri

@@ -62,8 +62,8 @@ class Uri:
         """Initialize a new instance of a wrapper URI.
 
         Args:
-            authority: The authority of the URI.
-            path: The path of the URI.
+            authority (str): The authority of the URI.
+            path (str): The path of the URI.
         """
         self._authority = authority
         self._path = path

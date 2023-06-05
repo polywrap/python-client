@@ -25,7 +25,7 @@ class WrapPackage(Protocol):
         """Get the manifest from the wrapper package.
 
         Args:
-            options: The options for getting the manifest.
+            options (DeserializeManifestOptions): The options for getting the manifest.
 
         Returns:
             AnyWrapManifest: The manifest of the wrapper.

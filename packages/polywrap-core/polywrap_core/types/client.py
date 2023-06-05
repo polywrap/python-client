@@ -46,7 +46,7 @@ class Client(InvokerClient, Protocol):
         """Get URI resolver.
 
         Returns:
-            IUriResolver: URI resolver.
+            UriResolver: URI resolver.
         """
         ...
 

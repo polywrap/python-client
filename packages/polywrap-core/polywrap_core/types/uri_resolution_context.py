@@ -9,9 +9,12 @@ class UriResolutionContext:
     """Represents the context of a uri resolution.
 
     Attributes:
-        resolving_uri_set: A set of uris that are currently being resolved.
-        resolution_path: A list of uris in the order that they are being resolved.
-        history: A list of steps that have been taken to resolve the uri.
+        resolving_uri_set (Set[Uri]): A set of uris that\
+            are currently being resolved.
+        resolution_path (List[Uri]): A list of uris in the order that\
+            they are being resolved.
+        history (List[UriResolutionStep]): A list of steps \
+            that have been taken to resolve the uri.
     """
 
     resolving_uri_set: Set[Uri]
@@ -29,9 +32,12 @@ class UriResolutionContext:
         """Initialize a new instance of UriResolutionContext.
 
         Args:
-            resolving_uri_set: A set of uris that are currently being resolved.
-            resolution_path: A list of uris in the order that they are being resolved.
-            history: A list of steps that have been taken to resolve the uri.
+            resolving_uri_set (Optional[Set[Uri]]): A set of uris that\
+                are currently being resolved.
+            resolution_path (Optional[List[Uri]]): A list of uris in the order that\
+                they are being resolved.
+            history (Optional[List[UriResolutionStep]]): A list of steps \
+                that have been taken to resolve the uri.
         """
         self.resolving_uri_set = resolving_uri_set or set()
         self.resolution_path = resolution_path or []
@@ -41,7 +47,7 @@ class UriResolutionContext:
         """Check if the given uri is currently being resolved.
 
         Args:
-            uri: The uri to check.
+            uri (Uri): The uri to check.
 
         Returns:
             bool: True if the uri is currently being resolved, otherwise False.
@@ -52,7 +58,7 @@ class UriResolutionContext:
         """Start resolving the given uri.
 
         Args:
-            uri: The uri to start resolving.
+            uri (Uri): The uri to start resolving.
 
         Returns: None
         """
@@ -63,7 +69,7 @@ class UriResolutionContext:
         """Stop resolving the given uri.
 
         Args:
-            uri: The uri to stop resolving.
+            uri (Uri): The uri to stop resolving.
 
         Returns: None
         """
@@ -73,7 +79,7 @@ class UriResolutionContext:
         """Track the given step in the resolution history.
 
         Args:
-            step: The step to track.
+            step (UriResolutionStep): The step to track.
 
         Returns: None
         """

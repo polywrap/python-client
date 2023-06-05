@@ -12,8 +12,8 @@ class UriPackage:
     """UriPackage is a dataclass that contains a URI and a package.
 
     Attributes:
-        uri: The URI.
-        package: The package.
+        uri (Uri): The URI.
+        package (Package): The package.
     """
 
     uri: Uri

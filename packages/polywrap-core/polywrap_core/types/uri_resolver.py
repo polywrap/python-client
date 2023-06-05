@@ -21,9 +21,11 @@ class UriResolver(Protocol):
         """Try to resolve a uri.
 
         Args:
-            uri: The uri to resolve.
-            client: The minimal invoker client to use for resolving the uri.
-            resolution_context: The context for resolving the uri.
+            uri (Uri): The uri to resolve.
+            client (InvokerClient): The minimal invoker client \
+                to use for resolving the uri.
+            resolution_context (UriResolutionContext): The context \
+                for resolving the uri.
 
         Returns:
             UriPackageOrWrapper: result of the URI resolution.
