@@ -1,24 +1,25 @@
 """This module contains the PluginWrapper class."""
 # pylint: disable=invalid-name
-from typing import Generic, TypeVar, Union
+# pylint: disable=too-many-arguments
+from typing import Any, Generic, Optional, TypeVar, Union
 
 from polywrap_core import (
-    GetFileOptions,
     InvocableResult,
-    InvokeOptions,
-    Invoker,
-    UriPackageOrWrapper,
+    InvokerClient,
+    Uri,
+    UriResolutionContext,
     Wrapper,
 )
 from polywrap_manifest import AnyWrapManifest
 
-from .module import PluginModule
+from .module import InvokeOptions, PluginModule
+from .resolution_context_override_client import ResolutionContextOverrideClient
 
 TConfig = TypeVar("TConfig")
 TResult = TypeVar("TResult")
 
 
-class PluginWrapper(Generic[TConfig], Wrapper[UriPackageOrWrapper]):
+class PluginWrapper(Wrapper, Generic[TConfig]):
     """PluginWrapper implements the Wrapper interface for plugin wrappers.
 
     Attributes:
@@ -41,31 +42,53 @@ class PluginWrapper(Generic[TConfig], Wrapper[UriPackageOrWrapper]):
         self.module = module
         self.manifest = manifest
 
-    async def invoke(
+    def invoke(
         self,
-        options: InvokeOptions[UriPackageOrWrapper],
-        invoker: Invoker[UriPackageOrWrapper],
+        uri: Uri,
+        method: str,
+        args: Optional[Any] = None,
+        env: Optional[Any] = None,
+        resolution_context: Optional[UriResolutionContext] = None,
+        client: Optional[InvokerClient] = None,
     ) -> InvocableResult:
-        """Invoke a method on the plugin.
+        """Invoke the Wrapper based on the provided InvokeOptions.
 
         Args:
-            options (InvokeOptions): options to use when invoking the plugin.
-            invoker (Invoker): the invoker to use when invoking the plugin.
+            uri (Uri): Uri of the wrapper
+            method (str): Method to be executed
+            args (Optional[Any]) : Arguments for the method, structured as a dictionary
+            env (Optional[Any]): Override the client's config for all invokes within this invoke.
+            resolution_context (Optional[UriResolutionContext]): A URI resolution context
+            client (Optional[Invoker]): The invoker instance requesting this invocation.\
+                This invoker will be used for any subinvocation that may occur.
 
         Returns:
-            Result[InvocableResult]: the result of the invocation.
+            InvocableResult: Result of the invocation.
         """
-        result = await self.module.__wrap_invoke__(options, invoker)
+        options = InvokeOptions(
+            uri=uri,
+            method=method,
+            args=args,
+            env=env,
+            resolution_context=resolution_context,
+            client=ResolutionContextOverrideClient(client, resolution_context)
+            if client
+            else None,
+        )
+        result = self.module.__wrap_invoke__(options)
         return InvocableResult(result=result, encoded=False)
 
-    async def get_file(self, options: GetFileOptions) -> Union[str, bytes]:
-        """Get a file from the plugin.
+    def get_file(
+        self, path: str, encoding: Optional[str] = "utf-8"
+    ) -> Union[str, bytes]:
+        """Get a file from the wrapper.
 
         Args:
-            options (GetFileOptions): options to use when getting the file.
+            path (str): Path to the file.
+            encoding (Optional[str]): Encoding of the file.
 
         Returns:
-            Result[Union[str, bytes]]: the file contents or an error.
+            Union[str, bytes]: The file contents
         """
         raise NotImplementedError("client.get_file(..) is not implemented for plugins")
 
@@ -76,3 +99,6 @@ class PluginWrapper(Generic[TConfig], Wrapper[UriPackageOrWrapper]):
             Result[AnyWrapManifest]: the manifest of the plugin.
         """
         return self.manifest
+
+
+__all__ = ["PluginWrapper"]
