@@ -1,13 +1,16 @@
 """This module contains the resolver configure class for the client config builder."""
+from abc import ABC
 from typing import List
 
 from polywrap_core import UriResolver
 
-from ..types import ClientConfigBuilder
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class ResolverConfigure(ClientConfigBuilder):
+class ResolverConfigure(ClientConfigBuilder, ABC):
     """Allows configuring the URI resolvers."""
+
+    config: BuilderConfig
 
     def get_resolvers(self) -> List[UriResolver]:
         """Return the resolvers from the builder's config."""

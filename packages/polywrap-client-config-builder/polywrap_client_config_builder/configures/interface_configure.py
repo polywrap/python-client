@@ -1,13 +1,16 @@
 """This module contains the interface configure class for the client config builder."""
+from abc import ABC
 from typing import Dict, List, Union
 
 from polywrap_core import Uri
 
-from ..types import ClientConfigBuilder
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class InterfaceConfigure(ClientConfigBuilder):
+class InterfaceConfigure(ClientConfigBuilder, ABC):
     """Allows configuring the interface-implementations."""
+
+    config: BuilderConfig
 
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
         """Return all registered interface and its implementations\
