@@ -54,13 +54,7 @@ class PolywrapClientConfigBuilder(
 
     def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""
-        static_resolver_like = cast(StaticResolverLike, self.config.redirects)
-
-        for uri, wrapper in self.config.wrappers.items():
-            static_resolver_like[uri] = UriWrapper(uri=uri, wrapper=wrapper)
-
-        for uri, package in self.config.packages.items():
-            static_resolver_like[uri] = UriPackage(uri=uri, package=package)
+        static_resolver_like = self._build_static_resolver_like()
 
         resolver = (
             options.resolver
@@ -86,6 +80,17 @@ class PolywrapClientConfigBuilder(
             interfaces=self.config.interfaces,
             resolver=resolver,
         )
+
+    def _build_static_resolver_like(self) -> StaticResolverLike:
+        static_resolver_like = cast(StaticResolverLike, self.config.redirects)
+
+        for uri, wrapper in self.config.wrappers.items():
+            static_resolver_like[uri] = UriWrapper(uri=uri, wrapper=wrapper)
+
+        for uri, package in self.config.packages.items():
+            static_resolver_like[uri] = UriPackage(uri=uri, package=package)
+
+        return static_resolver_like
 
 
 __all__ = ["PolywrapClientConfigBuilder"]
