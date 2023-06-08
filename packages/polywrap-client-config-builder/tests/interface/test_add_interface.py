@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 from hypothesis import given, settings, strategies as st
 
 from polywrap_client_config_builder import (
