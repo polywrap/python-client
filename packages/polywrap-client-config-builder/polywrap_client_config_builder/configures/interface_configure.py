@@ -26,7 +26,10 @@ class InterfaceConfigure(ClientConfigBuilder, ABC):
     ) -> ClientConfigBuilder:
         """Add a list of implementation URIs for the given interface URI to the builder's config."""
         if interface_uri in self.config.interfaces.keys():
-            self.config.interfaces[interface_uri].extend(implementations_uris)
+            existing_implementations = set(self.config.interfaces[interface_uri])
+            for implementation_uri in implementations_uris:
+                if implementation_uri not in existing_implementations:
+                    self.config.interfaces[interface_uri].append(implementation_uri)
         else:
             self.config.interfaces[interface_uri] = implementations_uris
         return self
