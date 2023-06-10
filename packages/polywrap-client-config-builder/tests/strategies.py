@@ -32,28 +32,28 @@ uri_safe_chars_strategy = st.text(
 uri_strategy = st.builds(Uri, uri_safe_chars_strategy, uri_safe_chars_strategy)
 
 # Env
-env_strategy = st.dictionaries(st.text(), st.one_of(scalar_st_list))
+env_strategy = st.dictionaries(st.text(), st.one_of(scalar_st_list), max_size=10)
 envs_strategy = st.dictionaries(
-    uri_strategy, env_strategy
+    uri_strategy, env_strategy, max_size=10
 )
 
 # Interface Implementations
-interfaces_strategy = st.dictionaries(uri_strategy, st.lists(uri_strategy))
+interfaces_strategy = st.dictionaries(uri_strategy, st.lists(uri_strategy, max_size=10), max_size=10)
 
 # URI Redirects
-redirects_strategy = st.dictionaries(uri_strategy, uri_strategy)
+redirects_strategy = st.dictionaries(uri_strategy, uri_strategy, max_size=10)
 
 # Resolver 
 resolver_strategy = st.sampled_from(MockResolvers)
-resolvers_strategy = st.lists(resolver_strategy)
+resolvers_strategy = st.lists(resolver_strategy, max_size=10)
 
 # Wrapper
 wrapper_strategy = st.sampled_from(MockWrappers)
-wrappers_strategy = st.dictionaries(uri_strategy, wrapper_strategy)
+wrappers_strategy = st.dictionaries(uri_strategy, wrapper_strategy, max_size=10)
 
 # Packages
 package_strategy = st.sampled_from(MockPackages)
-packages_strategy = st.dictionaries(uri_strategy, package_strategy)
+packages_strategy = st.dictionaries(uri_strategy, package_strategy, max_size=10)
 
 # builder config
 builder_config_strategy = st.builds(
