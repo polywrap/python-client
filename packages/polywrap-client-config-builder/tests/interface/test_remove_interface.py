@@ -15,7 +15,6 @@ from ..strategies import interfaces_strategy
 @given(interfaces=interfaces_strategy)
 def test_remove_interface(interfaces: Dict[Uri, List[Uri]]):
     assume(interfaces)
-    assume(all(interfaces[interface] for interface in interfaces))
     builder: ClientConfigBuilder = PolywrapClientConfigBuilder()
     builder.config.interfaces = {**interfaces}
 
