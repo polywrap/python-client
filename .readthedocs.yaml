@@ -18,7 +18,7 @@ build:
     post_create_environment:
       # Install poetry
       # https://python-poetry.org/docs/#installing-manually
-      - curl -sSL https://install.python-poetry.org | python3 -
+      - pip install poetry
       # Tell poetry to not use a virtual environment
       - poetry config virtualenvs.create false
     post_install:
