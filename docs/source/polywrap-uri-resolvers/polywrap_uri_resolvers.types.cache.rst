@@ -1,14 +1,13 @@
 polywrap\_uri\_resolvers.types.cache package
 ============================================
 
-Submodules
-----------
+Subpackages
+-----------
 
 .. toctree::
    :maxdepth: 4
 
-   polywrap_uri_resolvers.types.cache.in_memory_wrapper_cache
-   polywrap_uri_resolvers.types.cache.wrapper_cache
+   polywrap_uri_resolvers.types.cache.resolution_result_cache
 
 Module contents
 ---------------

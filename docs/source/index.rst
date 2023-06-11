@@ -20,7 +20,6 @@ Welcome to polywrap-client's documentation!
    polywrap-client-config-builder/modules.rst
 
 
-
 Indices and tables
 ==================
 

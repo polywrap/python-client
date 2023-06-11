@@ -4,12 +4,8 @@ from abc import ABC
 from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class BaseConfigure(ClientConfigBuilder, ABC):
-    """BaseConfigure is the base configure class for the client config builder.
-
-    Attributes:
-        config (BuilderConfig): The internal configuration.
-    """
+class BaseConfigure(ClientConfigBuilder):
+    """BaseConfigure is the base configure class for the client config builder."""
 
     config: BuilderConfig
 

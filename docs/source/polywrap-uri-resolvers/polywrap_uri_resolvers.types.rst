@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    polywrap_uri_resolvers.types.cache
-   polywrap_uri_resolvers.types.uri_resolution_context
 
 Submodules
 ----------
