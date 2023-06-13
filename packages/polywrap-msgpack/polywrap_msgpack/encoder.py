@@ -12,7 +12,7 @@ from .extensions import ExtensionTypes, GenericMap
 from .sanitize import sanitize
 
 
-def encode_ext_hook(obj: Any) -> ExtType:
+def _encode_ext_hook(obj: Any) -> ExtType:
     """Extension hook for extending the msgpack supported types.
 
     Args:
@@ -70,6 +70,11 @@ def msgpack_encode(value: Any) -> bytes:
         raise MsgpackSanitizeError("Failed to sanitize object") from e
 
     try:
-        return msgpack.packb(sanitized, default=encode_ext_hook, use_bin_type=True)
+        return msgpack.packb(sanitized, default=_encode_ext_hook, use_bin_type=True)
     except Exception as e:
         raise MsgpackEncodeError("Failed to encode object") from e
+
+
+__all__ = [
+    "msgpack_encode",
+]

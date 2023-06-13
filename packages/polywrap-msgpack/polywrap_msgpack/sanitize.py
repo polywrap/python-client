@@ -84,3 +84,6 @@ def sanitize(value: Any) -> Any:
     if hasattr(value, "__dict__"):
         return {k: sanitize(v) for k, v in cast(Dict[Any, Any], vars(value)).items()}
     return value
+
+
+__all__ = ["sanitize"]

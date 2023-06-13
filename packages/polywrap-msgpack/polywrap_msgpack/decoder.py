@@ -10,7 +10,7 @@ from .errors import MsgpackDecodeError, MsgpackExtError
 from .extensions import ExtensionTypes, GenericMap
 
 
-def decode_ext_hook(code: int, data: bytes) -> Any:
+def _decode_ext_hook(code: int, data: bytes) -> Any:
     """Extension hook for extending the msgpack supported types.
 
     Args:
@@ -59,7 +59,12 @@ def msgpack_decode(val: bytes) -> Any:
     """
     try:
         return msgpack.unpackb(  # pyright: ignore[reportUnknownMemberType]
-            val, ext_hook=decode_ext_hook
+            val, ext_hook=_decode_ext_hook
         )
     except Exception as e:
         raise MsgpackDecodeError("Failed to decode msgpack data") from e
+
+
+__all__ = [
+    "msgpack_decode",
+]
