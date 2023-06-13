@@ -16,34 +16,32 @@ class ExtendableUriResolver(UriResolverAggregatorBase):
         The aggregated extension wrapper resolver is then used to resolve\
         the uri to a wrapper.
 
-    Attributes:
-        DEFAULT_EXT_INTERFACE_URIS (List[Uri]): The default list of extension\
+    Args:
+        ext_interface_uris (Optional[List[Uri]]): The list of extension\
+            interface uris. Defaults to the default list of extension\
             interface uris.
-        ext_interface_uris (List[Uri]): The list of extension interface uris.
-        resolver_name (str): The name of the resolver.
+        resolver_name (Optional[str]): The name of the resolver. Defaults\
+            to the class name.
     """
 
     DEFAULT_EXT_INTERFACE_URIS = [
         Uri.from_str("wrap://ens/wraps.eth:uri-resolver-ext@1.1.0"),
         Uri.from_str("wrap://ens/wraps.eth:uri-resolver-ext@1.0.0"),
     ]
+    """The default list of extension interface uris."""
+
     ext_interface_uris: List[Uri]
+    """The list of extension interface uris."""
+
     resolver_name: str
+    """The name of the resolver."""
 
     def __init__(
         self,
         ext_interface_uris: Optional[List[Uri]] = None,
         resolver_name: Optional[str] = None,
     ):
-        """Initialize a new ExtendableUriResolver instance.
-        
-        Args:
-            ext_interface_uris (Optional[List[Uri]]): The list of extension\
-                interface uris. Defaults to the default list of extension\
-                interface uris.
-            resolver_name (Optional[str]): The name of the resolver. Defaults\
-                to the class name.
-        """
+        """Initialize a new ExtendableUriResolver instance."""
         self.ext_interface_uris = ext_interface_uris or self.DEFAULT_EXT_INTERFACE_URIS
         self.resolver_name = resolver_name or self.__class__.__name__
         super().__init__()

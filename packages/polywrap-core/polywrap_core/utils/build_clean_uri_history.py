@@ -12,8 +12,8 @@ def build_clean_uri_history(
     """Build a clean history of the URI resolution steps.
 
     Args:
-        history: A list of URI resolution steps.
-        depth: The depth of the history to build.
+        history (List[UriResolutionStep]): A list of URI resolution steps.
+        depth (Optional[int]): The depth of the history to build.
 
     Returns:
         CleanResolutionStep: A clean history of the URI resolution steps.

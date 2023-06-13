@@ -10,8 +10,8 @@ def get_env_from_resolution_path(
     """Get environment variable from URI resolution history.
 
     Args:
-        uri_history: List of URIs from the URI resolution history
-        client: Polywrap client instance to use for getting the env by URI
+        uri_history (List[Uri]): List of URIs from the URI resolution history
+        client (Client): Polywrap client instance to use for getting the env by URI
 
     Returns:
         env if found, None otherwise

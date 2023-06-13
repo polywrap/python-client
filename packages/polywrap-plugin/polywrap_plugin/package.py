@@ -14,7 +14,7 @@ TConfig = TypeVar("TConfig")
 class PluginPackage(WrapPackage, Generic[TConfig]):
     """PluginPackage implements IWrapPackage interface for the plugin.
 
-    Attributes:
+    Args:
         module: The plugin module.
         manifest: The manifest of the plugin.
     """

@@ -8,7 +8,7 @@ from polywrap_core import Uri
 class UriRedirect:
     """UriRedirect is a type that represents a redirect from one uri to another.
 
-    Attributes:
+    Args:
         from_uri (Uri): The uri to redirect from.
         to_uri (Uri): The uri to redirect to.
     """

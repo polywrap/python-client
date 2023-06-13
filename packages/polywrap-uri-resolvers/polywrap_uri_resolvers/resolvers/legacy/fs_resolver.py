@@ -31,16 +31,16 @@ class SimpleFileReader(FileReader):
 
 
 class FsUriResolver(UriResolver):
-    """Defines a URI resolver that resolves file system URIs."""
+    """Defines a URI resolver that resolves file system URIs.
+
+    Args:
+        file_reader (FileReader): The file reader used to read files.
+    """
 
     file_reader: FileReader
 
     def __init__(self, file_reader: FileReader):
-        """Initialize a new FsUriResolver instance.
-
-        Args:
-            file_reader (FileReader): The file reader used to read files.
-        """
+        """Initialize a new FsUriResolver instance."""
         self.file_reader = file_reader
 
     def try_resolve_uri(

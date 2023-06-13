@@ -17,7 +17,6 @@ Submodules
 
    polywrap_uri_resolvers.types.static_resolver_like
    polywrap_uri_resolvers.types.uri_redirect
-   polywrap_uri_resolvers.types.uri_resolver_like
 
 Module contents
 ---------------

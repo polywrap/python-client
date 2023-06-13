@@ -8,10 +8,10 @@ E = TypeVar("E")
 
 
 @dataclass(kw_only=True, slots=True)
-class InvokeOptions:
-    """InvokeOptions is a dataclass that holds the options for an invocation.
+class WasmInvokeOptions:
+    """WasmInvokeOptions is a dataclass that holds the options for an invocation.
 
-    Attributes:
+    Args:
         uri: The URI of the wrapper.
         method: The method to invoke.
         args: The arguments to pass to the method.
@@ -30,7 +30,7 @@ class InvokeOptions:
 class InvokeResult(Generic[E]):
     """InvokeResult is a dataclass that holds the result of an invocation.
 
-    Attributes:
+    Args:
         result: The result of an invocation.
         error: The error of an invocation.
     """
@@ -50,7 +50,7 @@ class InvokeResult(Generic[E]):
 class State:
     """State is a dataclass that holds the state of a Wasm wrapper.
 
-    Attributes:
+    Args:
         invoke_options: The options used for the invocation.
         invoke_result: The result of an invocation.
         subinvoke_result: The result of a subinvocation.
@@ -58,7 +58,7 @@ class State:
         get_implementations_result: The result of a get implementations call.
     """
 
-    invoke_options: InvokeOptions
+    invoke_options: WasmInvokeOptions
     invoke_result: Optional[InvokeResult[str]] = None
     subinvoke_result: Optional[InvokeResult[Exception]] = None
     get_implementations_result: Optional[bytes] = None

@@ -15,7 +15,7 @@ from .wrap_0_1 import *
 class DeserializeManifestOptions:
     """Options for deserializing a manifest from msgpack encoded bytes.
 
-    Attributes:
+    Args:
         no_validate: If true, do not validate the manifest.
     """
 

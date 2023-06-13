@@ -11,8 +11,8 @@ from .wrapper import Wrapper
 class UriWrapper:
     """UriWrapper is a dataclass that contains a URI and a wrapper.
 
-    Attributes:
-        uri (Uri): The URI.
+    Args:
+        uri (Uri): The URI of the wrapper.
         wrapper (Wrapper): The wrapper.
     """
 

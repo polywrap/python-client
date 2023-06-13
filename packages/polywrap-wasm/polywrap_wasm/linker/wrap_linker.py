@@ -25,18 +25,17 @@ class WrapLinker(
 
     This class is responsible for linking all the Wasm imports to the Wasm module.
 
+    Args:
+        linker: The Wasm linker instance.
+        wrap_imports: The Wasm imports instance.
+
     Attributes:
         linker: The Wasm linker instance.
         wrap_imports: The Wasm imports instance.
     """
 
     def __init__(self, linker: Linker, wrap_imports: WrapImports) -> None:
-        """Initialize the WrapLinker instance.
-
-        Args:
-            linker: The Wasm linker instance.
-            wrap_imports: The Wasm imports instance.
-        """
+        """Initialize the WrapLinker instance."""
         self.linker = linker
         self.wrap_imports = wrap_imports
 

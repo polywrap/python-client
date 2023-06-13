@@ -11,15 +11,20 @@ class UriResolverExtensionFileReader(FileReader):
         The extension wrapper is used to read files by invoking the getFile method.\
         The getFile method is invoked with the path of the file to read.
 
-    Attributes:
+    Args:
         extension_uri (Uri): The uri of the extension wrapper.
         wrapper_uri (Uri): The uri of the wrapper that uses the extension wrapper.
         invoker (Invoker): The invoker used to invoke the getFile method.
     """
 
     extension_uri: Uri
+    """The uri of the extension wrapper."""
+
     wrapper_uri: Uri
+    """The uri of the wrapper that uses the extension wrapper."""
+
     invoker: Invoker
+    """The invoker used to invoke the getFile method."""
 
     def __init__(
         self,
@@ -27,13 +32,7 @@ class UriResolverExtensionFileReader(FileReader):
         wrapper_uri: Uri,
         invoker: Invoker,
     ):
-        """Initialize a new UriResolverExtensionFileReader instance.
-
-        Args:
-            extension_uri (Uri): The uri of the extension wrapper.
-            wrapper_uri (Uri): The uri of the wrapper that uses the extension wrapper.
-            invoker (Invoker): The invoker used to invoke the getFile method.
-        """
+        """Initialize a new UriResolverExtensionFileReader instance."""
         self.extension_uri = extension_uri
         self.wrapper_uri = wrapper_uri
         self.invoker = invoker

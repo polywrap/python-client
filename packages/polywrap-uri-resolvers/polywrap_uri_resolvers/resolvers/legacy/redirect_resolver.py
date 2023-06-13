@@ -5,16 +5,16 @@ from polywrap_core import InvokerClient, Uri, UriResolutionContext, UriResolver
 
 
 class RedirectUriResolver(UriResolver):
-    """Defines the redirect URI resolver."""
+    """Defines the redirect URI resolver.
+
+    Args:
+        redirects (Dict[Uri, Uri]): The redirects to use.
+    """
 
     _redirects: Dict[Uri, Uri]
 
     def __init__(self, redirects: Dict[Uri, Uri]):
-        """Initialize a new RedirectUriResolver instance.
-
-        Args:
-            redirects (Dict[Uri, Uri]): The redirects to use.
-        """
+        """Initialize a new RedirectUriResolver instance."""
         self._redirects = redirects
 
     def try_resolve_uri(

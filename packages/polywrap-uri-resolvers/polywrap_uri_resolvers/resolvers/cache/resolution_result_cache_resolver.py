@@ -19,17 +19,22 @@ class ResolutionResultCacheResolver(UriResolver):
     The URI resolution result can be a URI, IWrapPackage, Wrapper, or Error.
     Errors are not cached by default and can be cached by setting the cache_errors option to True.
 
-    Attributes:
+    Args:
         resolver_to_cache (UriResolver): The URI resolver to cache.
         cache (ResolutionResultCache): The resolution result cache.
-        options (ResolutionResultCacheResolverOptions): The options to use.
+        cache_errors (bool): Whether to cache errors.
     """
 
     __slots__ = ("resolver_to_cache", "cache", "cache_errors")
 
     resolver_to_cache: UriResolver
+    """The URI resolver to cache."""
+
     cache: ResolutionResultCache
+    """The resolution result cache."""
+
     cache_errors: bool
+    """Whether to cache errors."""
 
     def __init__(
         self,
@@ -37,13 +42,7 @@ class ResolutionResultCacheResolver(UriResolver):
         cache: ResolutionResultCache,
         cache_errors: bool = False,
     ):
-        """Initialize a new ResolutionResultCacheResolver instance.
-
-        Args:
-            resolver_to_cache (UriResolver): The URI resolver to cache.
-            cache (ResolutionResultCache): The resolution result cache.
-            options (ResolutionResultCacheResolverOptions): The options to use.
-        """
+        """Initialize a new ResolutionResultCacheResolver instance."""
         self.resolver_to_cache = resolver_to_cache
         self.cache = cache
         self.cache_errors = cache_errors

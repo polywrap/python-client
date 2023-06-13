@@ -42,20 +42,17 @@ class ExtensionWrapperUriResolver(UriResolver):
         The extension wrapper is resolved using the extension wrapper uri resolver.\
         The extension wrapper is then used to resolve the uri to a wrapper.
 
-    Attributes:
+    Args:
         extension_wrapper_uri (Uri): The uri of the extension wrapper.
     """
 
     __slots__ = ("extension_wrapper_uri",)
 
     extension_wrapper_uri: Uri
+    """The uri of the extension wrapper."""
 
     def __init__(self, extension_wrapper_uri: Uri):
-        """Initialize a new ExtensionWrapperUriResolver instance.
-
-        Args:
-            extension_wrapper_uri (Uri): The uri of the extension wrapper.
-        """
+        """Initialize a new ExtensionWrapperUriResolver instance."""
         self.extension_wrapper_uri = extension_wrapper_uri
 
     def get_step_description(self) -> str:

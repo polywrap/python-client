@@ -17,10 +17,10 @@ TConfig = TypeVar("TConfig")
 
 
 @dataclass(kw_only=True, slots=True)
-class InvokeOptions:
-    """InvokeOptions is a dataclass that holds the options for an invocation.
+class PluginInvokeOptions:
+    """PluginInvokeOptions is a dataclass that holds the options for an invocation.
 
-    Attributes:
+    Args:
         uri: The URI of the wrapper.
         method: The method to invoke.
         args: The arguments to pass to the method.
@@ -40,7 +40,7 @@ class InvokeOptions:
 class PluginModule(Generic[TConfig], ABC):
     """PluginModule is the base class for all plugin modules.
 
-    Attributes:
+    Args:
         config: The configuration of the plugin.
     """
 
@@ -56,7 +56,7 @@ class PluginModule(Generic[TConfig], ABC):
 
     def __wrap_invoke__(
         self,
-        options: InvokeOptions,
+        options: PluginInvokeOptions,
     ) -> Any:
         """Invoke a method on the plugin.
 

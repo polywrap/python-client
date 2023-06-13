@@ -21,7 +21,7 @@ from ..abc import ResolverWithHistory
 class PackageToWrapperResolverOptions:
     """Defines the options for the PackageToWrapperResolver.
 
-    Attributes:
+    Args:
         deserialize_manifest_options (DeserializeManifestOptions): The options\
             to use when deserializing the manifest.
     """
@@ -37,7 +37,7 @@ class PackageToWrapperResolver(ResolverWithHistory):
         If result is a wrapper, it returns it back.\
         In case of a package, it creates a wrapper and returns it back.
     
-    Attributes:
+    Args:
         resolver (UriResolver): The URI resolver to cache.
         options (PackageToWrapperResolverOptions): The options to use.
     """
@@ -50,12 +50,7 @@ class PackageToWrapperResolver(ResolverWithHistory):
         resolver: UriResolver,
         options: Optional[PackageToWrapperResolverOptions] = None,
     ) -> None:
-        """Initialize a new PackageToWrapperResolver instance.
-
-        Args:
-            resolver (UriResolver): The URI resolver to cache.
-            options (PackageToWrapperResolverOptions): The options to use.
-        """
+        """Initialize a new PackageToWrapperResolver instance."""
         self.resolver = resolver
         self.options = options
         super().__init__()

@@ -12,7 +12,7 @@ from .uri_resolver import UriResolver
 class ClientConfig:
     """Client configuration.
 
-    Attributes:
+    Args:
         envs (Dict[Uri, Any]): Dictionary of environments \
             where key is URI and value is env.
         interfaces (Dict[Uri, List[Uri]]): Dictionary of interfaces \
@@ -20,6 +20,7 @@ class ClientConfig:
             and value is list of implementation URIs.
         resolver (UriResolver): URI resolver.
     """
+
     envs: Dict[Uri, Any] = field(default_factory=dict)
     interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: UriResolver

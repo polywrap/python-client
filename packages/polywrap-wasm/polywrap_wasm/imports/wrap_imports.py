@@ -29,6 +29,12 @@ class WrapImports(
 
     This class is responsible for providing all the Wasm imports to the Wasm module.
 
+    Args:
+        memory: The Wasm memory instance.
+        store: The Wasm store instance.
+        state: The state of the Wasm module.
+        invoker: The invoker instance.
+    
     Attributes:
         memory: The Wasm memory instance.
         store: The Wasm store instance.
@@ -43,14 +49,7 @@ class WrapImports(
         state: State,
         invoker: Optional[Invoker],
     ) -> None:
-        """Initialize the WrapImports instance.
-
-        Args:
-            memory: The Wasm memory instance.
-            store: The Wasm store instance.
-            state: The state of the Wasm module.
-            invoker: The invoker instance.
-        """
+        """Initialize the WrapImports instance."""
         self.memory = memory
         self.store = store
         self.state = state

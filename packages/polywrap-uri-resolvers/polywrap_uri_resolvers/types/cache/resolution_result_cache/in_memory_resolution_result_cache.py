@@ -9,14 +9,10 @@ from .resolution_result_cache import ResolutionResultCache
 
 class InMemoryResolutionResultCache(ResolutionResultCache):
     """InMemoryResolutionResultCache is an in-memory implementation \
-        of the resolution result cache interface.
-
-    Attributes:
-        map (Dict[Uri, Union[UriPackageOrWrapper, UriResolutionError]]):\
-            The map of uris to resolution result.
-    """
+        of the resolution result cache interface."""
 
     map: Dict[Uri, Union[UriPackageOrWrapper, UriResolutionError]]
+    """The map of uris to resolution result."""
 
     def __init__(self):
         """Initialize a new InMemoryResolutionResultCache instance."""

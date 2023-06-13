@@ -20,7 +20,7 @@ from .wrapper_cache import WrapperCache
 class WrapperCacheResolverOptions:
     """Defines the options for the WrapperCacheResolver.
 
-    Attributes:
+    Args:
         deserialize_manifest_options (DeserializeManifestOptions): The options\
             to use when deserializing the manifest.
         end_on_redirect (Optional[bool]): Whether to end the resolution\
@@ -38,10 +38,10 @@ class WrapperCacheResolver(UriResolver):
         If result is an uri or package, it returns it back without caching.\
         If result is a wrapper, it caches the wrapper and returns it back.
 
-    Attributes:
+    Args:
         resolver_to_cache (UriResolver): The URI resolver to cache.
         cache (WrapperCache): The cache to use.
-        options (CacheResolverOptions): The options to use.
+        options (Optional[WrapperCacheResolverOptions]): The options to use.
     """
 
     __slots__ = ("resolver_to_cache", "cache", "options")
@@ -56,13 +56,7 @@ class WrapperCacheResolver(UriResolver):
         cache: WrapperCache,
         options: Optional[WrapperCacheResolverOptions] = None,
     ):
-        """Initialize a new PackageToWrapperCacheResolver instance.
-
-        Args:
-            resolver_to_cache (UriResolver): The URI resolver to cache.
-            cache (WrapperCache): The cache to use.
-            options (CacheResolverOptions): The options to use.
-        """
+        """Initialize a new PackageToWrapperCacheResolver instance."""
         self.resolver_to_cache = resolver_to_cache
         self.cache = cache
         self.options = options

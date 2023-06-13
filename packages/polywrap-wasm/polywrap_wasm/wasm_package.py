@@ -16,10 +16,13 @@ from .wasm_wrapper import WasmWrapper
 class WasmPackage(WrapPackage):
     """WasmPackage is a type that represents a Wasm WRAP package.
 
-    Attributes:
-        file_reader: The file reader used to read the package files.
-        manifest: The manifest of the wrapper.
-        wasm_module: The Wasm module file of the wrapper.
+    Args:
+        file_reader (FileReader): The file reader used to read\
+            the package files.
+        manifest (Optional[Union[bytes, AnyWrapManifest]]): \
+            The manifest of the wrapper.
+        wasm_module (Optional[bytes]): The Wasm module file\
+            of the wrapper.
     """
 
     file_reader: FileReader

@@ -10,7 +10,7 @@ from polywrap_uri_resolvers import ResolutionResultCache
 class BuildOptions:
     """BuildOptions defines the options for build method of the client config builder.
 
-    Attributes:
+    Args:
         resolution_result_cache: The Resolution Result Cache.
         resolver: The URI resolver.
     """

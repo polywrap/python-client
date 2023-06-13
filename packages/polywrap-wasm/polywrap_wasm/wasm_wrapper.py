@@ -19,13 +19,13 @@ from wasmtime import Instance, Store
 
 from .exports import WrapExports
 from .instance import create_instance
-from .types.state import InvokeOptions, State
+from .types.state import WasmInvokeOptions, State
 
 
 class WasmWrapper(Wrapper):
     """WasmWrapper implements the Wrapper interface for Wasm wrappers.
 
-    Attributes:
+    Args:
         file_reader: The file reader used to read the wrapper files.
         wasm_module: The Wasm module file of the wrapper.
         manifest: The manifest of the wrapper.
@@ -115,7 +115,7 @@ class WasmWrapper(Wrapper):
             )
 
         state = State(
-            invoke_options=InvokeOptions(
+            invoke_options=WasmInvokeOptions(
                 uri=uri,
                 method=method,
                 args=args,

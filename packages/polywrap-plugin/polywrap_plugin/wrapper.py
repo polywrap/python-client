@@ -12,7 +12,7 @@ from polywrap_core import (
 )
 from polywrap_manifest import AnyWrapManifest
 
-from .module import InvokeOptions, PluginModule
+from .module import PluginInvokeOptions, PluginModule
 from .resolution_context_override_client import ResolutionContextOverrideClient
 
 TConfig = TypeVar("TConfig")
@@ -22,7 +22,7 @@ TResult = TypeVar("TResult")
 class PluginWrapper(Wrapper, Generic[TConfig]):
     """PluginWrapper implements the Wrapper interface for plugin wrappers.
 
-    Attributes:
+    Args:
         module: The plugin module.
         manifest: The manifest of the plugin.
     """
@@ -65,7 +65,7 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
         Returns:
             InvocableResult: Result of the invocation.
         """
-        options = InvokeOptions(
+        options = PluginInvokeOptions(
             uri=uri,
             method=method,
             args=args,

@@ -11,7 +11,7 @@ class RedirectResolver(ResolverWithHistory):
         uri to redirect from, the uri to redirect to is returned. Otherwise, the uri to resolve\
         is returned.
 
-    Attributes:
+    Args:
         from_uri (Uri): The uri to redirect from.
         to_uri (Uri): The uri to redirect to.
     """
@@ -22,12 +22,7 @@ class RedirectResolver(ResolverWithHistory):
     to_uri: Uri
 
     def __init__(self, from_uri: Uri, to_uri: Uri) -> None:
-        """Initialize a new RedirectResolver instance.
-
-        Args:
-            from_uri (Uri): The uri to redirect from.
-            to_uri (Uri): The uri to redirect to.
-        """
+        """Initialize a new RedirectResolver instance."""
         self.from_uri = from_uri
         self.to_uri = to_uri
         super().__init__()

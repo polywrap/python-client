@@ -10,10 +10,11 @@ class InMemoryFileReader(FileReader):
     """InMemoryFileReader is an implementation of the IFileReader interface\
         that reads files from memory.
 
-    Attributes:
-        _wasm_module: The Wasm module file of the wrapper.
-        _wasm_manifest: The manifest of the wrapper.
-        _base_file_reader: The base file reader used to read any files.
+    Args:
+        base_file_reader (FileReader): The base file reader\
+            used to read any files.
+        wasm_module (Optional[bytes]): The Wasm module file of the wrapper.
+        wasm_manifest (Optional[bytes]): The manifest of the wrapper.
     """
 
     _wasm_manifest: Optional[bytes]

@@ -7,13 +7,12 @@ from .wrapper_cache import WrapperCache
 
 
 class InMemoryWrapperCache(WrapperCache):
-    """InMemoryWrapperCache is an in-memory implementation of the wrapper cache interface.
-
-    Attributes:
-        map (Dict[Uri, UriWrapper]): The map of uris to wrappers.
+    """InMemoryWrapperCache is an in-memory implementation\
+        of the wrapper cache interface.
     """
 
     map: Dict[Uri, UriWrapper]
+    """The map of uris to wrappers."""
 
     def __init__(self):
         """Initialize a new InMemoryWrapperCache instance."""
