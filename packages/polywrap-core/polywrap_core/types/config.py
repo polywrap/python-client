@@ -20,7 +20,6 @@ class ClientConfig:
             and value is list of implementation URIs.
         resolver (UriResolver): URI resolver.
     """
-
     envs: Dict[Uri, Any] = field(default_factory=dict)
     interfaces: Dict[Uri, List[Uri]] = field(default_factory=dict)
     resolver: UriResolver

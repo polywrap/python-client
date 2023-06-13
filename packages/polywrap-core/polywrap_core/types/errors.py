@@ -88,13 +88,7 @@ class WrapAbortError(WrapError):
 
 
 class WrapInvocationError(WrapAbortError):
-    """Raises when there is an error invoking a wrapper.
-
-    Attributes:
-        invoke_options (InvokeOptions): InvokeOptions for the invocation \
-            that was aborted.
-        message: The message provided by the wrapper.
-    """
+    """Raises when there is an error invoking a wrapper."""
 
 
 class WrapGetImplementationsError(WrapError):

@@ -15,7 +15,7 @@ from .uri_resolution_context import UriResolutionContext
 class InvocableResult:
     """Result of a wrapper invocation.
 
-    Args:
+    Attributes:
         result (Any): Invocation result. The type of this value is \
             the return type of the method.
         encoded (Optional[bool]): It will be set true if result is encoded
