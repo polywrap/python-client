@@ -63,3 +63,6 @@ class ExtendableUriResolver(UriResolverAggregatorBase):
             )
 
         return [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]
+
+
+__all__ = ["ExtendableUriResolver"]

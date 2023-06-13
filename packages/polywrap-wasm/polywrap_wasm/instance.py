@@ -19,10 +19,10 @@ def create_instance(
     """Create a Wasm instance for a Wasm module.
 
     Args:
-        store: The Wasm store.
-        module: The Wasm module.
-        state: The state of the Wasm module.
-        invoker: The invoker to use for subinvocations.
+        store (Store): The Wasm store.
+        module (bytes): The Wasm module.
+        state (State): The state of the Wasm module.
+        invoker (Optional[Invoker]): The invoker to use for subinvocations.
 
     Returns:
         Instance: The Wasm instance.

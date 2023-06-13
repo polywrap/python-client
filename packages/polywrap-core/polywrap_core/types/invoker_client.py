@@ -8,7 +8,7 @@ from .uri_resolver_handler import UriResolverHandler
 
 
 class InvokerClient(Invoker, UriResolverHandler, Protocol):
-    """InvokerClient interface defines core set of functionalities\
+    """InvokerClient protocol defines core set of functionalities\
         for resolving and invoking a wrapper."""
 
 

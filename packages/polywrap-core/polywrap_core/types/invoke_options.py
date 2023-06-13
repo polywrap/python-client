@@ -6,7 +6,7 @@ from .uri_resolution_context import UriResolutionContext
 
 
 class InvokeOptions(Protocol):
-    """InvokeOptions holds the options for an invocation."""
+    """InvokeOptions protocol exposes the core options for an invocation."""
 
     @property
     def uri(self) -> Uri:
@@ -32,3 +32,6 @@ class InvokeOptions(Protocol):
     def resolution_context(self) -> Optional[UriResolutionContext]:
         """A URI resolution context."""
         ...
+
+
+__all__ = ["InvokeOptions"]

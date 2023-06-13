@@ -9,7 +9,7 @@ from .resolution_result_cache import ResolutionResultCache
 
 class InMemoryResolutionResultCache(ResolutionResultCache):
     """InMemoryResolutionResultCache is an in-memory implementation \
-        of the resolution result cache interface."""
+        of the resolution result cache protocol."""
 
     map: Dict[Uri, Union[UriPackageOrWrapper, UriResolutionError]]
     """The map of uris to resolution result."""
@@ -31,3 +31,6 @@ class InMemoryResolutionResultCache(ResolutionResultCache):
     def __str__(self) -> str:
         """Display cache as a string."""
         return f"{self.map}"
+
+
+__all__ = ["InMemoryResolutionResultCache"]

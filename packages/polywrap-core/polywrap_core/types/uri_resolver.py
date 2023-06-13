@@ -10,7 +10,7 @@ from .uri_resolution_context import UriResolutionContext
 
 
 class UriResolver(Protocol):
-    """Defines interface for wrapper uri resolver."""
+    """Defines protocol for wrapper uri resolver."""
 
     def try_resolve_uri(
         self,

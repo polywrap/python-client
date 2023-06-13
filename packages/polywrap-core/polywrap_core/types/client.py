@@ -11,7 +11,7 @@ from .uri_resolver import UriResolver
 
 
 class Client(InvokerClient, Protocol):
-    """Client interface defines core set of functionalities\
+    """Client protocol defines core set of functionalities\
         for interacting with a wrapper."""
 
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:

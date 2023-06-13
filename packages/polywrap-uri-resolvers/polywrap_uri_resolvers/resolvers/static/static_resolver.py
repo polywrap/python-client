@@ -65,3 +65,6 @@ class StaticResolver(UriResolver):
         )
         resolution_context.track_step(step)
         return uri_package_or_wrapper
+
+
+__all__ = ["StaticResolver"]

@@ -10,7 +10,7 @@ from .uri_resolution_context import UriResolutionContext
 
 
 class Invoker(Protocol):
-    """Invoker interface defines the methods for invoking a wrapper."""
+    """Invoker protocol defines the methods for invoking a wrapper."""
 
     def invoke(
         self,

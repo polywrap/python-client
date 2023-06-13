@@ -71,3 +71,6 @@ def _build_clean_history_step(step: UriResolutionStep) -> str:
                 if step.description
                 else f"{step.source_uri} => uri ({uri})"
             )
+
+
+__all__ = ["build_clean_uri_history"]

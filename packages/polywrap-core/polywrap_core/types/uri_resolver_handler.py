@@ -8,7 +8,7 @@ from .uri_resolution_context import UriResolutionContext
 
 
 class UriResolverHandler(Protocol):
-    """Uri resolver handler interface."""
+    """Uri resolver handler protocol."""
 
     def try_resolve_uri(
         self, uri: Uri, resolution_context: Optional[UriResolutionContext] = None

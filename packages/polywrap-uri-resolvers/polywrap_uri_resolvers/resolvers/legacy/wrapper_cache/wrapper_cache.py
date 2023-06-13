@@ -18,3 +18,6 @@ class WrapperCache(Protocol):
     @abstractmethod
     def set(self, uri: Uri, wrapper: UriWrapper) -> None:
         """Set a wrapper in the cache by its uri."""
+
+
+__all__ = ["WrapperCache"]

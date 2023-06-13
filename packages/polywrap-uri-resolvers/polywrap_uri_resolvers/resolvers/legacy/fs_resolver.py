@@ -76,3 +76,6 @@ class FsUriResolver(UriResolver):
                 file_reader=self.file_reader,
             ),
         )
+
+
+__all__ = ["FsUriResolver"]

@@ -123,3 +123,6 @@ class WrapperCacheResolver(UriResolver):
             )
         )
         return result
+
+
+__all__ = ["WrapperCacheResolver", "WrapperCacheResolverOptions"]

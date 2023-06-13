@@ -8,7 +8,7 @@ from ....errors import UriResolutionError
 
 
 class ResolutionResultCache(Protocol):
-    """Defines a cache interface for caching resolution results by uri.
+    """Defines a cache protocol for caching resolution results by uri.
 
     This is used by the resolution result resolver to cache resolution results\
         for a given uri.
@@ -27,3 +27,6 @@ class ResolutionResultCache(Protocol):
     def __str__(self) -> str:
         """Display cache as a string."""
         ...
+
+
+__all__ = ["ResolutionResultCache"]

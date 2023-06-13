@@ -70,3 +70,6 @@ class ResolverWithHistory(UriResolver):
             resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
                 The resolution context to update.
         """
+
+
+__all__ = ["ResolverWithHistory"]

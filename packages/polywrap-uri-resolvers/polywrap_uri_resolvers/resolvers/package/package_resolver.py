@@ -61,3 +61,6 @@ class PackageResolver(ResolverWithHistory):
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.
         """
         return uri if uri != self.uri else UriPackage(uri=uri, package=self.package)
+
+
+__all__ = ["PackageResolver"]

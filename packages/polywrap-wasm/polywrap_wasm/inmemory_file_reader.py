@@ -7,7 +7,7 @@ from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
 
 class InMemoryFileReader(FileReader):
-    """InMemoryFileReader is an implementation of the IFileReader interface\
+    """InMemoryFileReader is an implementation of the FileReader protocol\
         that reads files from memory.
 
     Args:

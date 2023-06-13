@@ -25,3 +25,6 @@ class InMemoryWrapperCache(WrapperCache):
     def set(self, uri: Uri, wrapper: UriWrapper) -> None:
         """Set a wrapper in the cache by its uri."""
         self.map[uri] = wrapper
+
+
+__all__ = ["InMemoryWrapperCache"]

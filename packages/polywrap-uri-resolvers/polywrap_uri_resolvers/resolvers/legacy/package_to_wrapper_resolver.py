@@ -95,3 +95,6 @@ class PackageToWrapperResolver(ResolverWithHistory):
             str: The description of the resolution step.
         """
         return self.__class__.__name__
+
+
+__all__ = ["PackageToWrapperResolver", "PackageToWrapperResolverOptions"]

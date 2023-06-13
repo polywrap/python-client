@@ -41,3 +41,6 @@ class UriResolverAggregator(UriResolverAggregatorBase):
     ) -> List[UriResolver]:
         """Get the list of resolvers to aggregate."""
         return self._resolvers
+
+
+__all__ = ["UriResolverAggregator"]

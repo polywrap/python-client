@@ -79,3 +79,6 @@ class UriResolverAggregatorBase(UriResolver, ABC):
         )
         resolution_context.track_step(step)
         return uri
+
+
+__all__ = ["UriResolverAggregatorBase"]

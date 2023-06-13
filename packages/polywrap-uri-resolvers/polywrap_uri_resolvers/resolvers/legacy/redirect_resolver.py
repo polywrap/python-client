@@ -34,3 +34,6 @@ class RedirectUriResolver(UriResolver):
             Uri: The resolved URI.
         """
         return self._redirects[uri] if uri in self._redirects else uri
+
+
+__all__ = ["RedirectUriResolver"]

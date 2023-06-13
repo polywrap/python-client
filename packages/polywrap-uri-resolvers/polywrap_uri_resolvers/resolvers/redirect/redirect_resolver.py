@@ -56,3 +56,6 @@ class RedirectResolver(ResolverWithHistory):
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.
         """
         return uri if uri != self.from_uri else self.to_uri
+
+
+__all__ = ["RedirectResolver"]

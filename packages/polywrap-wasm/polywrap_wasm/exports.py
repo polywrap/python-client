@@ -8,9 +8,9 @@ class WrapExports:
     """WrapExports is a class that contains the exports of the Wasm wrapper module.
 
     Args:
-        instance: The Wasm instance.
-        store: The Wasm store.
-        _wrap_invoke: The exported _wrap_invoke Wasm function.
+        instance (Instance): The Wasm instance.
+        store (Store): The Wasm store.
+        _wrap_invoke (Func): The exported _wrap_invoke Wasm function.
 
     Raises:
         WasmExportNotFoundError: If the _wrap_invoke function is not exported\

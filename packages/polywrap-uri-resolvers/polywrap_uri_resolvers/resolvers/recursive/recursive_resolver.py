@@ -63,3 +63,6 @@ class RecursiveResolver(UriResolver):
         resolution_context.stop_resolving(uri)
 
         return uri_package_or_wrapper
+
+
+__all__ = ["RecursiveResolver"]

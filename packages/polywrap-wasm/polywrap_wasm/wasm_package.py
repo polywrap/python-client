@@ -14,7 +14,7 @@ from .wasm_wrapper import WasmWrapper
 
 
 class WasmPackage(WrapPackage):
-    """WasmPackage is a type that represents a Wasm WRAP package.
+    """WasmPackage implements the WRAP package protocol for a Wasm WRAP package.
 
     Args:
         file_reader (FileReader): The file reader used to read\
@@ -50,7 +50,8 @@ class WasmPackage(WrapPackage):
         """Get the manifest of the wrapper.
 
         Args:
-            options: The options to use when getting the manifest.
+            options (Optional[DeserializeManifestOptions]): The options\
+                to use when getting the manifest.
         """
         if isinstance(self.manifest, AnyWrapManifest):
             return self.manifest

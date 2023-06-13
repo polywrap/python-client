@@ -20,3 +20,6 @@ def get_env_from_resolution_path(
         if env := client.get_env_by_uri(uri):
             return env
     return None
+
+
+__all__ = ["get_env_from_resolution_path"]

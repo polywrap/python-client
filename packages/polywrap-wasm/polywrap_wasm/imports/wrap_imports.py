@@ -30,16 +30,16 @@ class WrapImports(
     This class is responsible for providing all the Wasm imports to the Wasm module.
 
     Args:
-        memory: The Wasm memory instance.
-        store: The Wasm store instance.
-        state: The state of the Wasm module.
-        invoker: The invoker instance.
+        memory (Memory): The Wasm memory instance.
+        store (Store): The Wasm store instance.
+        state (State): The state of the Wasm module.
+        invoker (Invoker): The invoker instance.
     
     Attributes:
-        memory: The Wasm memory instance.
-        store: The Wasm store instance.
-        state: The state of the Wasm module.
-        invoker: The invoker instance.
+        memory (Memory): The Wasm memory instance.
+        store (Store): The Wasm store instance.
+        state (State): The state of the Wasm module.
+        invoker (Invoker): The invoker instance.
     """
 
     def __init__(

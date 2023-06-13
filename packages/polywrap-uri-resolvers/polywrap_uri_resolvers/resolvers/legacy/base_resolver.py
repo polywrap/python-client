@@ -53,3 +53,6 @@ class BaseUriResolver(UriResolver):
         return self._fs_resolver.try_resolve_uri(
             redirected_uri, client, resolution_context
         )
+
+
+__all__ = ["BaseUriResolver"]

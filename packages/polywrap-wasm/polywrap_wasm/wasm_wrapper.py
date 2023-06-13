@@ -23,7 +23,7 @@ from .types.state import WasmInvokeOptions, State
 
 
 class WasmWrapper(Wrapper):
-    """WasmWrapper implements the Wrapper interface for Wasm wrappers.
+    """WasmWrapper implements the Wrapper protocol for Wasm wrappers.
 
     Args:
         file_reader: The file reader used to read the wrapper files.
@@ -57,7 +57,8 @@ class WasmWrapper(Wrapper):
         """Get a file from the wrapper.
 
         Args:
-            options: The options to use when getting the file.
+            path (str): The path of the file to get.
+            encoding (Optional[str]): The encoding to use when reading the file.
 
         Returns:
             The file contents as string or bytes according to encoding or an error.
@@ -71,9 +72,9 @@ class WasmWrapper(Wrapper):
         """Create a new Wasm instance for the wrapper.
 
         Args:
-            store: The Wasm store to use when creating the instance.
-            state: The Wasm wrapper state to use when creating the instance.
-            client: The client to use when creating the instance.
+            store (Store): The Wasm store to use when creating the instance.
+            state (State): The Wasm wrapper state to use when creating the instance.
+            client (Optional[Invoker]): The client to use when creating the instance.
 
         Returns:
             The Wasm instance of the wrapper Wasm module.
@@ -97,8 +98,13 @@ class WasmWrapper(Wrapper):
         """Invoke the wrapper.
 
         Args:
-            options: The options to use when invoking the wrapper.
-            client: The client to use when invoking the wrapper.
+            uri (Uri): The Wasm wrapper uri.
+            method (str): The method to invoke.
+            args (Optional[Dict[str, Any]]): The args to invoke with.
+            env (Optional[Dict[str, Any]]): The env to use when invoking.
+            resolution_context (Optional[UriResolutionContext]): \
+                The URI resolution context to use during invocation.
+            client (Optional[Invoker]): The invoker to use during invocation.
 
         Returns:
             The result of the invocation or an error.

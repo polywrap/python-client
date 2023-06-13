@@ -56,3 +56,6 @@ class UriResolverExtensionFileReader(FileReader):
                 f"File not found at path: {path}, using resolver: {self.extension_uri}"
             )
         return result
+
+
+__all__ = ["UriResolverExtensionFileReader"]

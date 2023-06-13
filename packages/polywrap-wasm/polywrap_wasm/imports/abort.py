@@ -19,12 +19,12 @@ class WrapAbortImports(BaseWrapImports):
         """Abort the Wasm module and raise an exception.
 
         Args:
-            msg_ptr: The pointer to the message string in memory.
-            msg_len: The length of the message string in memory.
-            file_ptr: The pointer to the filename string in memory.
-            file_len: The length of the filename string in memory.
-            line: The line of the file at where the abort occured.
-            column: The column of the file at where the abort occured.
+            msg_ptr (int): The pointer to the message string in memory.
+            msg_len (int): The length of the message string in memory.
+            file_ptr (int): The pointer to the filename string in memory.
+            file_len (int): The length of the filename string in memory.
+            line (int): The line of the file at where the abort occured.
+            column (int): The column of the file at where the abort occured.
 
         Raises:
             WasmAbortError: since the Wasm module aborted during invocation.

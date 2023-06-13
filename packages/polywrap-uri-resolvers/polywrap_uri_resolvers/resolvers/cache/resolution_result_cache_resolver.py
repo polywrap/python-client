@@ -111,3 +111,6 @@ class ResolutionResultCacheResolver(UriResolver):
             )
         )
         return result
+
+
+__all__ = ["ResolutionResultCacheResolver"]

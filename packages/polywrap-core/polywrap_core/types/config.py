@@ -10,7 +10,7 @@ from .uri_resolver import UriResolver
 
 @dataclass(slots=True, kw_only=True)
 class ClientConfig:
-    """Client configuration.
+    """Defines Client configuration dataclass.
 
     Args:
         envs (Dict[Uri, Any]): Dictionary of environments \

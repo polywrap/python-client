@@ -156,3 +156,6 @@ class ExtensionWrapperUriResolver(UriResolver):
             return UriPackage(uri=uri, package=package)
 
         return uri
+
+
+__all__ = ["ExtensionWrapperUriResolver"]
