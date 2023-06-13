@@ -38,17 +38,31 @@ def encode_ext_hook(obj: Any) -> ExtType:
 
 
 def msgpack_encode(value: Any) -> bytes:
-    """Encode any python object into msgpack bytes.
+    r"""Encode any python object into msgpack bytes.
 
     Args:
         value (Any): any valid python object
 
     Raises:
+        MsgpackExtError: when given object is not a supported extension type
         MsgpackEncodeError: when sanitized object is not msgpack serializable
         MsgpackSanitizeError: when given object is not sanitizable
 
     Returns:
         bytes: encoded msgpack value
+
+    Examples:
+        >>> from polywrap_msgpack import msgpack_encode
+        >>> from polywrap_msgpack import msgpack_decode
+        >>> from polywrap_msgpack import GenericMap
+        >>> msgpack_encode({"a": 1})
+        b'\x81\xa1a\x01'
+        >>> msgpack_encode(GenericMap({"a": 1}))
+        b'\xd6\x01\x81\xa1a\x01'
+        >>> msgpack_encode({1.0: 1})
+        Traceback (most recent call last):
+        ...
+        polywrap_msgpack.errors.MsgpackSanitizeError: Failed to sanitize object
     """
     try:
         sanitized = sanitize(value)

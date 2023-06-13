@@ -18,6 +18,29 @@ def sanitize(value: Any) -> Any:
 
     Returns:
         Any: msgpack compatible sanitized value
+
+    Examples:
+        >>> sanitize({"a": 1})
+        {'a': 1}
+        >>> sanitize({1, 2, 3})
+        [1, 2, 3]
+        >>> sanitize((1, 2, 3))
+        [1, 2, 3]
+        >>> sanitize([{1}, (2, 3), [4]])
+        [[1], [2, 3], [4]]
+        >>> class Foo: pass
+        >>> foo = Foo()
+        >>> foo.bar = 1
+        >>> sanitize(foo)
+        {'bar': 1}
+        >>> sanitize({1: 1})
+        Traceback (most recent call last):
+        ...
+        ValueError: Dict key must be string, got 1 of type <class 'int'>
+        >>> sanitize(GenericMap({1: 2}))
+        Traceback (most recent call last):
+        ...
+        ValueError: GenericMap key must be string, got 1 of type <class 'int'>
     """
     if isinstance(value, GenericMap):
         dictionary: Dict[Any, Any] = cast(

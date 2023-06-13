@@ -30,7 +30,7 @@ def decode_ext_hook(code: int, data: bytes) -> Any:
 
 
 def msgpack_decode(val: bytes) -> Any:
-    """Decode msgpack bytes into a valid python object.
+    r"""Decode msgpack bytes into a valid python object.
 
     Args:
         val (bytes): msgpack encoded bytes
@@ -41,6 +41,21 @@ def msgpack_decode(val: bytes) -> Any:
 
     Returns:
         Any: any python object
+
+    Examples:
+        >>> from polywrap_msgpack import msgpack_encode
+        >>> from polywrap_msgpack import msgpack_decode
+        >>> from polywrap_msgpack import GenericMap
+        >>> msgpack_decode(msgpack_encode({"a": 1}))
+        {'a': 1}
+        >>> msgpack_decode(msgpack_encode(GenericMap({"a": 1})))
+        GenericMap({'a': 1})
+        >>> msgpack_decode(msgpack_encode([{"a": 2}, {"b": 4}]))
+        [{'a': 2}, {'b': 4}]
+        >>> msgpack_decode(b"\xc1")
+        Traceback (most recent call last):
+        ...
+        polywrap_msgpack.errors.MsgpackDecodeError: Failed to decode msgpack data
     """
     try:
         return msgpack.unpackb(  # pyright: ignore[reportUnknownMemberType]
