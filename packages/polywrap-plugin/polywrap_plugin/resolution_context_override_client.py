@@ -9,7 +9,8 @@ class ResolutionContextOverrideClient(InvokerClient):
 
     Args:
         client (InvokerClient): The wrapped client.
-        resolution_context (Optional[UriResolutionContext]): The resolution context to use.
+        resolution_context (Optional[UriResolutionContext]): \
+            The resolution context to use.
     """
 
     client: InvokerClient

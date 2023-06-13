@@ -21,12 +21,15 @@ class PluginInvokeOptions:
     """PluginInvokeOptions is a dataclass that holds the options for an invocation.
 
     Args:
-        uri: The URI of the wrapper.
-        method: The method to invoke.
-        args: The arguments to pass to the method.
-        env: The environment variables to set for the invocation.
-        resolution_context: A URI resolution context.
-        client: The client to use for subinvocations.
+        uri (URI): The URI of the wrapper.
+        method (str): The method to invoke.
+        args (Optional[Any]): The arguments to pass to the method.
+        env (Optional[Any]): The environment variables to set\
+            for the invocation.
+        resolution_context (Optional[UriResolutionContext]): \
+            A URI resolution context.
+        client (Optional[InvokerClient]): The client to use\
+            for subinvocations.
     """
 
     uri: Uri
@@ -41,17 +44,13 @@ class PluginModule(Generic[TConfig], ABC):
     """PluginModule is the base class for all plugin modules.
 
     Args:
-        config: The configuration of the plugin.
+        config (TConfig): The configuration of the plugin.
     """
 
     config: TConfig
 
     def __init__(self, config: TConfig):
-        """Initialize a new PluginModule instance.
-
-        Args:
-            config: The configuration of the plugin.
-        """
+        """Initialize a new PluginModule instance."""
         self.config = config
 
     def __wrap_invoke__(
@@ -61,7 +60,8 @@ class PluginModule(Generic[TConfig], ABC):
         """Invoke a method on the plugin.
 
         Args:
-            options: The options to use when invoking the plugin.
+            options (PluginInvokeOptions): The options\
+                to use when invoking the plugin.
 
         Returns:
             The result of the plugin method invocation.

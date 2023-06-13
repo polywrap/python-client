@@ -15,20 +15,15 @@ class PluginPackage(WrapPackage, Generic[TConfig]):
     """PluginPackage implements IWrapPackage interface for the plugin.
 
     Args:
-        module: The plugin module.
-        manifest: The manifest of the plugin.
+        module (PluginModule[TConfig]): The plugin module.
+        manifest (AnyWrapManifest): The manifest of the plugin.
     """
 
     module: PluginModule[TConfig]
     manifest: AnyWrapManifest
 
     def __init__(self, module: PluginModule[TConfig], manifest: AnyWrapManifest):
-        """Initialize a new PluginPackage instance.
-
-        Args:
-            module: The plugin module.
-            manifest: The manifest of the plugin.
-        """
+        """Initialize a new PluginPackage instance."""
         self.module = module
         self.manifest = manifest
 

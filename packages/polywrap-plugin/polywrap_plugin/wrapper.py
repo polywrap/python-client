@@ -23,8 +23,8 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
     """PluginWrapper implements the Wrapper interface for plugin wrappers.
 
     Args:
-        module: The plugin module.
-        manifest: The manifest of the plugin.
+        module (PluginModule[TConfig]): The plugin module.
+        manifest (AnyWrapManifest): The manifest of the plugin.
     """
 
     module: PluginModule[TConfig]
@@ -33,12 +33,7 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
     def __init__(
         self, module: PluginModule[TConfig], manifest: AnyWrapManifest
     ) -> None:
-        """Initialize a new PluginWrapper instance.
-
-        Args:
-            module: The plugin module.
-            manifest: The manifest of the plugin.
-        """
+        """Initialize a new PluginWrapper instance."""
         self.module = module
         self.manifest = manifest
 
