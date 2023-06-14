@@ -11,7 +11,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
 polywrap-manifest = {path = "../polywrap-manifest", develop = true}
 polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 polywrap-core = {path = "../polywrap-core", develop = true}
@@ -21,6 +20,7 @@ pytest = "^7.1.2"
 pytest-asyncio = "^0.19.0"
 polywrap-plugin = {path = "../polywrap-plugin", develop = true}
 polywrap-client-config-builder = {path = "../polywrap-client-config-builder", develop = true}
+polywrap-test-cases = {path = "../polywrap-test-cases", develop = true}
 pylint = "^2.15.4"
 black = "^22.10.0"
 bandit = { version = "^1.7.4", extras = ["toml"]}
@@ -52,6 +52,7 @@ testpaths = [
 
 [tool.pylint]
 disable = [
+    "too-many-arguments",
 ]
 ignore = [
     "tests/"
