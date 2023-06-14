@@ -9,6 +9,6 @@ custom extension types defined by WRAP standard
 """
 from .decoder import *
 from .encoder import *
+from .errors import *
 from .extensions import *
 from .sanitize import *
-from .errors import *
