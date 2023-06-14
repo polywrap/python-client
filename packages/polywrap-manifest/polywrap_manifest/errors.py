@@ -7,3 +7,6 @@ class ManifestError(Exception):
 
 class DeserializeManifestError(ManifestError):
     """Raised when a manifest cannot be deserialized."""
+
+
+__all__ = ["ManifestError", "DeserializeManifestError"]

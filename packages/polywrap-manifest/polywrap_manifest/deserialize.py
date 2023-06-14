@@ -53,3 +53,6 @@ def deserialize_wrap_manifest(
             raise NotImplementedError(
                 f"Version {manifest_version.value} is not implemented"
             )
+
+
+__all__ = ["deserialize_wrap_manifest"]
