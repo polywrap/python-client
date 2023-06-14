@@ -1,6 +1,6 @@
 """This module contains the env configure class for the client config builder."""
 from abc import ABC
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, cast
 
 from polywrap_core import Uri
 
@@ -35,9 +35,9 @@ class EnvConfigure(ClientConfigBuilder, ABC):
 
         If an Any is already associated with the uri, it is modified.
         """
-        if self.config.envs.get(uri):
-            for key in self.config.envs[uri]:
-                self.config.envs[uri][key] = env[key]
+        if old_env := self.config.envs.get(uri):
+            new_env = self._merge_envs(old_env, env)
+            self.config.envs[uri] = new_env
         else:
             self.config.envs[uri] = env
         return self
@@ -58,3 +58,19 @@ class EnvConfigure(ClientConfigBuilder, ABC):
         for uri in uris:
             self.remove_env(uri)
         return self
+
+    @staticmethod
+    def _merge_envs(env1: Dict[str, Any], env2: Dict[str, Any]) -> Dict[str, Any]:
+        for key, val in env2.items():
+            if key not in env1:
+                env1[key] = val
+                continue
+
+            if isinstance(val, dict):
+                old_val = cast(Dict[str, Any], env1[key])
+                new_val = cast(Dict[str, Any], val)
+
+                EnvConfigure._merge_envs(old_val, new_val)
+            else:
+                env1[key] = val
+        return env1

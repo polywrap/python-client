@@ -19,15 +19,15 @@ class PackageResolver(ResolverWithHistory):
     uri: Uri
     package: WrapPackage
 
-    def __init__(self, uri: Uri, wrap_package: WrapPackage):
+    def __init__(self, uri: Uri, package: WrapPackage):
         """Initialize a new PackageResolver instance.
 
         Args:
             uri (Uri): The uri to resolve.
-            wrap_package (WrapPackage): The wrap package to return.
+            package (WrapPackage): The wrap package to return.
         """
         self.uri = uri
-        self.package = wrap_package
+        self.package = package
         super().__init__()
 
     def get_step_description(self) -> str:

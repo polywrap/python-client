@@ -25,6 +25,9 @@ isort = "^5.10.1"
 pyright = "^1.1.275"
 pydocstyle = "^6.1.1"
 
+[tool.poetry.group.dev.dependencies]
+hypothesis = "^6.76.0"
+
 [tool.bandit]
 exclude_dirs = ["tests"]
 
