@@ -8,13 +8,12 @@ from polywrap_client_config_builder import (
 )
 from polywrap_core import Uri
 
-from ..strategies import interfaces_strategy
+from ..strategies import interfaces_strategy, non_empty_interfaces_strategy
 
 
 @settings(max_examples=50)
-@given(interfaces=interfaces_strategy)
+@given(interfaces=non_empty_interfaces_strategy)
 def test_remove_interface(interfaces: Dict[Uri, List[Uri]]):
-    assume(interfaces)
     builder: ClientConfigBuilder = PolywrapClientConfigBuilder()
     builder.config.interfaces = {**interfaces}
 
@@ -39,10 +38,8 @@ def test_remove_non_existent_interface(interfaces: Dict[Uri, List[Uri]]):
 
 
 @settings(max_examples=50)
-@given(interfaces=interfaces_strategy)
+@given(interfaces=non_empty_interfaces_strategy)
 def test_remove_interface_implementations(interfaces: Dict[Uri, List[Uri]]):
-    assume(interfaces)
-    assume(all(interfaces[interface] for interface in interfaces))
     builder: ClientConfigBuilder = PolywrapClientConfigBuilder()
     builder.config.interfaces = {**interfaces}
 

@@ -40,6 +40,9 @@ envs_strategy = st.dictionaries(
 # Interface Implementations
 interfaces_strategy = st.dictionaries(uri_strategy, st.lists(uri_strategy, max_size=10), max_size=10)
 
+# Non-empty Interface Implementations
+non_empty_interfaces_strategy = st.dictionaries(uri_strategy, st.lists(uri_strategy, min_size=1, max_size=10), min_size=1, max_size=10)
+
 # URI Redirects
 redirects_strategy = st.dictionaries(uri_strategy, uri_strategy, max_size=10)
 
