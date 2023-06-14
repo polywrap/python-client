@@ -25,6 +25,7 @@ class WrapperResolver(ResolverWithHistory):
     wrapper: Wrapper
 
     def __init__(self, uri: Uri, wrapper: Wrapper):
+        """Initialize a new WrapperResolver instance."""
         self.uri = uri
         self.wrapper = wrapper
         super().__init__()

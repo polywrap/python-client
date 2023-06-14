@@ -11,6 +11,7 @@ from polywrap_core import (
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolutionStep,
     UriResolver,
     UriWrapper,
@@ -18,10 +19,7 @@ from polywrap_core import (
     build_clean_uri_history,
     get_env_from_resolution_path,
 )
-from polywrap_core import (
-    get_implementations as core_get_implementations,
-    UriResolutionContext,
-)
+from polywrap_core import get_implementations as core_get_implementations
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
 

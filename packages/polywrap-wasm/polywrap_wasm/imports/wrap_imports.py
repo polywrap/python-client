@@ -34,7 +34,7 @@ class WrapImports(
         store (Store): The Wasm store instance.
         state (State): The state of the Wasm module.
         invoker (Invoker): The invoker instance.
-    
+
     Attributes:
         memory (Memory): The Wasm memory instance.
         store (Store): The Wasm store instance.

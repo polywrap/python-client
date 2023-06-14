@@ -1,4 +1,4 @@
-
+"""This module contains the InvokeResult type."""
 from dataclasses import dataclass
 from typing import Generic, Optional, TypeVar
 

@@ -1,3 +1,4 @@
+"""This module contains the InvokeOptions type for a Wasm wrapper."""
 from dataclasses import dataclass
 from typing import Any, Optional
 

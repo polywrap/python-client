@@ -8,8 +8,7 @@ from .wrapper_cache import WrapperCache
 
 class InMemoryWrapperCache(WrapperCache):
     """InMemoryWrapperCache is an in-memory implementation\
-        of the wrapper cache interface.
-    """
+        of the wrapper cache interface."""
 
     map: Dict[Uri, UriWrapper]
     """The map of uris to wrappers."""

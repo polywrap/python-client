@@ -1,9 +1,7 @@
 """This module contains an utility function for building a clean history of URI resolution steps."""
-from typing import List, Optional, Union
+from typing import List, Optional
 
-from ..types import UriPackage, UriResolutionStep, UriWrapper
-
-CleanResolutionStep = List[Union[str, "CleanResolutionStep"]]
+from ..types import CleanResolutionStep, UriPackage, UriResolutionStep, UriWrapper
 
 
 def build_clean_uri_history(

@@ -19,7 +19,7 @@ from wasmtime import Instance, Store
 
 from .exports import WrapExports
 from .instance import create_instance
-from .types.state import WasmInvokeOptions, State
+from .types.state import State, WasmInvokeOptions
 
 
 class WasmWrapper(Wrapper):
