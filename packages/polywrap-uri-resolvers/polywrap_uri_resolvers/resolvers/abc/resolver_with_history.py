@@ -3,13 +3,12 @@ from abc import abstractmethod
 
 from polywrap_core import (
     InvokerClient,
-    IUriResolutionContext,
     Uri,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
 )
-
-from ...types import UriResolutionStep
 
 
 class ResolverWithHistory(UriResolver):
@@ -20,11 +19,11 @@ class ResolverWithHistory(UriResolver):
         their steps in the resolution context.
     """
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI to a wrap package, a wrapper, or a URI and \
             update the resolution context with the result.
@@ -35,15 +34,15 @@ class ResolverWithHistory(UriResolver):
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
+            client (InvokerClient): The client to use for\
                 resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
+            resolution_context (IUriResolutionContext):\
                 The resolution context to update.
 
         Returns:
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.
         """
-        result = await self._try_resolve_uri(uri, client, resolution_context)
+        result = self._try_resolve_uri(uri, client, resolution_context)
         step = UriResolutionStep(
             source_uri=uri, result=result, description=self.get_step_description()
         )
@@ -56,17 +55,17 @@ class ResolverWithHistory(UriResolver):
         """Get a description of the resolution step."""
 
     @abstractmethod
-    async def _try_resolve_uri(
+    def _try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Resolve a URI to a wrap package, a wrapper, or a URI using an internal function.
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
+            client (InvokerClient): The client to use for\
                 resolving the URI.
             resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
                 The resolution context to update.
