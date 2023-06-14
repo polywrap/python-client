@@ -39,6 +39,10 @@
       {
         "name": "polywrap-plugin",
         "path": "packages/polywrap-plugin"
+      },
+      {
+        "name": "polywrap-test-cases",
+        "path": "packages/polywrap-test-cases"
       }
   ],
   "settings": {
