@@ -26,9 +26,9 @@ class WasmWrapper(Wrapper):
     """WasmWrapper implements the Wrapper protocol for Wasm wrappers.
 
     Args:
-        file_reader: The file reader used to read the wrapper files.
-        wasm_module: The Wasm module file of the wrapper.
-        manifest: The manifest of the wrapper.
+        file_reader (FileReader): The file reader used to read the wrapper files.
+        wasm_module (bytes): The Wasm module file of the wrapper.
+        manifest (AnyWrapManifest): The manifest of the wrapper.
     """
 
     file_reader: FileReader
