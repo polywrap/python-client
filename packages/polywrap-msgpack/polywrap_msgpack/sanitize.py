@@ -22,7 +22,7 @@ def sanitize(value: Any) -> Any:
     if isinstance(value, GenericMap):
         dictionary: Dict[Any, Any] = cast(
             GenericMap[Any, Any], value
-        )._map  # pyright: reportPrivateUsage=false
+        )._map  # pyright: ignore[reportPrivateUsage]
         new_map: GenericMap[str, Any] = GenericMap({})
         for key, val in dictionary.items():
             if not isinstance(key, str):
