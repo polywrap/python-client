@@ -1,4 +1,4 @@
-# polywrap-wasm
+# polywrap-plugin
 
 Python implementation of the plugin wrapper runtime.
 
