@@ -23,7 +23,7 @@ from .configures import (
     ResolverConfigure,
     WrapperConfigure,
 )
-from .types import BuilderConfig, BuildOptions
+from .types import BuilderConfig, BuildOptions, ClientConfigBuilder
 
 
 class PolywrapClientConfigBuilder(
@@ -34,6 +34,7 @@ class PolywrapClientConfigBuilder(
     RedirectConfigure,
     ResolverConfigure,
     WrapperConfigure,
+    ClientConfigBuilder,
 ):
     """Defines the default polywrap client config builder for\
         building a ClientConfig object for the Polywrap Client.

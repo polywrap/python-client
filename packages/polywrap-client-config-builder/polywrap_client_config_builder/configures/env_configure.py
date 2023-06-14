@@ -1,5 +1,4 @@
 """This module contains the env configure class for the client config builder."""
-from abc import ABC
 from typing import Any, Dict, List, Union, cast
 
 from polywrap_core import Uri
@@ -7,7 +6,7 @@ from polywrap_core import Uri
 from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class EnvConfigure(ClientConfigBuilder, ABC):
+class EnvConfigure:
     """Allows configuring the environment variables."""
 
     config: BuilderConfig
@@ -23,12 +22,12 @@ class EnvConfigure(ClientConfigBuilder, ABC):
     def set_env(self, uri: Uri, env: Any) -> ClientConfigBuilder:
         """Set the env by uri in the builder's config, overiding any existing values."""
         self.config.envs[uri] = env
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def set_envs(self, uri_envs: Dict[Uri, Any]) -> ClientConfigBuilder:
         """Set the envs in the builder's config, overiding any existing values."""
         self.config.envs.update(uri_envs)
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def add_env(self, uri: Uri, env: Any) -> ClientConfigBuilder:
         """Add an env for the given uri.
@@ -40,24 +39,24 @@ class EnvConfigure(ClientConfigBuilder, ABC):
             self.config.envs[uri] = new_env
         else:
             self.config.envs[uri] = env
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def add_envs(self, uri_envs: Dict[Uri, Any]) -> ClientConfigBuilder:
         """Add a list of envs to the builder's config."""
         for uri, env in uri_envs.items():
             self.add_env(uri, env)
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def remove_env(self, uri: Uri) -> ClientConfigBuilder:
         """Remove the env for the given uri."""
         self.config.envs.pop(uri, None)
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def remove_envs(self, uris: List[Uri]) -> ClientConfigBuilder:
         """Remove the envs for the given uris."""
         for uri in uris:
             self.remove_env(uri)
-        return self
+        return cast(ClientConfigBuilder, self)
 
     @staticmethod
     def _merge_envs(env1: Dict[str, Any], env2: Dict[str, Any]) -> Dict[str, Any]:

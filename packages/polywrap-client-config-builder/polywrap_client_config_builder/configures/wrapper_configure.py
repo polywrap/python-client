@@ -1,13 +1,12 @@
 """This module contains the wrapper configure class for the client config builder."""
-from abc import ABC
-from typing import Dict, List, Union
+from typing import Dict, List, Union, cast
 
 from polywrap_core import Uri, Wrapper
 
 from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class WrapperConfigure(ClientConfigBuilder, ABC):
+class WrapperConfigure:
     """Allows configuring the wrappers."""
 
     config: BuilderConfig
@@ -23,20 +22,20 @@ class WrapperConfigure(ClientConfigBuilder, ABC):
     def set_wrapper(self, uri: Uri, wrapper: Wrapper) -> ClientConfigBuilder:
         """Set the wrapper by uri in the builder's config, overiding any existing values."""
         self.config.wrappers[uri] = wrapper
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def set_wrappers(self, uri_wrappers: Dict[Uri, Wrapper]) -> ClientConfigBuilder:
         """Set the wrappers in the builder's config, overiding any existing values."""
         self.config.wrappers.update(uri_wrappers)
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def remove_wrapper(self, uri: Uri) -> ClientConfigBuilder:
         """Remove the wrapper for the given uri."""
         self.config.wrappers.pop(uri, None)
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def remove_wrappers(self, uris: List[Uri]) -> ClientConfigBuilder:
         """Remove the wrappers for the given uris."""
         for uri in uris:
             self.remove_wrapper(uri)
-        return self
+        return cast(ClientConfigBuilder, self)

@@ -45,7 +45,8 @@ testpaths = [
 
 [tool.pylint]
 disable = [
-    "unnecessary-ellipsis"
+    "unnecessary-ellipsis",
+    "too-few-public-methods"
 ]
 ignore = [
     "tests/"
