@@ -8,13 +8,13 @@ from polywrap_core import (
     UriResolutionStep,
     UriWrapper,
     UriPackage,
+    UriResolver,
 )
 from polywrap_client import PolywrapClient
 from polywrap_uri_resolvers import (
     RecursiveResolver,
     ResolutionResultCacheResolver,
     UriResolutionError,
-    UriResolver,
     InMemoryResolutionResultCache,
 )
 

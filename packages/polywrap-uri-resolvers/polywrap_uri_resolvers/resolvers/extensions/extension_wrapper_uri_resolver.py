@@ -158,4 +158,4 @@ class ExtensionWrapperUriResolver(UriResolver):
         return uri
 
 
-__all__ = ["ExtensionWrapperUriResolver"]
+__all__ = ["ExtensionWrapperUriResolver", "MaybeUriOrManifest"]

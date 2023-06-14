@@ -78,4 +78,4 @@ class FsUriResolver(UriResolver):
         )
 
 
-__all__ = ["FsUriResolver"]
+__all__ = ["FsUriResolver", "SimpleFileReader"]
