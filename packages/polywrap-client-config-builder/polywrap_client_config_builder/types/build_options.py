@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from polywrap_core import UriResolver
-from polywrap_uri_resolvers import WrapperCache
+from polywrap_uri_resolvers import ResolutionResultCache
 
 
 @dataclass(slots=True, kw_only=True)
@@ -11,9 +11,12 @@ class BuildOptions:
     """BuildOptions defines the options for build method of the client config builder.
 
     Attributes:
-        wrapper_cache: The wrapper cache.
+        resolution_result_cache: The Resolution Result Cache.
         resolver: The URI resolver.
     """
 
-    wrapper_cache: Optional[WrapperCache] = None
+    resolution_result_cache: Optional[ResolutionResultCache] = None
     resolver: Optional[UriResolver] = None
+
+
+__all__ = ["BuildOptions"]

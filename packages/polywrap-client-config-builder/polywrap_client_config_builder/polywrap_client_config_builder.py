@@ -1,18 +1,17 @@
 """This module provides a simple builder for building a ClientConfig object."""
 # pylint: disable=too-many-ancestors
 
-from typing import Optional
+from typing import Optional, cast
 
-from polywrap_core import ClientConfig
+from polywrap_core import ClientConfig, UriPackage, UriWrapper
 from polywrap_uri_resolvers import (
     ExtendableUriResolver,
-    InMemoryWrapperCache,
-    PackageToWrapperResolver,
+    InMemoryResolutionResultCache,
     RecursiveResolver,
-    RequestSynchronizerResolver,
+    ResolutionResultCacheResolver,
     StaticResolver,
+    StaticResolverLike,
     UriResolverAggregator,
-    WrapperCacheResolver,
 )
 
 from .configures import (
@@ -51,30 +50,33 @@ class PolywrapClientConfigBuilder(
         self.config = BuilderConfig(
             envs={}, interfaces={}, resolvers=[], wrappers={}, packages={}, redirects={}
         )
+        super().__init__()
 
     def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""
+        static_resolver_like = cast(StaticResolverLike, self.config.redirects)
+
+        for uri, wrapper in self.config.wrappers.items():
+            static_resolver_like[uri] = UriWrapper(uri=uri, wrapper=wrapper)
+
+        for uri, package in self.config.packages.items():
+            static_resolver_like[uri] = UriPackage(uri=uri, package=package)
+
         resolver = (
             options.resolver
             if options and options.resolver
             else RecursiveResolver(
-                RequestSynchronizerResolver(
-                    WrapperCacheResolver(
-                        PackageToWrapperResolver(
-                            UriResolverAggregator(
-                                [
-                                    StaticResolver(self.config.redirects),
-                                    StaticResolver(self.config.wrappers),
-                                    StaticResolver(self.config.packages),
-                                    *self.config.resolvers,
-                                    ExtendableUriResolver(),
-                                ]
-                            )
-                        ),
-                        options.wrapper_cache
-                        if options and options.wrapper_cache
-                        else InMemoryWrapperCache(),
-                    )
+                ResolutionResultCacheResolver(
+                    UriResolverAggregator(
+                        [
+                            StaticResolver(static_resolver_like),
+                            *self.config.resolvers,
+                            ExtendableUriResolver(),
+                        ]
+                    ),
+                    options.resolution_result_cache
+                    if options and options.resolution_result_cache
+                    else InMemoryResolutionResultCache(),
                 )
             )
         )
@@ -84,3 +86,6 @@ class PolywrapClientConfigBuilder(
             interfaces=self.config.interfaces,
             resolver=resolver,
         )
+
+
+__all__ = ["PolywrapClientConfigBuilder"]
