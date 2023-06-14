@@ -59,6 +59,12 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
 
         Returns:
             InvocableResult: Result of the invocation.
+
+        Raises:
+            WrapInvocationError: If the plugin method is not defined\
+                or is not callable.
+            WrapAbortError: If the plugin method raises an exception.
+            MsgpackDecodeError: If the plugin method returns invalid msgpack.
         """
         options = PluginInvokeOptions(
             uri=uri,
@@ -84,6 +90,9 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
 
         Returns:
             Union[str, bytes]: The file contents
+
+        Raises:
+            NotImplementedError: This method is not implemented for plugins.
         """
         raise NotImplementedError("client.get_file(..) is not implemented for plugins")
 

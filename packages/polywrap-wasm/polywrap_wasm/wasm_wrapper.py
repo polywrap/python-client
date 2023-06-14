@@ -106,6 +106,10 @@ class WasmWrapper(Wrapper):
                 The URI resolution context to use during invocation.
             client (Optional[Invoker]): The invoker to use during invocation.
 
+        Raises:
+            WrapError: If the invocation uri or method are not defined.
+            MsgpackError: If failed to encode/decode data to/from msgpack.
+
         Returns:
             The result of the invocation or an error.
         """

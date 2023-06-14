@@ -65,6 +65,12 @@ class PluginModule(Generic[TConfig], ABC):
 
         Returns:
             The result of the plugin method invocation.
+
+        Raises:
+            WrapInvocationError: If the plugin method is not defined\
+                or is not callable.
+            WrapAbortError: If the plugin method raises an exception.
+            MsgpackDecodeError: If the plugin method returns invalid msgpack.
         """
         if not hasattr(self, options.method):
             raise WrapInvocationError(

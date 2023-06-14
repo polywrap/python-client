@@ -32,6 +32,9 @@ def get_implementations(
         client (Optional[InvokerClient]): The client to use for resolving the URI.
         resolution_context (Optional[UriResolutionContext]): The resolution context to use.
 
+    Raises:
+        WrapGetImplementationsError: If the URI cannot be resolved.
+
     Returns:
         Optional[List[Uri]]: List of implementations or None if not found.
     """

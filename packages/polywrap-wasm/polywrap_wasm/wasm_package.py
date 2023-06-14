@@ -52,6 +52,14 @@ class WasmPackage(WrapPackage):
         Args:
             options (Optional[DeserializeManifestOptions]): The options\
                 to use when getting the manifest.
+
+        Returns:
+            AnyWrapManifest: The manifest of the wrapper.
+
+        Raises:
+            OSError: If the manifest file could not be read due to system errors.
+            MsgpackDecodeError: If the encoded manifest fails to decode.
+            ManifestError: If the manifest is not valid.
         """
         if isinstance(self.manifest, AnyWrapManifest):
             return self.manifest
@@ -65,6 +73,9 @@ class WasmPackage(WrapPackage):
     def get_wasm_module(self) -> bytes:
         """Get the Wasm module of the wrapper if it exists or return an error.
 
+        Raises:
+            OSError: If the wasm module file could not be read due to system errors.
+
         Returns:
             The Wasm module of the wrapper or an error.
         """
@@ -76,7 +87,17 @@ class WasmPackage(WrapPackage):
         return self.wasm_module
 
     def create_wrapper(self) -> Wrapper:
-        """Create a new WasmWrapper instance."""
+        """Create a new WasmWrapper instance.
+
+        Returns:
+            WasmWrapper: The Wasm wrapper instance.
+
+        Raises:
+            OSError: If the wasm module or manifest could not be read\
+                due to system errors.
+            MsgpackDecodeError: If the encoded manifest fails to decode.
+            ManifestError: If the manifest is not valid.
+        """
         wasm_module = self.get_wasm_module()
         wasm_manifest = self.get_manifest()
 

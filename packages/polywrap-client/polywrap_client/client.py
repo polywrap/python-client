@@ -86,6 +86,9 @@ class PolywrapClient(Client):
 
         Returns:
             Optional[List[Uri]]: List of implementations or None if not found.
+
+        Raises:
+            WrapGetImplementationsError: If the URI cannot be resolved.
         """
         interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
         if not apply_resolution:
@@ -147,6 +150,9 @@ class PolywrapClient(Client):
 
         Returns:
             UriPackageOrWrapper: The resolved URI, package or wrapper.
+
+        Raises:
+            UriResolutionError: If the URI cannot be resolved.
         """
         uri_resolver = self._config.resolver
         resolution_context = resolution_context or UriResolutionContext()
@@ -167,6 +173,10 @@ class PolywrapClient(Client):
 
         Returns:
             Wrapper: initialized wrapper instance.
+
+        Raises:
+            UriResolutionError: If the URI cannot be resolved.
+            RuntimeError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()
 
@@ -218,6 +228,13 @@ class PolywrapClient(Client):
 
         Returns:
             Any: The result of the invocation.
+
+        Raises:
+            RuntimeError: If the URI cannot be resolved.
+            MsgpackError: If the data cannot be encoded/decoded.
+            ManifestError: If the manifest is invalid.
+            WrapError: If something went wrong during the invocation.
+            UriResolutionError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()
         load_wrapper_context = resolution_context.create_sub_history_context()
