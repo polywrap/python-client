@@ -28,17 +28,26 @@ class WrapError(Exception):
 class WrapAbortError(WrapError):
     """Raises when a wrapper aborts execution.
 
-    Attributes:
+    Args:
         invoke_options (InvokeOptions): InvokeOptions for the invocation\
             that was aborted.
         message: The message provided by the wrapper.
     """
 
     uri: Uri
+    """The URI of the wrapper."""
+
     method: str
+    """The method that was invoked."""
+
     message: str
+    """The message provided by the wrapper."""
+
     invoke_args: Optional[str] = None
+    """The arguments that were passed to the wrapper."""
+
     invoke_env: Optional[str] = None
+    """The environment variables that were passed to the wrapper."""
 
     def __init__(
         self,
@@ -90,8 +99,8 @@ class WrapAbortError(WrapError):
 class WrapInvocationError(WrapAbortError):
     """Raises when there is an error invoking a wrapper.
 
-    Attributes:
-        invoke_options (InvokeOptions): InvokeOptions for the invocation \
+    Args:
+        invoke_options (InvokeOptions): InvokeOptions for the invocation\
             that was aborted.
         message: The message provided by the wrapper.
     """
@@ -100,13 +109,16 @@ class WrapInvocationError(WrapAbortError):
 class WrapGetImplementationsError(WrapError):
     """Raises when there is an error getting implementations of an interface.
 
-    Attributes:
+    Args:
         uri (Uri): URI of the interface.
-        message: The message provided by the wrapper.
+        message (str): The message provided by the wrapper.
     """
 
     uri: Uri
+    """The URI of the interface."""
+
     message: str
+    """The message provided by the wrapper."""
 
     def __init__(self, uri: Uri, message: str):
         """Initialize a new instance of WrapGetImplementationsError."""

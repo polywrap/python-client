@@ -25,11 +25,7 @@ class RecursiveResolver(UriResolver):
     resolver: UriResolver
 
     def __init__(self, resolver: UriResolver):
-        """Initialize a new RecursiveResolver instance.
-
-        Args:
-            resolver (UriResolver): The resolver to use.
-        """
+        """Initialize a new RecursiveResolver instance."""
         self.resolver = resolver
 
     def try_resolve_uri(
@@ -67,3 +63,6 @@ class RecursiveResolver(UriResolver):
         resolution_context.stop_resolving(uri)
 
         return uri_package_or_wrapper
+
+
+__all__ = ["RecursiveResolver"]

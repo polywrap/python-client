@@ -12,7 +12,7 @@ from polywrap_core import (
 )
 from polywrap_manifest import AnyWrapManifest
 
-from .module import InvokeOptions, PluginModule
+from .module import PluginInvokeOptions, PluginModule
 from .resolution_context_override_client import ResolutionContextOverrideClient
 
 TConfig = TypeVar("TConfig")
@@ -22,9 +22,9 @@ TResult = TypeVar("TResult")
 class PluginWrapper(Wrapper, Generic[TConfig]):
     """PluginWrapper implements the Wrapper interface for plugin wrappers.
 
-    Attributes:
-        module: The plugin module.
-        manifest: The manifest of the plugin.
+    Args:
+        module (PluginModule[TConfig]): The plugin module.
+        manifest (AnyWrapManifest): The manifest of the plugin.
     """
 
     module: PluginModule[TConfig]
@@ -33,12 +33,7 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
     def __init__(
         self, module: PluginModule[TConfig], manifest: AnyWrapManifest
     ) -> None:
-        """Initialize a new PluginWrapper instance.
-
-        Args:
-            module: The plugin module.
-            manifest: The manifest of the plugin.
-        """
+        """Initialize a new PluginWrapper instance."""
         self.module = module
         self.manifest = manifest
 
@@ -64,8 +59,14 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
 
         Returns:
             InvocableResult: Result of the invocation.
+
+        Raises:
+            WrapInvocationError: If the plugin method is not defined\
+                or is not callable.
+            WrapAbortError: If the plugin method raises an exception.
+            MsgpackDecodeError: If the plugin method returns invalid msgpack.
         """
-        options = InvokeOptions(
+        options = PluginInvokeOptions(
             uri=uri,
             method=method,
             args=args,
@@ -89,6 +90,9 @@ class PluginWrapper(Wrapper, Generic[TConfig]):
 
         Returns:
             Union[str, bytes]: The file contents
+
+        Raises:
+            NotImplementedError: This method is not implemented for plugins.
         """
         raise NotImplementedError("client.get_file(..) is not implemented for plugins")
 

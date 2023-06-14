@@ -23,7 +23,7 @@ from .configures import (
     ResolverConfigure,
     WrapperConfigure,
 )
-from .types import BuilderConfig, BuildOptions
+from .types import BuilderConfig, BuildOptions, ClientConfigBuilder
 
 
 class PolywrapClientConfigBuilder(
@@ -34,6 +34,7 @@ class PolywrapClientConfigBuilder(
     RedirectConfigure,
     ResolverConfigure,
     WrapperConfigure,
+    ClientConfigBuilder,
 ):
     """Defines the default polywrap client config builder for\
         building a ClientConfig object for the Polywrap Client.
@@ -43,6 +44,28 @@ class PolywrapClientConfigBuilder(
         PolywrapClientConfigBuilder provides a simple interface for setting\
         the redirects, wrappers, packages, and other configuration options\
         for the Polywrap Client.
+
+    Examples:
+        >>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
+        >>> from polywrap_uri_resolvers import RecursiveResolver
+        >>> from polywrap_core import Uri
+        >>> config = (
+        ...     PolywrapClientConfigBuilder()
+        ...         .set_env(Uri.from_str("test/uri"), {"hello": "world"})
+        ...         .add_interface_implementations(
+        ...             Uri.from_str("test/interface"), 
+        ...             [Uri.from_str("test/impl1"), Uri.from_str("test/impl2")],
+        ...         )
+        ...         .set_redirect(Uri("test", "from"), Uri("test", "to"))
+        ...         .set_env(Uri("test", "to"), {"foo": "bar"})
+        ...         .build()
+        ... )
+        >>> config.envs
+        {Uri("test", "uri"): {'hello': 'world'}, Uri("test", "to"): {'foo': 'bar'}}
+        >>> config.interfaces
+        {Uri("test", "interface"): [Uri("test", "impl1"), Uri("test", "impl2")]}
+        >>> isinstance(config.resolver, RecursiveResolver)
+        True
     """
 
     def __init__(self):

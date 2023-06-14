@@ -17,16 +17,19 @@ TConfig = TypeVar("TConfig")
 
 
 @dataclass(kw_only=True, slots=True)
-class InvokeOptions:
-    """InvokeOptions is a dataclass that holds the options for an invocation.
+class PluginInvokeOptions:
+    """PluginInvokeOptions is a dataclass that holds the options for an invocation.
 
-    Attributes:
-        uri: The URI of the wrapper.
-        method: The method to invoke.
-        args: The arguments to pass to the method.
-        env: The environment variables to set for the invocation.
-        resolution_context: A URI resolution context.
-        client: The client to use for subinvocations.
+    Args:
+        uri (URI): The URI of the wrapper.
+        method (str): The method to invoke.
+        args (Optional[Any]): The arguments to pass to the method.
+        env (Optional[Any]): The environment variables to set\
+            for the invocation.
+        resolution_context (Optional[UriResolutionContext]): \
+            A URI resolution context.
+        client (Optional[InvokerClient]): The client to use\
+            for subinvocations.
     """
 
     uri: Uri
@@ -40,31 +43,34 @@ class InvokeOptions:
 class PluginModule(Generic[TConfig], ABC):
     """PluginModule is the base class for all plugin modules.
 
-    Attributes:
-        config: The configuration of the plugin.
+    Args:
+        config (TConfig): The configuration of the plugin.
     """
 
     config: TConfig
 
     def __init__(self, config: TConfig):
-        """Initialize a new PluginModule instance.
-
-        Args:
-            config: The configuration of the plugin.
-        """
+        """Initialize a new PluginModule instance."""
         self.config = config
 
     def __wrap_invoke__(
         self,
-        options: InvokeOptions,
+        options: PluginInvokeOptions,
     ) -> Any:
         """Invoke a method on the plugin.
 
         Args:
-            options: The options to use when invoking the plugin.
+            options (PluginInvokeOptions): The options\
+                to use when invoking the plugin.
 
         Returns:
             The result of the plugin method invocation.
+
+        Raises:
+            WrapInvocationError: If the plugin method is not defined\
+                or is not callable.
+            WrapAbortError: If the plugin method raises an exception.
+            MsgpackDecodeError: If the plugin method returns invalid msgpack.
         """
         if not hasattr(self, options.method):
             raise WrapInvocationError(

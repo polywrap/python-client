@@ -12,7 +12,7 @@ class WrapEnvImports(BaseWrapImports):
         """Write the env in the shared memory at Wasm allocated empty env slot.
 
         Args:
-            ptr: The pointer to the empty env slot in memory.
+            ptr (int): The pointer to the empty env slot in memory.
 
         Raises:
             WasmAbortError: if the env is not set from the host.

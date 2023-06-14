@@ -17,7 +17,16 @@ class Uri:
     `<scheme>://<authority>/<path>` where the scheme is always "wrap" and the \
     authority is the URI scheme of the underlying wrapper.
 
+    Args:
+        authority (str): The authority of the URI. This is used to determine \
+            which URI resolver to use.
+        path (str): The path of the URI. This is used to determine the \
+            location of the wrapper.
+
     Examples:
+        >>> uri = Uri("ipfs", "QmHASH")
+        >>> uri.uri
+        "wrap://ipfs/QmHASH"
         >>> uri = Uri.from_str("ipfs/QmHASH")
         >>> uri.uri
         "wrap://ipfs/QmHASH"
@@ -40,14 +49,6 @@ class Uri:
         Traceback (most recent call last):
             ...
             TypeError: expected string or bytes-like object
-
-    Attributes:
-        scheme (str): The scheme of the URI. Defaults to "wrap". This helps \
-            differentiate Polywrap URIs from other URI schemes.
-        authority (str): The authority of the URI. This is used to determine \
-            which URI resolver to use.
-        path (str): The path of the URI. This is used to determine the \
-            location of the wrapper.
     """
 
     URI_REGEX = re.compile(
@@ -55,6 +56,9 @@ class Uri:
     )  # https://www.rfc-editor.org/rfc/rfc3986#appendix-B
 
     scheme = "wrap"
+    """The scheme of the URI. Defaults to "wrap". This helps \
+        differentiate Polywrap URIs from other URI schemes."""
+
     _authority: str
     _path: str
 

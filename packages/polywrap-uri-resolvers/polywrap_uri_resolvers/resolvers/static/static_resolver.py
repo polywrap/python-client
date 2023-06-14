@@ -16,7 +16,7 @@ from ...types import StaticResolverLike
 class StaticResolver(UriResolver):
     """Defines the static URI resolver.
 
-    Attributes:
+    Args:
         uri_map (StaticResolverLike): The URI map to use.
     """
 
@@ -25,11 +25,7 @@ class StaticResolver(UriResolver):
     uri_map: StaticResolverLike
 
     def __init__(self, uri_map: StaticResolverLike):
-        """Initialize a new StaticResolver instance.
-
-        Args:
-            uri_map (StaticResolverLike): The URI map to use.
-        """
+        """Initialize a new StaticResolver instance."""
         self.uri_map = uri_map
 
     def try_resolve_uri(
@@ -69,3 +65,6 @@ class StaticResolver(UriResolver):
         )
         resolution_context.track_step(step)
         return uri_package_or_wrapper
+
+
+__all__ = ["StaticResolver"]

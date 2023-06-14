@@ -15,8 +15,8 @@ class WrapGetImplementationsImports(BaseWrapImports):
             from the invoker and store it in the state.
 
         Args:
-            uri_ptr: The pointer to the interface URI bytes in memory.
-            uri_len: The length of the interface URI bytes in memory.
+            uri_ptr (int): The pointer to the interface URI bytes in memory.
+            uri_len (int): The length of the interface URI bytes in memory.
         """
         uri = Uri.from_str(
             self.read_string(

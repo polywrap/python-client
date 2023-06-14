@@ -10,18 +10,18 @@ class UriResolutionError(Exception):
 
 
 class InfiniteLoopError(UriResolutionError):
-    """Raised when an infinite loop is detected while resolving a URI."""
+    """Raised when an infinite loop is detected while resolving a URI.
+
+    Args:
+        uri (Uri): The URI that caused the infinite loop.
+        history (List[UriResolutionStep]): The resolution history.
+    """
 
     uri: Uri
     history: List[UriResolutionStep]
 
     def __init__(self, uri: Uri, history: List[UriResolutionStep]):
-        """Initialize a new InfiniteLoopError instance.
-
-        Args:
-            uri (Uri): The URI that caused the infinite loop.
-            history (List[UriResolutionStep]): The resolution history.
-        """
+        """Initialize a new InfiniteLoopError instance."""
         self.uri = uri
         self.history = history
         super().__init__(
@@ -35,21 +35,29 @@ class UriResolverExtensionError(UriResolutionError):
 
 
 class UriResolverExtensionNotFoundError(UriResolverExtensionError):
-    """Raised when an extension resolver wrapper could not be found for a URI."""
+    """Raised when an extension resolver wrapper could not be found for a URI.
+
+    Args:
+        uri (Uri): The URI that caused the error.
+        history (List[UriResolutionStep]): The resolution history.
+    """
 
     uri: Uri
     history: List[UriResolutionStep]
 
     def __init__(self, uri: Uri, history: List[UriResolutionStep]):
-        """Initialize a new UriResolverExtensionNotFoundError instance.
-
-        Args:
-            uri (Uri): The URI that caused the error.
-            history (List[UriResolutionStep]): The resolution history.
-        """
+        """Initialize a new UriResolverExtensionNotFoundError instance."""
         self.uri = uri
         self.history = history
         super().__init__(
             f"Could not find an extension resolver wrapper for the URI: {uri.uri}\n"
             f"History: {json.dumps(build_clean_uri_history(history), indent=2)}"
         )
+
+
+__all__ = [
+    "UriResolutionError",
+    "InfiniteLoopError",
+    "UriResolverExtensionError",
+    "UriResolverExtensionNotFoundError",
+]

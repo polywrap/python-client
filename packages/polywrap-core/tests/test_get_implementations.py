@@ -1,9 +1,9 @@
 from polywrap_core import (
-    Any,
     Client,
     Uri,
     get_implementations,
 )
+from typing import Any
 import pytest
 
 interface_1 = Uri.from_str("wrap://ens/interface-1.eth")

@@ -8,7 +8,7 @@ from .uri_resolution_step import UriResolutionStep
 class UriResolutionContext:
     """Represents the context of a uri resolution.
 
-    Attributes:
+    Args:
         resolving_uri_set (Set[Uri]): A set of uris that\
             are currently being resolved.
         resolution_path (List[Uri]): A list of uris in the order that\
@@ -18,8 +18,13 @@ class UriResolutionContext:
     """
 
     resolving_uri_set: Set[Uri]
+    """A set of uris that are currently being resolved."""
+
     resolution_path: List[Uri]
+    """A list of uris in the order that they are being resolved."""
+
     history: List[UriResolutionStep]
+    """A list of steps that have been taken to resolve the uri."""
 
     __slots__ = ("resolving_uri_set", "resolution_path", "history")
 
@@ -29,16 +34,7 @@ class UriResolutionContext:
         resolution_path: Optional[List[Uri]] = None,
         history: Optional[List[UriResolutionStep]] = None,
     ):
-        """Initialize a new instance of UriResolutionContext.
-
-        Args:
-            resolving_uri_set (Optional[Set[Uri]]): A set of uris that\
-                are currently being resolved.
-            resolution_path (Optional[List[Uri]]): A list of uris in the order that\
-                they are being resolved.
-            history (Optional[List[UriResolutionStep]]): A list of steps \
-                that have been taken to resolve the uri.
-        """
+        """Initialize a new instance of UriResolutionContext."""
         self.resolving_uri_set = resolving_uri_set or set()
         self.resolution_path = resolution_path or []
         self.history = history or []

@@ -9,7 +9,7 @@ from polywrap_core import Uri, UriResolver, WrapPackage, Wrapper
 class BuilderConfig:
     """BuilderConfig defines the internal configuration for the client config builder.
 
-    Attributes:
+    Args:
         envs (Dict[Uri, Any]): The environment variables for the wrappers.
         interfaces (Dict[Uri, List[Uri]]): The interfaces and their implementations.
         wrappers (Dict[Uri, Wrapper]): The wrappers.

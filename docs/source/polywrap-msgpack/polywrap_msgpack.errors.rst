@@ -1,7 +1,7 @@
-polywrap\_core.types.env module
+polywrap\_msgpack.errors module
 ===============================
 
-.. automodule:: polywrap_core.types.env
+.. automodule:: polywrap_msgpack.errors
    :members:
    :undoc-members:
    :show-inheritance:

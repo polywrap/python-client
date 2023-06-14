@@ -14,8 +14,8 @@ class WrapInvokeImports(BaseWrapImports):
             at Wasm allocated empty method and args slots.
 
         Args:
-            method_ptr: The pointer to the empty method name string slot in memory.
-            args_ptr: The pointer to the empty method args bytes slot in memory.
+            method_ptr (int): The pointer to the empty method name string slot in memory.
+            args_ptr (int): The pointer to the empty method args bytes slot in memory.
 
         Raises:
             WasmAbortError: if the method or args are not set from the host.
@@ -41,8 +41,8 @@ class WrapInvokeImports(BaseWrapImports):
             in the shared memory by the Wasm module in the state.
 
         Args:
-            ptr: The pointer to the result bytes in memory.
-            length: The length of the result bytes in memory.
+            ptr (int): The pointer to the result bytes in memory.
+            length (int): The length of the result bytes in memory.
         """
         result = self.read_bytes(
             ptr,
@@ -55,8 +55,8 @@ class WrapInvokeImports(BaseWrapImports):
             in the shared memory by the Wasm module in the state.
 
         Args:
-            ptr: The pointer to the error string in memory.
-            length: The length of the error string in memory.
+            ptr (int): The pointer to the error string in memory.
+            length (int): The length of the error string in memory.
         """
         error = self.read_string(
             ptr,

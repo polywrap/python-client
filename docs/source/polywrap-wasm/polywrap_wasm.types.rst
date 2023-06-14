@@ -7,7 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   polywrap_wasm.types.invoke_result
    polywrap_wasm.types.state
+   polywrap_wasm.types.wasm_invoke_options
 
 Module contents
 ---------------

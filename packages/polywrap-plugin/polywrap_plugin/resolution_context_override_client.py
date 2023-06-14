@@ -9,7 +9,8 @@ class ResolutionContextOverrideClient(InvokerClient):
 
     Args:
         client (InvokerClient): The wrapped client.
-        resolution_context (Optional[UriResolutionContext]): The resolution context to use.
+        resolution_context (Optional[UriResolutionContext]): \
+            The resolution context to use.
     """
 
     client: InvokerClient
@@ -45,6 +46,12 @@ class ResolutionContextOverrideClient(InvokerClient):
 
         Returns:
             Any: invocation result.
+
+        Raises:
+            WrapInvocationError: If the plugin method is not defined\
+                or is not callable.
+            WrapAbortError: If the plugin method raises an exception.
+            MsgpackDecodeError: If the plugin method returns invalid msgpack.
         """
         return self.client.invoke(
             uri,

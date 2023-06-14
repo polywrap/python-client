@@ -9,7 +9,6 @@ Subpackages
 
    polywrap_uri_resolvers.resolvers
    polywrap_uri_resolvers.types
-   polywrap_uri_resolvers.utils
 
 Submodules
 ----------

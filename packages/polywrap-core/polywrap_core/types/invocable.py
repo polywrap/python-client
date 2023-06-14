@@ -26,7 +26,7 @@ class InvocableResult:
 
 
 class Invocable(Protocol):
-    """Invocable interface."""
+    """Defines Invocable protocol."""
 
     def invoke(
         self,

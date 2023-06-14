@@ -13,7 +13,7 @@ class UriResolverAggregator(UriResolverAggregatorBase):
         the uri with each of them. If a resolver returns a value\
         other than the resolving uri, the value is returned.
 
-    Attributes:
+    Args:
         resolvers (List[UriResolver]): The list of resolvers to aggregate.
         step_description (Optional[str]): The description of the resolution\
             step. Defaults to the class name.
@@ -27,13 +27,7 @@ class UriResolverAggregator(UriResolverAggregatorBase):
     def __init__(
         self, resolvers: List[UriResolver], step_description: Optional[str] = None
     ):
-        """Initialize a new UriResolverAggregator instance.
-
-        Args:
-            resolvers (List[UriResolver]): The list of resolvers to aggregate.
-            step_description (Optional[str]): The description of the resolution\
-                step. Defaults to the class name.
-        """
+        """Initialize a new UriResolverAggregator instance."""
         self._step_description = step_description or self.__class__.__name__
         self._resolvers = resolvers
         super().__init__()
@@ -47,3 +41,6 @@ class UriResolverAggregator(UriResolverAggregatorBase):
     ) -> List[UriResolver]:
         """Get the list of resolvers to aggregate."""
         return self._resolvers
+
+
+__all__ = ["UriResolverAggregator"]

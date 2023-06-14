@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    polywrap_wasm.imports.types
-   polywrap_wasm.imports.utils
 
 Submodules
 ----------

@@ -12,7 +12,12 @@ from ..abc import ResolverWithHistory
 
 
 class PackageResolver(ResolverWithHistory):
-    """Defines a resolver that resolves a uri to a package."""
+    """Defines a resolver that resolves a uri to a package.
+
+    Args:
+        uri (Uri): The uri to resolve.
+        package (WrapPackage): The wrap package to return.
+    """
 
     __slots__ = ("uri", "package")
 
@@ -20,12 +25,7 @@ class PackageResolver(ResolverWithHistory):
     package: WrapPackage
 
     def __init__(self, uri: Uri, package: WrapPackage):
-        """Initialize a new PackageResolver instance.
-
-        Args:
-            uri (Uri): The uri to resolve.
-            package (WrapPackage): The wrap package to return.
-        """
+        """Initialize a new PackageResolver instance."""
         self.uri = uri
         self.package = package
         super().__init__()
@@ -61,3 +61,6 @@ class PackageResolver(ResolverWithHistory):
             UriPackageOrWrapper: The resolved URI package, wrapper, or URI.
         """
         return uri if uri != self.uri else UriPackage(uri=uri, package=self.package)
+
+
+__all__ = ["PackageResolver"]

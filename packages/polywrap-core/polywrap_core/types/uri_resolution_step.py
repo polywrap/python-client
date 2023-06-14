@@ -11,7 +11,7 @@ from .uri import Uri
 class UriResolutionStep:
     """Represents a single step in the resolution of a uri.
 
-    Attributes:
+    Args:
         source_uri (Uri): The uri that was resolved.
         result (Any): The result of the resolution.
         description (Optional[str]): A description of the resolution step.

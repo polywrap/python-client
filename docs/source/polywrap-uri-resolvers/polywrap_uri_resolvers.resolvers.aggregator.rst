@@ -8,6 +8,7 @@ Submodules
    :maxdepth: 4
 
    polywrap_uri_resolvers.resolvers.aggregator.uri_resolver_aggregator
+   polywrap_uri_resolvers.resolvers.aggregator.uri_resolver_aggregator_base
 
 Module contents
 ---------------

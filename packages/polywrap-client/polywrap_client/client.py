@@ -11,6 +11,7 @@ from polywrap_core import (
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolutionStep,
     UriResolver,
     UriWrapper,
@@ -21,24 +22,19 @@ from polywrap_core import (
 from polywrap_core import get_implementations as core_get_implementations
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
-from polywrap_uri_resolvers import UriResolutionContext
 
 
 class PolywrapClient(Client):
     """Defines the Polywrap client.
 
-    Attributes:
-        _config (ClientConfig): The client configuration.
+    Args:
+        config (ClientConfig): The polywrap client config.
     """
 
     _config: ClientConfig
 
     def __init__(self, config: ClientConfig):
-        """Initialize a new PolywrapClient instance.
-
-        Args:
-            config (ClientConfig): The polywrap client config.
-        """
+        """Initialize a new PolywrapClient instance."""
         self._config = config
 
     def get_config(self) -> ClientConfig:
@@ -86,9 +82,13 @@ class PolywrapClient(Client):
         Args:
             uri (Uri): URI of the interface.
             apply_resolution (bool): If True, apply resolution to the URI and interfaces.
+            resolution_context (Optional[UriResolutionContext]): A URI resolution context
 
         Returns:
             Optional[List[Uri]]: List of implementations or None if not found.
+
+        Raises:
+            WrapGetImplementationsError: If the URI cannot be resolved.
         """
         interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
         if not apply_resolution:
@@ -114,7 +114,8 @@ class PolywrapClient(Client):
 
         Args:
             uri (Uri): The wrapper URI.
-            (GetFile: The for getting the file.
+            path (str): The path to the file.
+            encoding (Optional[str]): The encoding of the file.
 
         Returns:
             Union[bytes, str]: The file contents.
@@ -129,7 +130,7 @@ class PolywrapClient(Client):
 
         Args:
             uri (Uri): The wrapper URI.
-            (Optional[GetManifest): The for getting the manifest.
+            options (Optional[DeserializeManifestOptions]): The manifest options.
 
         Returns:
             AnyWrapManifest: The manifest.
@@ -143,10 +144,15 @@ class PolywrapClient(Client):
         """Try to resolve the given URI.
 
         Args:
-            (TryResolveUriUriPackageOrWrapper]): The for resolving the URI.
+            uri (Uri): The URI to resolve.
+            resolution_context (Optional[UriResolutionContext]):\
+                The resolution context.
 
         Returns:
             UriPackageOrWrapper: The resolved URI, package or wrapper.
+
+        Raises:
+            UriResolutionError: If the URI cannot be resolved.
         """
         uri_resolver = self._config.resolver
         resolution_context = resolution_context or UriResolutionContext()
@@ -167,6 +173,10 @@ class PolywrapClient(Client):
 
         Returns:
             Wrapper: initialized wrapper instance.
+
+        Raises:
+            UriResolutionError: If the URI cannot be resolved.
+            RuntimeError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()
 
@@ -208,10 +218,23 @@ class PolywrapClient(Client):
         """Invoke the given wrapper URI.
 
         Args:
-            (InvokerUriPackageOrWrapper]): The for invoking the wrapper.
+            uri (Uri): The wrapper URI.
+            method (str): The method to invoke.
+            args (Optional[Any]): The arguments to pass to the method.
+            env (Optional[Any]): The environment variables to pass.
+            resolution_context (Optional[UriResolutionContext]):\
+                The resolution context.
+            encode_result (Optional[bool]): If True, encode the result.
 
         Returns:
             Any: The result of the invocation.
+
+        Raises:
+            RuntimeError: If the URI cannot be resolved.
+            MsgpackError: If the data cannot be encoded/decoded.
+            ManifestError: If the manifest is invalid.
+            WrapError: If something went wrong during the invocation.
+            UriResolutionError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()
         load_wrapper_context = resolution_context.create_sub_history_context()

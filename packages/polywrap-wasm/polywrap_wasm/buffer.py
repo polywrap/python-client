@@ -20,10 +20,10 @@ def read_bytes(
     """Read bytes from a memory buffer.
 
     Args:
-        memory_pointer: The pointer to the memory buffer.
-        memory_length: The length of the memory buffer.
-        offset: The offset to start reading from.
-        length: The number of bytes to read.
+        memory_pointer (BufferPointer): The pointer to the memory buffer.
+        memory_length (int): The length of the memory buffer.
+        offset (Optional[int]): The offset to start reading from.
+        length (Optional[int]): The number of bytes to read.
     """
     result = bytearray(memory_length)
     buffer = (ctypes.c_ubyte * memory_length).from_buffer(result)
@@ -38,10 +38,10 @@ def read_string(
     """Read a UTF-8 encoded string from a memory buffer.
 
     Args:
-        memory_pointer: The pointer to the memory buffer.
-        memory_length: The length of the memory buffer.
-        offset: The offset to start reading from.
-        length: The number of bytes to read.
+        memory_pointer (BufferPointer): The pointer to the memory buffer.
+        memory_length (int): The length of the memory buffer.
+        offset (int): The offset to start reading from.
+        length (int): The number of bytes to read.
     """
     value = read_bytes(memory_pointer, memory_length, offset, length)
     return value.decode("utf-8")
@@ -56,10 +56,10 @@ def write_bytes(
     """Write bytes to a memory buffer.
 
     Args:
-        memory_pointer: The pointer to the memory buffer.
-        memory_length: The length of the memory buffer.
-        value: The bytes to write.
-        value_offset: The offset to start writing to.
+        memory_pointer (BufferPointer): The pointer to the memory buffer.
+        memory_length (int): The length of the memory buffer.
+        value (bytes): The bytes to write.
+        value_offset (int): The offset to start writing to.
     """
     mem_cpy(memory_pointer, memory_length, bytearray(value), len(value), value_offset)
 
@@ -73,10 +73,10 @@ def write_string(
     """Write a UTF-8 encoded string to a memory buffer.
 
     Args:
-        memory_pointer: The pointer to the memory buffer.
-        memory_length: The length of the memory buffer.
-        value: The string to write.
-        value_offset: The offset to start writing to.
+        memory_pointer (BufferPointer): The pointer to the memory buffer.
+        memory_length (int): The length of the memory buffer.
+        value (str): The string to write.
+        value_offset (int): The offset to start writing to.
     """
     value_buffer = value.encode("utf-8")
     write_bytes(
@@ -97,11 +97,11 @@ def mem_cpy(
     """Copy bytearray from the given value to a memory buffer.
 
     Args:
-        memory_pointer: The pointer to the memory buffer.
-        memory_length: The length of the memory buffer.
-        value: The bytearray to copy.
-        value_length: The length of the bytearray to copy.
-        value_offset: The offset to start copying from.
+        memory_pointer (BufferPointer): The pointer to the memory buffer.
+        memory_length (int): The length of the memory buffer.
+        value (bytearray): The bytearray to copy.
+        value_length (int): The length of the bytearray to copy.
+        value_offset (int): The offset to start copying from.
     """
     current_value = bytearray(
         read_bytes(

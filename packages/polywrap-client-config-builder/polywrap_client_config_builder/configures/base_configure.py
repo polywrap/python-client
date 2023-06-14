@@ -1,15 +1,11 @@
 """This module contains the base configure class for the client config builder."""
-from abc import ABC
+from typing import cast
 
 from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class BaseConfigure(ClientConfigBuilder, ABC):
-    """BaseConfigure is the base configure class for the client config builder.
-
-    Attributes:
-        config (BuilderConfig): The internal configuration.
-    """
+class BaseConfigure:
+    """BaseConfigure is the base configure class for the client config builder."""
 
     config: BuilderConfig
 
@@ -27,4 +23,4 @@ class BaseConfigure(ClientConfigBuilder, ABC):
             self.config.wrappers.update(config.wrappers)
         if config.packages:
             self.config.packages.update(config.packages)
-        return self
+        return cast(ClientConfigBuilder, self)

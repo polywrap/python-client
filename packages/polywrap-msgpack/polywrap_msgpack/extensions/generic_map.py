@@ -6,7 +6,34 @@ V = TypeVar("V")
 
 
 class GenericMap(MutableMapping[K, V]):
-    """GenericMap is a type that can be used to represent generic map extension type in msgpack."""
+    """GenericMap is a type that can be used to represent generic map extension type in msgpack.
+
+    Examples:
+        >>> from polywrap_msgpack import GenericMap
+        >>> GenericMap({1: 2, 3: 4})
+        GenericMap({1: 2, 3: 4})
+        >>> map = GenericMap({1: 2, 3: 4})
+        >>> map[5] = 6
+        >>> map
+        GenericMap({1: 2, 3: 4, 5: 6})
+        >>> map[7]
+        Traceback (most recent call last):
+        ...
+        KeyError: 7
+        >>> 7 in map
+        False
+        >>> 1 in map
+        True
+        >>> len(map)
+        3
+        >>> del map[1]
+        >>> map
+        GenericMap({3: 4, 5: 6})
+        >>> del map[7]
+        Traceback (most recent call last):
+        ...
+        KeyError: 7
+    """
 
     _map: Dict[K, V]
 

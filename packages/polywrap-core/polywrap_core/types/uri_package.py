@@ -11,13 +11,16 @@ from .wrap_package import WrapPackage
 class UriPackage:
     """UriPackage is a dataclass that contains a URI and a package.
 
-    Attributes:
-        uri (Uri): The URI.
-        package (Package): The package.
+    Args:
+        uri (Uri): The URI of the wrap package.
+        package (WrapPackage): The wrap package.
     """
 
     uri: Uri
+    """The URI of the wrap package."""
+
     package: WrapPackage
+    """The wrap package."""
 
 
 __all__ = ["UriPackage"]

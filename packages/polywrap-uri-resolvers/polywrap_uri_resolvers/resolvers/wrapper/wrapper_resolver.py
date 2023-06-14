@@ -14,7 +14,7 @@ from ..abc import ResolverWithHistory
 class WrapperResolver(ResolverWithHistory):
     """Defines the wrapper resolver.
 
-    Attributes:
+    Args:
         uri (Uri): The uri to resolve.
         wrapper (Wrapper): The wrapper to use.
     """
@@ -25,12 +25,7 @@ class WrapperResolver(ResolverWithHistory):
     wrapper: Wrapper
 
     def __init__(self, uri: Uri, wrapper: Wrapper):
-        """Initialize a new WrapperResolver instance.
-
-        Args:
-            uri (Uri): The uri to resolve.
-            wrapper (Wrapper): The wrapper to use.
-        """
+        """Initialize a new WrapperResolver instance."""
         self.uri = uri
         self.wrapper = wrapper
         super().__init__()
@@ -60,3 +55,6 @@ class WrapperResolver(ResolverWithHistory):
             UriPackageOrWrapper: The resolved URI, wrap package, or wrapper.
         """
         return uri if uri != self.uri else UriWrapper(uri=uri, wrapper=self.wrapper)
+
+
+__all__ = ["WrapperResolver"]

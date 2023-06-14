@@ -21,12 +21,12 @@ class WrapSubinvokeImports(BaseWrapImports):
         """Subinvoke a function of any wrapper from the Wasm module.
 
         Args:
-            uri_ptr: The pointer to the uri string in memory.
-            uri_len: The length of the uri string in memory.
-            method_ptr: The pointer to the method string in memory.
-            method_len: The length of the method string in memory.
-            args_ptr: The pointer to the args bytes in memory.
-            args_len: The length of the args bytes in memory.
+            uri_ptr (int): The pointer to the uri string in memory.
+            uri_len (int): The length of the uri string in memory.
+            method_ptr (int): The pointer to the method string in memory.
+            method_len (int): The length of the method string in memory.
+            args_ptr (int): The pointer to the args bytes in memory.
+            args_len (int): The length of the args bytes in memory.
 
         Returns:
             True if the subinvocation was successful, False otherwise.
@@ -68,7 +68,7 @@ class WrapSubinvokeImports(BaseWrapImports):
         """Write the result of the subinvocation to shared memory.
 
         Args:
-            ptr: The pointer to the empty result bytes slot in memory.
+            ptr (int): The pointer to the empty result bytes slot in memory.
         """
         result = self._get_subinvoke_result("__wrap_subinvoke_result")
         self.write_bytes(ptr, result)
@@ -84,7 +84,7 @@ class WrapSubinvokeImports(BaseWrapImports):
             at pointer to the Wasm allocated empty error message slot.
 
         Args:
-            ptr: The pointer to the empty error message slot in memory.
+            ptr (int): The pointer to the empty error message slot in memory.
         """
         error = self._get_subinvoke_error("__wrap_subinvoke_error")
         error_message = repr(error)

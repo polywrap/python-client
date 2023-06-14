@@ -1,12 +1,11 @@
 import os
-from typing import Dict, Optional
-from polywrap_core import Any, InvokerClient, Uri, UriPackage
+from typing import Any, Dict, Optional
+from polywrap_core import InvokerClient, Uri, UriPackage
 from polywrap_plugin import PluginModule, PluginPackage
-from polywrap_uri_resolvers import (
-    MaybeUriOrManifest,
-    WasmPackage,
-)
 from polywrap_test_cases import get_path_to_test_wrappers
+
+from polywrap_uri_resolvers import MaybeUriOrManifest
+from polywrap_wasm import WasmPackage
 
 
 class MockPluginExtensionResolver(PluginModule[None]):

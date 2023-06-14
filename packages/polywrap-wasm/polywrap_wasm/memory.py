@@ -14,8 +14,8 @@ def create_memory(
     """Create a host allocated shared memory instance for a Wasm module.
 
     Args:
-        store: The Wasm store.
-        module: The Wasm module.
+        store (Store): The Wasm store.
+        module (bytes): The Wasm module.
 
     Raises:
         WasmMemoryError: if the memory import is not found in the Wasm module.

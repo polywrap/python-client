@@ -7,7 +7,6 @@ name = "docs"
 version = "0.1.0"
 description = ""
 authors = ["Niraj <niraj@polywrap.io>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -23,4 +22,3 @@ polywrap-client-config-builder = { path = "../packages/polywrap-client-config-bu
 [tool.poetry.group.dev.dependencies]
 sphinx = "^6.1.3"
 sphinx-rtd-theme = "^1.2.0"
-
