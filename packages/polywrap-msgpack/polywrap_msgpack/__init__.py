@@ -11,3 +11,4 @@ from .decoder import *
 from .encoder import *
 from .extensions import *
 from .sanitize import *
+from .errors import *
