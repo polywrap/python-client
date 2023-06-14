@@ -1,35 +1,23 @@
 """This module contains the UriPackage type."""
 from __future__ import annotations
 
-from typing import Generic, TypeVar
+from dataclasses import dataclass
 
 from .uri import Uri
-from .uri_like import UriLike
 from .wrap_package import WrapPackage
 
-TUriLike = TypeVar("TUriLike", bound=UriLike)
 
-
-class UriPackage(Generic[TUriLike], Uri):
-    """UriPackage is a dataclass that contains a URI and a wrap package.
+@dataclass(slots=True, kw_only=True)
+class UriPackage:
+    """UriPackage is a dataclass that contains a URI and a package.
 
     Attributes:
-        package (WrapPackage): The wrap package.
+        uri (Uri): The URI.
+        package (Package): The package.
     """
 
-    _package: WrapPackage[TUriLike]
+    uri: Uri
+    package: WrapPackage
 
-    def __init__(self, uri: Uri, package: WrapPackage[TUriLike]) -> None:
-        """Initialize a new instance of UriPackage.
 
-        Args:
-            uri (Uri): The URI.
-            package (WrapPackage): The wrap package.
-        """
-        super().__init__(uri.authority, uri.path)
-        self._package = package
-
-    @property
-    def package(self) -> WrapPackage[TUriLike]:
-        """Return the wrap package."""
-        return self._package
+__all__ = ["UriPackage"]

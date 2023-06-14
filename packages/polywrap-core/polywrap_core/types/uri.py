@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import re
+from functools import total_ordering
 from typing import Union
 
-from .uri_like import UriLike
 
-
-class Uri(UriLike):
+@total_ordering
+class Uri:
     """Defines a wrapper URI and provides utilities for parsing and validating them.
 
     wrapper URIs are used to identify and resolve Polywrap wrappers. They are \
@@ -54,6 +54,7 @@ class Uri(UriLike):
         r"^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?"
     )  # https://www.rfc-editor.org/rfc/rfc3986#appendix-B
 
+    scheme = "wrap"
     _authority: str
     _path: str
 
@@ -61,8 +62,8 @@ class Uri(UriLike):
         """Initialize a new instance of a wrapper URI.
 
         Args:
-            authority: The authority of the URI.
-            path: The path of the URI.
+            authority (str): The authority of the URI.
+            path (str): The path of the URI.
         """
         self._authority = authority
         self._path = path
@@ -150,3 +151,29 @@ class Uri(UriLike):
             raise ValueError("The provided URI has an invalid path")
 
         return cls(authority, path)
+
+    def __str__(self) -> str:
+        """Return the URI as a string."""
+        return self.uri
+
+    def __repr__(self) -> str:
+        """Return the string URI representation."""
+        return f'Uri("{self._authority}", "{self._path}")'
+
+    def __hash__(self) -> int:
+        """Return the hash of the URI."""
+        return hash(self.uri)
+
+    def __eq__(self, obj: object) -> bool:
+        """Return true if the provided object is a Uri and has the same URI."""
+        return self.uri == obj.uri if isinstance(obj, Uri) else False
+
+    def __lt__(self, uri: object) -> bool:
+        """Return true if the provided Uri has a URI that is lexicographically\
+            less than this Uri."""
+        if not isinstance(uri, Uri):
+            raise TypeError(f"Cannot compare Uri to {type(uri)}")
+        return self.uri < uri.uri
+
+
+__all__ = ["Uri"]
