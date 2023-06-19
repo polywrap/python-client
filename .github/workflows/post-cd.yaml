@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.pull_request.user.login == 'github-actions[bot]' &&
-      startsWith(github.event.pull_request.title, '[CD]')
+      startsWith(github.event.pull_request.title, '[CD]') &&
       github.event.pull_request.merged == true
     steps:
       - name: Checkout
