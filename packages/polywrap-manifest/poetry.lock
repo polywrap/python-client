@@ -997,13 +997,13 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a31"
+version = "0.1.0a32"
 description = "WRAP msgpack encoding"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "polywrap_msgpack-0.1.0a31-py3-none-any.whl", hash = "sha256:f95141f1fc839ecb6a64a4043f6ef3b94a11605cc445da749b631991c450d61c"},
-    {file = "polywrap_msgpack-0.1.0a31.tar.gz", hash = "sha256:c152d34ee3494a74df39ccb121fb0258ef8414d2b5f6d686dca18e02d736b1d9"},
+    {file = "polywrap_msgpack-0.1.0a32-py3-none-any.whl", hash = "sha256:40b0e84915c25e4539ec323f9786cb3f587ee4c18bae09a1c412cad0b8eccec3"},
+    {file = "polywrap_msgpack-0.1.0a32.tar.gz", hash = "sha256:20852e199c999c6249c37b6af80ca18036dcaa945b84f0affe1ab5765072f611"},
 ]
 
 [package.dependencies]
@@ -1820,4 +1820,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "80ea2b80acb465a705caf5ba151ff698aa5ccc85b569223e3c1992a84d980f57"
+content-hash = "11b4409bf6a6289577875349edebef4aef3c2f7544881f8384c0101546103436"

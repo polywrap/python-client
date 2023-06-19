@@ -512,43 +512,43 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0a31"
+version = "0.1.0a32"
 description = ""
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "polywrap_core-0.1.0a31-py3-none-any.whl", hash = "sha256:9e04b32e305f27f5eec9cc88694bfb59803ab4e076a18331f88ee5d338c21dc8"},
-    {file = "polywrap_core-0.1.0a31.tar.gz", hash = "sha256:1e5fcba6b53bca06c793325b4f40f0efa14894e126a1e963558291ec4a50368c"},
+    {file = "polywrap_core-0.1.0a32-py3-none-any.whl", hash = "sha256:e60b07b4e82efc8daa390282faa2e3dcf216f63e0b841473a8780afb09c8f926"},
+    {file = "polywrap_core-0.1.0a32.tar.gz", hash = "sha256:b1490395aa80042e9e105045acbe1226d722bf32b631081af7007f419571dc0f"},
 ]
 
 [package.dependencies]
-polywrap-manifest = ">=0.1.0a31,<0.2.0"
-polywrap-msgpack = ">=0.1.0a31,<0.2.0"
+polywrap-manifest = ">=0.1.0a32,<0.2.0"
+polywrap-msgpack = ">=0.1.0a32,<0.2.0"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0a31"
+version = "0.1.0a32"
 description = "WRAP manifest"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "polywrap_manifest-0.1.0a31-py3-none-any.whl", hash = "sha256:8883b97a987b66f82c6d2b42d79690fdf4546ef63806c370c232f233c70c4ee4"},
-    {file = "polywrap_manifest-0.1.0a31.tar.gz", hash = "sha256:281d52fb4e21ea6eaf158b92bbf61310f55058f0824535ce8e2692de30d1523e"},
+    {file = "polywrap_manifest-0.1.0a32-py3-none-any.whl", hash = "sha256:61f411ece7b8a969b31a845d577fb8b8f071d2335fe96bbbdf2bf8edd1e563e5"},
+    {file = "polywrap_manifest-0.1.0a32.tar.gz", hash = "sha256:e49bb7af4c48cd2c5235dc99bc81a63738db7f53284906b7379c3252b41ceff6"},
 ]
 
 [package.dependencies]
-polywrap-msgpack = ">=0.1.0a31,<0.2.0"
+polywrap-msgpack = ">=0.1.0a32,<0.2.0"
 pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a31"
+version = "0.1.0a32"
 description = "WRAP msgpack encoding"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "polywrap_msgpack-0.1.0a31-py3-none-any.whl", hash = "sha256:f95141f1fc839ecb6a64a4043f6ef3b94a11605cc445da749b631991c450d61c"},
-    {file = "polywrap_msgpack-0.1.0a31.tar.gz", hash = "sha256:c152d34ee3494a74df39ccb121fb0258ef8414d2b5f6d686dca18e02d736b1d9"},
+    {file = "polywrap_msgpack-0.1.0a32-py3-none-any.whl", hash = "sha256:40b0e84915c25e4539ec323f9786cb3f587ee4c18bae09a1c412cad0b8eccec3"},
+    {file = "polywrap_msgpack-0.1.0a32.tar.gz", hash = "sha256:20852e199c999c6249c37b6af80ca18036dcaa945b84f0affe1ab5765072f611"},
 ]
 
 [package.dependencies]
@@ -1151,4 +1151,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e4d3c360531c0972c16e10d4ee36b0aac2b9bed32b9de54d118c857e02662bda"
+content-hash = "1eccfebe40cd8760bd30bf43bb0b682add7528272fcea9c17597049163a327d3"
