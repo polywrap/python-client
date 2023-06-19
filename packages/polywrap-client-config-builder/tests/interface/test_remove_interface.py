@@ -1,6 +1,6 @@
-from typing import Any, Dict, List
+from typing import Dict, List
 from random import randint
-from hypothesis import assume, event, given, settings
+from hypothesis import event, given, settings
 
 from polywrap_client_config_builder import (
     ClientConfigBuilder,

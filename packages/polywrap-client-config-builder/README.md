@@ -54,11 +54,11 @@ config = builder.build()
 
 # build with a custom cache
 config = builder.build({
-  wrapperCache: WrapperCache(),
+  resolution_result_cache: ResolutionResultCache(),
 })
 
 # or build with a custom resolver
-coreClientConfig = builder.build({
+config = builder.build({
   resolver: RecursiveResolver(...),
 })
 ```
