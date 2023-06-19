@@ -3,44 +3,38 @@ from __future__ import annotations
 
 import json
 from textwrap import dedent
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, List, Optional, Union
 
 from polywrap_core import (
     Client,
     ClientConfig,
-    Env,
-    GetFileOptions,
-    GetManifestOptions,
-    InvokerOptions,
-    IUriResolutionContext,
-    TryResolveUriOptions,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
+    UriResolutionStep,
     UriResolver,
     UriWrapper,
     Wrapper,
+    build_clean_uri_history,
+    get_env_from_resolution_path,
 )
-from polywrap_manifest import AnyWrapManifest
+from polywrap_core import get_implementations as core_get_implementations
+from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
-from polywrap_uri_resolvers import UriResolutionContext, build_clean_uri_history
 
 
 class PolywrapClient(Client):
     """Defines the Polywrap client.
 
-    Attributes:
-        _config (ClientConfig): The client configuration.
+    Args:
+        config (ClientConfig): The polywrap client config.
     """
 
     _config: ClientConfig
 
     def __init__(self, config: ClientConfig):
-        """Initialize a new PolywrapClient instance.
-
-        Args:
-            config (ClientConfig): The polywrap client config.
-        """
+        """Initialize a new PolywrapClient instance."""
         self._config = config
 
     def get_config(self) -> ClientConfig:
@@ -59,13 +53,13 @@ class PolywrapClient(Client):
         """
         return self._config.resolver
 
-    def get_envs(self) -> Dict[Uri, Env]:
+    def get_envs(self) -> Dict[Uri, Any]:
         """Get the dictionary of environment variables.
 
         Returns:
-            Dict[Uri, Env]: The dictionary of environment variables.
+            Dict[Uri, Any]: The dictionary of environment variables.
         """
-        envs: Dict[Uri, Env] = self._config.envs
+        envs: Dict[Uri, Any] = self._config.envs
         return envs
 
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
@@ -77,142 +71,216 @@ class PolywrapClient(Client):
         interfaces: Dict[Uri, List[Uri]] = self._config.interfaces
         return interfaces
 
-    def get_implementations(self, uri: Uri) -> Union[List[Uri], None]:
-        """Get the implementations for the given interface URI.
+    def get_implementations(
+        self,
+        uri: Uri,
+        apply_resolution: bool = True,
+        resolution_context: Optional[UriResolutionContext] = None,
+    ) -> Optional[List[Uri]]:
+        """Get implementations of an interface with its URI.
 
         Args:
-            uri (Uri): The interface URI.
+            uri (Uri): URI of the interface.
+            apply_resolution (bool): If True, apply resolution to the URI and interfaces.
+            resolution_context (Optional[UriResolutionContext]): A URI resolution context
 
         Returns:
-            Union[List[Uri], None]: The list of implementation URIs.
+            Optional[List[Uri]]: List of implementations or None if not found.
+
+        Raises:
+            WrapGetImplementationsError: If the URI cannot be resolved.
         """
         interfaces: Dict[Uri, List[Uri]] = self.get_interfaces()
-        return interfaces.get(uri)
+        if not apply_resolution:
+            return interfaces.get(uri)
 
-    def get_env_by_uri(self, uri: Uri) -> Union[Env, None]:
+        return core_get_implementations(uri, interfaces, self, resolution_context)
+
+    def get_env_by_uri(self, uri: Uri) -> Union[Any, None]:
         """Get the environment variables for the given URI.
 
         Args:
             uri (Uri): The URI of the wrapper.
 
         Returns:
-            Union[Env, None]: The environment variables.
+            Union[Any, None]: The environment variables.
         """
         return self._config.envs.get(uri)
 
-    async def get_file(self, uri: Uri, options: GetFileOptions) -> Union[bytes, str]:
+    def get_file(
+        self, uri: Uri, path: str, encoding: Optional[str] = "utf-8"
+    ) -> Union[bytes, str]:
         """Get the file from the given wrapper URI.
 
         Args:
             uri (Uri): The wrapper URI.
-            options (GetFileOptions): The options for getting the file.
+            path (str): The path to the file.
+            encoding (Optional[str]): The encoding of the file.
 
         Returns:
             Union[bytes, str]: The file contents.
         """
-        loaded_wrapper = await self.load_wrapper(uri)
-        return await loaded_wrapper.get_file(options)
+        loaded_wrapper = self.load_wrapper(uri)
+        return loaded_wrapper.get_file(path, encoding)
 
-    async def get_manifest(
-        self, uri: Uri, options: Optional[GetManifestOptions] = None
+    def get_manifest(
+        self, uri: Uri, options: Optional[DeserializeManifestOptions] = None
     ) -> AnyWrapManifest:
         """Get the manifest from the given wrapper URI.
 
         Args:
             uri (Uri): The wrapper URI.
-            options (Optional[GetManifestOptions]): The options for getting the manifest.
+            options (Optional[DeserializeManifestOptions]): The manifest options.
 
         Returns:
             AnyWrapManifest: The manifest.
         """
-        loaded_wrapper = await self.load_wrapper(uri)
+        loaded_wrapper = self.load_wrapper(uri)
         return loaded_wrapper.get_manifest()
 
-    async def try_resolve_uri(
-        self, options: TryResolveUriOptions[UriPackageOrWrapper]
+    def try_resolve_uri(
+        self, uri: Uri, resolution_context: Optional[UriResolutionContext] = None
     ) -> UriPackageOrWrapper:
         """Try to resolve the given URI.
 
         Args:
-            options (TryResolveUriOptions[UriPackageOrWrapper]): The options for resolving the URI.
+            uri (Uri): The URI to resolve.
+            resolution_context (Optional[UriResolutionContext]):\
+                The resolution context.
 
         Returns:
             UriPackageOrWrapper: The resolved URI, package or wrapper.
+
+        Raises:
+            UriResolutionError: If the URI cannot be resolved.
         """
-        uri = options.uri
         uri_resolver = self._config.resolver
-        resolution_context = options.resolution_context or UriResolutionContext()
+        resolution_context = resolution_context or UriResolutionContext()
 
-        return await uri_resolver.try_resolve_uri(uri, self, resolution_context)
+        return uri_resolver.try_resolve_uri(uri, self, resolution_context)
 
-    async def load_wrapper(
+    def load_wrapper(
         self,
         uri: Uri,
-        resolution_context: Optional[IUriResolutionContext[UriPackageOrWrapper]] = None,
-    ) -> Wrapper[UriPackageOrWrapper]:
+        resolution_context: Optional[UriResolutionContext] = None,
+    ) -> Wrapper:
         """Load the wrapper for the given URI.
 
         Args:
             uri (Uri): The wrapper URI.
-            resolution_context (Optional[IUriResolutionContext[UriPackageOrWrapper]]):\
+            resolution_context (Optional[UriResolutionContext]):\
                 The resolution context.
 
         Returns:
-            Wrapper[UriPackageOrWrapper]: initialized wrapper instance.
+            Wrapper: initialized wrapper instance.
+
+        Raises:
+            UriResolutionError: If the URI cannot be resolved.
+            RuntimeError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()
 
-        uri_package_or_wrapper = await self.try_resolve_uri(
-            TryResolveUriOptions(uri=uri, resolution_context=resolution_context)
+        uri_package_or_wrapper = self.try_resolve_uri(
+            uri=uri, resolution_context=resolution_context
         )
 
-        if isinstance(uri_package_or_wrapper, UriPackage):
-            return await cast(
-                UriPackage[UriPackageOrWrapper], uri_package_or_wrapper
-            ).package.create_wrapper()
-
-        if isinstance(uri_package_or_wrapper, UriWrapper):
-            return cast(UriWrapper[UriPackageOrWrapper], uri_package_or_wrapper).wrapper
-
-        raise RuntimeError(
-            dedent(
-                f"""
-                Error resolving URI "{uri.uri}"
-                URI not found
-                Resolution Stack: {
-                    json.dumps(
-                        build_clean_uri_history(
-                            resolution_context.get_history()
-                        ), indent=2
+        match uri_package_or_wrapper:
+            case UriPackage(uri=uri, package=package):
+                return package.create_wrapper()
+            case UriWrapper(uri=uri, wrapper=wrapper):
+                return wrapper
+            case _:
+                raise RuntimeError(
+                    dedent(
+                        f"""
+                        Error resolving URI "{uri.uri}"
+                        URI not found
+                        Resolution Stack: {
+                            json.dumps(
+                                build_clean_uri_history(
+                                    resolution_context.get_history()
+                                ), indent=2
+                            )
+                        }
+                        """
                     )
-                }
-                """
-            )
-        )
+                )
 
-    async def invoke(self, options: InvokerOptions[UriPackageOrWrapper]) -> Any:
+    def invoke(
+        self,
+        uri: Uri,
+        method: str,
+        args: Optional[Any] = None,
+        env: Optional[Any] = None,
+        resolution_context: Optional[UriResolutionContext] = None,
+        encode_result: Optional[bool] = False,
+    ) -> Any:
         """Invoke the given wrapper URI.
 
         Args:
-            options (InvokerOptions[UriPackageOrWrapper]): The options for invoking the wrapper.
+            uri (Uri): The wrapper URI.
+            method (str): The method to invoke.
+            args (Optional[Any]): The arguments to pass to the method.
+            env (Optional[Any]): The environment variables to pass.
+            resolution_context (Optional[UriResolutionContext]):\
+                The resolution context.
+            encode_result (Optional[bool]): If True, encode the result.
 
         Returns:
             Any: The result of the invocation.
+
+        Raises:
+            RuntimeError: If the URI cannot be resolved.
+            MsgpackError: If the data cannot be encoded/decoded.
+            ManifestError: If the manifest is invalid.
+            WrapError: If something went wrong during the invocation.
+            UriResolutionError: If the URI cannot be resolved.
         """
-        resolution_context = options.resolution_context or UriResolutionContext()
-        wrapper = await self.load_wrapper(
-            options.uri, resolution_context=resolution_context
+        resolution_context = resolution_context or UriResolutionContext()
+        load_wrapper_context = resolution_context.create_sub_history_context()
+        wrapper = self.load_wrapper(uri, resolution_context=load_wrapper_context)
+        wrapper_resolution_path = load_wrapper_context.get_resolution_path()
+        wrapper_resolved_uri = wrapper_resolution_path[-1]
+
+        resolution_context.track_step(
+            UriResolutionStep(
+                source_uri=uri,
+                result=UriWrapper(uri=uri, wrapper=wrapper),
+                description="Client.load_wrapper",
+                sub_history=load_wrapper_context.get_history(),
+            )
         )
-        options.env = options.env or self.get_env_by_uri(options.uri)
 
-        invocable_result = await wrapper.invoke(options, invoker=self)
+        env = env or get_env_from_resolution_path(
+            load_wrapper_context.get_resolution_path(), self
+        )
 
-        if options.encode_result and not invocable_result.encoded:
+        wrapper_invoke_context = resolution_context.create_sub_history_context()
+
+        invocable_result = wrapper.invoke(
+            uri=wrapper_resolved_uri,
+            method=method,
+            args=args,
+            env=env,
+            resolution_context=wrapper_invoke_context,
+            client=self,
+        )
+
+        resolution_context.track_step(
+            UriResolutionStep(
+                source_uri=wrapper_resolved_uri,
+                result=wrapper_resolved_uri,
+                description="Wrapper.invoke",
+                sub_history=wrapper_invoke_context.get_history(),
+            )
+        )
+
+        if encode_result and not invocable_result.encoded:
             encoded = msgpack_encode(invocable_result.result)
             return encoded
 
         if (
-            not options.encode_result
+            not encode_result
             and invocable_result.encoded
             and isinstance(invocable_result.result, (bytes, bytearray))
         ):
@@ -220,3 +288,6 @@ class PolywrapClient(Client):
             return decoded
 
         return invocable_result.result
+
+
+__all__ = ["PolywrapClient"]

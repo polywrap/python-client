@@ -20,3 +20,12 @@ class MsgpackExtError(MsgpackError):
 class MsgpackSanitizeError(MsgpackError):
     """Raised when there is an error sanitizing a python object\
         into a msgpack encoder compatible format."""
+
+
+__all__ = [
+    "MsgpackError",
+    "MsgpackDecodeError",
+    "MsgpackEncodeError",
+    "MsgpackExtError",
+    "MsgpackSanitizeError",
+]

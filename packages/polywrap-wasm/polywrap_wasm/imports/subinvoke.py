@@ -1,14 +1,9 @@
 """This module contains the subinvoke imports for the Wasm module."""
-import asyncio
-from concurrent.futures import ThreadPoolExecutor
-
-from polywrap_core import InvokerOptions, Uri, WrapAbortError
+from polywrap_core import Uri, WrapAbortError
 from polywrap_msgpack import msgpack_encode
 
 from ..types import InvokeResult
 from .types import BaseWrapImports
-
-pool = ThreadPoolExecutor()
 
 
 class WrapSubinvokeImports(BaseWrapImports):
@@ -26,12 +21,12 @@ class WrapSubinvokeImports(BaseWrapImports):
         """Subinvoke a function of any wrapper from the Wasm module.
 
         Args:
-            uri_ptr: The pointer to the uri string in memory.
-            uri_len: The length of the uri string in memory.
-            method_ptr: The pointer to the method string in memory.
-            method_len: The length of the method string in memory.
-            args_ptr: The pointer to the args bytes in memory.
-            args_len: The length of the args bytes in memory.
+            uri_ptr (int): The pointer to the uri string in memory.
+            uri_len (int): The length of the uri string in memory.
+            method_ptr (int): The pointer to the method string in memory.
+            method_len (int): The length of the method string in memory.
+            args_ptr (int): The pointer to the args bytes in memory.
+            args_len (int): The length of the args bytes in memory.
 
         Returns:
             True if the subinvocation was successful, False otherwise.
@@ -42,18 +37,19 @@ class WrapSubinvokeImports(BaseWrapImports):
         method = self._get_subinvoke_method(method_ptr, method_len)
         args = self._get_subinvoke_args(args_ptr, args_len)
 
+        if not self.invoker:
+            raise WrapAbortError(
+                invoke_options=self.state.invoke_options,
+                message="Expected invoker to be defined got None",
+            )
+
         try:
-            result = pool.submit(
-                asyncio.run,
-                self.invoker.invoke(
-                    InvokerOptions(
-                        uri=uri,
-                        method=method,
-                        args=args,
-                        encode_result=True,
-                    )
-                ),
-            ).result()
+            result = self.invoker.invoke(
+                uri=uri,
+                method=method,
+                args=args,
+                encode_result=True,
+            )
             if isinstance(result, bytes):
                 self.state.subinvoke_result = InvokeResult(result=result)
                 return True
@@ -72,7 +68,7 @@ class WrapSubinvokeImports(BaseWrapImports):
         """Write the result of the subinvocation to shared memory.
 
         Args:
-            ptr: The pointer to the empty result bytes slot in memory.
+            ptr (int): The pointer to the empty result bytes slot in memory.
         """
         result = self._get_subinvoke_result("__wrap_subinvoke_result")
         self.write_bytes(ptr, result)
@@ -88,7 +84,7 @@ class WrapSubinvokeImports(BaseWrapImports):
             at pointer to the Wasm allocated empty error message slot.
 
         Args:
-            ptr: The pointer to the empty error message slot in memory.
+            ptr (int): The pointer to the empty error message slot in memory.
         """
         error = self._get_subinvoke_error("__wrap_subinvoke_error")
         error_message = repr(error)

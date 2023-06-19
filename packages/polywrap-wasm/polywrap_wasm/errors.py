@@ -12,3 +12,10 @@ class WasmExportNotFoundError(WasmError):
 
 class WasmMemoryError(WasmError):
     """Raises when the Wasm memory is not found."""
+
+
+__all__ = [
+    "WasmError",
+    "WasmExportNotFoundError",
+    "WasmMemoryError",
+]

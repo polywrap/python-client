@@ -7,8 +7,9 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   polywrap_core.utils.instance_of
-   polywrap_core.utils.maybe_async
+   polywrap_core.utils.build_clean_uri_history
+   polywrap_core.utils.get_env_from_resolution_path
+   polywrap_core.utils.get_implementations
 
 Module contents
 ---------------

@@ -9,12 +9,26 @@ Python implementation of the polywrap client.
 Use the `polywrap-uri-resolvers` package to configure resolver and build config for the client.
 
 ```python
-from polywrap_uri_resolvers import FsUriResolver, SimpleFileReader
-
-config = ClientConfig(
-    resolver=FsUriResolver(file_reader=SimpleFileReader())
+from polywrap_uri_resolvers import (
+    FsUriResolver,
+    SimpleFileReader
 )
+from polywrap_core import Uri, ClientConfig
+from polywrap_client import PolywrapClient
+from polywrap_client_config_builder import PolywrapClientConfigBuilder
 
+builder = (
+    PolywrapClientConfigBuilder()
+    .add_resolver(FsUriResolver(file_reader=SimpleFileReader()))
+    .set_env(Uri.from_str("ens/foo.eth"), {"foo": "bar"})
+    .add_interface_implementations(
+        Uri.from_str("ens/foo.eth"), [
+            Uri.from_str("ens/bar.eth"),
+            Uri.from_str("ens/baz.eth")
+        ]
+    )
+)
+config = builder.build()
 client = PolywrapClient(config)
 ```
 
@@ -32,9 +46,6 @@ args = {
         "prop1": "1000",  # multiply the base number by this factor
     },
 }
-options: InvokerOptions[UriPackageOrWrapper] = InvokerOptions(
-    uri=uri, method="method", args=args, encode_result=False
-)
-result = await client.invoke(options)
+result = client.invoke(uri=uri, method="method", args=args, encode_result=False)
 assert result == "123000"
 ```

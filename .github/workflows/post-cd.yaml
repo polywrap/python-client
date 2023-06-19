@@ -3,12 +3,14 @@ on:
   # When Pull Request is merged
   pull_request_target:
     types: [closed]
+    branches: [main]
 
 jobs:
   Dev-PR:
     runs-on: ubuntu-latest
     if: |
       github.event.pull_request.user.login == 'github-actions[bot]' &&
+      startsWith(github.event.pull_request.title, '[CD]')
       github.event.pull_request.merged == true
     steps:
       - name: Checkout

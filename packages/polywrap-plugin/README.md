@@ -1,4 +1,4 @@
-# polywrap-wasm
+# polywrap-plugin
 
 Python implementation of the plugin wrapper runtime.
 
@@ -10,7 +10,7 @@ Python implementation of the plugin wrapper runtime.
 from typing import Any, Dict, List, Union, Optional
 from polywrap_manifest import AnyWrapManifest
 from polywrap_plugin import PluginModule
-from polywrap_core import Invoker, Uri, InvokerOptions, UriPackageOrWrapper, Env
+from polywrap_core import InvokerClient, Uri, InvokerOptions, UriPackageOrWrapper, Env
 
 class GreetingModule(PluginModule[None]):
     def __init__(self, config: None):
@@ -24,13 +24,13 @@ wrapper = PluginWrapper(greeting_module, manifest)
 args = {
     "name": "Joe"
 }
-options: InvokeOptions[UriPackageOrWrapper] = InvokeOptions(
+client: InvokerClient = ...
+
+result = await wrapper.invoke(
     uri=Uri.from_str("ens/greeting.eth"),
     method="greeting",
-    args=args
+    args=args,
+    client=client
 )
-invoker: Invoker = ...
-
-result = await wrapper.invoke(options, invoker)
 assert result, "Greetings from: Joe"
 ```

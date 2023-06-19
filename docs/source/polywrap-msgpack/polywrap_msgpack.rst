@@ -17,6 +17,7 @@ Submodules
 
    polywrap_msgpack.decoder
    polywrap_msgpack.encoder
+   polywrap_msgpack.errors
    polywrap_msgpack.sanitize
 
 Module contents

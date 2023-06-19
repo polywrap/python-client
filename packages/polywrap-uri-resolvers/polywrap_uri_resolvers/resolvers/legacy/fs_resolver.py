@@ -4,19 +4,20 @@ from pathlib import Path
 from polywrap_core import (
     FileReader,
     InvokerClient,
-    IUriResolutionContext,
     Uri,
     UriPackage,
     UriPackageOrWrapper,
+    UriResolutionContext,
     UriResolver,
 )
-from polywrap_wasm import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH, WasmPackage
+from polywrap_wasm import WasmPackage
+from polywrap_wasm.constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
 
 class SimpleFileReader(FileReader):
     """Defines a simple file reader."""
 
-    async def read_file(self, file_path: str) -> bytes:
+    def read_file(self, file_path: str) -> bytes:
         """Read a file.
 
         Args:
@@ -30,30 +31,30 @@ class SimpleFileReader(FileReader):
 
 
 class FsUriResolver(UriResolver):
-    """Defines a URI resolver that resolves file system URIs."""
+    """Defines a URI resolver that resolves file system URIs.
+
+    Args:
+        file_reader (FileReader): The file reader used to read files.
+    """
 
     file_reader: FileReader
 
     def __init__(self, file_reader: FileReader):
-        """Initialize a new FsUriResolver instance.
-
-        Args:
-            file_reader (FileReader): The file reader used to read files.
-        """
+        """Initialize a new FsUriResolver instance."""
         self.file_reader = file_reader
 
-    async def try_resolve_uri(
+    def try_resolve_uri(
         self,
         uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
+        client: InvokerClient,
+        resolution_context: UriResolutionContext,
     ) -> UriPackageOrWrapper:
         """Try to resolve a URI.
 
         Args:
             uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]): The resolution context.
+            client (InvokerClient): The client to use for resolving the URI.
+            resolution_context (UriResolutionContext): The resolution context.
 
         Returns:
             UriPackageOrWrapper: The resolved URI.
@@ -63,13 +64,9 @@ class FsUriResolver(UriResolver):
 
         wrapper_path = Path(uri.path)
 
-        wasm_module = await self.file_reader.read_file(
-            str(wrapper_path / WRAP_MODULE_PATH)
-        )
+        wasm_module = self.file_reader.read_file(str(wrapper_path / WRAP_MODULE_PATH))
 
-        manifest = await self.file_reader.read_file(
-            str(wrapper_path / WRAP_MANIFEST_PATH)
-        )
+        manifest = self.file_reader.read_file(str(wrapper_path / WRAP_MANIFEST_PATH))
 
         return UriPackage(
             uri=uri,
@@ -79,3 +76,6 @@ class FsUriResolver(UriResolver):
                 file_reader=self.file_reader,
             ),
         )
+
+
+__all__ = ["FsUriResolver", "SimpleFileReader"]

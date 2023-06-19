@@ -1,14 +1,6 @@
 polywrap\_core.types package
 ============================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   polywrap_core.types.options
-
 Submodules
 ----------
 
@@ -17,15 +9,13 @@ Submodules
 
    polywrap_core.types.client
    polywrap_core.types.config
-   polywrap_core.types.env
    polywrap_core.types.errors
    polywrap_core.types.file_reader
    polywrap_core.types.invocable
-   polywrap_core.types.invoke_args
+   polywrap_core.types.invoke_options
    polywrap_core.types.invoker
    polywrap_core.types.invoker_client
    polywrap_core.types.uri
-   polywrap_core.types.uri_like
    polywrap_core.types.uri_package
    polywrap_core.types.uri_package_wrapper
    polywrap_core.types.uri_resolution_context

@@ -1,13 +1,15 @@
 """This module contains the interface configure class for the client config builder."""
-from typing import Dict, List, Union
+from typing import Dict, List, Union, cast
 
 from polywrap_core import Uri
 
-from ..types import ClientConfigBuilder
+from ..types import BuilderConfig, ClientConfigBuilder
 
 
-class InterfaceConfigure(ClientConfigBuilder):
+class InterfaceConfigure:
     """Allows configuring the interface-implementations."""
+
+    config: BuilderConfig
 
     def get_interfaces(self) -> Dict[Uri, List[Uri]]:
         """Return all registered interface and its implementations\
@@ -23,10 +25,13 @@ class InterfaceConfigure(ClientConfigBuilder):
     ) -> ClientConfigBuilder:
         """Add a list of implementation URIs for the given interface URI to the builder's config."""
         if interface_uri in self.config.interfaces.keys():
-            self.config.interfaces[interface_uri].extend(implementations_uris)
+            existing_implementations = set(self.config.interfaces[interface_uri])
+            for implementation_uri in implementations_uris:
+                if implementation_uri not in existing_implementations:
+                    self.config.interfaces[interface_uri].append(implementation_uri)
         else:
             self.config.interfaces[interface_uri] = implementations_uris
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def remove_interface_implementations(
         self, interface_uri: Uri, implementations_uris: List[Uri]
@@ -37,9 +42,9 @@ class InterfaceConfigure(ClientConfigBuilder):
             for uri in self.config.interfaces[interface_uri]
             if uri not in implementations_uris
         ]
-        return self
+        return cast(ClientConfigBuilder, self)
 
     def remove_interface(self, interface_uri: Uri) -> ClientConfigBuilder:
         """Remove the interface for the given uri."""
         self.config.interfaces.pop(interface_uri, None)
-        return self
+        return cast(ClientConfigBuilder, self)

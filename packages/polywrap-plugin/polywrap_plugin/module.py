@@ -1,52 +1,76 @@
 """This module contains the PluginModule class."""
 # pylint: disable=invalid-name
 from abc import ABC
-from typing import Any, Generic, TypeVar
+from dataclasses import dataclass
+from typing import Any, Generic, Optional, TypeVar
 
 from polywrap_core import (
-    InvokeOptions,
-    Invoker,
-    UriPackageOrWrapper,
+    InvokerClient,
+    Uri,
+    UriResolutionContext,
     WrapAbortError,
     WrapInvocationError,
-    execute_maybe_async_function,
 )
 from polywrap_msgpack import msgpack_decode
 
 TConfig = TypeVar("TConfig")
 
 
+@dataclass(kw_only=True, slots=True)
+class PluginInvokeOptions:
+    """PluginInvokeOptions is a dataclass that holds the options for an invocation.
+
+    Args:
+        uri (URI): The URI of the wrapper.
+        method (str): The method to invoke.
+        args (Optional[Any]): The arguments to pass to the method.
+        env (Optional[Any]): The environment variables to set\
+            for the invocation.
+        resolution_context (Optional[UriResolutionContext]): \
+            A URI resolution context.
+        client (Optional[InvokerClient]): The client to use\
+            for subinvocations.
+    """
+
+    uri: Uri
+    method: str
+    args: Optional[Any] = None
+    env: Optional[Any] = None
+    resolution_context: Optional[UriResolutionContext] = None
+    client: Optional[InvokerClient] = None
+
+
 class PluginModule(Generic[TConfig], ABC):
     """PluginModule is the base class for all plugin modules.
 
-    Attributes:
-        config: The configuration of the plugin.
+    Args:
+        config (TConfig): The configuration of the plugin.
     """
 
     config: TConfig
 
     def __init__(self, config: TConfig):
-        """Initialize a new PluginModule instance.
-
-        Args:
-            config: The configuration of the plugin.
-        """
+        """Initialize a new PluginModule instance."""
         self.config = config
 
-    async def __wrap_invoke__(
+    def __wrap_invoke__(
         self,
-        options: InvokeOptions[UriPackageOrWrapper],
-        invoker: Invoker[UriPackageOrWrapper],
+        options: PluginInvokeOptions,
     ) -> Any:
         """Invoke a method on the plugin.
 
         Args:
-            method: The name of the method to invoke.
-            args: The arguments to pass to the method.
-            invoker: The invoker to use for subinvocations.
+            options (PluginInvokeOptions): The options\
+                to use when invoking the plugin.
 
         Returns:
-            The result of the plugin method invocation or an error.
+            The result of the plugin method invocation.
+
+        Raises:
+            WrapInvocationError: If the plugin method is not defined\
+                or is not callable.
+            WrapAbortError: If the plugin method raises an exception.
+            MsgpackDecodeError: If the plugin method returns invalid msgpack.
         """
         if not hasattr(self, options.method):
             raise WrapInvocationError(
@@ -61,11 +85,12 @@ class PluginModule(Generic[TConfig], ABC):
                     if isinstance(options.args, bytes)
                     else options.args
                 )
-                return await execute_maybe_async_function(
-                    callable_method, decoded_args, invoker, options.env
-                )
+                return callable_method(decoded_args, options.client, options.env)
             except Exception as err:
                 raise WrapAbortError(options, repr(err)) from err
         raise WrapInvocationError(
             options, f"{options.method} is not a callable method in plugin module"
         )
+
+
+__all__ = ["PluginModule"]

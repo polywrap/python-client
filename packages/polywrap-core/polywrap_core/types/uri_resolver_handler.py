@@ -1,27 +1,29 @@
 """This module contains uri resolver handler interface."""
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Any, Optional, Protocol
 
-from .options.uri_resolver_options import TryResolveUriOptions
-from .uri_like import UriLike
-
-TUriLike = TypeVar("TUriLike", bound=UriLike)
+from .uri import Uri
+from .uri_resolution_context import UriResolutionContext
 
 
-class UriResolverHandler(ABC, Generic[TUriLike]):
-    """Uri resolver handler interface."""
+class UriResolverHandler(Protocol):
+    """Uri resolver handler protocol."""
 
-    @abstractmethod
-    async def try_resolve_uri(
-        self, options: TryResolveUriOptions[TUriLike]
-    ) -> TUriLike:
+    def try_resolve_uri(
+        self, uri: Uri, resolution_context: Optional[UriResolutionContext] = None
+    ) -> Any:
         """Try to resolve a uri.
 
         Args:
-            options: The options for resolving the uri.
+            uri (Uri): Uri of the wrapper to resolve.
+            resolution_context (Optional[IUriResolutionContext]):\
+                A URI resolution context
 
         Returns:
-            T: result of the URI resolution. Must be a UriLike.
+            Any: result of the URI resolution.
         """
+        ...
+
+
+__all__ = ["UriResolverHandler"]

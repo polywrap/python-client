@@ -15,8 +15,8 @@ class WrapGetImplementationsImports(BaseWrapImports):
             from the invoker and store it in the state.
 
         Args:
-            uri_ptr: The pointer to the interface URI bytes in memory.
-            uri_len: The length of the interface URI bytes in memory.
+            uri_ptr (int): The pointer to the interface URI bytes in memory.
+            uri_len (int): The length of the interface URI bytes in memory.
         """
         uri = Uri.from_str(
             self.read_string(
@@ -24,6 +24,11 @@ class WrapGetImplementationsImports(BaseWrapImports):
                 uri_len,
             )
         )
+        if not self.invoker:
+            raise WrapAbortError(
+                invoke_options=self.state.invoke_options,
+                message="Expected invoker to be defined got None",
+            )
         try:
             maybe_implementations = self.invoker.get_implementations(uri=uri)
             implementations: List[str] = (
@@ -35,8 +40,8 @@ class WrapGetImplementationsImports(BaseWrapImports):
             return len(implementations) > 0
         except Exception as err:
             raise WrapAbortError(
-                self.state.invoke_options,
-                f"failed calling invoker.get_implementations({repr(uri)})",
+                invoke_options=self.state.invoke_options,
+                message=f"failed calling invoker.get_implementations({repr(uri)})",
             ) from err
 
     def wrap_get_implementations_result_len(self) -> int:
@@ -59,6 +64,12 @@ class WrapGetImplementationsImports(BaseWrapImports):
         self.write_bytes(ptr, result)
 
     def _get_get_implementations_result(self, export_name: str):
+        if not self.invoker:
+            raise WrapAbortError(
+                invoke_options=self.state.invoke_options,
+                message="Expected invoker to be defined got None",
+            )
+
         if not self.state.get_implementations_result:
             raise WrapAbortError(
                 self.state.invoke_options,

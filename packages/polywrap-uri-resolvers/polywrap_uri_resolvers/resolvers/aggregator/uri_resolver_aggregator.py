@@ -1,92 +1,46 @@
 """This module contains the UriResolverAggregator Resolver."""
-from typing import List, Optional, cast
+from typing import List, Optional
 
-from polywrap_core import (
-    InvokerClient,
-    IUriResolutionContext,
-    Uri,
-    UriPackage,
-    UriPackageOrWrapper,
-    UriResolver,
-    UriWrapper,
-)
+from polywrap_core import InvokerClient, UriResolutionContext, UriResolver
 
-from ...types import UriResolutionStep
+from .uri_resolver_aggregator_base import UriResolverAggregatorBase
 
 
-class UriResolverAggregator(UriResolver):
+class UriResolverAggregator(UriResolverAggregatorBase):
     """Defines a resolver that aggregates a list of resolvers.
     
     This resolver aggregates a list of resolvers and tries to resolve\
         the uri with each of them. If a resolver returns a value\
         other than the resolving uri, the value is returned.
 
-    Attributes:
+    Args:
         resolvers (List[UriResolver]): The list of resolvers to aggregate.
         step_description (Optional[str]): The description of the resolution\
             step. Defaults to the class name.
     """
 
-    __slots__ = ("resolvers", "step_description")
+    __slots__ = ("_resolvers", "_step_description")
 
-    resolvers: List[UriResolver]
-    step_description: Optional[str]
+    _resolvers: List[UriResolver]
+    _step_description: Optional[str]
 
     def __init__(
         self, resolvers: List[UriResolver], step_description: Optional[str] = None
     ):
-        """Initialize a new UriResolverAggregator instance.
+        """Initialize a new UriResolverAggregator instance."""
+        self._step_description = step_description or self.__class__.__name__
+        self._resolvers = resolvers
+        super().__init__()
 
-        Args:
-            resolvers (List[UriResolver]): The list of resolvers to aggregate.
-            step_description (Optional[str]): The description of the resolution\
-                step. Defaults to the class name.
-        """
-        self.step_description = step_description or self.__class__.__name__
-        self.resolvers = resolvers
+    def get_step_description(self) -> Optional[str]:
+        """Get the description of the resolution step."""
+        return self._step_description
 
-    async def try_resolve_uri(
-        self,
-        uri: Uri,
-        client: InvokerClient[UriPackageOrWrapper],
-        resolution_context: IUriResolutionContext[UriPackageOrWrapper],
-    ) -> UriPackageOrWrapper:
-        """Try to resolve a URI to a wrap package, a wrapper, or a URI.
+    def get_resolvers(
+        self, client: InvokerClient, resolution_context: UriResolutionContext
+    ) -> List[UriResolver]:
+        """Get the list of resolvers to aggregate."""
+        return self._resolvers
 
-        This method tries to resolve the uri with each of the aggregated\
-            resolvers. If a resolver returns a value other than the resolving\
-            uri, the value is returned.
-        
-        Args:
-            uri (Uri): The URI to resolve.
-            client (InvokerClient[UriPackageOrWrapper]): The client to use for\
-                resolving the URI.
-            resolution_context (IUriResolutionContext[UriPackageOrWrapper]):\
-                The resolution context to update.
-        """
-        sub_context = resolution_context.create_sub_history_context()
 
-        for resolver in self.resolvers:
-            uri_package_or_wrapper = await resolver.try_resolve_uri(
-                uri, client, sub_context
-            )
-            if uri_package_or_wrapper != uri or isinstance(
-                uri_package_or_wrapper, (UriPackage, UriWrapper)
-            ):
-                step = UriResolutionStep(
-                    source_uri=uri,
-                    result=cast(UriPackageOrWrapper, uri_package_or_wrapper),
-                    sub_history=sub_context.get_history(),
-                    description=self.step_description,
-                )
-                resolution_context.track_step(step)
-                return cast(UriPackageOrWrapper, uri_package_or_wrapper)
-
-        step = UriResolutionStep(
-            source_uri=uri,
-            result=uri,
-            sub_history=sub_context.get_history(),
-            description=self.step_description,
-        )
-        resolution_context.track_step(step)
-        return uri
+__all__ = ["UriResolverAggregator"]

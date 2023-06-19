@@ -7,8 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   polywrap_uri_resolvers.resolvers.cache.cache_resolver
-   polywrap_uri_resolvers.resolvers.cache.request_synchronizer_resolver
+   polywrap_uri_resolvers.resolvers.cache.resolution_result_cache_resolver
 
 Module contents
 ---------------

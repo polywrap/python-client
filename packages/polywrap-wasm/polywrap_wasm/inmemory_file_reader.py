@@ -7,13 +7,14 @@ from .constants import WRAP_MANIFEST_PATH, WRAP_MODULE_PATH
 
 
 class InMemoryFileReader(FileReader):
-    """InMemoryFileReader is an implementation of the IFileReader interface\
+    """InMemoryFileReader is an implementation of the FileReader protocol\
         that reads files from memory.
 
-    Attributes:
-        _wasm_module: The Wasm module file of the wrapper.
-        _wasm_manifest: The manifest of the wrapper.
-        _base_file_reader: The base file reader used to read any files.
+    Args:
+        base_file_reader (FileReader): The base file reader\
+            used to read any files.
+        wasm_module (Optional[bytes]): The Wasm module file of the wrapper.
+        wasm_manifest (Optional[bytes]): The manifest of the wrapper.
     """
 
     _wasm_manifest: Optional[bytes]
@@ -31,7 +32,7 @@ class InMemoryFileReader(FileReader):
         self._wasm_manifest = wasm_manifest
         self._base_file_reader = base_file_reader
 
-    async def read_file(self, file_path: str) -> bytes:
+    def read_file(self, file_path: str) -> bytes:
         """Read a file from memory.
 
         Args:
@@ -44,4 +45,7 @@ class InMemoryFileReader(FileReader):
             return self._wasm_module
         if file_path == WRAP_MANIFEST_PATH and self._wasm_manifest:
             return self._wasm_manifest
-        return await self._base_file_reader.read_file(file_path=file_path)
+        return self._base_file_reader.read_file(file_path=file_path)
+
+
+__all__ = ["InMemoryFileReader"]

@@ -1,18 +1,17 @@
 """This module provides a simple builder for building a ClientConfig object."""
 # pylint: disable=too-many-ancestors
 
-from typing import Optional
+from typing import Optional, cast
 
-from polywrap_core import ClientConfig
+from polywrap_core import ClientConfig, UriPackage, UriWrapper
 from polywrap_uri_resolvers import (
     ExtendableUriResolver,
-    InMemoryWrapperCache,
-    PackageToWrapperResolver,
+    InMemoryResolutionResultCache,
     RecursiveResolver,
-    RequestSynchronizerResolver,
+    ResolutionResultCacheResolver,
     StaticResolver,
+    StaticResolverLike,
     UriResolverAggregator,
-    WrapperCacheResolver,
 )
 
 from .configures import (
@@ -24,7 +23,7 @@ from .configures import (
     ResolverConfigure,
     WrapperConfigure,
 )
-from .types import BuilderConfig, BuildOptions
+from .types import BuilderConfig, BuildOptions, ClientConfigBuilder
 
 
 class PolywrapClientConfigBuilder(
@@ -35,6 +34,7 @@ class PolywrapClientConfigBuilder(
     RedirectConfigure,
     ResolverConfigure,
     WrapperConfigure,
+    ClientConfigBuilder,
 ):
     """Defines the default polywrap client config builder for\
         building a ClientConfig object for the Polywrap Client.
@@ -44,6 +44,28 @@ class PolywrapClientConfigBuilder(
         PolywrapClientConfigBuilder provides a simple interface for setting\
         the redirects, wrappers, packages, and other configuration options\
         for the Polywrap Client.
+
+    Examples:
+        >>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
+        >>> from polywrap_uri_resolvers import RecursiveResolver
+        >>> from polywrap_core import Uri
+        >>> config = (
+        ...     PolywrapClientConfigBuilder()
+        ...         .set_env(Uri.from_str("test/uri"), {"hello": "world"})
+        ...         .add_interface_implementations(
+        ...             Uri.from_str("test/interface"), 
+        ...             [Uri.from_str("test/impl1"), Uri.from_str("test/impl2")],
+        ...         )
+        ...         .set_redirect(Uri("test", "from"), Uri("test", "to"))
+        ...         .set_env(Uri("test", "to"), {"foo": "bar"})
+        ...         .build()
+        ... )
+        >>> config.envs
+        {Uri("test", "uri"): {'hello': 'world'}, Uri("test", "to"): {'foo': 'bar'}}
+        >>> config.interfaces
+        {Uri("test", "interface"): [Uri("test", "impl1"), Uri("test", "impl2")]}
+        >>> isinstance(config.resolver, RecursiveResolver)
+        True
     """
 
     def __init__(self):
@@ -51,30 +73,27 @@ class PolywrapClientConfigBuilder(
         self.config = BuilderConfig(
             envs={}, interfaces={}, resolvers=[], wrappers={}, packages={}, redirects={}
         )
+        super().__init__()
 
     def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""
+        static_resolver_like = self._build_static_resolver_like()
+
         resolver = (
             options.resolver
             if options and options.resolver
             else RecursiveResolver(
-                RequestSynchronizerResolver(
-                    WrapperCacheResolver(
-                        PackageToWrapperResolver(
-                            UriResolverAggregator(
-                                [
-                                    StaticResolver(self.config.redirects),
-                                    StaticResolver(self.config.wrappers),
-                                    StaticResolver(self.config.packages),
-                                    *self.config.resolvers,
-                                    ExtendableUriResolver(),
-                                ]
-                            )
-                        ),
-                        options.wrapper_cache
-                        if options and options.wrapper_cache
-                        else InMemoryWrapperCache(),
-                    )
+                ResolutionResultCacheResolver(
+                    UriResolverAggregator(
+                        [
+                            StaticResolver(static_resolver_like),
+                            *self.config.resolvers,
+                            ExtendableUriResolver(),
+                        ]
+                    ),
+                    options.resolution_result_cache
+                    if options and options.resolution_result_cache
+                    else InMemoryResolutionResultCache(),
                 )
             )
         )
@@ -84,3 +103,17 @@ class PolywrapClientConfigBuilder(
             interfaces=self.config.interfaces,
             resolver=resolver,
         )
+
+    def _build_static_resolver_like(self) -> StaticResolverLike:
+        static_resolver_like = cast(StaticResolverLike, self.config.redirects)
+
+        for uri, wrapper in self.config.wrappers.items():
+            static_resolver_like[uri] = UriWrapper(uri=uri, wrapper=wrapper)
+
+        for uri, package in self.config.packages.items():
+            static_resolver_like[uri] = UriPackage(uri=uri, package=package)
+
+        return static_resolver_like
+
+
+__all__ = ["PolywrapClientConfigBuilder"]

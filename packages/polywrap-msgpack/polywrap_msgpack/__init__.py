@@ -12,18 +12,3 @@ from .encoder import *
 from .errors import *
 from .extensions import *
 from .sanitize import *
-
-__all__ = [
-    "msgpack_decode",
-    "msgpack_encode",
-    "decode_ext_hook",
-    "encode_ext_hook",
-    "sanitize",
-    "ExtensionTypes",
-    "GenericMap",
-    "MsgpackError",
-    "MsgpackDecodeError",
-    "MsgpackEncodeError",
-    "MsgpackExtError",
-    "MsgpackSanitizeError",
-]

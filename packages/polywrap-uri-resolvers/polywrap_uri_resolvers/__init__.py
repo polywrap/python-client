@@ -2,4 +2,3 @@
 from .errors import *
 from .resolvers import *
 from .types import *
-from .utils import *

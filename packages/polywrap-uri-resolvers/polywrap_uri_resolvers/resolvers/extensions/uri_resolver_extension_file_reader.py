@@ -1,7 +1,7 @@
 """This module contains the UriResolverExtensionFileReader class."""
 from pathlib import Path
 
-from polywrap_core import FileReader, Invoker, InvokerOptions, Uri, UriPackageOrWrapper
+from polywrap_core import FileReader, Invoker, Uri
 
 
 class UriResolverExtensionFileReader(FileReader):
@@ -11,34 +11,33 @@ class UriResolverExtensionFileReader(FileReader):
         The extension wrapper is used to read files by invoking the getFile method.\
         The getFile method is invoked with the path of the file to read.
 
-    Attributes:
+    Args:
         extension_uri (Uri): The uri of the extension wrapper.
         wrapper_uri (Uri): The uri of the wrapper that uses the extension wrapper.
-        invoker (Invoker[UriPackageOrWrapper]): The invoker used to invoke the getFile method.
+        invoker (Invoker): The invoker used to invoke the getFile method.
     """
 
     extension_uri: Uri
+    """The uri of the extension wrapper."""
+
     wrapper_uri: Uri
-    invoker: Invoker[UriPackageOrWrapper]
+    """The uri of the wrapper that uses the extension wrapper."""
+
+    invoker: Invoker
+    """The invoker used to invoke the getFile method."""
 
     def __init__(
         self,
         extension_uri: Uri,
         wrapper_uri: Uri,
-        invoker: Invoker[UriPackageOrWrapper],
+        invoker: Invoker,
     ):
-        """Initialize a new UriResolverExtensionFileReader instance.
-
-        Args:
-            extension_uri (Uri): The uri of the extension wrapper.
-            wrapper_uri (Uri): The uri of the wrapper that uses the extension wrapper.
-            invoker (Invoker[UriPackageOrWrapper]): The invoker used to invoke the getFile method.
-        """
+        """Initialize a new UriResolverExtensionFileReader instance."""
         self.extension_uri = extension_uri
         self.wrapper_uri = wrapper_uri
         self.invoker = invoker
 
-    async def read_file(self, file_path: str) -> bytes:
+    def read_file(self, file_path: str) -> bytes:
         """Read a file using the extension wrapper.
 
         Args:
@@ -48,10 +47,8 @@ class UriResolverExtensionFileReader(FileReader):
             bytes: The contents of the file.
         """
         path = str(Path(self.wrapper_uri.path).joinpath(file_path))
-        result = await self.invoker.invoke(
-            InvokerOptions(
-                uri=self.extension_uri, method="getFile", args={"path": path}
-            )
+        result = self.invoker.invoke(
+            uri=self.extension_uri, method="getFile", args={"path": path}
         )
 
         if not isinstance(result, bytes):
@@ -59,3 +56,6 @@ class UriResolverExtensionFileReader(FileReader):
                 f"File not found at path: {path}, using resolver: {self.extension_uri}"
             )
         return result
+
+
+__all__ = ["UriResolverExtensionFileReader"]

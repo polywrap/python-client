@@ -1,27 +1,28 @@
-"""This module contains the uri resolution step interface."""
+"""This module contains implementation of IUriResolutionStep interface."""
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, List, Optional, TypeVar
+from typing import Any, List, Optional
 
 from .uri import Uri
-from .uri_like import UriLike
-
-TUriLike = TypeVar("TUriLike", bound=UriLike)
 
 
 @dataclass(slots=True, kw_only=True)
-class IUriResolutionStep(Generic[TUriLike]):
+class UriResolutionStep:
     """Represents a single step in the resolution of a uri.
 
-    Attributes:
+    Args:
         source_uri (Uri): The uri that was resolved.
-        result (T): The result of the resolution. must be a UriLike.
-        description: A description of the resolution step.
-        sub_history: A list of sub steps that were taken to resolve the uri.
+        result (Any): The result of the resolution.
+        description (Optional[str]): A description of the resolution step.
+        sub_history (Optional[List[UriResolutionStep]]): A list of sub steps\
+            that were taken to resolve the uri.
     """
 
     source_uri: Uri
-    result: TUriLike
+    result: Any
     description: Optional[str] = None
-    sub_history: Optional[List["IUriResolutionStep[TUriLike]"]] = None
+    sub_history: Optional[List[UriResolutionStep]] = None
+
+
+__all__ = ["UriResolutionStep"]

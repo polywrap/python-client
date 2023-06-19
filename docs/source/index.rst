@@ -7,7 +7,7 @@ Welcome to polywrap-client's documentation!
 ===========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    polywrap-msgpack/modules.rst
@@ -18,7 +18,6 @@ Welcome to polywrap-client's documentation!
    polywrap-uri-resolvers/modules.rst
    polywrap-client/modules.rst
    polywrap-client-config-builder/modules.rst
-
 
 
 Indices and tables

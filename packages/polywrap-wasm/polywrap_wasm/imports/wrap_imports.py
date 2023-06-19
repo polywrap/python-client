@@ -3,7 +3,9 @@
 # pylint: disable=too-many-ancestors
 from __future__ import annotations
 
-from polywrap_core import Invoker, UriPackageOrWrapper
+from typing import Optional
+
+from polywrap_core import Invoker
 from wasmtime import Memory, Store
 
 from ..types.state import State
@@ -27,11 +29,17 @@ class WrapImports(
 
     This class is responsible for providing all the Wasm imports to the Wasm module.
 
+    Args:
+        memory (Memory): The Wasm memory instance.
+        store (Store): The Wasm store instance.
+        state (State): The state of the Wasm module.
+        invoker (Invoker): The invoker instance.
+
     Attributes:
-        memory: The Wasm memory instance.
-        store: The Wasm store instance.
-        state: The state of the Wasm module.
-        invoker: The invoker instance.
+        memory (Memory): The Wasm memory instance.
+        store (Store): The Wasm store instance.
+        state (State): The state of the Wasm module.
+        invoker (Invoker): The invoker instance.
     """
 
     def __init__(
@@ -39,16 +47,9 @@ class WrapImports(
         memory: Memory,
         store: Store,
         state: State,
-        invoker: Invoker[UriPackageOrWrapper],
+        invoker: Optional[Invoker],
     ) -> None:
-        """Initialize the WrapImports instance.
-
-        Args:
-            memory: The Wasm memory instance.
-            store: The Wasm store instance.
-            state: The state of the Wasm module.
-            invoker: The invoker instance.
-        """
+        """Initialize the WrapImports instance."""
         self.memory = memory
         self.store = store
         self.state = state
