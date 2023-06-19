@@ -3,6 +3,7 @@ on:
   # When Pull Request is merged
   pull_request_target:
     types: [closed]
+    branches: [main]
 
 jobs:
   Dev-PR:
