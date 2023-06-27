@@ -465,7 +465,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client-config-builder"
-version = "0.1.0a32"
+version = "0.1.0a33"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -473,8 +473,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0a32"
-polywrap-uri-resolvers = "^0.1.0a32"
+polywrap-core = "^0.1.0a33"
+polywrap-uri-resolvers = "^0.1.0a33"
 
 [package.source]
 type = "directory"
@@ -1203,4 +1203,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "9eb45368a9b5a40528670e7c23d24c6e354194e507c2e72999734e92f5537234"
+content-hash = "e7a2b66db4ca5350b7d0975ed2171ae974d0222873f7c01f19e761627b5747fd"

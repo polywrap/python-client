@@ -512,7 +512,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client"
-version = "0.1.0a32"
+version = "0.1.0a33"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -520,9 +520,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0a32"
-polywrap-manifest = "^0.1.0a32"
-polywrap-msgpack = "^0.1.0a32"
+polywrap-core = "^0.1.0a33"
+polywrap-manifest = "^0.1.0a33"
+polywrap-msgpack = "^0.1.0a33"
 
 [package.source]
 type = "directory"
