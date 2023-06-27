@@ -4,14 +4,14 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-core"
-version = "0.1.0a33"
+version = "0.1.0a34"
 description = ""
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-msgpack = "^0.1.0a33"
-polywrap-manifest = "^0.1.0a33"
+polywrap-msgpack = "^0.1.0a34"
+polywrap-manifest = "^0.1.0a34"
 
 [tool.poetry.group.dev.dependencies]
 pycln = "^2.1.3"
