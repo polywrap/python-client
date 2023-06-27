@@ -518,76 +518,86 @@ name = "polywrap-core"
 version = "0.1.0a34"
 description = ""
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_core-0.1.0a34-py3-none-any.whl", hash = "sha256:e6c9c1a963058c372d53edd397a1e6e99719e1166d1d94191372835d49fb0e11"},
-    {file = "polywrap_core-0.1.0a34.tar.gz", hash = "sha256:fd365df846c40538ed441c897ef3e54c8bcdb50eb73167814ba5df7d6d5e46c6"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-manifest = ">=0.1.0a34,<0.2.0"
-polywrap-msgpack = ">=0.1.0a34,<0.2.0"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
 version = "0.1.0a34"
 description = "WRAP manifest"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_manifest-0.1.0a34-py3-none-any.whl", hash = "sha256:5a7ef0b7b79fd41e1d5fd3ba697d6a098f55d00457f395bca658514fd8fd3b05"},
-    {file = "polywrap_manifest-0.1.0a34.tar.gz", hash = "sha256:911b7ac3494329309eccc3d7e98eec8785ff807beae1335d03d397b15c3a3d24"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-msgpack = ">=0.1.0a34,<0.2.0"
-pydantic = ">=1.10.2,<2.0.0"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+pydantic = "^1.10.2"
+
+[package.source]
+type = "directory"
+url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
 version = "0.1.0a34"
 description = "WRAP msgpack encoding"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_msgpack-0.1.0a34-py3-none-any.whl", hash = "sha256:9755b3f32efb5180961fb1b7d7ded94218790368457f78651b09a2a46aaec9f1"},
-    {file = "polywrap_msgpack-0.1.0a34.tar.gz", hash = "sha256:c373dc94ed04f64b9f9c889aa817e6eb6801501ac86a821ca5449a434e695e05"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-msgpack = ">=1.0.4,<2.0.0"
+msgpack = "^1.0.4"
+
+[package.source]
+type = "directory"
+url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-uri-resolvers"
 version = "0.1.0a34"
 description = ""
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_uri_resolvers-0.1.0a34-py3-none-any.whl", hash = "sha256:5e9abec8e8091a025527e2eddc53dee77eef35d6c625d0d65633ece2b1adf0a3"},
-    {file = "polywrap_uri_resolvers-0.1.0a34.tar.gz", hash = "sha256:d5d89f75c88595868356a93add11f30db0258d8b99e515d314fbda934b8d1f4d"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0a34,<0.2.0"
-polywrap-wasm = ">=0.1.0a34,<0.2.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+
+[package.source]
+type = "directory"
+url = "../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
 version = "0.1.0a34"
 description = ""
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_wasm-0.1.0a34-py3-none-any.whl", hash = "sha256:62bac12a9b7733f77efe99b22a00b47250a6f45fd00e67f0560da2cbb0e2fa40"},
-    {file = "polywrap_wasm-0.1.0a34.tar.gz", hash = "sha256:bb18df835d24ae3b54633b7e4986a7f6f498474d532615b96765a4f4250de2dd"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0a34,<0.2.0"
-polywrap-manifest = ">=0.1.0a34,<0.2.0"
-polywrap-msgpack = ">=0.1.0a34,<0.2.0"
-wasmtime = ">=9.0.0,<10.0.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+wasmtime = "^9.0.0"
+
+[package.source]
+type = "directory"
+url = "../polywrap-wasm"
 
 [[package]]
 name = "py"
@@ -1122,4 +1132,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3a467e4552d9e6ed1bf00ad5463fd7834a383d4600ed66b9b6fa21baad78b88a"
+content-hash = "4c83da528593354cc45f8379300b60bdd5322f1507ce0e1d8c4a8c3329e003c2"
