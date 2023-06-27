@@ -1000,16 +1000,14 @@ name = "polywrap-msgpack"
 version = "0.1.0a33"
 description = "WRAP msgpack encoding"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_msgpack-0.1.0a33-py3-none-any.whl", hash = "sha256:78ce2ab4bb8358bd5acc1729bc93156980691bce66c663fcb93bc6a872ad583a"},
+    {file = "polywrap_msgpack-0.1.0a33.tar.gz", hash = "sha256:082042bd02844437abc3f8be90e8a7a6ebf889d9f7e2d2d3ef5fd45f2a5c863e"},
+]
 
 [package.dependencies]
-msgpack = "^1.0.4"
-
-[package.source]
-type = "directory"
-url = "../polywrap-msgpack"
+msgpack = ">=1.0.4,<2.0.0"
 
 [[package]]
 name = "prance"
@@ -1822,4 +1820,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "24823609dd2e915662d783a087ef84230b11f8720ee5441ecac7fa758ae01270"
+content-hash = "1ff87c522bae3645e4ac5b2dbbf2787572b586e6e655f5fac20218334a660b01"
