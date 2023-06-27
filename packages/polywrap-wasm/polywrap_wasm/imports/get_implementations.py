@@ -30,7 +30,7 @@ class WrapGetImplementationsImports(BaseWrapImports):
                 message="Expected invoker to be defined got None",
             )
         try:
-            maybe_implementations = self.invoker.get_implementations(uri=uri)
+            maybe_implementations = self.invoker.get_implementations(uri, False)
             implementations: List[str] = (
                 [uri.uri for uri in maybe_implementations]
                 if maybe_implementations

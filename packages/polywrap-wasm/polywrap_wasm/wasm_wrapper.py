@@ -135,11 +135,19 @@ class WasmWrapper(Wrapper):
         )
 
         encoded_args = (
-            state.invoke_options.args
-            if isinstance(state.invoke_options.args, bytes)
-            else msgpack_encode(state.invoke_options.args)
+            (
+                state.invoke_options.args
+                if isinstance(state.invoke_options.args, bytes)
+                else msgpack_encode(state.invoke_options.args)
+            )
+            if state.invoke_options.args
+            else b""
         )
-        encoded_env = msgpack_encode(state.invoke_options.env)
+        encoded_env = (
+            msgpack_encode(state.invoke_options.env)
+            if state.invoke_options.env
+            else b""
+        )
 
         method_length = len(state.invoke_options.method)
         args_length = len(encoded_args)
@@ -149,6 +157,7 @@ class WasmWrapper(Wrapper):
         instance = self.create_wasm_instance(store, state, client)
 
         exports = WrapExports(instance, store)
+        print("env length", env_length)
         result = exports.__wrap_invoke__(method_length, args_length, env_length)
 
         if result and state.invoke_result and state.invoke_result.result:
