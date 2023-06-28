@@ -59,6 +59,5 @@ def test_can_resolve_package_with_plugin_extension(client: PolywrapClient) -> No
     )
 
     from .histories.can_resolve_package_with_subinvoke import EXPECTED
-    print(build_clean_uri_history(resolution_context.get_history()))
     assert isinstance(result, UriPackage), "Expected a UriPackage result."
     assert build_clean_uri_history(resolution_context.get_history()) == EXPECTED

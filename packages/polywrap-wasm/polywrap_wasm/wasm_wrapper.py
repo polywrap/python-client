@@ -157,7 +157,6 @@ class WasmWrapper(Wrapper):
         instance = self.create_wasm_instance(store, state, client)
 
         exports = WrapExports(instance, store)
-        print("env length", env_length)
         result = exports.__wrap_invoke__(method_length, args_length, env_length)
 
         if result and state.invoke_result and state.invoke_result.result:
