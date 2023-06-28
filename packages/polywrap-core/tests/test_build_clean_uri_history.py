@@ -42,4 +42,5 @@ def expected() -> CleanResolutionStep:
 def test_build_clean_uri_history(
     history: list[UriResolutionStep], expected: CleanResolutionStep
 ):
+    print(build_clean_uri_history(history))
     assert build_clean_uri_history(history) == expected

@@ -19,6 +19,8 @@ def test_can_resolve_last(client: PolywrapClient, resolution_context: UriResolut
 
     result = client.try_resolve_uri(uri=uri, resolution_context=resolution_context)
 
+    print(build_clean_uri_history(resolution_context.get_history()))
+
     from .histories.can_resolve_last import EXPECTED
     assert build_clean_uri_history(resolution_context.get_history()) == EXPECTED
 
