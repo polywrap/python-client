@@ -10,8 +10,8 @@ authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-msgpack = "^0.1.0a34"
-polywrap-manifest = "^0.1.0a34"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 pycln = "^2.1.3"
