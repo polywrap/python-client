@@ -47,10 +47,10 @@ jobs:
         run: poetry install
       - name: Plugin Codegen
         run: poetry run tox -e codegen
-        if: contains(matrix.package, 'plugin')
+        if: contains(matrix.package, '-plugin')
       - name: Config Bundle Codegen
         run: poetry run tox -e codegen
-        if: contains(matrix.package, 'config-bundle')
+        if: contains(matrix.package, '-config-bundle')
       - name: Typecheck
         run: poetry run tox -e typecheck
       - name: Lint
