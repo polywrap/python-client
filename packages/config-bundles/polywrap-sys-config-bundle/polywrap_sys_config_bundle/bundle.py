@@ -70,7 +70,6 @@ sys_bundle: Dict[str, BundlePackage] = {
             "retries": {"tryResolveUri": 2, "getFile": 2},
         },
     ),
-    
     "github_resolver": BundlePackage(
         uri=Uri.from_str("wrapscan.io/polywrap/github-uri-resolver@1.0"),
         implements=ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,

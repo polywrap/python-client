@@ -71,5 +71,4 @@ def _build_clean_history_step(step: UriResolutionStep) -> str:
             )
 
 
-
 __all__ = ["build_clean_uri_history"]
