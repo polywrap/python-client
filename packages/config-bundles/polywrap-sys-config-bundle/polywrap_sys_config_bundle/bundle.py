@@ -9,6 +9,11 @@ from polywrap_uri_resolvers import ExtendableUriResolver
 from .embeds import get_embedded_wrap
 from .types import BundlePackage
 
+ipfs_providers = [
+    "https://ipfs.wrappers.io",
+    "https://ipfs.io",
+]
+
 sys_bundle: Dict[str, BundlePackage] = {
     "http": BundlePackage(
         uri=Uri.from_str("plugin/http@1.1.0"),
@@ -43,10 +48,33 @@ sys_bundle: Dict[str, BundlePackage] = {
         ],
         redirects_from=[Uri.from_str("wrapscan.io/polywrap/wrapscan-uri-resolver@1.0")],
     ),
-    # "github_resolver": BundlePackage(
-    #     uri=Uri.from_str("wrapscan.io/polywrap/github-uri-resolver@1.0"),
-    #     implements=ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
-    # ),
+    "ipfs_http_client": BundlePackage(
+        uri=Uri.from_str("embed/ipfs-http-client@1.0.0"),
+        package=get_embedded_wrap("ipfs-http-client"),
+        implements=[Uri.from_str("ens/wraps.eth:ipfs-http-client@1.0.0")],
+        redirects_from=[Uri.from_str("ens/wraps.eth:ipfs-http-client@1.0.0")],
+    ),
+    "ipfs_resolver": BundlePackage(
+        uri=Uri.from_str("embed/sync-ipfs-uri-resolver-ext@1.0.1"),
+        package=get_embedded_wrap("ipfs-sync-resolver"),
+        implements=[
+            Uri.from_str("ens/wraps.eth:sync-ipfs-uri-resolver-ext@1.0.1"),
+            *ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
+        ],
+        redirects_from=[
+            Uri.from_str("ens/wraps.eth:sync-ipfs-uri-resolver-ext@1.0.1"),
+        ],
+        env={
+            "provider": ipfs_providers[0],
+            "fallbackProviders": ipfs_providers[1:],
+            "retries": {"tryResolveUri": 2, "getFile": 2},
+        },
+    ),
+    
+    "github_resolver": BundlePackage(
+        uri=Uri.from_str("wrapscan.io/polywrap/github-uri-resolver@1.0"),
+        implements=ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
+    ),
     "file_system": BundlePackage(
         uri=Uri.from_str("plugin/file-system@1.0.0"),
         package=file_system_plugin(),

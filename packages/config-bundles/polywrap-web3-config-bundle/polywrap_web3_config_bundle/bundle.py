@@ -9,8 +9,6 @@ from polywrap_ethereum_provider.networks import KnownNetwork
 from polywrap_sys_config_bundle import BundlePackage, sys_bundle
 from polywrap_uri_resolvers import ExtendableUriResolver
 
-from .embeds import get_embedded_wrap
-
 ethreum_provider_package = ethereum_provider_plugin(
     Connections(
         connections={
@@ -21,14 +19,10 @@ ethreum_provider_package = ethereum_provider_plugin(
     )
 )
 
-ipfs_providers = [
-    "https://ipfs.wrappers.io",
-    "https://ipfs.io",
-]
-
-
 web3_bundle: Dict[str, BundlePackage] = {
     "http": sys_bundle["http"],
+    "ipfs_http_client": sys_bundle["ipfs_http_client"],
+    "ipfs_resolver": sys_bundle["ipfs_resolver"],
     "ethreum_provider": BundlePackage(
         uri=Uri.from_str("plugin/ethereum-provider@2.0.0"),
         package=ethreum_provider_package,
@@ -40,28 +34,6 @@ web3_bundle: Dict[str, BundlePackage] = {
             Uri.from_str("ens/wraps.eth:ethereum-provider@2.0.0"),
             Uri.from_str("ens/wraps.eth:ethereum-provider@1.1.0"),
         ],
-    ),
-    "ipfs_http_client": BundlePackage(
-        uri=Uri.from_str("embed/ipfs-http-client@1.0.0"),
-        package=get_embedded_wrap("ipfs-http-client"),
-        implements=[Uri.from_str("ens/wraps.eth:ipfs-http-client@1.0.0")],
-        redirects_from=[Uri.from_str("ens/wraps.eth:ipfs-http-client@1.0.0")],
-    ),
-    "ipfs_resolver": BundlePackage(
-        uri=Uri.from_str("embed/sync-ipfs-uri-resolver-ext@1.0.1"),
-        package=get_embedded_wrap("ipfs-sync-resolver"),
-        implements=[
-            Uri.from_str("ens/wraps.eth:sync-ipfs-uri-resolver-ext@1.0.1"),
-            *ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
-        ],
-        redirects_from=[
-            Uri.from_str("ens/wraps.eth:sync-ipfs-uri-resolver-ext@1.0.1"),
-        ],
-        env={
-            "provider": ipfs_providers[0],
-            "fallbackProviders": ipfs_providers[1:],
-            "retries": {"tryResolveUri": 2, "getFile": 2},
-        },
     ),
     "ens_text_record_resolver": BundlePackage(
         uri=Uri.from_str("ipfs/QmXcHWtKkfrFmcczdMSXH7udsSyV3UJeoWzkaUqGBm1oYs"),
