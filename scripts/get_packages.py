@@ -15,4 +15,4 @@ def extract_package_paths(workspace_file):
 workspace_file = 'python-monorepo.code-workspace'
 package_paths = extract_package_paths(workspace_file)
 
-print(json.dumps(package_paths))
+print(f'[{",".join(package_paths)}]')
