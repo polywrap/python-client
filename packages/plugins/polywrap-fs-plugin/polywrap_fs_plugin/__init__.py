@@ -14,10 +14,8 @@ from .wrap import *
 class FileSystemPlugin(Module[None]):
     """Defines the Filesystem plugin."""
 
-    def read_file(
-        self, args: ArgsReadFile, client: InvokerClient, env: None
-    ) -> bytes:
-        """Read a file from the filesystem and return its contents as bytes. """
+    def read_file(self, args: ArgsReadFile, client: InvokerClient, env: None) -> bytes:
+        """Read a file from the filesystem and return its contents as bytes."""
         with open(args["path"], "rb") as f:
             return f.read()
 
@@ -54,20 +52,15 @@ class FileSystemPlugin(Module[None]):
 
         raise ValueError(f"Unsupported encoding: {encoding}")
 
-    def exists(
-        self, args: ArgsExists, client: InvokerClient, env: None
-    ) -> bool:
+    def exists(self, args: ArgsExists, client: InvokerClient, env: None) -> bool:
         """Check if a file or directory exists."""
         return os.path.exists(args["path"])
 
-    def write_file(
-        self, args: ArgsWriteFile, client: InvokerClient, env: None
-    ) -> bool:
+    def write_file(self, args: ArgsWriteFile, client: InvokerClient, env: None) -> bool:
         """Write data to a file on the filesystem."""
         with open(args["path"], "wb") as f:
             f.write(args["data"])
         return True
-
 
     def mkdir(self, args: ArgsMkdir, client: InvokerClient, env: None):
         """Create directories on the filesystem."""
@@ -77,16 +70,16 @@ class FileSystemPlugin(Module[None]):
         else:
             parent_dir = os.path.dirname(path)
             if not os.path.exists(parent_dir):
-                raise FileNotFoundError(f"Parent directory does not exist: {parent_dir}")
+                raise FileNotFoundError(
+                    f"Parent directory does not exist: {parent_dir}"
+                )
             os.mkdir(path)
 
-
-    def rm(
-        self, args: ArgsRm, client: InvokerClient, env: None
-    ) -> bool:
+    def rm(self, args: ArgsRm, client: InvokerClient, env: None) -> bool:
         """Remove a file or directory from the filesystem."""
         if os.path.isdir(args["path"]):
             if args.get("force", False) and args.get("recursive", False):
+
                 def force_remove(action: Any, name: str, exc: Exception) -> None:
                     os.chmod(name, stat.S_IWRITE)
                     os.remove(name)
@@ -100,9 +93,7 @@ class FileSystemPlugin(Module[None]):
             os.remove(args["path"])
         return True
 
-    def rmdir(
-        self, args: ArgsRmdir, client: InvokerClient, env: None
-    ) -> bool:
+    def rmdir(self, args: ArgsRmdir, client: InvokerClient, env: None) -> bool:
         """Remove an empty directory from the filesystem."""
         os.rmdir(args["path"])
         return True
@@ -110,6 +101,4 @@ class FileSystemPlugin(Module[None]):
 
 def file_system_plugin() -> PluginPackage[None]:
     """Create a Polywrap plugin instance for interacting with EVM networks."""
-    return PluginPackage(
-        module=FileSystemPlugin(None), manifest=manifest
-    )
+    return PluginPackage(module=FileSystemPlugin(None), manifest=manifest)

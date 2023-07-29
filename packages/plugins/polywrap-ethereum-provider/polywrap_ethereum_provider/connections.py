@@ -8,6 +8,7 @@ from .wrap.types import Connection as SchemaConnection
 
 class Connections:
     """Defines a set of connections to EVM networks."""
+
     __slots__: Tuple[str, str, str] = ("connections", "default_network", "signer")
 
     connections: Dict[str, Connection]
@@ -34,9 +35,7 @@ class Connections:
             self.default_network = "mainnet"
         else:
             self.default_network = "mainnet"
-            self.connections["mainnet"] = Connection.from_network(
-                KnownNetwork.mainnet
-            )
+            self.connections["mainnet"] = Connection.from_network(KnownNetwork.mainnet)
 
     def get_connection(self, connection: Optional[SchemaConnection]) -> Connection:
         """Get a connection from a connection object."""

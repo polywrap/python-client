@@ -6,6 +6,7 @@ from typing import List
 @unique
 class KnownNetwork(IntEnum):
     """Defines a list of known networks."""
+
     mainnet = 1, "1", "mainnet"
     goerli = 5, "5", "goerli"
     sepolia = 11155111, "11155111", "sepolia"

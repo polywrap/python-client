@@ -17,7 +17,9 @@ class Connection:
 
     def __init__(self, provider: JSONBaseProvider | str, signer: Optional[str]):
         """Initialize a connection to an EVM network."""
-        self._provider = Web3.HTTPProvider(provider) if isinstance(provider, str) else provider
+        self._provider = (
+            Web3.HTTPProvider(provider) if isinstance(provider, str) else provider
+        )
         self._signer = signer
 
     @property

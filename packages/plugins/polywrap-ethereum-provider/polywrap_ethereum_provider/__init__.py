@@ -32,6 +32,7 @@ from .wrap import (
 
 class EthereumProviderPlugin(Module[Connections]):
     """A Polywrap plugin for interacting with EVM networks."""
+
     def __init__(self, connections: Connections):
         super().__init__(connections)
         self.connections = connections
@@ -79,9 +80,7 @@ class EthereumProviderPlugin(Module[Connections]):
         """Get the ethereum address of the signer. Return null if signer is missing."""
         connection = self.connections.get_connection(args.get("connection"))
         if connection.has_signer():
-            return Account.from_key(
-                connection.signer
-            ).address
+            return Account.from_key(connection.signer).address
         return None
 
     def wait_for_transaction(
@@ -148,9 +147,7 @@ class EthereumProviderPlugin(Module[Connections]):
         """
         connection = self.connections.get_connection(args.get("connection"))
         tx_hash = keccak(args["rlp"])
-        account = Account.from_key(
-            connection.signer
-        )
+        account = Account.from_key(connection.signer)
         key_obj = account._key_obj  # type: ignore
         (v, r, s, eth_signature_bytes) = sign_message_hash(key_obj, tx_hash)  # type: ignore
         return HexBytes(cast(bytes, eth_signature_bytes)).hex()
