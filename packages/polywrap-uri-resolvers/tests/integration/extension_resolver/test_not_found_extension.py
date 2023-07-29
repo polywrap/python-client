@@ -8,7 +8,7 @@ from polywrap_uri_resolvers import (
     ExtendableUriResolver,
     RecursiveResolver,
     UriResolverAggregator,
-    UriResolverExtensionNotFoundError,
+    UriResolverExtensionError,
 )
 import pytest
 
@@ -38,7 +38,7 @@ def test_can_resolve_uri_with_plugin_extension(client: PolywrapClient) -> None:
     resolution_context = UriResolutionContext()
     source_uri = Uri.from_str("test/not-a-match")
 
-    with pytest.raises(UriResolverExtensionNotFoundError):
+    with pytest.raises(UriResolverExtensionError):
         client.try_resolve_uri(
             uri=source_uri, resolution_context=resolution_context
         )
