@@ -1,8 +1,6 @@
 """This module contains the Polywrap client implementation."""
 from __future__ import annotations
 
-import json
-from textwrap import dedent
 from typing import Any, Dict, List, Optional, Union
 
 from polywrap_core import (
@@ -16,7 +14,6 @@ from polywrap_core import (
     UriResolver,
     UriWrapper,
     Wrapper,
-    build_clean_uri_history,
     get_env_from_resolution_path,
 )
 from polywrap_core import get_implementations as core_get_implementations

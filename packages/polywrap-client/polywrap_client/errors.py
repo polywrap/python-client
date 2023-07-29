@@ -2,11 +2,13 @@
 
 import json
 from textwrap import dedent
+
 from polywrap_core import Uri, UriResolutionContext, WrapError, build_clean_uri_history
 
 
 class WrapNotFoundError(WrapError):
     """Raised when a wrap is not found."""
+
     uri: Uri
     resolution_context: UriResolutionContext
 
