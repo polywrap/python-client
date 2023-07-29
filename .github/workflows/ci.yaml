@@ -47,7 +47,7 @@ jobs:
         run: poetry install
       - name: Plugin Codegen
         run: poetry run tox -e codegen
-        if: contains(matrix.package, '-plugin') && !endsWith(matrix.package, 'polywrap-plugin')
+        if: contains(matrix.package, '-plugin')
       - name: Config Bundle Codegen
         run: poetry run tox -e codegen
         if: contains(matrix.package, '-config-bundle')
