@@ -179,7 +179,6 @@ class PolywrapClient(Client):
             RuntimeError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()
-
         uri_package_or_wrapper = self.try_resolve_uri(
             uri=uri, resolution_context=resolution_context
         )
@@ -190,6 +189,9 @@ class PolywrapClient(Client):
             case UriWrapper(uri=uri, wrapper=wrapper):
                 return wrapper
             case _:
+                from pprint import pprint
+                print(uri, uri_package_or_wrapper)
+                # pprint(resolution_context.get_history())
                 raise RuntimeError(
                     dedent(
                         f"""

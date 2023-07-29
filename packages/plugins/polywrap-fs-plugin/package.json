@@ -1,0 +1,11 @@
+{
+  "name": "@polywrap/python-fs-plugin",
+  "description": "Polywrap Python Fs Plugin",
+  "private": true,
+  "devDependencies": {
+    "polywrap": "0.10.6"
+  },
+  "scripts": {
+    "codegen": "npx polywrap codegen"
+  }
+}

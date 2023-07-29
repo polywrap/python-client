@@ -62,7 +62,7 @@ class ExtendableUriResolver(UriResolverAggregatorBase):
                 or []
             )
 
-        return [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris]
+        return [ExtensionWrapperUriResolver(uri) for uri in uri_resolvers_uris if not resolution_context.is_resolving(uri)]
 
 
 __all__ = ["ExtendableUriResolver"]

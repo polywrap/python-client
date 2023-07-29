@@ -1,0 +1,75 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "polywrap-fs-plugin"
+version = "0.1.0a4"
+description = ""
+authors = ["Niraj <niraj@polywrap.io>"]
+readme = "README.md"
+packages = [{include = "polywrap_fs_plugin"}]
+include = ["polywrap_fs_plugin/wrap/**/*"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = {path = "../../polywrap-core", develop = true}
+polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
+polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
+
+[tool.poetry.group.dev.dependencies]
+polywrap-client = {path = "../../polywrap-client", develop = true}
+polywrap-uri-resolvers = {path = "../../polywrap-uri-resolvers", develop = true}
+polywrap-client-config-builder = {path = "../../polywrap-client-config-builder", develop = true}
+black = "^23.1.0"
+pytest = "^7.2.1"
+pytest-asyncio = "^0.20.3"
+isort = "^5.12.0"
+bandit = "^1.7.4"
+pyright = "^1.1.296"
+pylint = "^2.16.3"
+tox = "^3.26.0"
+tox-poetry = "^0.4.1"
+pytest-mock = "^3.10.0"
+pydocstyle = "^6.3.0"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.black]
+target-version = ["py310"]
+exclude = [
+    "polywrap_fs_plugin/wrap"
+]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+reportShadowedImports = false
+exclude = [
+    "**/wrap/"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = [
+    "tests",
+]
+
+[tool.pylint]
+disable = [
+    "too-many-return-statements",
+    "unused-argument",
+    "invalid-name"
+]
+ignore-paths = [
+    "polywrap_fs_plugin/wrap"
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+skip = ["polywrap_fs_plugin/wrap"]
+
+[tool.pydocstyle]
+# default config

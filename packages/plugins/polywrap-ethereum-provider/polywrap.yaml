@@ -1,0 +1,7 @@
+format: 0.3.0
+project:
+  name: ethereum-provider-py
+  type: plugin/python
+source:
+  module: ./polywrap_ethereum_provider/__init__.py
+  schema: ./schema.graphql

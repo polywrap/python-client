@@ -1,49 +1,69 @@
 {
   "folders": [
-      {
-        "name": "root",
-        "path": "."
-      },
-      {
-        "name": "docs",
-        "path": "docs"
-      },
-      {
-          "name": "polywrap-client",
-          "path": "packages/polywrap-client"
-      },
-      {
-          "name": "polywrap-client-config-builder",
-          "path": "packages/polywrap-client-config-builder"
-      },
-      {
-          "name": "polywrap-core",
-          "path": "packages/polywrap-core"
-      },
-      {
-          "name": "polywrap-msgpack",
-          "path": "packages/polywrap-msgpack"
-      },
-      {
-        "name": "polywrap-uri-resolvers",
-        "path": "packages/polywrap-uri-resolvers"
-      },
-      {
-        "name": "polywrap-wasm",
-        "path": "packages/polywrap-wasm"
-      },
-      {
-        "name": "polywrap-manifest",
-        "path": "packages/polywrap-manifest"
-      },
-      {
-        "name": "polywrap-plugin",
-        "path": "packages/polywrap-plugin"
-      },
-      {
-        "name": "polywrap-test-cases",
-        "path": "packages/polywrap-test-cases"
-      }
+    {
+      "name": "root",
+      "path": "."
+    },
+    {
+      "name": "docs",
+      "path": "docs"
+    },
+    {
+      "name": "polywrap-client",
+      "path": "packages/polywrap-client"
+    },
+    {
+      "name": "polywrap-client-config-builder",
+      "path": "packages/polywrap-client-config-builder"
+    },
+    {
+      "name": "polywrap-core",
+      "path": "packages/polywrap-core"
+    },
+    {
+      "name": "polywrap-msgpack",
+      "path": "packages/polywrap-msgpack"
+    },
+    {
+      "name": "polywrap-uri-resolvers",
+      "path": "packages/polywrap-uri-resolvers"
+    },
+    {
+      "name": "polywrap-wasm",
+      "path": "packages/polywrap-wasm"
+    },
+    {
+      "name": "polywrap-manifest",
+      "path": "packages/polywrap-manifest"
+    },
+    {
+      "name": "polywrap-plugin",
+      "path": "packages/polywrap-plugin"
+    },
+    {
+      "name": "polywrap-test-cases",
+      "path": "packages/polywrap-test-cases"
+    },
+    {
+      "name": "polywrap-fs-plugin",
+      "path": "packages/plugins/polywrap-fs-plugin"
+    },
+    {
+      "name": "polywrap-http-plugin",
+      "path": "packages/plugins/polywrap-http-plugin"
+    },
+    {
+      "name": "polywrap-ethereum-provider",
+      "path": "packages/plugins/polywrap-ethereum-provider"
+    },
+    {
+      "name": "polywrap-sys-config-bundle",
+      "path": "packages/config-bundles/polywrap-sys-config-bundle"
+    },
+    {
+      "name": "polywrap-web3-config-bundle",
+      "path": "packages/config-bundles/polywrap-web3-config-bundle"
+    }
   ],
   "settings": {
       "files.exclude": {
