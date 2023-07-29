@@ -19,6 +19,8 @@ jobs:
           python-version: "3.10"
       - id: set-matrix
         run: echo "matrix=$(python3 ./scripts/get_packages.py)" >> $GITHUB_ENV
+      - name: Read matrix into env.matrix
+        run: echo ${{ env.matrix }}
   build:
     runs-on: ubuntu-latest
     needs: 
