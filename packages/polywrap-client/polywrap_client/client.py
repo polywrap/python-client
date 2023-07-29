@@ -189,9 +189,6 @@ class PolywrapClient(Client):
             case UriWrapper(uri=uri, wrapper=wrapper):
                 return wrapper
             case _:
-                from pprint import pprint
-                print(uri, uri_package_or_wrapper)
-                # pprint(resolution_context.get_history())
                 raise RuntimeError(
                     dedent(
                         f"""
