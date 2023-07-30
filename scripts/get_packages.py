@@ -1,7 +1,7 @@
 import json
 import os
 
-def extract_package_paths(workspace_file):
+def extract_package_paths(workspace_file = 'python-monorepo.code-workspace'):
     with open(workspace_file, 'r') as file:
         workspace_data = json.load(file)
 
@@ -12,8 +12,8 @@ def extract_package_paths(workspace_file):
         and os.path.isfile(os.path.join(folder['path'], 'pyproject.toml'))
     ]
 
-workspace_file = 'python-monorepo.code-workspace'
-package_paths = extract_package_paths(workspace_file)
-packages = { "package": package_paths }
+if __name__ == '__main__':
+    package_paths = extract_package_paths()
+    packages = { "package": package_paths }
 
-print(json.dumps(packages))
+    print(json.dumps(packages))
