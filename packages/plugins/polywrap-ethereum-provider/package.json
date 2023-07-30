@@ -1,10 +1,10 @@
 {
   "name": "@polywrap/python-ethereum-plugin",
   "description": "Polywrap Python Ethereum Plugin",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "private": true,
   "devDependencies": {
-    "polywrap": "0.10.5"
+    "polywrap": "0.10.6"
   },
   "scripts": {
     "codegen": "npx polywrap codegen"
