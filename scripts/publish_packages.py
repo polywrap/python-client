@@ -86,7 +86,7 @@ def publish_package(package: str, version: str) -> None:
 
     package_path = Path.cwd().absolute()
     if "plugins" in str(package_path) or "config-bundles" in str(package_path):
-        subprocess.check_call(["tox", "-e", "codegen"])
+        subprocess.check_call(["yarn", "codegen"])
 
     try:
         subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])

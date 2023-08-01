@@ -6,6 +6,7 @@
     "polywrap": "0.10.6"
   },
   "scripts": {
+    "precodegen": "yarn install",
     "codegen": "npx polywrap codegen"
   }
 }
