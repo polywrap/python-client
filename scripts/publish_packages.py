@@ -102,10 +102,11 @@ if __name__ == "__main__":
     from utils import ChangeDir
 
     root_dir = Path(__file__).parent.parent
-    version_file = root_dir.joinpath("VERSION")
-    with open(version_file, "r") as f:
-        version = f.read().strip()
 
     for package in package_build_order():
-        with ChangeDir(str(root_dir.joinpath("packages", package))):
+        package_dir = root_dir.joinpath("packages", package)
+        with ChangeDir(str(package_dir)):
+            version_path = package_dir.joinpath("VERSION")
+            with open(version_path, "r") as f:
+                version = f.read().strip()
             publish_package(package, version)
