@@ -41,9 +41,41 @@ jobs:
               body: '${{github.event.pull_request.user.login}} is not a PUBLISHER. Please see the .github/PUBLISHERS file...'
             })
 
+      - name: Read VERSION into env.RELEASE_VERSION
+        run: echo RELEASE_VERSION=$(cat VERSION) >> $GITHUB_ENV
+
+      - name: Tag Exists?
+        id: tag_check
+        shell: bash -ex {0}
+        run: |
+          GET_API_URL="https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}"
+          http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
+            -H "Authorization: token ${GITHUB_TOKEN}")
+          if [ "$http_status_code" -ne "404" ] ; then
+            echo TAG_EXISTS=true >> $GITHUB_ENV
+          else
+            echo TAG_EXISTS=false >> $GITHUB_ENV
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Already Exists...
+        if: env.TAG_EXISTS == 'true'
+        uses: actions/github-script@0.8.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '[Release Already Exists](https://api.github.com/repos/${{github.repository}}/git/ref/tags/${{env.RELEASE_VERSION}}) (`${{env.RELEASE_VERSION}}`)'
+            })
+
       - name: Fail If Conditions Aren't Met...
         if: |
-          env.IS_PUBLISHER != 'true'
+          env.IS_PUBLISHER != 'true' ||
+          env.TAG_EXISTS != 'false'
         run: exit 1
 
   CD:
@@ -123,3 +155,24 @@ jobs:
               repo: context.repo.repo,
               body: '**[Release PR Created](https://github.com/${{github.repository}}/pull/${{ steps.cpr-cd.outputs.pull-request-number }}) (`${{env.RELEASE_VERSION}}`)**'
             })
+
+      - id: changelog
+        name: "Generate release changelog"
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        with:
+          unreleasedOnly: true
+          unreleasedLabel: ${{ env.RELEASE_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: true
+          prerelease: true
