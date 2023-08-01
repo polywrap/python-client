@@ -84,6 +84,10 @@ def publish_package(package: str, version: str) -> None:
     logger.info(f"Patch version for {package} to {version}")
     patch_version_with_retries(version)
 
+    package_path = Path.cwd().absolute()
+    if "plugins" in str(package_path) or "config-bundles" in str(package_path):
+        subprocess.check_call(["yarn", "codegen"])
+
     try:
         subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])
     except subprocess.CalledProcessError:
@@ -98,10 +102,11 @@ if __name__ == "__main__":
     from utils import ChangeDir
 
     root_dir = Path(__file__).parent.parent
-    version_file = root_dir.joinpath("VERSION")
-    with open(version_file, "r") as f:
-        version = f.read().strip()
 
     for package in package_build_order():
-        with ChangeDir(str(root_dir.joinpath("packages", package))):
+        package_dir = root_dir.joinpath("packages", package)
+        with ChangeDir(str(package_dir)):
+            version_path = package_dir.joinpath("VERSION")
+            with open(version_path, "r") as f:
+                version = f.read().strip()
             publish_package(package, version)

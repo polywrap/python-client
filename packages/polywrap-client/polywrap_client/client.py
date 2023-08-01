@@ -1,8 +1,6 @@
 """This module contains the Polywrap client implementation."""
 from __future__ import annotations
 
-import json
-from textwrap import dedent
 from typing import Any, Dict, List, Optional, Union
 
 from polywrap_core import (
@@ -16,12 +14,13 @@ from polywrap_core import (
     UriResolver,
     UriWrapper,
     Wrapper,
-    build_clean_uri_history,
     get_env_from_resolution_path,
 )
 from polywrap_core import get_implementations as core_get_implementations
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
+
+from polywrap_client.errors import WrapNotFoundError
 
 
 class PolywrapClient(Client):
@@ -176,10 +175,9 @@ class PolywrapClient(Client):
 
         Raises:
             UriResolutionError: If the URI cannot be resolved.
-            RuntimeError: If the URI cannot be resolved.
+            WrapNotFoundError: If the wrap is not found.
         """
         resolution_context = resolution_context or UriResolutionContext()
-
         uri_package_or_wrapper = self.try_resolve_uri(
             uri=uri, resolution_context=resolution_context
         )
@@ -190,21 +188,7 @@ class PolywrapClient(Client):
             case UriWrapper(uri=uri, wrapper=wrapper):
                 return wrapper
             case _:
-                raise RuntimeError(
-                    dedent(
-                        f"""
-                        Error resolving URI "{uri.uri}"
-                        URI not found
-                        Resolution Stack: {
-                            json.dumps(
-                                build_clean_uri_history(
-                                    resolution_context.get_history()
-                                ), indent=2
-                            )
-                        }
-                        """
-                    )
-                )
+                raise WrapNotFoundError(uri=uri, resolution_context=resolution_context)
 
     def invoke(
         self,
@@ -230,10 +214,10 @@ class PolywrapClient(Client):
             Any: The result of the invocation.
 
         Raises:
-            RuntimeError: If the URI cannot be resolved.
             MsgpackError: If the data cannot be encoded/decoded.
             ManifestError: If the manifest is invalid.
             WrapError: If something went wrong during the invocation.
+            WrapNotFoundError: If the wrap is not found.
             UriResolutionError: If the URI cannot be resolved.
         """
         resolution_context = resolution_context or UriResolutionContext()

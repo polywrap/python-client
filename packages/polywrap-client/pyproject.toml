@@ -11,13 +11,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-manifest = "^0.1.0a35"
-polywrap-msgpack = "^0.1.0a35"
-polywrap-core = "^0.1.0a35"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-core = {path = "../polywrap-core", develop = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
-pytest-asyncio = "^0.19.0"
 polywrap-plugin = {path = "../polywrap-plugin", develop = true}
 polywrap-client-config-builder = {path = "../polywrap-client-config-builder", develop = true}
 polywrap-test-cases = {path = "../polywrap-test-cases", develop = true}
@@ -45,7 +44,6 @@ typeCheckingMode = "strict"
 reportShadowedImports = false
 
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
 testpaths = [
     "tests"
 ]

@@ -1,0 +1,13 @@
+#import { Module, Request, Response } into HTTP from "ens/wraps.eth:http@1.1.0"
+
+type Module {
+  get(
+    url: String!
+    request: HTTP_Request
+  ): HTTP_Response
+
+  post(
+    url: String!
+    request: HTTP_Request
+  ): HTTP_Response
+}

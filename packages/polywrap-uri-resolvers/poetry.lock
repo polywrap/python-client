@@ -520,9 +520,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0a35"
-polywrap-manifest = "^0.1.0a35"
-polywrap-msgpack = "^0.1.0a35"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -533,44 +533,50 @@ name = "polywrap-core"
 version = "0.1.0a35"
 description = ""
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_core-0.1.0a35-py3-none-any.whl", hash = "sha256:a8cf67ae382b7ecc0b237cd31fe4ef72e749be84f60e3f63122e4fd5968d8c8f"},
-    {file = "polywrap_core-0.1.0a35.tar.gz", hash = "sha256:d523088f2fbe54915709cb556fd4ca247e27c3d4385685a24780b41f00fce2b7"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-manifest = ">=0.1.0a35,<0.2.0"
-polywrap-msgpack = ">=0.1.0a35,<0.2.0"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
 version = "0.1.0a35"
 description = "WRAP manifest"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_manifest-0.1.0a35-py3-none-any.whl", hash = "sha256:b76cbf670e1a461562e0c9316f562a455a3f49d2979db233db6f01034aeb661a"},
-    {file = "polywrap_manifest-0.1.0a35.tar.gz", hash = "sha256:1bb24ba505284a6b65162fd7d2771b4d1e13138ab0d76f4f98fa4ca35ce7bee8"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-msgpack = ">=0.1.0a35,<0.2.0"
-pydantic = ">=1.10.2,<2.0.0"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+pydantic = "^1.10.2"
+
+[package.source]
+type = "directory"
+url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
 version = "0.1.0a35"
 description = "WRAP msgpack encoding"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_msgpack-0.1.0a35-py3-none-any.whl", hash = "sha256:d466570d181958c59fcd42106153d0d6444cac20bf5eb1b00dab6c5d1a1228a7"},
-    {file = "polywrap_msgpack-0.1.0a35.tar.gz", hash = "sha256:c53b25b9027a29904d7fa23504d960deebb817c05eeebd588cf085e16e3e6d75"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-msgpack = ">=1.0.4,<2.0.0"
+msgpack = "^1.0.4"
+
+[package.source]
+type = "directory"
+url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
@@ -582,9 +588,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0a35"
-polywrap-manifest = "^0.1.0a35"
-polywrap-msgpack = "^0.1.0a35"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -608,17 +614,19 @@ name = "polywrap-wasm"
 version = "0.1.0a35"
 description = ""
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_wasm-0.1.0a35-py3-none-any.whl", hash = "sha256:ecbc1bf782119c1eeec674b6dc553f7b98fac8586e8fc423789e551462cc3c55"},
-    {file = "polywrap_wasm-0.1.0a35.tar.gz", hash = "sha256:63987785785b1ae1c5dc672923208c5cad8a8a25f9b758c268e9b10fcb1e1ec8"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0a35,<0.2.0"
-polywrap-manifest = ">=0.1.0a35,<0.2.0"
-polywrap-msgpack = ">=0.1.0a35,<0.2.0"
-wasmtime = ">=9.0.0,<10.0.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+wasmtime = "^9.0.0"
+
+[package.source]
+type = "directory"
+url = "../polywrap-wasm"
 
 [[package]]
 name = "py"
@@ -1229,4 +1237,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1d30f5dcdc5b3b8aa7ceac9839082d7f6fc132ff95fd4d7eb7bdd91e8cb6929f"
+content-hash = "79ae9ce53c2dd5d8fbaf60d88c5e2b7fe5f119f5ada10ff0ebd2515b76fe9d7c"
