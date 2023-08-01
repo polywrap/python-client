@@ -16,7 +16,6 @@ polywrap-manifest = {path = "../polywrap-manifest", develop = true}
 polywrap-core = {path = "../polywrap-core", develop = true}
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
-pytest-asyncio = "^0.19.0"
 pylint = "^2.15.4"
 black = "^22.10.0"
 bandit = { version = "^1.7.4", extras = ["toml"]}
@@ -40,7 +39,6 @@ typeCheckingMode = "strict"
 reportShadowedImports = false
 
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
 testpaths = [
     "tests"
 ]

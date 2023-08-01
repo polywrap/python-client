@@ -1,0 +1,68 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "polywrap-sys-config-bundle"
+version = "0.1.0a2"
+description = "Polywrap System Client Config Bundle"
+authors = ["Niraj <niraj@polywrap.io>"]
+readme = "README.md"
+packages = [
+    { include = "polywrap_sys_config_bundle" },
+]
+include = ["**/wrap.info", "**/wrap.wasm"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+polywrap-core = {path = "../../polywrap-core", develop = true}
+polywrap-client-config-builder = {path = "../../polywrap-client-config-builder", develop = true}
+polywrap-uri-resolvers = {path = "../../polywrap-uri-resolvers", develop = true}
+polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
+polywrap-wasm = {path = "../../polywrap-wasm", develop = true}
+polywrap-fs-plugin = {path = "../../plugins/polywrap-fs-plugin", develop = true}
+polywrap-http-plugin = {path = "../../plugins/polywrap-http-plugin", develop = true}
+
+[tool.poetry.group.dev.dependencies]
+polywrap-client = {path = "../../polywrap-client", develop = true}
+pytest = "^7.1.2"
+pylint = "^2.15.4"
+black = "^22.10.0"
+bandit = { version = "^1.7.4", extras = ["toml"]}
+tox = "^3.26.0"
+tox-poetry = "^0.4.1"
+isort = "^5.10.1"
+pyright = "^1.1.275"
+pydocstyle = "^6.1.1"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B310"]
+
+[tool.black]
+target-version = ["py310"]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+reportShadowedImports = false
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+
+[tool.pylint]
+disable = [
+    "invalid-name",
+    "too-few-public-methods",
+]
+ignore = [
+    "tests/"
+]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pydocstyle]
+# default

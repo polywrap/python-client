@@ -1,0 +1,5 @@
+**/.vscode/
+**/.pytest_cache/
+**/dist/
+**/node_modules/
+**/.tox/
