@@ -103,8 +103,8 @@ if __name__ == "__main__":
 
     root_dir = Path(__file__).parent.parent
 
-    for package in package_build_order():
-        package_dir = root_dir.joinpath("packages", package)
+    for package_dir in package_build_order():
+        package = package_dir.name
         with ChangeDir(str(package_dir)):
             version_path = package_dir.joinpath("VERSION")
             with open(version_path, "r") as f:
