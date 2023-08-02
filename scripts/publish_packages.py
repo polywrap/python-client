@@ -106,7 +106,6 @@ if __name__ == "__main__":
     for package_dir in package_build_order():
         package = package_dir.name
         with ChangeDir(str(package_dir)):
-            version_path = package_dir.joinpath("VERSION")
-            with open(version_path, "r") as f:
+            with open("VERSION", "r") as f:
                 version = f.read().strip()
             publish_package(package, version)
