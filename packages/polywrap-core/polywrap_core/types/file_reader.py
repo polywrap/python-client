@@ -5,7 +5,7 @@ from typing import Protocol
 
 
 class FileReader(Protocol):
-    """FileReader protocol used by UriResolver."""
+    """Defines the FileReader protocol used by UriResolver."""
 
     def read_file(self, file_path: str) -> bytes:
         """Read a file from the given file path.

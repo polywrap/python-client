@@ -16,10 +16,11 @@ from polywrap_uri_resolvers import (
 from polywrap_core import Uri, ClientConfig
 from polywrap_client import PolywrapClient
 from polywrap_client_config_builder import PolywrapClientConfigBuilder
+from polywrap_sys_config_bundle import get_sys_config
 
 builder = (
     PolywrapClientConfigBuilder()
-    .add_resolver(FsUriResolver(file_reader=SimpleFileReader()))
+    .add(get_sys_config())
     .set_env(Uri.from_str("ens/foo.eth"), {"foo": "bar"})
     .add_interface_implementations(
         Uri.from_str("ens/foo.eth"), [

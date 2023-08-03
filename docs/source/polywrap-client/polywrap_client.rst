@@ -8,6 +8,7 @@ Submodules
    :maxdepth: 4
 
    polywrap_client.client
+   polywrap_client.errors
 
 Module contents
 ---------------

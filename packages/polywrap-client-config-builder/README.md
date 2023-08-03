@@ -32,7 +32,7 @@ builder.add(
     )
 )
 
-// add or remove items by chaining method calls
+# add or remove items by chaining method calls
 builder
     .add_package("wrap://plugin/package", test_plugin({}))
     .remove_package("wrap://plugin/package")
@@ -42,6 +42,16 @@ builder
         "wrap://plugin/filesystem": file_system_plugin({}),
       }
     )
+
+# configure using sys config bundle to fetch wraps from file-system, ipfs, wrapscan, or http server
+from polywrap_sys_config_bundle import get_sys_config
+builder
+    .add(get_sys_config())
+
+# configure using web3 config bundle to fetch wraps from ens and any system URI
+from polywrap_web3_config_bundle import get_web3_config
+builder
+    .add(get_web_config)
 ```
 
 ### Build

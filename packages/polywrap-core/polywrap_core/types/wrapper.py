@@ -9,7 +9,7 @@ from .invocable import Invocable
 
 
 class Wrapper(Invocable, Protocol):
-    """Defines the protocol for a wrapper."""
+    """Defines the Wrapper protocol that extends the Invocable."""
 
     def get_file(
         self, path: str, encoding: Optional[str] = "utf-8"

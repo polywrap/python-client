@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   polywrap_core.types.clean_resolution_step
    polywrap_core.types.client
    polywrap_core.types.config
    polywrap_core.types.errors
