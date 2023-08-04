@@ -468,19 +468,19 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "3.9.1"
+version = "3.10.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.9.1-py3-none-any.whl", hash = "sha256:ad8291ae0ae5072f66c16945166cb11c63394c7a3ad1b1bc9828ca3162da8c2f"},
-    {file = "platformdirs-3.9.1.tar.gz", hash = "sha256:1b42b450ad933e981d56e59f1b97495428c9bd60698baab9f3eb3d00d5822421"},
+    {file = "platformdirs-3.10.0-py3-none-any.whl", hash = "sha256:d7c24979f292f916dc9cbf8648319032f551ea8c49a4c9bf2fb556a02070ec1d"},
+    {file = "platformdirs-3.10.0.tar.gz", hash = "sha256:b45696dab2d7cc691a3226759c0d3b00c47c8b6e293d96f6436f733303f77f6d"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.5.20)", "proselint (>=0.13)", "sphinx (>=7.0.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)"]
+docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.1)", "sphinx-autodoc-typehints (>=1.24)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)"]
 
 [[package]]
 name = "pluggy"
@@ -500,7 +500,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = ""
 category = "dev"
 optional = false
@@ -509,9 +509,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-core = "^0.1.0b3"
+polywrap-manifest = "^0.1.0b3"
+polywrap-msgpack = "^0.1.0b3"
 
 [package.source]
 type = "directory"
@@ -519,7 +519,7 @@ url = "../../polywrap-client"
 
 [[package]]
 name = "polywrap-client-config-builder"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = ""
 category = "dev"
 optional = false
@@ -528,8 +528,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
+polywrap-core = "^0.1.0b3"
+polywrap-uri-resolvers = "^0.1.0b3"
 
 [package.source]
 type = "directory"
@@ -537,7 +537,7 @@ url = "../../polywrap-client-config-builder"
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = ""
 category = "main"
 optional = false
@@ -555,7 +555,7 @@ url = "../../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = "WRAP manifest"
 category = "main"
 optional = false
@@ -573,7 +573,7 @@ url = "../../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
@@ -590,7 +590,7 @@ url = "../../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = "Plugin package"
 category = "main"
 optional = false
@@ -609,7 +609,7 @@ url = "../../polywrap-plugin"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = ""
 category = "dev"
 optional = false
@@ -618,8 +618,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-core = "^0.1.0b3"
+polywrap-wasm = "^0.1.0b3"
 
 [package.source]
 type = "directory"
@@ -627,23 +627,21 @@ url = "../../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0a35"
+version = "0.1.0b3"
 description = ""
 category = "dev"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_wasm-0.1.0b3-py3-none-any.whl", hash = "sha256:54be5807ca632f9b183835ab7a98be7f5652428cd8e8f64915a6606faad273da"},
+    {file = "polywrap_wasm-0.1.0b3.tar.gz", hash = "sha256:0d71ab5115dd3573b9b596e5c763958ff4d9c671ca8f7da519f30c41d4f7055f"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-wasmtime = "^9.0.0"
-
-[package.source]
-type = "directory"
-url = "../../polywrap-wasm"
+polywrap-core = ">=0.1.0b3,<0.2.0"
+polywrap-manifest = ">=0.1.0b3,<0.2.0"
+polywrap-msgpack = ">=0.1.0b3,<0.2.0"
+wasmtime = ">=9.0.0,<10.0.0"
 
 [[package]]
 name = "py"
@@ -774,14 +772,14 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pyright"
-version = "1.1.318"
+version = "1.1.320"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.318-py3-none-any.whl", hash = "sha256:056c1b2e711c3526e32919de1684ae599d34b7ec27e94398858a43f56ac9ba9b"},
-    {file = "pyright-1.1.318.tar.gz", hash = "sha256:69dcf9c32d5be27d531750de627e76a7cadc741d333b547c09044278b508db7b"},
+    {file = "pyright-1.1.320-py3-none-any.whl", hash = "sha256:cdf739f7827374575cefb134311457d08c189793c3da3097c023debec9acaedb"},
+    {file = "pyright-1.1.320.tar.gz", hash = "sha256:94223e3b82d0b4c99c5125bab4d628ec749ce0b5b2ae0471fd4921dd4eff460d"},
 ]
 
 [package.dependencies]
@@ -813,25 +811,6 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
-
-[[package]]
-name = "pytest-asyncio"
-version = "0.20.3"
-description = "Pytest support for asyncio"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "pytest-asyncio-0.20.3.tar.gz", hash = "sha256:83cbf01169ce3e8eb71c6c278ccb0574d1a7a3bb8eaaf5e50e0ad342afb33b36"},
-    {file = "pytest_asyncio-0.20.3-py3-none-any.whl", hash = "sha256:f129998b209d04fcc65c96fc85c11e5316738358909a8399e93be553d7656442"},
-]
-
-[package.dependencies]
-pytest = ">=6.1.0"
-
-[package.extras]
-docs = ["sphinx (>=5.3)", "sphinx-rtd-theme (>=1.0)"]
-testing = ["coverage (>=6.2)", "flaky (>=3.5.0)", "hypothesis (>=5.7.1)", "mypy (>=0.931)", "pytest-trio (>=0.7.0)"]
 
 [[package]]
 name = "pytest-mock"
@@ -903,14 +882,14 @@ files = [
 
 [[package]]
 name = "rich"
-version = "13.4.2"
+version = "13.5.2"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "dev"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "rich-13.4.2-py3-none-any.whl", hash = "sha256:8f87bc7ee54675732fa66a05ebfe489e27264caeeff3728c945d25971b6485ec"},
-    {file = "rich-13.4.2.tar.gz", hash = "sha256:d653d6bccede5844304c605d5aac802c7cf9621efd700b46c7ec2b51ea914898"},
+    {file = "rich-13.5.2-py3-none-any.whl", hash = "sha256:146a90b3b6b47cac4a73c12866a499e9817426423f57c5a66949c086191a8808"},
+    {file = "rich-13.5.2.tar.gz", hash = "sha256:fb9d6c0a0f643c99eed3875b5377a184132ba9be4d61516a55273d3554d75a39"},
 ]
 
 [package.dependencies]
@@ -1210,4 +1189,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4efc35422c870ec4e455594249ba78ea566703722f09a0f332e35fb7f3974b17"
+content-hash = "d39a785988698519f40517cdb5fb3402097438585fc46f15e923cf233dac988d"

@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-http-plugin"
-version = "0.1.0a9"
+version = "0.1.0b3"
 description = ""
 authors = ["Niraj <niraj@polywrap.io>"]
 readme = "README.md"
