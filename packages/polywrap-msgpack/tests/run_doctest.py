@@ -12,6 +12,7 @@ def load_tests(loader: Any, tests: Any, ignore: Any) -> Any:
         prefix=f"{polywrap_msgpack.__name__}.",
         onerror=lambda x: None,
     )
+    tests.addTests(doctest.DocTestSuite(polywrap_msgpack))
     for _, modname, _ in modules:
         try:
             module = __import__(modname, fromlist="dummy")

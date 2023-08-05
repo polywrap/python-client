@@ -32,6 +32,7 @@ pydocstyle = "^6.1.1"
 [tool.poetry.group.test.dependencies]
 pysha3 = "^1.0.2"
 pycryptodome = "^3.17"
+polywrap-sys-config-bundle = {path = "../config-bundles/polywrap-sys-config-bundle", develop = true}
 
 [tool.bandit]
 exclude_dirs = ["tests"]
