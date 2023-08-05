@@ -1,7 +1,7 @@
 """This package contains the implementation of polywrap python client.
 
-Usage
-=====
+Quickstart
+==========
 
 Configure and Instantiate
 -------------------------

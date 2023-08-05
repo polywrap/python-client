@@ -3,13 +3,13 @@ import doctest
 from typing import Any
 import unittest
 import pkgutil
-import polywrap_msgpack
+import polywrap_core
 
 def load_tests(loader: Any, tests: Any, ignore: Any) -> Any:
     """Load doctests and return TestSuite object."""
     modules = pkgutil.walk_packages(
-        path=polywrap_msgpack.__path__,
-        prefix=f"{polywrap_msgpack.__name__}.",
+        path=polywrap_core.__path__,
+        prefix=f"{polywrap_core.__name__}.",
         onerror=lambda x: None,
     )
     for _, modname, _ in modules:

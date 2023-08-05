@@ -7,7 +7,7 @@ name = "polywrap-ethereum-provider"
 version = "0.1.0b3"
 description = "Ethereum provider in python"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
-readme = "README.md"
+readme = "README.rst"
 packages = [{include = "polywrap_ethereum_provider"}]
 include = ["polywrap_ethereum_provider/wrap/**/*"]
 

@@ -1,10 +1,13 @@
-"""This package contains modules related to client config builder.
+"""This package contains modules related to ClientConfigBuilder - \
+  A utility class for building the PolywrapClient config. 
+
+PolywrapClientConfigBuilder Supports building configs using method chaining or imperatively.
 
 Quickstart
-==========
+----------
 
 Import
-------
+~~~~~~
 
 Import necessary modules
 
@@ -24,7 +27,7 @@ Import necessary modules
 >>> from polywrap_web3_config_bundle import get_web3_config
 
 Initialize
-----------
+~~~~~~~~~~
 
 Initialize a `PolywrapClientConfigBuilder` using the constructor
 
@@ -32,7 +35,7 @@ Initialize a `PolywrapClientConfigBuilder` using the constructor
 >>> builder = PolywrapClientConfigBuilder()
 
 Configure
----------
+~~~~~~~~~
 
 **Add client configuration with add, or flexibly mix and match builder configuration methods to add and remove configuration items.**
 
@@ -81,7 +84,7 @@ Configure using web3 config bundle to fetch wraps from ens and any system URI
 >>> builder = builder.add(get_web3_config())
 
 Build
------
+~~~~~
 
 **Finally, build a ClientConfig to pass to the PolywrapClient constructor.**
 

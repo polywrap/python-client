@@ -1,4 +1,28 @@
-"""This package contains the HTTP plugin."""
+"""This package contains the HTTP plugin.
+
+Http plugin currently supports two different methods `GET` and\
+    `POST`. Similar to calling axios, when defining request\
+    you need to specify a response type. Headers and \
+    query parameters may also be defined.
+
+Response Types
+--------------
+
+`TEXT` - The server will respond with text, \
+    the HTTP plugin will return the text as-is.
+
+`BINARY` - The server will respond with binary data (_bytes_), \
+    the HTTP plugin will encode as a **base64** string and return it.
+
+Quickstart
+----------
+
+Imports
+~~~~~~~
+
+>>> from polywrap_core import Uri
+
+"""
 import base64
 from typing import List, Optional, cast
 

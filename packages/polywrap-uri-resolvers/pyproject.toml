@@ -7,7 +7,7 @@ name = "polywrap-uri-resolvers"
 version = "0.1.0b3"
 description = ""
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"

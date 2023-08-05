@@ -1,10 +1,11 @@
-"""Polywrap Manifest contains the types and functions to de/serialize Wrap manifests.
+"""Polywrap Manifest contains the types and functions to de/serialize\
+  Wrap manifests defined at https://github.com/polywrap/wrap
 
-Usage
-=====
+Quickstart
+----------
 
 Deserialize WRAP manifest
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 >>> from polywrap_manifest import deserialize_wrap_manifest, WrapManifest_0_1
 >>> from polywrap_msgpack import msgpack_encode

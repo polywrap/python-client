@@ -7,11 +7,11 @@ which allows user to encode and decode to/from msgpack bytes
 It also defines the default Extension types and extension hook for
 custom extension types defined by WRAP standard
 
-Usage
-=====
+Quickstart
+----------
 
 Encoding-Decoding Native types and objects
-------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 >>> from polywrap_msgpack import msgpack_decode, msgpack_encode
 >>> dictionary = {
@@ -28,7 +28,7 @@ Encoding-Decoding Native types and objects
 {'foo': 5, 'bar': [True, False], 'baz': {'prop': 'value'}}
     
 Encoding-Decoding Extension types
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 >>> from polywrap_msgpack import msgpack_decode, msgpack_encode, GenericMap
 >>> counter: GenericMap[str, int] = GenericMap({

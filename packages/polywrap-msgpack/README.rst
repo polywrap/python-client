@@ -1,5 +1,6 @@
-polywrap-msgpack
+Polywrap Msgpack
 ================
+
 polywrap-msgpack adds ability to encode/decode to/from msgpack format.
 
 It provides msgpack_encode and msgpack_decode functions
@@ -27,7 +28,7 @@ Encoding-Decoding Native types and objects
 >>> assert dictionary == decoded
 >>> print(decoded)
 {'foo': 5, 'bar': [True, False], 'baz': {'prop': 'value'}}
-
+    
 Encoding-Decoding Extension types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

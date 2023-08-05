@@ -7,7 +7,7 @@ name = "polywrap-manifest"
 version = "0.1.0b3"
 description = "WRAP manifest"
 authors = ["Niraj <niraj@polywrap.io>"]
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"

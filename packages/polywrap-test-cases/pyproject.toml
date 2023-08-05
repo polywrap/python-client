@@ -7,7 +7,7 @@ name = "polywrap-test-cases"
 version = "0.1.0b3"
 description = "Plugin package"
 authors = ["Cesar <cesar@polywrap.io>"]
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
