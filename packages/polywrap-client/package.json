@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "codegen": "yarn codegen:http && yarn codegen:fs && yarn codegen:ethereum",
-    "codegen:http": "cd ../../plugins/polywrap-http-plugin && yarn codegen && cd ../../config-bundles/polywrap-sys-config-bundle",
-    "codegen:fs": "cd ../../plugins/polywrap-fs-plugin && yarn codegen && cd ../../config-bundles/polywrap-sys-config-bundle",
-    "codegen:ethereum": "cd ../../plugins/polywrap-ethereum-provider && yarn codegen && cd ../../config-bundles/polywrap-sys-config-bundle"
+    "codegen:http": "cd ../plugins/polywrap-http-plugin && yarn codegen && cd ../../polywrap-client",
+    "codegen:fs": "cd ../plugins/polywrap-fs-plugin && yarn codegen && cd ../../polywrap-client",
+    "codegen:ethereum": "cd ../plugins/polywrap-ethereum-provider && yarn codegen && cd ../../polywrap-client"
   }
 }
