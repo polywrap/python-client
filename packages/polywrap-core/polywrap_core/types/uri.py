@@ -48,7 +48,7 @@ class Uri:
         >>> uri = Uri.from_str(None)
         Traceback (most recent call last):
         ...
-        TypeError: expected string or bytes-like object
+        ValueError: The provided URI is empty
     """
 
     URI_REGEX = re.compile(
@@ -128,9 +128,6 @@ class Uri:
         Returns:
             A new instance of a valid wrapper URI.
         """
-        if not isinstance(uri, (str, bytes)):
-            raise TypeError("expected string or bytes-like object")
-
         if not uri:
             raise ValueError("The provided URI is empty")
 
