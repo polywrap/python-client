@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """This package contains URI resolvers for polywrap-client.
 
 Resolvers
