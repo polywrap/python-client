@@ -1,5 +1,5 @@
 """This package contains modules related to ClientConfigBuilder - \
-  A utility class for building the PolywrapClient config. 
+  A utility class for building the PolywrapClient config.
 
 PolywrapClientConfigBuilder Supports building configs using method chaining or imperatively.
 
@@ -37,7 +37,8 @@ Initialize a `PolywrapClientConfigBuilder` using the constructor
 Configure
 ~~~~~~~~~
 
-**Add client configuration with add, or flexibly mix and match builder configuration methods to add and remove configuration items.**
+**Add client configuration with add, or flexibly mix and match \
+  builder configuration methods to add and remove configuration items.**
 
 Add multiple items to the configuration using the catch-all `add` method
 
