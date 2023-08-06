@@ -1,8 +1,8 @@
-import polywrap_plugin
+import polywrap_ethereum_provider
 
-headline = polywrap_plugin.__name__.replace("_", " ").title()
+headline = polywrap_ethereum_provider.__name__.replace("_", " ").title()
 header = headline + "\n" + "=" * len(headline)
-docstring = polywrap_plugin.__doc__
+docstring = polywrap_ethereum_provider.__doc__
 docs = header + "\n" + docstring
 
 with open("README.rst", "w") as f:
