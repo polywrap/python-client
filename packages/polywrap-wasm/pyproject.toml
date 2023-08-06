@@ -17,7 +17,6 @@ polywrap-manifest = {path = "../polywrap-manifest", develop = true}
 polywrap-core = {path = "../polywrap-core", develop = true}
 
 [tool.poetry.group.dev.dependencies]
-pycln = "^2.1.3"
 pytest = "^7.1.2"
 pylint = "^2.15.4"
 black = "^22.10.0"
