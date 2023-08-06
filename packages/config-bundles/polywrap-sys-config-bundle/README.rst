@@ -1,4 +1,6 @@
-"""This package contains the system configuration bundle for Polywrap Client.
+Polywrap Sys Config Bundle
+==========================
+This package contains the system configuration bundle for Polywrap Client.
 
 Bundled Wraps
 -------------
@@ -58,7 +60,3 @@ Resolve URI with bundled wrapscan resolver
 ...     Uri("wrapscan.io", "polywrap/uri-resolver@1.0"),
 ... )
 >>> assert isinstance(response, UriPackage)
-"""
-from .bundle import *
-from .config import *
-from .types.bundle_package import *

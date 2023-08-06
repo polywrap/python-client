@@ -1,8 +1,8 @@
-import polywrap_plugin
+import polywrap_sys_config_bundle
 
-headline = polywrap_plugin.__name__.replace("_", " ").title()
+headline = polywrap_sys_config_bundle.__name__.replace("_", " ").title()
 header = headline + "\n" + "=" * len(headline)
-docstring = polywrap_plugin.__doc__
+docstring = polywrap_sys_config_bundle.__doc__
 docs = header + "\n" + docstring
 
 with open("README.rst", "w") as f:

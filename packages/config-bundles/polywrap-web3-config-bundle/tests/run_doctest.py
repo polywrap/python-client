@@ -3,16 +3,16 @@ import doctest
 from typing import Any
 import unittest
 import pkgutil
-import polywrap_plugin
+import polywrap_web3_config_bundle
 
 def load_tests(loader: Any, tests: Any, ignore: Any) -> Any:
     """Load doctests and return TestSuite object."""
     modules = pkgutil.walk_packages(
-        path=polywrap_plugin.__path__,
-        prefix=f"{polywrap_plugin.__name__}.",
+        path=polywrap_web3_config_bundle.__path__,
+        prefix=f"{polywrap_web3_config_bundle.__name__}.",
         onerror=lambda x: None,
     )
-    tests.addTests(doctest.DocTestSuite(polywrap_plugin))
+    tests.addTests(doctest.DocTestSuite(polywrap_web3_config_bundle))
     for _, modname, _ in modules:
         try:
             module = __import__(modname, fromlist="dummy")

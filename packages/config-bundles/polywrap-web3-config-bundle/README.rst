@@ -1,4 +1,6 @@
-"""This package contains the system configuration bundle for Polywrap Client.
+Polywrap Web3 Config Bundle
+===========================
+This package contains the system configuration bundle for Polywrap Client.
 
 Bundled Wraps
 -------------
@@ -47,6 +49,3 @@ Resolve URI with bundled ens resolver
 ...     Uri.from_str("wrap://ens/wrap-link.eth")
 ... )
 >>> assert isinstance(response, UriPackage)
-"""
-from .bundle import *
-from .config import *
