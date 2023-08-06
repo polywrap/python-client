@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """This package contains the core types, interfaces, and utilities of polywrap-client.
 
 Core types
