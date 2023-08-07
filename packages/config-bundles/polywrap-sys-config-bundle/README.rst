@@ -31,7 +31,7 @@ Imports
 Configure
 ~~~~~~~~~
 
->>> config = PolywrapClientConfigBuilder.add_bundle(sys_bundle).build()
+>>> config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
 >>> client = PolywrapClient(config)
 
 Invoke bundled http plugin
