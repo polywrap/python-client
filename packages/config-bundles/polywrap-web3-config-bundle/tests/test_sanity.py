@@ -19,8 +19,9 @@ def test_ens_content_hash_resolver():
     assert result is not None
     assert isinstance(result, UriPackage)
 
+
 def test_sys_web3_config_bundle():
-    builder = PolywrapClientConfigBuilder().add_bundle(sys_bundle)..add_bundle(web3_bundle)
+    builder = PolywrapClientConfigBuilder().add_bundle(sys_bundle).add_bundle(web3_bundle)
 
     client = PolywrapClient(builder.build())
 
