@@ -1,16 +1,11 @@
 polywrap\_wasm.linker package
 =============================
 
-.. automodule:: polywrap_wasm.linker
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.linker.types
 
@@ -18,7 +13,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.linker.abort
    polywrap_wasm.linker.debug

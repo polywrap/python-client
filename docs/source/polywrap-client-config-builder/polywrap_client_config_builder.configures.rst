@@ -1,16 +1,11 @@
 polywrap\_client\_config\_builder.configures package
 ====================================================
 
-.. automodule:: polywrap_client_config_builder.configures
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_client_config_builder.configures.base_configure
    polywrap_client_config_builder.configures.env_configure

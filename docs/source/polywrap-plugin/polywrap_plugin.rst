@@ -1,16 +1,11 @@
 polywrap\_plugin package
 ========================
 
-.. automodule:: polywrap_plugin
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_plugin.module
    polywrap_plugin.package

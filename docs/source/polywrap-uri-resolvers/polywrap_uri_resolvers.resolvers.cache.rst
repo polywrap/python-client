@@ -1,15 +1,10 @@
 polywrap\_uri\_resolvers.resolvers.cache package
 ================================================
 
-.. automodule:: polywrap_uri_resolvers.resolvers.cache
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_uri_resolvers.resolvers.cache.resolution_result_cache_resolver

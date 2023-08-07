@@ -1,16 +1,11 @@
 polywrap\_ethereum\_provider.wrap package
 =========================================
 
-.. automodule:: polywrap_ethereum_provider.wrap
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_ethereum_provider.wrap.module
    polywrap_ethereum_provider.wrap.types

@@ -1,16 +1,11 @@
 polywrap\_core.types package
 ============================
 
-.. automodule:: polywrap_core.types
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_core.types.clean_resolution_step
    polywrap_core.types.client

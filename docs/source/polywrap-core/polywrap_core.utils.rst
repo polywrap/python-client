@@ -1,16 +1,11 @@
 polywrap\_core.utils package
 ============================
 
-.. automodule:: polywrap_core.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_core.utils.build_clean_uri_history
    polywrap_core.utils.get_env_from_resolution_path

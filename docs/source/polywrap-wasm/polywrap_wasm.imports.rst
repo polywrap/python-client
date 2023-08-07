@@ -1,16 +1,11 @@
 polywrap\_wasm.imports package
 ==============================
 
-.. automodule:: polywrap_wasm.imports
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.imports.types
 
@@ -18,7 +13,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.imports.abort
    polywrap_wasm.imports.debug

@@ -1,16 +1,11 @@
 polywrap\_manifest package
 ==========================
 
-.. automodule:: polywrap_manifest
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_manifest.deserialize
    polywrap_manifest.errors
