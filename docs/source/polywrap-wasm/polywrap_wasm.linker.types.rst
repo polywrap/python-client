@@ -1,6 +1,11 @@
 polywrap\_wasm.linker.types package
 ===================================
 
+.. automodule:: polywrap_wasm.linker.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -8,11 +13,3 @@ Submodules
    :maxdepth: 4
 
    polywrap_wasm.linker.types.base_wrap_linker
-
-Module contents
----------------
-
-.. automodule:: polywrap_wasm.linker.types
-   :members:
-   :undoc-members:
-   :show-inheritance:

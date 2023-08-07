@@ -1,6 +1,11 @@
 polywrap\_http\_plugin.wrap package
 ===================================
 
+.. automodule:: polywrap_http_plugin.wrap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -10,11 +15,3 @@ Submodules
    polywrap_http_plugin.wrap.module
    polywrap_http_plugin.wrap.types
    polywrap_http_plugin.wrap.wrap_info
-
-Module contents
----------------
-
-.. automodule:: polywrap_http_plugin.wrap
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,6 +1,11 @@
 polywrap\_sys\_config\_bundle package
 =====================================
 
+.. automodule:: polywrap_sys_config_bundle
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -18,11 +23,3 @@ Submodules
 
    polywrap_sys_config_bundle.bundle
    polywrap_sys_config_bundle.config
-
-Module contents
----------------
-
-.. automodule:: polywrap_sys_config_bundle
-   :members:
-   :undoc-members:
-   :show-inheritance:

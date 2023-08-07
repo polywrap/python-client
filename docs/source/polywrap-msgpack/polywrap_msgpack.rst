@@ -1,6 +1,11 @@
 polywrap\_msgpack package
 =========================
 
+.. automodule:: polywrap_msgpack
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -19,11 +24,3 @@ Submodules
    polywrap_msgpack.encoder
    polywrap_msgpack.errors
    polywrap_msgpack.sanitize
-
-Module contents
----------------
-
-.. automodule:: polywrap_msgpack
-   :members:
-   :undoc-members:
-   :show-inheritance:

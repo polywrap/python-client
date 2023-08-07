@@ -1,6 +1,11 @@
 polywrap\_client\_config\_builder.configures package
 ====================================================
 
+.. automodule:: polywrap_client_config_builder.configures
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -14,11 +19,3 @@ Submodules
    polywrap_client_config_builder.configures.redirect_configure
    polywrap_client_config_builder.configures.resolver_configure
    polywrap_client_config_builder.configures.wrapper_configure
-
-Module contents
----------------
-
-.. automodule:: polywrap_client_config_builder.configures
-   :members:
-   :undoc-members:
-   :show-inheritance:

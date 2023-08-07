@@ -1,6 +1,11 @@
 polywrap\_core.types package
 ============================
 
+.. automodule:: polywrap_core.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -26,11 +31,3 @@ Submodules
    polywrap_core.types.uri_wrapper
    polywrap_core.types.wrap_package
    polywrap_core.types.wrapper
-
-Module contents
----------------
-
-.. automodule:: polywrap_core.types
-   :members:
-   :undoc-members:
-   :show-inheritance:

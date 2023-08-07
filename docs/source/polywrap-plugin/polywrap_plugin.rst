@@ -1,6 +1,11 @@
 polywrap\_plugin package
 ========================
 
+.. automodule:: polywrap_plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -11,11 +16,3 @@ Submodules
    polywrap_plugin.package
    polywrap_plugin.resolution_context_override_client
    polywrap_plugin.wrapper
-
-Module contents
----------------
-
-.. automodule:: polywrap_plugin
-   :members:
-   :undoc-members:
-   :show-inheritance:

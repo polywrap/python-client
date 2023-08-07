@@ -1,6 +1,11 @@
 polywrap\_manifest package
 ==========================
 
+.. automodule:: polywrap_manifest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -11,11 +16,3 @@ Submodules
    polywrap_manifest.errors
    polywrap_manifest.manifest
    polywrap_manifest.wrap_0_1
-
-Module contents
----------------
-
-.. automodule:: polywrap_manifest
-   :members:
-   :undoc-members:
-   :show-inheritance:

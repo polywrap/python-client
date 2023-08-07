@@ -1,6 +1,11 @@
 polywrap\_uri\_resolvers.resolvers.legacy package
 =================================================
 
+.. automodule:: polywrap_uri_resolvers.resolvers.legacy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -20,11 +25,3 @@ Submodules
    polywrap_uri_resolvers.resolvers.legacy.package_to_wrapper_resolver
    polywrap_uri_resolvers.resolvers.legacy.redirect_resolver
    polywrap_uri_resolvers.resolvers.legacy.wrapper_cache_resolver
-
-Module contents
----------------
-
-.. automodule:: polywrap_uri_resolvers.resolvers.legacy
-   :members:
-   :undoc-members:
-   :show-inheritance:

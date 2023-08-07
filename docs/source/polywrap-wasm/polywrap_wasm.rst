@@ -1,6 +1,11 @@
 polywrap\_wasm package
 ======================
 
+.. automodule:: polywrap_wasm
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -26,11 +31,3 @@ Submodules
    polywrap_wasm.memory
    polywrap_wasm.wasm_package
    polywrap_wasm.wasm_wrapper
-
-Module contents
----------------
-
-.. automodule:: polywrap_wasm
-   :members:
-   :undoc-members:
-   :show-inheritance:

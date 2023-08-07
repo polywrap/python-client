@@ -1,6 +1,11 @@
 polywrap\_client package
 ========================
 
+.. automodule:: polywrap_client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -9,11 +14,3 @@ Submodules
 
    polywrap_client.client
    polywrap_client.errors
-
-Module contents
----------------
-
-.. automodule:: polywrap_client
-   :members:
-   :undoc-members:
-   :show-inheritance:

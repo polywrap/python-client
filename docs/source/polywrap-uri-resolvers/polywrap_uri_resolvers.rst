@@ -1,6 +1,11 @@
 polywrap\_uri\_resolvers package
 ================================
 
+.. automodule:: polywrap_uri_resolvers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -17,11 +22,3 @@ Submodules
    :maxdepth: 4
 
    polywrap_uri_resolvers.errors
-
-Module contents
----------------
-
-.. automodule:: polywrap_uri_resolvers
-   :members:
-   :undoc-members:
-   :show-inheritance:

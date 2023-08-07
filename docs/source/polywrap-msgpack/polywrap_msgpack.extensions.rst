@@ -1,6 +1,11 @@
 polywrap\_msgpack.extensions package
 ====================================
 
+.. automodule:: polywrap_msgpack.extensions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -8,11 +13,3 @@ Submodules
    :maxdepth: 4
 
    polywrap_msgpack.extensions.generic_map
-
-Module contents
----------------
-
-.. automodule:: polywrap_msgpack.extensions
-   :members:
-   :undoc-members:
-   :show-inheritance:

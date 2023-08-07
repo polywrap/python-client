@@ -1,6 +1,11 @@
 polywrap\_wasm.linker package
 =============================
 
+.. automodule:: polywrap_wasm.linker
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -23,11 +28,3 @@ Submodules
    polywrap_wasm.linker.subinvoke
    polywrap_wasm.linker.subinvoke_implementation
    polywrap_wasm.linker.wrap_linker
-
-Module contents
----------------
-
-.. automodule:: polywrap_wasm.linker
-   :members:
-   :undoc-members:
-   :show-inheritance:

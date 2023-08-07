@@ -1,6 +1,11 @@
 polywrap\_fs\_plugin package
 ============================
 
+.. automodule:: polywrap_fs_plugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -8,11 +13,3 @@ Subpackages
    :maxdepth: 4
 
    polywrap_fs_plugin.wrap
-
-Module contents
----------------
-
-.. automodule:: polywrap_fs_plugin
-   :members:
-   :undoc-members:
-   :show-inheritance:

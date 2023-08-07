@@ -1,6 +1,11 @@
 polywrap\_core package
 ======================
 
+.. automodule:: polywrap_core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -9,11 +14,3 @@ Subpackages
 
    polywrap_core.types
    polywrap_core.utils
-
-Module contents
----------------
-
-.. automodule:: polywrap_core
-   :members:
-   :undoc-members:
-   :show-inheritance:

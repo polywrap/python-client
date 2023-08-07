@@ -1,6 +1,11 @@
 polywrap\_client\_config\_builder package
 =========================================
 
+.. automodule:: polywrap_client_config_builder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -17,11 +22,3 @@ Submodules
    :maxdepth: 4
 
    polywrap_client_config_builder.polywrap_client_config_builder
-
-Module contents
----------------
-
-.. automodule:: polywrap_client_config_builder
-   :members:
-   :undoc-members:
-   :show-inheritance:

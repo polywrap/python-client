@@ -1,6 +1,11 @@
 polywrap\_uri\_resolvers.types package
 ======================================
 
+.. automodule:: polywrap_uri_resolvers.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -16,11 +21,3 @@ Submodules
    :maxdepth: 4
 
    polywrap_uri_resolvers.types.static_resolver_like
-
-Module contents
----------------
-
-.. automodule:: polywrap_uri_resolvers.types
-   :members:
-   :undoc-members:
-   :show-inheritance:
