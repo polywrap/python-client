@@ -3,7 +3,7 @@
 
 Resolvers
 ---------
-.. csv-table:: Resolvers
+.. csv-table::
     :header: "resolver", "description"
 
     "WrapperResolver", "Defines a simple statically registered resolver for a wrapper."
@@ -15,7 +15,7 @@ Resolvers
     "ExtendableUriResolver", "Defines a resolver that resolves a uri to a wrapper by using extension wrappers."
     "ResolutionResultCacheResolver", "Defines a resolver that caches the URI resolution result."
 
-.. csv-table:: Errors
+.. csv-table::
     :header: "error", "description"
 
     "UriResolutionError", "Base class for all errors related to URI resolution."

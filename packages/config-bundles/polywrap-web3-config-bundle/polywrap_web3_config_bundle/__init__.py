@@ -3,7 +3,7 @@
 Bundled Wraps
 -------------
 
-.. csv-table:: Bundled Wraps
+.. csv-table::
     :header: "wrap", "description"
 
     "http", "To make HTTP requests"

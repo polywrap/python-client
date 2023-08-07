@@ -4,7 +4,7 @@
 Functions
 ---------
 
-.. csv-table:: Functions
+.. csv-table::
     :header: "function", "description"
 
     "get_path_to_test_wrappers", "Get the path to the test wrappers."

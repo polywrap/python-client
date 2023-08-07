@@ -4,7 +4,7 @@
 Core types
 ----------
 
-.. csv-table:: Core types
+.. csv-table::
     :header: "type", "description"
 
     "Uri", "Defines a wrapper URI and provides utilities for parsing and validating them."
@@ -26,7 +26,7 @@ Core types
 Core Errors
 -----------
 
-.. csv-table:: Core Errors
+.. csv-table::
     :header: "error", "description"
 
     "WrapError", "Base error class for all exceptions related to wrappers."
@@ -37,7 +37,7 @@ Core Errors
 Utility functions
 -----------------
 
-.. csv-table:: Utility functions
+.. csv-table::
     :header: "function", "description"
 
     "build_clean_uri_history", "Build a clean history of the URI resolution steps."
