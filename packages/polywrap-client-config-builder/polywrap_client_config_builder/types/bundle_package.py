@@ -1,6 +1,7 @@
 """This module contains the type for the bundle package."""
 from dataclasses import dataclass
 from typing import Any, Optional
+
 from polywrap_core import Uri, WrapPackage
 
 

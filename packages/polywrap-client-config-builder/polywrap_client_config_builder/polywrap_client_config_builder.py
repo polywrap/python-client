@@ -23,7 +23,7 @@ from .configures import (
     ResolverConfigure,
     WrapperConfigure,
 )
-from .types import BuilderConfig, BuildOptions, ClientConfigBuilder, BundlePackage
+from .types import BuilderConfig, BuildOptions, BundlePackage, ClientConfigBuilder
 
 
 class PolywrapClientConfigBuilder(
