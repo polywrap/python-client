@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 2
 
    polywrap_sys_config_bundle.embeds
-   polywrap_sys_config_bundle.types
 
 Submodules
 ----------
@@ -17,4 +16,3 @@ Submodules
    :maxdepth: 2
 
    polywrap_sys_config_bundle.bundle
-   polywrap_sys_config_bundle.config

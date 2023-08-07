@@ -8,4 +8,3 @@ Submodules
    :maxdepth: 2
 
    polywrap_web3_config_bundle.bundle
-   polywrap_web3_config_bundle.config

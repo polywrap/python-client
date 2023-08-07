@@ -9,4 +9,5 @@ Submodules
 
    polywrap_client_config_builder.types.build_options
    polywrap_client_config_builder.types.builder_config
+   polywrap_client_config_builder.types.bundle_package
    polywrap_client_config_builder.types.client_config_builder
