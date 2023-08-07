@@ -4,9 +4,6 @@ from polywrap_client import PolywrapClient
 from polywrap_web3_config_bundle import web3_bundle
 from polywrap_sys_config_bundle import sys_bundle
 
-from polywrap_web3_config_bundle.bundle import web3_bundle
-from polywrap_sys_config_bundle.bundle import sys_bundle
-
 
 def test_ens_content_hash_resolver():
     config = PolywrapClientConfigBuilder().add_bundle(web3_bundle).build()
