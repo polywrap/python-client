@@ -5,7 +5,7 @@ from pathlib import Path
 from polywrap_core import WrapPackage
 from polywrap_wasm import WasmPackage
 
-from ..types import EmbeddedFileReader
+from .embedded_file_reader import EmbeddedFileReader
 
 
 def get_embedded_wrap(name: str) -> WrapPackage:

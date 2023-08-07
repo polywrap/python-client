@@ -5,8 +5,9 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
+   polywrap_core.types.clean_resolution_step
    polywrap_core.types.client
    polywrap_core.types.config
    polywrap_core.types.errors
@@ -25,11 +26,3 @@ Submodules
    polywrap_core.types.uri_wrapper
    polywrap_core.types.wrap_package
    polywrap_core.types.wrapper
-
-Module contents
----------------
-
-.. automodule:: polywrap_core.types
-   :members:
-   :undoc-members:
-   :show-inheritance:

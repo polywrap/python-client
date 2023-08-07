@@ -5,7 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.imports.types
 
@@ -13,7 +13,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.imports.abort
    polywrap_wasm.imports.debug
@@ -22,11 +22,3 @@ Submodules
    polywrap_wasm.imports.invoke
    polywrap_wasm.imports.subinvoke
    polywrap_wasm.imports.wrap_imports
-
-Module contents
----------------
-
-.. automodule:: polywrap_wasm.imports
-   :members:
-   :undoc-members:
-   :show-inheritance:

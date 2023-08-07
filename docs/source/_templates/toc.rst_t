@@ -1,0 +1,15 @@
+{{ header | heading }}
+
+.. automodule:: {% for docname in docnames %}{{ docname }}{%- endfor %}
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+API References
+--------------
+
+.. toctree::
+   :maxdepth: 4
+{% for docname in docnames %}
+   {{ docname }}
+{%- endfor %}

@@ -5,14 +5,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_client.client
-
-Module contents
----------------
-
-.. automodule:: polywrap_client
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   polywrap_client.errors

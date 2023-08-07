@@ -7,15 +7,14 @@ name = "polywrap-uri-resolvers"
 version = "0.1.0b3"
 description = ""
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-wasm = "^0.1.0b3"
-polywrap-core = "^0.1.0b3"
+polywrap-wasm = { path = "../polywrap-wasm", develop = true }
+polywrap-core = { path = "../polywrap-core", develop = true }
 
 [tool.poetry.group.dev.dependencies]
-pycln = "^2.1.3"
 polywrap-client = {path = "../polywrap-client", develop = true}
 polywrap-plugin = {path = "../polywrap-plugin", develop = true}
 polywrap-test-cases = {path = "../polywrap-test-cases", develop = true}

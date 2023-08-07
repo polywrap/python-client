@@ -9,7 +9,7 @@ Examples:
     >>> from polywrap_core.types import UriWrapper
     >>> result: UriPackageOrWrapper = Uri("authority", "path")
     >>> match result:
-    ...     case Uri(uri):
+    ...     case Uri() as uri:
     ...         print(uri)
     ...     case _:
     ...         print("Not a URI")

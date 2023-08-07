@@ -5,15 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_core.types
    polywrap_core.utils
-
-Module contents
----------------
-
-.. automodule:: polywrap_core
-   :members:
-   :undoc-members:
-   :show-inheritance:

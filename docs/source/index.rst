@@ -6,19 +6,26 @@
 Welcome to polywrap-client's documentation!
 ===========================================
 
+.. include:: Quickstart.rst
+
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
 
+   polywrap-client/modules.rst
+   polywrap-client-config-builder/modules.rst
+   polywrap-fs-plugin/modules.rst
+   polywrap-http-plugin/modules.rst
+   polywrap-ethereum-provider/modules.rst
+   polywrap-sys-config-bundle/modules.rst
+   polywrap-web3-config-bundle/modules.rst
    polywrap-msgpack/modules.rst
    polywrap-manifest/modules.rst
    polywrap-core/modules.rst
    polywrap-wasm/modules.rst
    polywrap-plugin/modules.rst
    polywrap-uri-resolvers/modules.rst
-   polywrap-client/modules.rst
-   polywrap-client-config-builder/modules.rst
-
 
 Indices and tables
 ==================

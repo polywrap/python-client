@@ -9,7 +9,7 @@ from .wrapper import Wrapper
 
 
 class WrapPackage(Protocol):
-    """Defines protocol for representing the wrap package."""
+    """Defines protocol for representing the package of a wrapper."""
 
     def create_wrapper(self) -> Wrapper:
         """Create a new wrapper instance from the wrapper package.

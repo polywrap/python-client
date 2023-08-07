@@ -10,7 +10,7 @@ from .uri_resolution_context import UriResolutionContext
 
 
 class Invoker(Protocol):
-    """Invoker protocol defines the methods for invoking a wrapper."""
+    """Invoker protocol defines the methods for invoking an invocable."""
 
     def invoke(
         self,
@@ -21,10 +21,10 @@ class Invoker(Protocol):
         resolution_context: Optional[UriResolutionContext] = None,
         encode_result: Optional[bool] = False,
     ) -> Any:
-        """Invoke the Wrapper based on the provided InvokerOptions.
+        """Invoke the Invocable based on the provided InvokerOptions.
 
         Args:
-            uri (Uri): Uri of the wrapper
+            uri (Uri): Uri of the Invocable
             method (str): Method to be executed
             args (Optional[Any]) : Arguments for the method, structured as a dictionary
             env (Optional[Any]): Override the client's config for all invokes within this invoke.

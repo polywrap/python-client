@@ -5,7 +5,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_client_config_builder.configures.base_configure
    polywrap_client_config_builder.configures.env_configure
@@ -14,11 +14,3 @@ Submodules
    polywrap_client_config_builder.configures.redirect_configure
    polywrap_client_config_builder.configures.resolver_configure
    polywrap_client_config_builder.configures.wrapper_configure
-
-Module contents
----------------
-
-.. automodule:: polywrap_client_config_builder.configures
-   :members:
-   :undoc-members:
-   :show-inheritance:
