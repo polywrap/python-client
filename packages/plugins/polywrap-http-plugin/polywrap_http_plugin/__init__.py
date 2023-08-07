@@ -224,6 +224,10 @@ class HttpPlugin(Module[None]):
             files[entry["name"]] = file_content
         return files
 
+    def __del__(self):
+        """Close the HTTP client."""
+        self.client.close()
+
 
 def http_plugin():
     """Factory function for the HTTP plugin."""

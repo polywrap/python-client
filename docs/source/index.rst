@@ -6,43 +6,7 @@
 Welcome to polywrap-client's documentation!
 ===========================================
 
-Quickstart
-==========
-
-Imports
--------
-
->>> from polywrap_core import Uri, ClientConfig
->>> from polywrap_client import PolywrapClient
->>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
->>> from polywrap_sys_config_bundle import get_sys_config
->>> from polywrap_web3_config_bundle import get_web3_config
-
-Configure and Instantiate
--------------------------
-
->>> builder = (
-...     PolywrapClientConfigBuilder()
-...     .add(get_sys_config())
-...     .add(get_web3_config())
-... )
->>> config = builder.build()
->>> client = PolywrapClient(config)
-
-Invocation
-----------
-
-Invoke a wrapper.
-
->>> uri = Uri.from_str(
-...     'wrapscan.io/polywrap/ipfs-http-client'
-... )
->>> args = {
-...     "cid": "QmZ4d7KWCtH3xfWFwcdRXEkjZJdYNwonrCwUckGF1gRAH9",
-...     "ipfsProvider": "https://ipfs.io",
-... }
->>> result = client.invoke(uri=uri, method="cat", args=args, encode_result=False)
->>> assert result.startswith(b"<svg")
+.. include:: Quickstart.rst
 
 
 .. toctree::

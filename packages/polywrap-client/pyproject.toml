@@ -33,6 +33,7 @@ pydocstyle = "^6.1.1"
 pysha3 = "^1.0.2"
 pycryptodome = "^3.17"
 polywrap-sys-config-bundle = {path = "../config-bundles/polywrap-sys-config-bundle", develop = true}
+polywrap-web3-config-bundle = {path = "../config-bundles/polywrap-web3-config-bundle", develop = true}
 
 [tool.bandit]
 exclude_dirs = ["tests"]
