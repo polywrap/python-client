@@ -13,10 +13,10 @@ include = ["polywrap_fs_plugin/wrap/**/*"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
+polywrap-plugin = "^0.1.0b3"
+polywrap-core = "^0.1.0b3"
+polywrap-msgpack = "^0.1.0b3"
+polywrap-manifest = "^0.1.0b3"
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}
