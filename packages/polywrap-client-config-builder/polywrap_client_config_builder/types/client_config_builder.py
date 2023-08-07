@@ -6,6 +6,7 @@ from polywrap_core import ClientConfig, Uri, UriResolver, WrapPackage, Wrapper
 
 from .build_options import BuildOptions
 from .builder_config import BuilderConfig
+from .bundle_package import BundlePackage
 
 
 class ClientConfigBuilder(Protocol):
@@ -19,6 +20,12 @@ class ClientConfigBuilder(Protocol):
 
     def add(self, config: BuilderConfig) -> "ClientConfigBuilder":
         """Add the values from the given config to the builder's config."""
+        ...
+
+    # BUNDLE CONFIGURE
+
+    def add_bundle(self, bundles: Dict[str, BundlePackage]) -> "ClientConfigBuilder":
+        """Add a bundle to the builder's config."""
         ...
 
     # ENV CONFIGURE

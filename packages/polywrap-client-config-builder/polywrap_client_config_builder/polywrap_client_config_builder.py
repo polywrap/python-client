@@ -1,7 +1,7 @@
 """This module provides a simple builder for building a ClientConfig object."""
 # pylint: disable=too-many-ancestors
 
-from typing import Optional, cast
+from typing import Dict, Optional, cast
 
 from polywrap_core import ClientConfig, UriPackage, UriWrapper
 from polywrap_uri_resolvers import (
@@ -23,7 +23,7 @@ from .configures import (
     ResolverConfigure,
     WrapperConfigure,
 )
-from .types import BuilderConfig, BuildOptions, ClientConfigBuilder
+from .types import BuilderConfig, BuildOptions, ClientConfigBuilder, BundlePackage
 
 
 class PolywrapClientConfigBuilder(
@@ -74,6 +74,21 @@ class PolywrapClientConfigBuilder(
             envs={}, interfaces={}, resolvers=[], wrappers={}, packages={}, redirects={}
         )
         super().__init__()
+
+    def add_bundle(self, bundles: Dict[str, BundlePackage]) -> ClientConfigBuilder:
+        """Add the bundle to the builder's config."""
+        for bundle in bundles.values():
+            if bundle.package:
+                self.set_package(bundle.uri, bundle.package)
+            if bundle.implements:
+                for interface in bundle.implements:
+                    self.add_interface_implementations(interface, [bundle.uri])
+            if bundle.redirects_from:
+                for redirect in bundle.redirects_from:
+                    self.set_redirect(redirect, bundle.uri)
+            if bundle.env:
+                self.set_env(bundle.uri, bundle.env)
+        return cast(ClientConfigBuilder, self)
 
     def build(self, options: Optional[BuildOptions] = None) -> ClientConfig:
         """Build the ClientConfig object from the builder's config."""

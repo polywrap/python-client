@@ -23,8 +23,8 @@ Import necessary modules
 ...     InMemoryResolutionResultCache,
 ...     RecursiveResolver,
 ... )
->>> from polywrap_sys_config_bundle import get_sys_config
->>> from polywrap_web3_config_bundle import get_web3_config
+>>> from polywrap_sys_config_bundle import sys_bundle
+>>> from polywrap_web3_config_bundle import web3_bundle
 
 Initialize
 ~~~~~~~~~~
@@ -76,13 +76,13 @@ False
 
 Configure using sys config bundle to fetch wraps from file-system, ipfs, wrapscan, or http server
 
->>> from polywrap_sys_config_bundle import get_sys_config
->>> builder = builder.add(get_sys_config())
+>>> from polywrap_sys_config_bundle import sys_bundle
+>>> builder = builder.add_bundle(sys_bundle)
 
 Configure using web3 config bundle to fetch wraps from ens and any system URI
 
->>> from polywrap_web3_config_bundle import get_web3_config
->>> builder = builder.add(get_web3_config())
+>>> from polywrap_web3_config_bundle import web3_bundle
+>>> builder = builder.add_bundle(web3_bundle)
 
 Build
 ~~~~~

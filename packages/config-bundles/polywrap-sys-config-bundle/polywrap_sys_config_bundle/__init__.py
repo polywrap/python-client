@@ -22,14 +22,14 @@ Imports
 ~~~~~~~
 
 >>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
->>> from polywrap_sys_config_bundle import get_sys_config
+>>> from polywrap_sys_config_bundle import sys_bundle
 >>> from polywrap_client import PolywrapClient
 >>> from polywrap_core import Uri, UriPackage
 
 Configure
 ~~~~~~~~~
 
->>> config = PolywrapClientConfigBuilder.add(get_sys_config()).build()
+>>> config = PolywrapClientConfigBuilder.add_bundle(sys_bundle).build()
 >>> client = PolywrapClient(config)
 
 Invoke bundled http plugin
@@ -52,5 +52,3 @@ Resolve URI with bundled wrapscan resolver
 >>> assert isinstance(response, UriPackage)
 """
 from .bundle import *
-from .config import *
-from .types.bundle_package import *

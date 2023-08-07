@@ -1,13 +1,13 @@
 """This module contains the configuration for the system bundle."""
 from typing import Dict
 
+from polywrap_client_config_builder import BundlePackage
 from polywrap_core import Uri
 from polywrap_fs_plugin import file_system_plugin
 from polywrap_http_plugin import http_plugin
 from polywrap_uri_resolvers import ExtendableUriResolver
 
 from .embeds import get_embedded_wrap
-from .types import BundlePackage
 
 ipfs_providers = [
     "https://ipfs.wrappers.io",

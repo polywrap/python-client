@@ -11,21 +11,16 @@ Imports
 >>> from polywrap_core import Uri, ClientConfig
 >>> from polywrap_client import PolywrapClient
 >>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
->>> from polywrap_sys_config_bundle import get_sys_config
+>>> from polywrap_sys_config_bundle import sys_bundle
+>>> from polywrap_web3_config_bundle import web3_bundle
 
 Configure and Instantiate
 -------------------------
 
 >>> builder = (
 ...     PolywrapClientConfigBuilder()
-...     .add(get_sys_config())
-...     .set_env(Uri.from_str("ens/foo.eth"), {"foo": "bar"})
-...     .add_interface_implementations(
-...         Uri.from_str("ens/foo.eth"), [
-...             Uri.from_str("ens/bar.eth"),
-...             Uri.from_str("ens/baz.eth")
-...         ]
-...     )
+...     .add_bundle(sys_bundle)
+...     .add_bundle(web3_bundle)
 ... )
 >>> config = builder.build()
 >>> client = PolywrapClient(config)

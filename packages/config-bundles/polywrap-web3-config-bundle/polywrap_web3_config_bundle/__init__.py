@@ -22,14 +22,14 @@ Imports
 ~~~~~~~
 
 >>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
->>> from polywrap_web3_config_bundle import get_web3_config
+>>> from polywrap_web3_config_bundle import web3_bundle
 >>> from polywrap_client import PolywrapClient
 >>> from polywrap_core import Uri, UriPackage
 
 Configure
 ~~~~~~~~~
 
->>> config = PolywrapClientConfigBuilder().add(get_web3_config()).build()
+>>> config = PolywrapClientConfigBuilder().add_bundle(web3_bundle).build()
 >>> client = PolywrapClient(config)
 
 Resolve URI with bundled ens resolver
@@ -41,4 +41,3 @@ Resolve URI with bundled ens resolver
 >>> assert isinstance(response, UriPackage)
 """
 from .bundle import *
-from .config import *

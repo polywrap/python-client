@@ -33,8 +33,14 @@ Configure Client
 ... )
 >>> client_config = (
 ...     PolywrapClientConfigBuilder()
-...     .set_package(ethereum_provider_plugin_uri, ethereum_provider_plugin(connections=connections))
-...     .add_interface_implementations(ethreum_provider_interface_uri, [ethereum_provider_plugin_uri])
+...     .set_package(
+...         ethereum_provider_plugin_uri,
+...         ethereum_provider_plugin(connections=connections)
+...     )
+...     .add_interface_implementations(
+...         ethreum_provider_interface_uri,
+...         [ethereum_provider_plugin_uri]
+...     )
 ...     .set_redirect(ethreum_provider_interface_uri, ethereum_provider_plugin_uri)
 ...     .build()
 ... )

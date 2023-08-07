@@ -1,6 +1,6 @@
 Polywrap Manifest
 =================
-Polywrap Manifest contains the types and functions to de/serialize  Wrap manifests defined at https://github.com/polywrap/wrap
+Polywrap Manifest contains the types and functions to de/serialize  Wrap manifests defined at https://github.com/polywrap/wrap.
 
 Quickstart
 ----------

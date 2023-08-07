@@ -6,8 +6,9 @@ from polywrap_ethereum_provider import ethereum_provider_plugin
 from polywrap_ethereum_provider.connection import Connection
 from polywrap_ethereum_provider.connections import Connections
 from polywrap_ethereum_provider.networks import KnownNetwork
-from polywrap_sys_config_bundle import BundlePackage, sys_bundle
+from polywrap_sys_config_bundle import sys_bundle
 from polywrap_uri_resolvers import ExtendableUriResolver
+from polywrap_client_config_builder import BundlePackage
 
 ethreum_provider_package = ethereum_provider_plugin(
     Connections(

@@ -2,11 +2,11 @@ from pathlib import Path
 from polywrap_client_config_builder import PolywrapClientConfigBuilder
 from polywrap_core import Uri, UriPackage
 from polywrap_client import PolywrapClient
-from polywrap_sys_config_bundle import get_sys_config
+from polywrap_sys_config_bundle import sys_bundle
 
 
 def test_http_plugin():
-    config = PolywrapClientConfigBuilder().add(get_sys_config()).build()
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
 
     response = client.invoke(
@@ -20,7 +20,7 @@ def test_http_plugin():
 
 
 def test_file_system_resolver():
-    config = PolywrapClientConfigBuilder().add(get_sys_config()).build()
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
 
     path_to_resolve = str(Path(__file__).parent.parent / "polywrap_sys_config_bundle" / "embeds" / "http-resolver")
@@ -41,7 +41,7 @@ def test_file_system_resolver():
 
 
 def test_http_resolver():
-    config = PolywrapClientConfigBuilder().add(get_sys_config()).build()
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
     http_path = "wraps.wrapscan.io/r/polywrap/wrapscan-uri-resolver@1.0"
 
@@ -63,7 +63,7 @@ def test_http_resolver():
 
 
 def test_ipfs_resolver():
-    config = PolywrapClientConfigBuilder().add(get_sys_config()).build()
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
 
     result = client.try_resolve_uri(
@@ -75,7 +75,7 @@ def test_ipfs_resolver():
 
 
 def test_can_resolve_wrapscan_resolver():
-    config = PolywrapClientConfigBuilder().add(get_sys_config()).build()
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
     response = client.try_resolve_uri(
         Uri("wrapscan.io", "polywrap/wrapscan-uri-resolver@1.0"),
@@ -86,7 +86,7 @@ def test_can_resolve_wrapscan_resolver():
 
 
 def test_wrapscan_resolver():
-    config = PolywrapClientConfigBuilder().add(get_sys_config()).build()
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
     response = client.try_resolve_uri(
         Uri("wrapscan.io", "polywrap/uri-resolver@1.0"),
