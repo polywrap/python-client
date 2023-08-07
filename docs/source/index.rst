@@ -16,6 +16,7 @@ Imports
 >>> from polywrap_client import PolywrapClient
 >>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
 >>> from polywrap_sys_config_bundle import get_sys_config
+>>> from polywrap_web3_config_bundle import get_web3_config
 
 Configure and Instantiate
 -------------------------
@@ -23,6 +24,7 @@ Configure and Instantiate
 >>> builder = (
 ...     PolywrapClientConfigBuilder()
 ...     .add(get_sys_config())
+...     .add(get_web3_config())
 ... )
 >>> config = builder.build()
 >>> client = PolywrapClient(config)
