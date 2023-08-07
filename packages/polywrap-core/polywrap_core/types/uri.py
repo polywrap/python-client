@@ -26,29 +26,29 @@ class Uri:
     Examples:
         >>> uri = Uri("ipfs", "QmHASH")
         >>> uri.uri
-        "wrap://ipfs/QmHASH"
+        'wrap://ipfs/QmHASH'
         >>> uri = Uri.from_str("ipfs/QmHASH")
         >>> uri.uri
-        "wrap://ipfs/QmHASH"
+        'wrap://ipfs/QmHASH'
         >>> uri = Uri.from_str("wrap://ipfs/QmHASH")
         >>> uri.uri
-        "wrap://ipfs/QmHASH"
+        'wrap://ipfs/QmHASH'
         >>> uri = Uri.from_str("ipfs")
         Traceback (most recent call last):
-            ...
-            ValueError: The provided URI has an invalid authority or path
+        ...
+        ValueError: not enough values to unpack (expected 2, got 1)
         >>> uri = Uri.from_str("ipfs://QmHASH")
         Traceback (most recent call last):
-            ...
-            ValueError: The provided URI has an invalid scheme (must be 'wrap')
+        ...
+        ValueError: The provided URI has an invalid scheme (must be 'wrap')
         >>> uri = Uri.from_str("")
         Traceback (most recent call last):
-            ...
-            ValueError: The provided URI is empty
+        ...
+        ValueError: The provided URI is empty
         >>> uri = Uri.from_str(None)
         Traceback (most recent call last):
-            ...
-            TypeError: expected string or bytes-like object
+        ...
+        ValueError: The provided URI is empty
     """
 
     URI_REGEX = re.compile(

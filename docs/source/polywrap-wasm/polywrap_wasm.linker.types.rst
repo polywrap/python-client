@@ -5,14 +5,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_wasm.linker.types.base_wrap_linker
-
-Module contents
----------------
-
-.. automodule:: polywrap_wasm.linker.types
-   :members:
-   :undoc-members:
-   :show-inheritance:

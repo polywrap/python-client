@@ -5,7 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_uri_resolvers.resolvers.abc
    polywrap_uri_resolvers.resolvers.aggregator
@@ -17,11 +17,3 @@ Subpackages
    polywrap_uri_resolvers.resolvers.redirect
    polywrap_uri_resolvers.resolvers.static
    polywrap_uri_resolvers.resolvers.wrapper
-
-Module contents
----------------
-
-.. automodule:: polywrap_uri_resolvers.resolvers
-   :members:
-   :undoc-members:
-   :show-inheritance:

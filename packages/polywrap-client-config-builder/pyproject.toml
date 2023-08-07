@@ -7,13 +7,15 @@ name = "polywrap-client-config-builder"
 version = "0.1.0b3"
 description = ""
 authors = ["Media <media@polywrap.io>", "Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
 polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
 polywrap-core = {path = "../polywrap-core", develop = true}
-[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+hypothesis = "^6.76.0"
 pytest = "^7.1.2"
 pylint = "^2.15.4"
 black = "^22.10.0"
@@ -24,8 +26,10 @@ isort = "^5.10.1"
 pyright = "^1.1.275"
 pydocstyle = "^6.1.1"
 
-[tool.poetry.group.dev.dependencies]
-hypothesis = "^6.76.0"
+
+[tool.poetry.group.test.dependencies]
+polywrap-sys-config-bundle = {path = "../config-bundles/polywrap-sys-config-bundle", develop = true}
+polywrap-web3-config-bundle = {path = "../config-bundles/polywrap-web3-config-bundle", develop = true}
 
 [tool.bandit]
 exclude_dirs = ["tests"]

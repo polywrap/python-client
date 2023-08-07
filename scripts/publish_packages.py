@@ -88,6 +88,9 @@ def publish_package(package: str, version: str) -> None:
     if "plugins" in str(package_path) or "config-bundles" in str(package_path):
         subprocess.check_call(["yarn", "codegen"])
 
+    # Generate the README.rst file
+    subprocess.check_call(["poetry", "run", "python3", "scripts/generate_readme.py"])
+
     try:
         subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])
     except subprocess.CalledProcessError:

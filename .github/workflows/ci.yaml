@@ -51,6 +51,12 @@ jobs:
       - name: Config Bundle Codegen
         run: yarn codegen
         if: contains(matrix.package, 'config-bundles')
+      - name: Client Codegen
+        run: yarn codegen
+        if: endsWith(matrix.package, 'polywrap-client')
+      - name: Client Config Builder Codegen
+        run: yarn codegen
+        if: endsWith(matrix.package, 'polywrap-client-config-builder')
       - name: Typecheck
         run: poetry run tox -e typecheck
       - name: Lint

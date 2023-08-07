@@ -5,14 +5,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_uri_resolvers.resolvers.redirect.redirect_resolver
-
-Module contents
----------------
-
-.. automodule:: polywrap_uri_resolvers.resolvers.redirect
-   :members:
-   :undoc-members:
-   :show-inheritance:

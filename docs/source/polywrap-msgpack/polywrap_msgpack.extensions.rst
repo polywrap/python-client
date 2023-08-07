@@ -5,14 +5,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    polywrap_msgpack.extensions.generic_map
-
-Module contents
----------------
-
-.. automodule:: polywrap_msgpack.extensions
-   :members:
-   :undoc-members:
-   :show-inheritance:

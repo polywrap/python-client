@@ -9,7 +9,7 @@ from .uri_resolver_handler import UriResolverHandler
 
 class InvokerClient(Invoker, UriResolverHandler, Protocol):
     """InvokerClient protocol defines core set of functionalities\
-        for resolving and invoking a wrapper."""
+        for resolving and invoking an Invocable."""
 
 
 __all__ = ["InvokerClient"]
