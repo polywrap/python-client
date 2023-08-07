@@ -15,13 +15,13 @@ include = ["**/wrap.info", "**/wrap.wasm"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-core = "^0.1.0b3"
-polywrap-client-config-builder = "^0.1.0b3"
-polywrap-uri-resolvers = "^0.1.0b3"
-polywrap-manifest = "^0.1.0b3"
-polywrap-wasm = "^0.1.0b3"
-polywrap-ethereum-provider = "^0.1.0b3"
-polywrap-sys-config-bundle = "^0.1.0b3"
+polywrap-core = { path = "../../polywrap-core", develop = true }
+polywrap-client-config-builder = { path = "../../polywrap-client-config-builder", develop = true }
+polywrap-uri-resolvers =  { path = "../../polywrap-uri-resolvers", develop = true }
+polywrap-manifest = { path = "../../polywrap-manifest", develop = true }
+polywrap-wasm = { path = "../../polywrap-wasm", develop = true }
+polywrap-ethereum-provider = { path = "../../plugins/polywrap-ethereum-provider", develop = true }
+polywrap-sys-config-bundle = { path = "../polywrap-sys-config-bundle", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}

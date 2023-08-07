@@ -1067,14 +1067,14 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "jsonschema"
-version = "4.18.6"
+version = "4.19.0"
 description = "An implementation of JSON Schema validation for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jsonschema-4.18.6-py3-none-any.whl", hash = "sha256:dc274409c36175aad949c68e5ead0853aaffbe8e88c830ae66bb3c7a1728ad2d"},
-    {file = "jsonschema-4.18.6.tar.gz", hash = "sha256:ce71d2f8c7983ef75a756e568317bf54bc531dc3ad7e66a128eae0d51623d8a3"},
+    {file = "jsonschema-4.19.0-py3-none-any.whl", hash = "sha256:043dc26a3845ff09d20e4420d6012a9c91c9aa8999fa184e7efcfeccb41e32cb"},
+    {file = "jsonschema-4.19.0.tar.gz", hash = "sha256:6e1e7569ac13be8139b2dd2c21a55d350066ee3f80df06c608b398cdc6f30e8f"},
 ]
 
 [package.dependencies]
@@ -1587,8 +1587,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-manifest = "^0.1.0b3"
-polywrap-msgpack = "^0.1.0b3"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -1663,15 +1663,17 @@ version = "0.1.0b3"
 description = "WRAP manifest"
 category = "main"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_manifest-0.1.0b3-py3-none-any.whl", hash = "sha256:061948db5b4746c3334df3888b6776a4cb17e0f8e2280af6189bcad2533235a6"},
-    {file = "polywrap_manifest-0.1.0b3.tar.gz", hash = "sha256:bbf9f00a857b9dc8aeb6cb36434a01ef913f8979a16eea4cbf79d9112fbacafe"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-msgpack = ">=0.1.0b3,<0.2.0"
-pydantic = ">=1.10.2,<2.0.0"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+pydantic = "^1.10.2"
+
+[package.source]
+type = "directory"
+url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
@@ -1679,14 +1681,16 @@ version = "0.1.0b3"
 description = "WRAP msgpack encoding"
 category = "main"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_msgpack-0.1.0b3-py3-none-any.whl", hash = "sha256:0fb077ca3fd7bd66d1a58df2fce87b8376015a2d7e44dc561d9585d8edec152f"},
-    {file = "polywrap_msgpack-0.1.0b3.tar.gz", hash = "sha256:eea0a9d544dee0ea460ead0683d7303eb8f24824f8eec2af8d122d7aac00cdad"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-msgpack = ">=1.0.4,<2.0.0"
+msgpack = "^1.0.4"
+
+[package.source]
+type = "directory"
+url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
@@ -1699,9 +1703,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0b3"
-polywrap-manifest = "^0.1.0b3"
-polywrap-msgpack = "^0.1.0b3"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
