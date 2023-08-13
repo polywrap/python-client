@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-ethereum-provider"
-version = "0.1.0b3"
+version = "0.1.0b5"
 description = "Ethereum provider in python"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
@@ -15,10 +15,10 @@ include = ["polywrap_ethereum_provider/wrap/**/*"]
 python = "^3.10"
 web3 = "6.1.0"
 eth_account = "0.8.0"
-polywrap-plugin = { path = "../../polywrap-plugin", develop = true }
-polywrap-core = { path = "../../polywrap-core", develop = true }
-polywrap-msgpack = { path = "../../polywrap-msgpack", develop = true }
-polywrap-manifest = { path = "../../polywrap-manifest", develop = true }
+polywrap-plugin = "^0.1.0b5"
+polywrap-core = "^0.1.0b5"
+polywrap-msgpack = "^0.1.0b5"
+polywrap-manifest = "^0.1.0b5"
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}
