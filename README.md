@@ -2,13 +2,7 @@
 
 # Polywrap Python Client
 
-[Polywrap](https://polywrap.io) is a developer tool that enables easy integration of Web3 protocols into any application. It makes it possible for applications on any platform, written in any language, to read and write data to Web3 protocols.
-
-The Python client enables the execution of **[WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) wrappers** *(or just "wraps")* on a python environment, regardless of what language the wrapper was built in.
-
-## Working Features
-
-[Here](https://github.com/polywrap/client-test-harness) you can see which features have been implemented on each language client, and make the decision of which one to use for your project.
+[Polywrap](https://polywrap.io) is a protocol for building and executing composable wrappers for any web3 protocol. Polywrap Python Client is a Python library that allows you to easily execute Polywrap Wrappers.
 
 ## Quickstart
 
@@ -46,6 +40,10 @@ args = {
 result = client.invoke(uri=uri, method="cat", args=args, encode_result=False)
 assert result.startswith(b"<svg")
 ```
+
+## Working Features
+
+[Here](https://github.com/polywrap/client-test-harness) you can see which features have been implemented on each language client, and make the decision of which one to use for your project.
 
 ## Feedback & Contributions
 Bugs and feature requests can be made via [GitHub issues](https://github.com/polywrap/python-client/issues). Be aware that these issues are not private, so take care when providing output to make sure you are not disclosing any personal informations.
