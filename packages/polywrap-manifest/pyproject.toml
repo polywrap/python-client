@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-manifest"
-version = "0.1.0b3"
+version = "0.1.0b5"
 description = "WRAP manifest"
 authors = ["Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
@@ -12,7 +12,7 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = "^3.10"
 pydantic = "^1.10.2"
-polywrap-msgpack = { path = "../polywrap-msgpack", develop = true }
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

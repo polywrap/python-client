@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-http-plugin"
-version = "0.1.0b3"
+version = "0.1.0b5"
 description = ""
 authors = ["Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
@@ -14,10 +14,10 @@ include = ["polywrap_http_plugin/wrap/**/*"]
 [tool.poetry.dependencies]
 python = "^3.10"
 httpx = "^0.23.3"
-polywrap-plugin = { path = "../../polywrap-plugin", develop = true }
-polywrap-core = { path = "../../polywrap-core", develop = true }
-polywrap-msgpack = { path = "../../polywrap-msgpack", develop = true }
-polywrap-manifest = { path = "../../polywrap-manifest", develop = true }
+polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = {path = "../../polywrap-core", develop = true}
+polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
+polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}
