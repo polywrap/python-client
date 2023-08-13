@@ -89,7 +89,7 @@ def publish_package(package: str, version: str) -> None:
         subprocess.check_call(["yarn", "codegen"])
 
     # Generate the README.rst file
-    subprocess.check_call(["poetry", "run", "python3", "scripts/generate_readme.py"])
+    subprocess.check_call(["poetry", "run", "python3", "scripts/extract_readme.py"])
 
     try:
         subprocess.check_call(["poetry", "publish", "--build", "--username", "__token__", "--password", os.environ["POLYWRAP_BUILD_BOT_PYPI_PAT"]])
