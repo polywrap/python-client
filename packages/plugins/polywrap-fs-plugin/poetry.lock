@@ -475,7 +475,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client"
-version = "0.1.0b3"
+version = "0.1.0b5"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -483,9 +483,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-core = "^0.1.0b5"
+polywrap-manifest = "^0.1.0b5"
+polywrap-msgpack = "^0.1.0b5"
 
 [package.source]
 type = "directory"
@@ -493,7 +493,7 @@ url = "../../polywrap-client"
 
 [[package]]
 name = "polywrap-client-config-builder"
-version = "0.1.0b3"
+version = "0.1.0b5"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -501,8 +501,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
+polywrap-core = "^0.1.0b5"
+polywrap-uri-resolvers = "^0.1.0b5"
 
 [package.source]
 type = "directory"
@@ -518,8 +518,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-manifest = "^0.1.0b5"
-polywrap-msgpack = "^0.1.0b5"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -535,7 +535,7 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-msgpack = "^0.1.0b5"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 pydantic = "^1.10.2"
 
 [package.source]
@@ -563,20 +563,22 @@ name = "polywrap-plugin"
 version = "0.1.0b5"
 description = "Plugin package"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_plugin-0.1.0b5-py3-none-any.whl", hash = "sha256:80df16e9a0885bcbf463db4d6ff84fd0fde3791397d118038740963414cbab8a"},
-    {file = "polywrap_plugin-0.1.0b5.tar.gz", hash = "sha256:bb7a4f516dde07e0389377a128631faebceb4dbe58f0026d4c60fad407c897d5"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0b5,<0.2.0"
-polywrap-manifest = ">=0.1.0b5,<0.2.0"
-polywrap-msgpack = ">=0.1.0b5,<0.2.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../../polywrap-plugin"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0b3"
+version = "0.1.0b5"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -584,8 +586,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-core = "^0.1.0b5"
+polywrap-wasm = "^0.1.0b5"
 
 [package.source]
 type = "directory"
@@ -596,19 +598,17 @@ name = "polywrap-wasm"
 version = "0.1.0b5"
 description = ""
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_wasm-0.1.0b5-py3-none-any.whl", hash = "sha256:53ab5079a5725604c79cfec3627bf7af8885aa0f2331b08cc71889f1b67f5364"},
+    {file = "polywrap_wasm-0.1.0b5.tar.gz", hash = "sha256:add683a77046bfe81aee5774968d691b71f76fbbe6a9132b4fede264bf41a4ab"},
+]
 
 [package.dependencies]
-polywrap-core = "^0.1.0b5"
-polywrap-manifest = "^0.1.0b5"
-polywrap-msgpack = "^0.1.0b5"
-wasmtime = "^9.0.0"
-
-[package.source]
-type = "directory"
-url = "../../polywrap-wasm"
+polywrap-core = ">=0.1.0b5,<0.2.0"
+polywrap-manifest = ">=0.1.0b5,<0.2.0"
+polywrap-msgpack = ">=0.1.0b5,<0.2.0"
+wasmtime = ">=9.0.0,<10.0.0"
 
 [[package]]
 name = "py"
@@ -1132,4 +1132,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "1fb44a5d03bef5b776b4d8f19086fb336e7ba690f1af8c364566c49e6f27d489"
+content-hash = "d39a785988698519f40517cdb5fb3402097438585fc46f15e923cf233dac988d"
