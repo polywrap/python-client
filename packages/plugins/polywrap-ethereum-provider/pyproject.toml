@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "polywrap-ethereum-provider"
 version = "0.1.0b6"
-description = "Ethereum provider in python"
+description = "Ethereum provider plugin for Polywrap Python Client"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
 packages = [{include = "polywrap_ethereum_provider"}]

@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "polywrap-wasm"
 version = "0.1.0b6"
-description = ""
+description = "Polywrap Wasm"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
 
