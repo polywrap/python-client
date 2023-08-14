@@ -34,3 +34,21 @@ exclude_patterns = []
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# Generate necessary code for plugins
+import os
+import shutil
+import subprocess
+
+root_dir = os.path.join(os.path.dirname(__file__), "..", "..")
+
+shutil.rmtree(os.path.join(root_dir, "docs", "source", "misc"), ignore_errors=True)
+shutil.copytree(os.path.join(root_dir, "misc"), os.path.join(root_dir, "docs", "source", "misc"))
+
+subprocess.check_call(["python", "scripts/extract_readme.py"], cwd=os.path.join(root_dir, "packages", "polywrap-client"))
+shutil.copy2(os.path.join(root_dir, "packages", "polywrap-client", "README.rst"), os.path.join(root_dir, "docs", "source", "Quickstart.rst"))
+
+sys_config_dir = os.path.join(root_dir, "packages", "config-bundles", "polywrap-sys-config-bundle")
+subprocess.check_call(["yarn", "codegen"], cwd=sys_config_dir)
+
+shutil.copy2(os.path.join(root_dir, "CONTRIBUTING.rst"), os.path.join(root_dir, "docs", "source", "CONTRIBUTING.rst"))

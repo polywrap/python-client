@@ -11,6 +11,3 @@ sphinx-apidoc ../packages/plugins/polywrap-http-plugin/polywrap_http_plugin -o .
 sphinx-apidoc ../packages/plugins/polywrap-ethereum-provider/polywrap_ethereum_provider -o ./source/polywrap-ethereum-provider -e  -M -t ./source/_templates -d 2
 sphinx-apidoc ../packages/config-bundles/polywrap-sys-config-bundle/polywrap_sys_config_bundle -o ./source/polywrap-sys-config-bundle -e  -M -t ./source/_templates -d 2
 sphinx-apidoc ../packages/config-bundles/polywrap-web3-config-bundle/polywrap_web3_config_bundle -o ./source/polywrap-web3-config-bundle -e  -M -t ./source/_templates -d 2
-
-cd ../packages/polywrap-client && python scripts/extract_readme.py && cd ../../docs
-cp ../packages/polywrap-client/README.rst ./source/Quickstart.rst
