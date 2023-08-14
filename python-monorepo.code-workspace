@@ -9,6 +9,10 @@
       "path": "docs"
     },
     {
+      "name": "polywrap",
+      "path": "packages/polywrap"
+    },
+    {
       "name": "polywrap-client",
       "path": "packages/polywrap-client"
     },
