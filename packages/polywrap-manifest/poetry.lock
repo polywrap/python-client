@@ -941,7 +941,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = "WRAP msgpack encoding"
 optional = false
 python-versions = "^3.10"

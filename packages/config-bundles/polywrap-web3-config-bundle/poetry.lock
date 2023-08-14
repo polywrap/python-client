@@ -1507,7 +1507,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1525,7 +1525,7 @@ url = "../../polywrap-client"
 
 [[package]]
 name = "polywrap-client-config-builder"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1542,7 +1542,7 @@ url = "../../polywrap-client-config-builder"
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1559,7 +1559,7 @@ url = "../../polywrap-core"
 
 [[package]]
 name = "polywrap-ethereum-provider"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = "Ethereum provider in python"
 optional = false
 python-versions = "^3.10"
@@ -1580,7 +1580,7 @@ url = "../../plugins/polywrap-ethereum-provider"
 
 [[package]]
 name = "polywrap-fs-plugin"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1599,7 +1599,7 @@ url = "../../plugins/polywrap-fs-plugin"
 
 [[package]]
 name = "polywrap-http-plugin"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1619,7 +1619,7 @@ url = "../../plugins/polywrap-http-plugin"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = "WRAP manifest"
 optional = false
 python-versions = "^3.10"
@@ -1636,7 +1636,7 @@ url = "../../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = "WRAP msgpack encoding"
 optional = false
 python-versions = "^3.10"
@@ -1652,7 +1652,7 @@ url = "../../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = "Plugin package"
 optional = false
 python-versions = "^3.10"
@@ -1670,7 +1670,7 @@ url = "../../polywrap-plugin"
 
 [[package]]
 name = "polywrap-sys-config-bundle"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = "Polywrap System Client Config Bundle"
 optional = false
 python-versions = "^3.10"
@@ -1692,7 +1692,7 @@ url = "../polywrap-sys-config-bundle"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -1709,7 +1709,7 @@ url = "../../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0b5"
+version = "0.1.0b6"
 description = ""
 optional = false
 python-versions = "^3.10"
