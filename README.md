@@ -50,7 +50,7 @@ Bugs and feature requests can be made via [GitHub issues](https://github.com/pol
 
 [Pull requests](https://github.com/polywrap/python-client/pulls) are also welcome via git.
 
-New contributors should read the [contributor guide](./CONTRIBUTING.md) to get started.
+New contributors should read the [contributor guide](./CONTRIBUTING.rst) to get started.
 Folk who already have experience contributing to open source projects may not need the full guide but should still use the pull request checklist to make things easy for everyone.
 Polywrap Python Client contributors are asked to adhere to the [Python Community Code of Conduct](https://www.python.org/psf/conduct/).
 
