@@ -1,4 +1,4 @@
-polywrap_core
+Polywrap Core
 =============
 
 .. automodule:: polywrap_core

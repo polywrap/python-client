@@ -1,4 +1,4 @@
-polywrap_web3_config_bundle
+Polywrap Web3 Config Bundle
 ===========================
 
 .. automodule:: polywrap_web3_config_bundle

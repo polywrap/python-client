@@ -1,4 +1,4 @@
-polywrap_http_plugin
+Polywrap Http Plugin
 ====================
 
 .. automodule:: polywrap_http_plugin

@@ -1,4 +1,4 @@
-polywrap_wasm
+Polywrap Wasm
 =============
 
 .. automodule:: polywrap_wasm

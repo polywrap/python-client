@@ -1,4 +1,4 @@
-polywrap_sys_config_bundle
+Polywrap Sys Config Bundle
 ==========================
 
 .. automodule:: polywrap_sys_config_bundle

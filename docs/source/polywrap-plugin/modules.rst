@@ -1,4 +1,4 @@
-polywrap_plugin
+Polywrap Plugin
 ===============
 
 .. automodule:: polywrap_plugin

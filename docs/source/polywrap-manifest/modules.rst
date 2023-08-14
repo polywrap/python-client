@@ -1,4 +1,4 @@
-polywrap_manifest
+Polywrap Manifest
 =================
 
 .. automodule:: polywrap_manifest

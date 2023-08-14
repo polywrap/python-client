@@ -1,4 +1,4 @@
-polywrap_fs_plugin
+Polywrap Fs Plugin
 ==================
 
 .. automodule:: polywrap_fs_plugin

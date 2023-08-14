@@ -1,4 +1,4 @@
-polywrap_uri_resolvers
+Polywrap Uri Resolvers
 ======================
 
 .. automodule:: polywrap_uri_resolvers

@@ -1,4 +1,4 @@
-polywrap_ethereum_provider
+Polywrap Ethereum Provider
 ==========================
 
 .. automodule:: polywrap_ethereum_provider
