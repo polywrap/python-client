@@ -42,13 +42,17 @@ import subprocess
 
 root_dir = os.path.join(os.path.dirname(__file__), "..", "..")
 
-sys_config_dir = os.path.join(root_dir, "packages", "config-bundles", "polywrap-sys-config-bundle")
-subprocess.check_call(["yarn", "codegen"], cwd=sys_config_dir)
+fs_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-fs-plugin")
+http_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-http-plugin")
+ethereum_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-ethereum-provider")
+
+subprocess.check_call(["npm", "install", "-g", "yarn"], cwd=root_dir)
+subprocess.check_call(["yarn", "codegen"], cwd=fs_plugin_dir)
+subprocess.check_call(["yarn", "codegen"], cwd=http_plugin_dir)
+subprocess.check_call(["yarn", "codegen"], cwd=ethereum_plugin_dir)
 
 shutil.rmtree(os.path.join(root_dir, "docs", "source", "misc"), ignore_errors=True)
 shutil.copytree(os.path.join(root_dir, "misc"), os.path.join(root_dir, "docs", "source", "misc"))
 
-subprocess.check_call(["python", "scripts/extract_readme.py"], cwd=os.path.join(root_dir, "packages", "polywrap-client"))
 shutil.copy2(os.path.join(root_dir, "packages", "polywrap-client", "README.rst"), os.path.join(root_dir, "docs", "source", "Quickstart.rst"))
-
 shutil.copy2(os.path.join(root_dir, "CONTRIBUTING.rst"), os.path.join(root_dir, "docs", "source", "CONTRIBUTING.rst"))
