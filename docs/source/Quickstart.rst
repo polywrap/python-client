@@ -1,6 +1,14 @@
-Polywrap Client
-===============
-This package contains the implementation of polywrap python client.
+Polywrap
+========
+This package contains the Polywrap Python SDK
+
+Installation
+============
+Install the package with pip:
+
+.. code-block:: bash
+
+    pip install polywrap
 
 Quickstart
 ==========
@@ -8,11 +16,14 @@ Quickstart
 Imports
 -------
 
->>> from polywrap_core import Uri, ClientConfig
->>> from polywrap_client import PolywrapClient
->>> from polywrap_client_config_builder import PolywrapClientConfigBuilder
->>> from polywrap_sys_config_bundle import sys_bundle
->>> from polywrap_web3_config_bundle import web3_bundle
+>>> from polywrap import (
+...     Uri,
+...     ClientConfig,
+...     PolywrapClient,
+...     PolywrapClientConfigBuilder,
+...     sys_bundle,
+...     web3_bundle
+... )
 
 Configure and Instantiate
 -------------------------
