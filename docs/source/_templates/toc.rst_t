@@ -1,4 +1,4 @@
-{{ header | heading }}
+{{ " ".join((header).split("_")).title() | heading }}
 
 .. automodule:: {% for docname in docnames %}{{ docname }}{%- endfor %}
    :members:

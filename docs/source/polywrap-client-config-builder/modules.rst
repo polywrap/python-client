@@ -1,4 +1,4 @@
-polywrap_client_config_builder
+Polywrap Client Config Builder
 ==============================
 
 .. automodule:: polywrap_client_config_builder

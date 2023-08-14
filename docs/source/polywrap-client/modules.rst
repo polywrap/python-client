@@ -1,4 +1,4 @@
-polywrap_client
+Polywrap Client
 ===============
 
 .. automodule:: polywrap_client

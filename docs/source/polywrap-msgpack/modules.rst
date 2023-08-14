@@ -1,4 +1,4 @@
-polywrap_msgpack
+Polywrap Msgpack
 ================
 
 .. automodule:: polywrap_msgpack
