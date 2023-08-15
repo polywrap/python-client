@@ -1,0 +1,32 @@
+name: Examples-CI
+on:
+  push: 
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+        defaults:
+          run:
+            working-directory: ./examples
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Setup Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 'v18.16.0'
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+      - name: Install dependencies
+        run: poetry install
+      - name: Start polywrap infra
+        run: npx polywrap infra up --modules=eth-ens-ipfs
+      - name: Run tests
+        run: poetry run pytest -v
