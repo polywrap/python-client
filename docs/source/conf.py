@@ -22,11 +22,13 @@ extensions = [
   "sphinx.ext.napoleon",
   "sphinx.ext.autosummary",
   "sphinx.ext.viewcode",
+  "myst_parser",
 ]
 
 templates_path = ['_templates']
 exclude_patterns = []
 
+source_suffix = [".rst", ".md"]
 
 
 # -- Options for HTML output -------------------------------------------------

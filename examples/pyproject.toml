@@ -10,17 +10,8 @@ authors = ["Niraj <niraj@polywrap.io>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-msgpack = { path = "../packages/polywrap-msgpack", develop = true }
-polywrap-manifest = { path = "../packages/polywrap-manifest", develop = true }
-polywrap-core = { path = "../packages/polywrap-core", develop = true }
-polywrap-wasm = { path = "../packages/polywrap-wasm", develop = true }
-polywrap-plugin = { path = "../packages/polywrap-plugin", develop = true }
-polywrap-uri-resolvers = { path = "../packages/polywrap-uri-resolvers", develop = true }
-polywrap-client = { path = "../packages/polywrap-client", develop = true }
-polywrap-client-config-builder = { path = "../packages/polywrap-client-config-builder", develop = true }
-polywrap-fs-plugin = { path = "../packages/plugins/polywrap-fs-plugin", develop = true }
-polywrap-http-plugin = { path = "../packages/plugins/polywrap-http-plugin", develop = true }
-polywrap-ethereum-provider = { path = "../packages/plugins/polywrap-ethereum-provider", develop = true }
-polywrap-sys-config-bundle = { path = "../packages/config-bundles/polywrap-sys-config-bundle", develop = true }
-polywrap-web3-config-bundle = { path = "../packages/config-bundles/polywrap-web3-config-bundle", develop = true }
-# polywrap = { path = "../packages/polywrap", develop = true }
+polywrap = { path = "../packages/polywrap", develop = true }
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+markdown-pytest = "^0.3.0"

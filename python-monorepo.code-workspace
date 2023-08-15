@@ -75,9 +75,9 @@
   ],
   "settings": {
       "files.exclude": {
-        "**/packages/*": true,
-        "**/docs/*": true,
-        "**/examples/*":true,
+        "packages/*": true,
+        "docs/*": true,
+        "examples/*":true
       },
       "docify.programmingLanguage": "python",
       "docify.style": "Google",
