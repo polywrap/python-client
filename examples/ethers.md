@@ -1,4 +1,4 @@
-# Ethers Wrap Usage
+# Ethers Wrap Example
 
 This documentation demonstrates the use of `PolywrapClient`
 to interact with the Ethereum network. The objective is to retrieve

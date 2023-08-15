@@ -1,4 +1,4 @@
-# Filesystem Example
+# Filesystem Wrap Example
 
 In this document, we will walk through a Python script that uses the
 Polywrap client to interact with a filesystem. We'll go step by step

@@ -7,3 +7,5 @@ Examples
     ens.md
     ethers.md
     filesystem.md
+    http.md
+    ipfs.md

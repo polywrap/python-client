@@ -1,4 +1,4 @@
-# Ens Wrap Usage
+# Ens Wrap Example
 
 In this example, we demonstrate how to use the
 `PolywrapClient` to communicate with the Ethereum network.
