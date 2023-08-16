@@ -79,9 +79,8 @@ from web3.exceptions import TransactionNotFound
 from web3.types import RPCEndpoint
 
 from .connection import Connection
-from .networks import KnownNetwork
 from .connections import Connections
-
+from .networks import KnownNetwork
 from .wrap import (
     ArgsRequest,
     ArgsSignerAddress,
@@ -245,5 +244,5 @@ __all__ = [
     "Connection",
     "Connections",
     "KnownNetwork",
-    "EthereumProviderPlugin"
+    "EthereumProviderPlugin",
 ]
