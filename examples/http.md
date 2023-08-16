@@ -65,7 +65,7 @@ get_response = client.invoke(
     uri=Uri.from_str("wrapscan.io/polywrap/http@1.0"),
     method="get",
     args={
-        "url": "https://httpbin.org/get",
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
     },
 )
 print(get_response)
@@ -85,14 +85,17 @@ post_response = client.invoke(
     uri=Uri.from_str("wrapscan.io/polywrap/http@1.0"),
     method="post",
     args={
-        "url": "https://httpbin.org/post",
+        "url": "https://jsonplaceholder.typicode.com/posts",
         "body": {
-            "hello": "world",
+            "id": 101,
+            "userId": 101,
+            "title": "Test Title",
+            "body": "Test Body",
         },
     },
 )
 print(post_response)
-assert post_response["status"] == 200
+assert post_response["status"] == 201
 ```
 
 ## Conclusion
