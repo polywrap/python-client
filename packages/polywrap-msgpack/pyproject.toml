@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "polywrap-msgpack"
 version = "0.1.0b6"
-description = "WRAP msgpack encoding"
+description = "WRAP msgpack encoder/decoder"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
 

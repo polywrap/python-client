@@ -22,11 +22,13 @@ extensions = [
   "sphinx.ext.napoleon",
   "sphinx.ext.autosummary",
   "sphinx.ext.viewcode",
+  "myst_parser",
 ]
 
 templates_path = ['_templates']
 exclude_patterns = []
 
+source_suffix = [".rst", ".md"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -54,5 +56,5 @@ subprocess.check_call(["yarn", "codegen"], cwd=ethereum_plugin_dir)
 shutil.rmtree(os.path.join(root_dir, "docs", "source", "misc"), ignore_errors=True)
 shutil.copytree(os.path.join(root_dir, "misc"), os.path.join(root_dir, "docs", "source", "misc"))
 
-shutil.copy2(os.path.join(root_dir, "packages", "polywrap-client", "README.rst"), os.path.join(root_dir, "docs", "source", "Quickstart.rst"))
+shutil.copy2(os.path.join(root_dir, "packages", "polywrap", "README.rst"), os.path.join(root_dir, "docs", "source", "Quickstart.rst"))
 shutil.copy2(os.path.join(root_dir, "CONTRIBUTING.rst"), os.path.join(root_dir, "docs", "source", "CONTRIBUTING.rst"))

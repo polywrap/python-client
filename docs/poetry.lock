@@ -1405,9 +1405,38 @@ files = [
 regex = ">=2022.3.15"
 
 [[package]]
+name = "polywrap"
+version = "0.1.0b6"
+description = "Polywrap Python SDK"
+category = "main"
+optional = false
+python-versions = "^3.10"
+files = []
+develop = true
+
+[package.dependencies]
+polywrap-client = {path = "../polywrap-client", develop = true}
+polywrap-client-config-builder = {path = "../polywrap-client-config-builder", develop = true}
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-ethereum-provider = {path = "../plugins/polywrap-ethereum-provider", develop = true}
+polywrap-fs-plugin = {path = "../plugins/polywrap-fs-plugin", develop = true}
+polywrap-http-plugin = {path = "../plugins/polywrap-http-plugin", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-plugin = {path = "../polywrap-plugin", develop = true}
+polywrap-sys-config-bundle = {path = "../config-bundles/polywrap-sys-config-bundle", develop = true}
+polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
+polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-web3-config-bundle = {path = "../config-bundles/polywrap-web3-config-bundle", develop = true}
+
+[package.source]
+type = "directory"
+url = "../packages/polywrap"
+
+[[package]]
 name = "polywrap-client"
 version = "0.1.0b6"
-description = ""
+description = "Polywrap Client to invoke Polywrap Wrappers"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1426,7 +1455,7 @@ url = "../packages/polywrap-client"
 [[package]]
 name = "polywrap-client-config-builder"
 version = "0.1.0b6"
-description = ""
+description = "PolywrapClientConfigBuilder - A utility class for building the PolywrapClient config."
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1444,7 +1473,7 @@ url = "../packages/polywrap-client-config-builder"
 [[package]]
 name = "polywrap-core"
 version = "0.1.0b6"
-description = ""
+description = "Polywrap Core"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1462,7 +1491,7 @@ url = "../packages/polywrap-core"
 [[package]]
 name = "polywrap-ethereum-provider"
 version = "0.1.0b6"
-description = "Ethereum provider in python"
+description = "Ethereum provider plugin for Polywrap Python Client"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1484,7 +1513,7 @@ url = "../packages/plugins/polywrap-ethereum-provider"
 [[package]]
 name = "polywrap-fs-plugin"
 version = "0.1.0b6"
-description = ""
+description = "File-system plugin for Polywrap Python Client"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1504,7 +1533,7 @@ url = "../packages/plugins/polywrap-fs-plugin"
 [[package]]
 name = "polywrap-http-plugin"
 version = "0.1.0b6"
-description = ""
+description = "Http plugin for Polywrap Python Client"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1543,7 +1572,7 @@ url = "../packages/polywrap-manifest"
 [[package]]
 name = "polywrap-msgpack"
 version = "0.1.0b6"
-description = "WRAP msgpack encoding"
+description = "WRAP msgpack encoder/decoder"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1560,7 +1589,7 @@ url = "../packages/polywrap-msgpack"
 [[package]]
 name = "polywrap-plugin"
 version = "0.1.0b6"
-description = "Plugin package"
+description = "Polywrap Plugin package"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1602,7 +1631,7 @@ url = "../packages/config-bundles/polywrap-sys-config-bundle"
 [[package]]
 name = "polywrap-uri-resolvers"
 version = "0.1.0b6"
-description = ""
+description = "Polywrap URI resolvers"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1620,7 +1649,7 @@ url = "../packages/polywrap-uri-resolvers"
 [[package]]
 name = "polywrap-wasm"
 version = "0.1.0b6"
-description = ""
+description = "Polywrap Wasm"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -1640,7 +1669,7 @@ url = "../packages/polywrap-wasm"
 [[package]]
 name = "polywrap-web3-config-bundle"
 version = "0.1.0b6"
-description = "Polywrap System Client Config Bundle"
+description = "Polywrap Web3 Client Config Bundle"
 category = "main"
 optional = false
 python-versions = "^3.10"
@@ -2637,4 +2666,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "fda1279b95549623bbfad07098d2d7d52e63444ca57d7277a885e8d6f51ceadf"
+content-hash = "a39ec60f059efbd8b32f79a249f2177333f6d151dac5543425acc219231be173"

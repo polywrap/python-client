@@ -1,0 +1,17 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "polywrap-examples"
+version = "0.1.0"
+description = "Polywrap Examples"
+authors = ["Niraj <niraj@polywrap.io>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+polywrap = { path = "../packages/polywrap", develop = true }
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+markdown-pytest = "^0.3.0"

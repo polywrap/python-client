@@ -9,6 +9,14 @@
       "path": "docs"
     },
     {
+      "name": "examples",
+      "path": "examples"
+    },
+    {
+      "name": "polywrap",
+      "path": "packages/polywrap"
+    },
+    {
       "name": "polywrap-client",
       "path": "packages/polywrap-client"
     },
@@ -67,8 +75,9 @@
   ],
   "settings": {
       "files.exclude": {
-        "**/packages/*": true,
-        "**/docs/*": true
+        "packages/*": true,
+        "docs/*": true,
+        "examples/*":true
       },
       "docify.programmingLanguage": "python",
       "docify.style": "Google",

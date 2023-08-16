@@ -149,3 +149,6 @@ class FileSystemPlugin(Module[None]):
 def file_system_plugin() -> PluginPackage[None]:
     """Create a Polywrap plugin instance for interacting with EVM networks."""
     return PluginPackage(module=FileSystemPlugin(None), manifest=manifest)
+
+
+__all__ = ["file_system_plugin", "FileSystemPlugin"]

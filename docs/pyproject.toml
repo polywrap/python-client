@@ -23,6 +23,7 @@ polywrap-http-plugin = { path = "../packages/plugins/polywrap-http-plugin", deve
 polywrap-ethereum-provider = { path = "../packages/plugins/polywrap-ethereum-provider", develop = true }
 polywrap-sys-config-bundle = { path = "../packages/config-bundles/polywrap-sys-config-bundle", develop = true }
 polywrap-web3-config-bundle = { path = "../packages/config-bundles/polywrap-web3-config-bundle", develop = true }
+polywrap = { path = "../packages/polywrap", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "^6.1.3"
