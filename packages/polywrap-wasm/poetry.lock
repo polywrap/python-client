@@ -465,53 +465,47 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b6"
-description = ""
+version = "0.1.0b7"
+description = "Polywrap Core"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_core-0.1.0b7-py3-none-any.whl", hash = "sha256:0bc1d9ff32065344b96cbc8929695244e991a05f9745e6bbced95ad8288ff72f"},
+    {file = "polywrap_core-0.1.0b7.tar.gz", hash = "sha256:b55f3b0384094ad308710e8513d09042c742bf34a22d8c8603e101c27fbcd926"},
+]
 
 [package.dependencies]
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-
-[package.source]
-type = "directory"
-url = "../polywrap-core"
+polywrap-manifest = ">=0.1.0b7,<0.2.0"
+polywrap-msgpack = ">=0.1.0b7,<0.2.0"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b6"
+version = "0.1.0b7"
 description = "WRAP manifest"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_manifest-0.1.0b7-py3-none-any.whl", hash = "sha256:067366a58ccac860e222f182dc6f272d74d81a7e451baadb196c5c651e2e2b0a"},
+    {file = "polywrap_manifest-0.1.0b7.tar.gz", hash = "sha256:4c8b248ff602ad8b492bd8f953dbb33a5bec6d32b5919034774147530ebf4392"},
+]
 
 [package.dependencies]
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-pydantic = "^1.10.2"
-
-[package.source]
-type = "directory"
-url = "../polywrap-manifest"
+polywrap-msgpack = ">=0.1.0b7,<0.2.0"
+pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b6"
-description = "WRAP msgpack encoding"
+version = "0.1.0b7"
+description = "WRAP msgpack encoder/decoder"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_msgpack-0.1.0b7-py3-none-any.whl", hash = "sha256:b804762fe13d1b32508af6284e89bf77a1968e3ab8f96724fe5d5c3e0bc6426b"},
+    {file = "polywrap_msgpack-0.1.0b7.tar.gz", hash = "sha256:2fccb846c17fe9371780c815db1d487fbb79d491c5d54935634bbcf36a9f5ee4"},
+]
 
 [package.dependencies]
-msgpack = "^1.0.4"
-
-[package.source]
-type = "directory"
-url = "../polywrap-msgpack"
+msgpack = ">=1.0.4,<2.0.0"
 
 [[package]]
 name = "py"
@@ -637,13 +631,13 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pyright"
-version = "1.1.322"
+version = "1.1.323"
 description = "Command line wrapper for pyright"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.322-py3-none-any.whl", hash = "sha256:1bcddb55c4fca5d3c86eee71db0e8aad80536527f2084284998c6cbceda10e4e"},
-    {file = "pyright-1.1.322.tar.gz", hash = "sha256:c8299d8b5d8c6e6f6ea48a77bf330a6df79e23305d21d25043bba8a23c1e1ed8"},
+    {file = "pyright-1.1.323-py3-none-any.whl", hash = "sha256:23ce9eca401fda311be273784ebf128850d43a17f9e87dc299ffcdc0ffe91f75"},
+    {file = "pyright-1.1.323.tar.gz", hash = "sha256:f3029bfe96a3436a505464d28e3433fafe23ac5f86f52edab9a26cd66685825e"},
 ]
 
 [package.dependencies]
@@ -744,18 +738,18 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "68.0.0"
+version = "68.1.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "setuptools-68.0.0-py3-none-any.whl", hash = "sha256:11e52c67415a381d10d6b462ced9cfb97066179f0e871399e006c4ab101fc85f"},
-    {file = "setuptools-68.0.0.tar.gz", hash = "sha256:baf1fdb41c6da4cd2eae722e135500da913332ab3f2f5c7d33af9b492acb5235"},
+    {file = "setuptools-68.1.0-py3-none-any.whl", hash = "sha256:e13e1b0bc760e9b0127eda042845999b2f913e12437046e663b833aa96d89715"},
+    {file = "setuptools-68.1.0.tar.gz", hash = "sha256:d59c97e7b774979a5ccb96388efc9eb65518004537e85d52e81eaee89ab6dd91"},
 ]
 
 [package.extras]
-docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-hoverxref (<2)", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (==0.8.3)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
-testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[lite] (>=0.9)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pip (>=19.1)", "pip-run (>=8.8)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-mypy (>=0.9.1)", "pytest-perf", "pytest-ruff", "pytest-timeout", "pytest-xdist", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
+docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-hoverxref (<2)", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (==0.8.3)", "sphinx-reredirects", "sphinxcontrib-towncrier"]
+testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[lite] (>=0.9)", "jaraco.develop (>=7.21)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pip (>=19.1)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-perf", "pytest-ruff", "pytest-timeout", "pytest-xdist", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel"]
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
@@ -1018,4 +1012,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a659cb48995e508aa6a76d3aa64c0d2ac87aa922ad25483049b4edf08aa6f53e"
+content-hash = "d4ac095996fe10290642c4b3934e624cf31073460d076849bed461a7d83e94fd"
