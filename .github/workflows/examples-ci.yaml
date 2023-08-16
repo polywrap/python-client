@@ -28,5 +28,8 @@ jobs:
         run: poetry install
       - name: Start polywrap infra
         run: npx polywrap infra up --modules=eth-ens-ipfs
+      - name: Codegen
+        run: yarn codegen
+        working-directory: ./packages/polywrap-client
       - name: Run tests
         run: poetry run pytest -v
