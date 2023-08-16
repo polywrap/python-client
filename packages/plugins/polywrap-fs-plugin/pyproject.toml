@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "polywrap-fs-plugin"
 version = "0.1.0b6"
-description = ""
+description = "File-system plugin for Polywrap Python Client"
 authors = ["Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
 packages = [{include = "polywrap_fs_plugin"}]

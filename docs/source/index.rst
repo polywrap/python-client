@@ -13,6 +13,7 @@ Welcome to polywrap-client's documentation!
    :maxdepth: 1
    :caption: Contents:
 
+   examples/examples.rst
    CONTRIBUTING.rst
    polywrap-client/modules.rst
    polywrap-client-config-builder/modules.rst

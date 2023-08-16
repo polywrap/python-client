@@ -1,6 +1,4 @@
-Polywrap
-========
-This package contains the Polywrap Python SDK
+"""This package contains the Polywrap Python SDK.
 
 Installation
 ============
@@ -50,3 +48,17 @@ Invoke a wrapper.
 ... }
 >>> result = client.invoke(uri=uri, method="cat", args=args, encode_result=False)
 >>> assert result.startswith(b"<svg")
+"""
+from polywrap_client import *
+from polywrap_client_config_builder import *
+from polywrap_core import *
+from polywrap_ethereum_provider import *
+from polywrap_fs_plugin import *
+from polywrap_http_plugin import *
+from polywrap_manifest import *
+from polywrap_msgpack import *
+from polywrap_plugin import *
+from polywrap_sys_config_bundle import *
+from polywrap_uri_resolvers import *
+from polywrap_wasm import *
+from polywrap_web3_config_bundle import *

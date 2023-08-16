@@ -78,8 +78,9 @@ from web3._utils.threads import Timeout
 from web3.exceptions import TransactionNotFound
 from web3.types import RPCEndpoint
 
-from polywrap_ethereum_provider.connections import Connections
-
+from .connection import Connection
+from .connections import Connections
+from .networks import KnownNetwork
 from .wrap import (
     ArgsRequest,
     ArgsSignerAddress,
@@ -236,3 +237,12 @@ def ethereum_provider_plugin(connections: Connections) -> PluginPackage[Connecti
     return PluginPackage(
         module=EthereumProviderPlugin(connections=connections), manifest=manifest
     )
+
+
+__all__ = [
+    "ethereum_provider_plugin",
+    "Connection",
+    "Connections",
+    "KnownNetwork",
+    "EthereumProviderPlugin",
+]

@@ -232,3 +232,6 @@ class HttpPlugin(Module[None]):
 def http_plugin():
     """Factory function for the HTTP plugin."""
     return PluginPackage(module=HttpPlugin(), manifest=manifest)
+
+
+__all__ = ["http_plugin", "HttpPlugin"]
