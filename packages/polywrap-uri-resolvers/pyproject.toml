@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-uri-resolvers"
-version = "0.1.0b6"
+version = "0.1.0b7"
 description = "Polywrap URI resolvers"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
