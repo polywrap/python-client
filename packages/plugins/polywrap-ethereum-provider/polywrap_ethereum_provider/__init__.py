@@ -1,7 +1,7 @@
 """This package provides a Polywrap plugin for interacting with EVM networks.
 
 The Ethereum Provider plugin implements the `ethereum-provider-interface` \
-    @ `ens/wraps.eth:ethereum-provider@2.0.0 <https://app.ens.domains/name/wraps.eth/details>`__ \
+    @ `wrapscan.io/polywrap/ethereum-wallet@1.0` \
     (see `../../interface/polywrap.graphql` ). \
     It handles Ethereum wallet transaction signatures and sends JSON RPC requests \
     for the Ethereum wrapper.
@@ -25,7 +25,7 @@ Imports
 Configure Client
 ~~~~~~~~~~~~~~~~
 
->>> ethreum_provider_interface_uri = Uri.from_str("ens/wraps.eth:ethereum-provider@2.0.0")
+>>> ethreum_provider_interface_uri = Uri.from_str("wrapscan.io/polywrap/ethereum-wallet@1.0")
 >>> ethereum_provider_plugin_uri = Uri.from_str("plugin/ethereum-provider")
 >>> connections = Connections(
 ...     connections={
