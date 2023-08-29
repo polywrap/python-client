@@ -10,7 +10,7 @@ def test_http_plugin():
     client = PolywrapClient(config)
 
     response = client.invoke(
-        uri=Uri.from_str("ens/wraps.eth:http@1.1.0"),
+        uri=Uri.from_str("wrapscan.io/polywrap/http@1.0"),
         method="get",
         args={"url": "https://www.google.com"},
     )
@@ -26,7 +26,7 @@ def test_file_system_resolver():
     path_to_resolve = str(Path(__file__).parent.parent / "polywrap_sys_config_bundle" / "embeds" / "http-resolver")
 
     response = client.invoke(
-        uri=Uri.from_str("ens/wraps.eth:file-system-uri-resolver-ext@1.0.1"),
+        uri=Uri.from_str("wrapscan.io/polywrap/file-system-uri-resolver@1.0"),
         method="tryResolveUri",
         args={"authority": "fs", "path": path_to_resolve},
     )
@@ -46,7 +46,7 @@ def test_http_resolver():
     http_path = "wraps.wrapscan.io/r/polywrap/wrapscan-uri-resolver@1.0"
 
     response = client.invoke(
-        uri=Uri.from_str("ens/wraps.eth:http-uri-resolver-ext@1.0.1"),
+        uri=Uri.from_str("wrapscan.io/polywrap/http-uri-resolver@1.0"),
         method="tryResolveUri",
         args={"authority": "https", "path": http_path},
     )

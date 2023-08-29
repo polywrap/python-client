@@ -11,11 +11,12 @@ from .mock_http import create_client
 def test_simple_post():
     client = create_client()
     response: Response = client.invoke(
-        uri=Uri.from_str("plugin/http"),
+        uri=Uri.from_str("wrapper/integration"),
         method="post",
         args={
             "url": "https://example.none/todos",
             "request": {
+                "responseType": 0,
                 "body": json.dumps(
                     {
                         "title": "foo",
@@ -36,7 +37,7 @@ def test_simple_post():
 def test_binary_post():
     client = create_client()
     response: Response = client.invoke(
-        uri=Uri.from_str("plugin/http"),
+        uri=Uri.from_str("wrapper/integration"),
         method="post",
         args={
             "url": "https://example.none/todos",
