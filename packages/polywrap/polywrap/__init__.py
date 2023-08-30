@@ -52,7 +52,7 @@ Invoke a wrapper.
 from polywrap_client import *
 from polywrap_client_config_builder import *
 from polywrap_core import *
-from polywrap_ethereum_provider import *
+from polywrap_ethereum_wallet import *
 from polywrap_fs_plugin import *
 from polywrap_http_plugin import *
 from polywrap_manifest import *

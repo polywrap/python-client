@@ -46,7 +46,7 @@ root_dir = os.path.join(os.path.dirname(__file__), "..", "..")
 
 fs_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-fs-plugin")
 http_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-http-plugin")
-ethereum_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-ethereum-provider")
+ethereum_plugin_dir = os.path.join(root_dir, "packages", "plugins", "polywrap-ethereum-wallet")
 
 subprocess.check_call(["npm", "install", "-g", "yarn"], cwd=root_dir)
 subprocess.check_call(["yarn", "codegen"], cwd=fs_plugin_dir)

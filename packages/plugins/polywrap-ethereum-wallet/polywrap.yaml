@@ -3,5 +3,5 @@ project:
   name: ethereum-provider-py
   type: plugin/python
 source:
-  module: ./polywrap_ethereum_provider/__init__.py
+  module: ./polywrap_ethereum_wallet/__init__.py
   schema: ./schema.graphql

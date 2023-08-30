@@ -1561,9 +1561,9 @@ type = "directory"
 url = "../polywrap-core"
 
 [[package]]
-name = "polywrap-ethereum-provider"
+name = "polywrap-ethereum-wallet"
 version = "0.1.0b7"
-description = "Ethereum provider plugin for Polywrap Python Client"
+description = "Ethereum wallet plugin for Polywrap Python Client"
 optional = false
 python-versions = "^3.10"
 files = []
@@ -1579,7 +1579,7 @@ web3 = "6.1.0"
 
 [package.source]
 type = "directory"
-url = "../plugins/polywrap-ethereum-provider"
+url = "../plugins/polywrap-ethereum-wallet"
 
 [[package]]
 name = "polywrap-fs-plugin"
@@ -1741,7 +1741,7 @@ develop = true
 [package.dependencies]
 polywrap-client-config-builder = {path = "../../polywrap-client-config-builder", develop = true}
 polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-ethereum-provider = {path = "../../plugins/polywrap-ethereum-provider", develop = true}
+polywrap-ethereum-wallet = {path = "../../plugins/polywrap-ethereum-wallet", develop = true}
 polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
 polywrap-sys-config-bundle = {path = "../polywrap-sys-config-bundle", develop = true}
 polywrap-uri-resolvers = {path = "../../polywrap-uri-resolvers", develop = true}
@@ -2897,4 +2897,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ba65773d2d2c4191d0502478d53aeb4ecdc84068ef052ac3855cb97c53de10ae"
+content-hash = "b15ff67319891e23702184fe595f67db6d76f7d89383039512b95880e3fedb51"

@@ -1,12 +1,12 @@
 import os
 import subprocess
-import polywrap_ethereum_provider
+import polywrap_ethereum_wallet
 
 
 def extract_readme():
-    headline = polywrap_ethereum_provider.__name__.replace("_", " ").title()
+    headline = polywrap_ethereum_wallet.__name__.replace("_", " ").title()
     header = headline + "\n" + "=" * len(headline)
-    docstring = polywrap_ethereum_provider.__doc__
+    docstring = polywrap_ethereum_wallet.__doc__
     return header + "\n" + docstring
 
 

@@ -3,13 +3,13 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "polywrap-ethereum-provider"
+name = "polywrap-ethereum-wallet"
 version = "0.1.0b7"
-description = "Ethereum provider plugin for Polywrap Python Client"
+description = "Ethereum wallet plugin for Polywrap Python Client"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
-packages = [{include = "polywrap_ethereum_provider"}]
-include = ["polywrap_ethereum_provider/wrap/**/*"]
+packages = [{include = "polywrap_ethereum_wallet"}]
+include = ["polywrap_ethereum_wallet/wrap/**/*"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -40,7 +40,7 @@ exclude_dirs = ["tests"]
 
 [tool.black]
 target-version = ["py310"]
-exclude = "polywrap_ethereum_provider/wrap/*"
+exclude = "polywrap_ethereum_wallet/wrap/*"
 
 [tool.pyright]
 typeCheckingMode = "strict"
@@ -62,13 +62,13 @@ disable = [
     "unused-variable",
 ]
 ignore-paths = [
-    "polywrap_ethereum_provider/wrap"
+    "polywrap_ethereum_wallet/wrap"
 ]
 
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-skip = ["polywrap_ethereum_provider/wrap"]
+skip = ["polywrap_ethereum_wallet/wrap"]
 
 [tool.pydocstyle]
 # default

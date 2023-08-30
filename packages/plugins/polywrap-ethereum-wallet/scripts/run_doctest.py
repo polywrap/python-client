@@ -3,16 +3,16 @@ import doctest
 from typing import Any
 import unittest
 import pkgutil
-import polywrap_ethereum_provider
+import polywrap_ethereum_wallet
 
 def load_tests(loader: Any, tests: Any, ignore: Any) -> Any:
     """Load doctests and return TestSuite object."""
     modules = pkgutil.walk_packages(
-        path=polywrap_ethereum_provider.__path__,
-        prefix=f"{polywrap_ethereum_provider.__name__}.",
+        path=polywrap_ethereum_wallet.__path__,
+        prefix=f"{polywrap_ethereum_wallet.__name__}.",
         onerror=lambda x: None,
     )
-    tests.addTests(doctest.DocTestSuite(polywrap_ethereum_provider))
+    tests.addTests(doctest.DocTestSuite(polywrap_ethereum_wallet))
     for _, modname, _ in modules:
         try:
             module = __import__(modname, fromlist="dummy")

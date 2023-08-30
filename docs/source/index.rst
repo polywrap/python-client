@@ -19,7 +19,7 @@ Welcome to polywrap-client's documentation!
    polywrap-client-config-builder/modules.rst
    polywrap-fs-plugin/modules.rst
    polywrap-http-plugin/modules.rst
-   polywrap-ethereum-provider/modules.rst
+   polywrap-ethereum-wallet/modules.rst
    polywrap-sys-config-bundle/modules.rst
    polywrap-web3-config-bundle/modules.rst
    polywrap-msgpack/modules.rst

@@ -1,6 +1,6 @@
 """This package provides a Polywrap plugin for interacting with EVM networks.
 
-The Ethereum Provider plugin implements the `ethereum-provider-interface` \
+The Ethereum wallet plugin implements the `ethereum-provider-interface` \
     @ `wrapscan.io/polywrap/ethereum-wallet@1.0` \
     (see `../../interface/polywrap.graphql` ). \
     It handles Ethereum wallet transaction signatures and sends JSON RPC requests \
@@ -14,10 +14,10 @@ Imports
 
 >>> from polywrap_core import Uri
 >>> from polywrap_client import PolywrapClient
->>> from polywrap_ethereum_provider import ethereum_provider_plugin
->>> from polywrap_ethereum_provider.connection import Connection
->>> from polywrap_ethereum_provider.connections import Connections
->>> from polywrap_ethereum_provider.networks import KnownNetwork
+>>> from polywrap_ethereum_wallet import ethereum_wallet_plugin
+>>> from polywrap_ethereum_wallet.connection import Connection
+>>> from polywrap_ethereum_wallet.connections import Connections
+>>> from polywrap_ethereum_wallet.networks import KnownNetwork
 >>> from polywrap_client_config_builder import (
 ...     PolywrapClientConfigBuilder
 ... )
@@ -26,7 +26,7 @@ Configure Client
 ~~~~~~~~~~~~~~~~
 
 >>> ethreum_provider_interface_uri = Uri.from_str("wrapscan.io/polywrap/ethereum-wallet@1.0")
->>> ethereum_provider_plugin_uri = Uri.from_str("plugin/ethereum-provider")
+>>> ethereum_wallet_plugin_uri = Uri.from_str("plugin/ethereum-provider")
 >>> connections = Connections(
 ...     connections={
 ...         "sepolia": Connection.from_network(KnownNetwork.sepolia, None)
@@ -36,14 +36,14 @@ Configure Client
 >>> client_config = (
 ...     PolywrapClientConfigBuilder()
 ...     .set_package(
-...         ethereum_provider_plugin_uri,
-...         ethereum_provider_plugin(connections=connections)
+...         ethereum_wallet_plugin_uri,
+...         ethereum_wallet_plugin(connections=connections)
 ...     )
 ...     .add_interface_implementations(
 ...         ethreum_provider_interface_uri,
-...         [ethereum_provider_plugin_uri]
+...         [ethereum_wallet_plugin_uri]
 ...     )
-...     .set_redirect(ethreum_provider_interface_uri, ethereum_provider_plugin_uri)
+...     .set_redirect(ethreum_provider_interface_uri, ethereum_wallet_plugin_uri)
 ...     .build()
 ... )
 >>> client = PolywrapClient(client_config)
@@ -92,7 +92,7 @@ from .wrap import (
 )
 
 
-class EthereumProviderPlugin(Module[Connections]):
+class EthereumWalletPlugin(Module[Connections]):
     """A Polywrap plugin for interacting with EVM networks."""
 
     def __init__(self, connections: Connections):
@@ -232,17 +232,17 @@ class EthereumProviderPlugin(Module[Connections]):
             return None
 
 
-def ethereum_provider_plugin(connections: Connections) -> PluginPackage[Connections]:
+def ethereum_wallet_plugin(connections: Connections) -> PluginPackage[Connections]:
     """Create a Polywrap plugin instance for interacting with EVM networks."""
     return PluginPackage(
-        module=EthereumProviderPlugin(connections=connections), manifest=manifest
+        module=EthereumWalletPlugin(connections=connections), manifest=manifest
     )
 
 
 __all__ = [
-    "ethereum_provider_plugin",
+    "ethereum_wallet_plugin",
     "Connection",
     "Connections",
     "KnownNetwork",
-    "EthereumProviderPlugin",
+    "EthereumWalletPlugin",
 ]
