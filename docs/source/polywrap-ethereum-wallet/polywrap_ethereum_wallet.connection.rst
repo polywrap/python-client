@@ -1,7 +1,7 @@
-polywrap\_ethereum\_provider.networks module
+polywrap\_ethereum\_wallet.connection module
 ============================================
 
-.. automodule:: polywrap_ethereum_provider.networks
+.. automodule:: polywrap_ethereum_wallet.connection
    :members:
    :undoc-members:
    :show-inheritance:

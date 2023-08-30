@@ -7,10 +7,10 @@ from polywrap_client_config_builder import PolywrapClientConfigBuilder
 from polywrap_core import Uri
 from web3 import EthereumTesterProvider
 
-from polywrap_ethereum_provider import ethereum_provider_plugin
-from polywrap_ethereum_provider.connection import Connection
-from polywrap_ethereum_provider.connections import Connections
-from polywrap_ethereum_provider.networks import KnownNetwork
+from polywrap_ethereum_wallet import ethereum_wallet_plugin
+from polywrap_ethereum_wallet.connection import Connection
+from polywrap_ethereum_wallet.connections import Connections
+from polywrap_ethereum_wallet.networks import KnownNetwork
 
 
 @fixture
@@ -38,7 +38,7 @@ def client_factory(provider: Any, account: LocalAccount):
             signer=account.key if with_signer else None,  # type: ignore
         )
 
-        client_config = PolywrapClientConfigBuilder().set_package(ethereum_provider_uri, ethereum_provider_plugin(connections=connections)).build()
+        client_config = PolywrapClientConfigBuilder().set_package(ethereum_provider_uri, ethereum_wallet_plugin(connections=connections)).build()
         return PolywrapClient(client_config)
     return factory
 
