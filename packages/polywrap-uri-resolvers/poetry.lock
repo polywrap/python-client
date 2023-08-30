@@ -468,7 +468,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Client to invoke Polywrap Wrappers"
 optional = false
 python-versions = "^3.10"
@@ -486,7 +486,7 @@ url = "../polywrap-client"
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Core"
 optional = false
 python-versions = "^3.10"
@@ -503,7 +503,7 @@ url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP manifest"
 optional = false
 python-versions = "^3.10"
@@ -520,7 +520,7 @@ url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP msgpack encoder/decoder"
 optional = false
 python-versions = "^3.10"
@@ -536,7 +536,7 @@ url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Plugin package"
 optional = false
 python-versions = "^3.10"
@@ -554,7 +554,7 @@ url = "../polywrap-plugin"
 
 [[package]]
 name = "polywrap-test-cases"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Wrap Test cases for Polywrap"
 optional = false
 python-versions = "^3.10"
@@ -567,7 +567,7 @@ url = "../polywrap-test-cases"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Wasm"
 optional = false
 python-versions = "^3.10"

@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-web3-config-bundle"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Web3 Client Config Bundle"
 authors = ["Niraj <niraj@polywrap.io>"]
 readme = "README.rst"

@@ -1542,7 +1542,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Core"
 optional = false
 python-versions = "^3.10"
@@ -1559,67 +1559,61 @@ url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-ethereum-wallet"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Ethereum wallet plugin for Polywrap Python Client"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_ethereum_wallet-0.1.0b8-py3-none-any.whl", hash = "sha256:bcbfda99c96eeb07708943de0d46445edbcb99cb45f6c772616987e29c88e23b"},
+    {file = "polywrap_ethereum_wallet-0.1.0b8.tar.gz", hash = "sha256:a32167e8efa12631434c444d3a84649a1867405803aa7fe7f526444e297f72e9"},
+]
 
 [package.dependencies]
 eth_account = "0.8.0"
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
+polywrap-plugin = ">=0.1.0b8,<0.2.0"
 web3 = "6.1.0"
-
-[package.source]
-type = "directory"
-url = "../plugins/polywrap-ethereum-wallet"
 
 [[package]]
 name = "polywrap-fs-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "File-system plugin for Polywrap Python Client"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_fs_plugin-0.1.0b8-py3-none-any.whl", hash = "sha256:e11ff887bdf51ec523ac79d9475b1f4674db5acb6a925ded2ad216f6faca17cd"},
+    {file = "polywrap_fs_plugin-0.1.0b8.tar.gz", hash = "sha256:d952fe8a506f653545d41cd4ab7b4cc7ea332c426f9c64c154dfaf0db0b4d947"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
-
-[package.source]
-type = "directory"
-url = "../plugins/polywrap-fs-plugin"
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
+polywrap-plugin = ">=0.1.0b8,<0.2.0"
 
 [[package]]
 name = "polywrap-http-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Http plugin for Polywrap Python Client"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_http_plugin-0.1.0b8-py3-none-any.whl", hash = "sha256:28422ccd9503b8711abeae3192036ade918fc8f695ecbc88f2119412c5484fd0"},
+    {file = "polywrap_http_plugin-0.1.0b8.tar.gz", hash = "sha256:36e1489ec1e1c97a856d34e55eedea533ad348b46832d11d4634a2c00b68d4a7"},
+]
 
 [package.dependencies]
-httpx = "^0.23.3"
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
-
-[package.source]
-type = "directory"
-url = "../plugins/polywrap-http-plugin"
+httpx = ">=0.23.3,<0.24.0"
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
+polywrap-plugin = ">=0.1.0b8,<0.2.0"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP manifest"
 optional = false
 python-versions = "^3.10"
@@ -1636,7 +1630,7 @@ url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP msgpack encoder/decoder"
 optional = false
 python-versions = "^3.10"
@@ -1652,25 +1646,23 @@ url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Plugin package"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_plugin-0.1.0b8-py3-none-any.whl", hash = "sha256:15c2d74a3fc58f49cc50548fe60e16ff9e8a71136f1a08c999ce1eb38f259405"},
+    {file = "polywrap_plugin-0.1.0b8.tar.gz", hash = "sha256:fd84bd177f23b6ae817fe8100773f774c26efe3c5f3b150e5e8ef62c9945d276"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-
-[package.source]
-type = "directory"
-url = "../polywrap-plugin"
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
 
 [[package]]
 name = "polywrap-sys-config-bundle"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap System Client Config Bundle"
 optional = false
 python-versions = "^3.10"
@@ -1678,13 +1670,13 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-client-config-builder = {path = "../../polywrap-client-config-builder", develop = true}
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-fs-plugin = {path = "../../plugins/polywrap-fs-plugin", develop = true}
-polywrap-http-plugin = {path = "../../plugins/polywrap-http-plugin", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-uri-resolvers = {path = "../../polywrap-uri-resolvers", develop = true}
-polywrap-wasm = {path = "../../polywrap-wasm", develop = true}
+polywrap-client-config-builder = "^0.1.0b8"
+polywrap-core = "^0.1.0b8"
+polywrap-fs-plugin = "^0.1.0b8"
+polywrap-http-plugin = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-uri-resolvers = "^0.1.0b8"
+polywrap-wasm = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1692,7 +1684,7 @@ url = "../config-bundles/polywrap-sys-config-bundle"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap URI resolvers"
 optional = false
 python-versions = "^3.10"
@@ -1709,7 +1701,7 @@ url = "../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Wasm"
 optional = false
 python-versions = "^3.10"
@@ -1728,7 +1720,7 @@ url = "../polywrap-wasm"
 
 [[package]]
 name = "polywrap-web3-config-bundle"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Web3 Client Config Bundle"
 optional = false
 python-versions = "^3.10"
@@ -1736,13 +1728,13 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-client-config-builder = {path = "../../polywrap-client-config-builder", develop = true}
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-ethereum-wallet = {path = "../../plugins/polywrap-ethereum-wallet", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-sys-config-bundle = {path = "../polywrap-sys-config-bundle", develop = true}
-polywrap-uri-resolvers = {path = "../../polywrap-uri-resolvers", develop = true}
-polywrap-wasm = {path = "../../polywrap-wasm", develop = true}
+polywrap-client-config-builder = "^0.1.0b8"
+polywrap-core = "^0.1.0b8"
+polywrap-ethereum-wallet = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-sys-config-bundle = "^0.1.0b8"
+polywrap-uri-resolvers = "^0.1.0b8"
+polywrap-wasm = "^0.1.0b8"
 
 [package.source]
 type = "directory"
