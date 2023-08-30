@@ -15,8 +15,8 @@ from polywrap_core import (
     UriWrapper,
     Wrapper,
     get_env_from_resolution_path,
-    get_implementations as core_get_implementations,
 )
+from polywrap_core import get_implementations as core_get_implementations
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
 
@@ -225,16 +225,16 @@ class PolywrapClient(Client):
 
         try:
             wrapper = self.load_wrapper(uri, resolution_context=load_wrapper_context)
-        except Exception as e:
+        except Exception as err:
             resolution_context.track_step(
                 UriResolutionStep(
                     source_uri=uri,
                     result=uri,
-                    description=f"Client.load_wrapper - Error: {e.__class__.__name__}",
+                    description=f"Client.load_wrapper - Error: {err.__class__.__name__}",
                     sub_history=load_wrapper_context.get_history(),
                 )
             )
-            raise e
+            raise err
 
         wrapper_resolution_path = load_wrapper_context.get_resolution_path()
         wrapper_resolved_uri = wrapper_resolution_path[-1]
@@ -263,16 +263,16 @@ class PolywrapClient(Client):
                 resolution_context=wrapper_invoke_context,
                 client=self,
             )
-        except Exception as e:
+        except Exception as err:
             resolution_context.track_step(
                 UriResolutionStep(
                     source_uri=wrapper_resolved_uri,
                     result=wrapper_resolved_uri,
-                    description=f"Wrapper.invoke - Error: {e.__class__.__name__}",
+                    description=f"Wrapper.invoke - Error: {err.__class__.__name__}",
                     sub_history=wrapper_invoke_context.get_history(),
                 )
             )
-            raise e
+            raise err
 
         resolution_context.track_step(
             UriResolutionStep(
