@@ -689,7 +689,7 @@ url = "../../polywrap-client-config-builder"
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Core"
 optional = false
 python-versions = "^3.10"
@@ -697,8 +697,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -706,7 +706,7 @@ url = "../../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP manifest"
 optional = false
 python-versions = "^3.10"
@@ -714,7 +714,7 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-msgpack = "^0.1.0b8"
 pydantic = "^1.10.2"
 
 [package.source]
@@ -723,7 +723,7 @@ url = "../../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP msgpack encoder/decoder"
 optional = false
 python-versions = "^3.10"
@@ -739,21 +739,19 @@ url = "../../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Plugin package"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_plugin-0.1.0b8-py3-none-any.whl", hash = "sha256:15c2d74a3fc58f49cc50548fe60e16ff9e8a71136f1a08c999ce1eb38f259405"},
+    {file = "polywrap_plugin-0.1.0b8.tar.gz", hash = "sha256:fd84bd177f23b6ae817fe8100773f774c26efe3c5f3b150e5e8ef62c9945d276"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-
-[package.source]
-type = "directory"
-url = "../../polywrap-plugin"
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
 
 [[package]]
 name = "polywrap-uri-resolvers"
@@ -774,7 +772,7 @@ url = "../../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Wasm"
 optional = false
 python-versions = "^3.10"
@@ -782,9 +780,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
 wasmtime = "^9.0.0"
 
 [package.source]
@@ -1379,4 +1377,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "822b1a914f39e42b654d1b52e44a14e4dbbf426d8110a2569fd1234685ae4d91"
+content-hash = "b06fb9cda4b4b0e3d50cef248f7eb4eb04e79058baa81114053b4b2818dbe707"

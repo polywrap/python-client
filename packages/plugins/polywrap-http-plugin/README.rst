@@ -27,7 +27,7 @@ Imports
 Create a Polywrap client
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
->>> http_interface_uri = Uri.from_str("wrap://ens/wraps.eth:http@1.0.0")
+>>> http_interface_uri = Uri.from_str("wrapscan.io/polywrap/http@1.0")
 >>> http_plugin_uri = Uri.from_str("plugin/http")
 >>> config = (
 ...     PolywrapClientConfigBuilder()

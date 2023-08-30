@@ -38,7 +38,7 @@ Invoke bundled http plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 >>> response = client.invoke(
-...     uri=Uri.from_str("ens/wraps.eth:http@1.1.0"),
+...     uri=Uri.from_str("wrapscan.io/polywrap/http@1.0"),
 ...     method="get",
 ...     args={"url": "https://www.google.com"},
 ... )
