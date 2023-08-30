@@ -1542,7 +1542,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Core"
 optional = false
 python-versions = "^3.10"
@@ -1550,8 +1550,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1559,7 +1559,7 @@ url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-ethereum-wallet"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Ethereum wallet plugin for Polywrap Python Client"
 optional = false
 python-versions = "^3.10"
@@ -1568,10 +1568,10 @@ develop = true
 
 [package.dependencies]
 eth_account = "0.8.0"
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
+polywrap-plugin = "^0.1.0b8"
 web3 = "6.1.0"
 
 [package.source]
@@ -1580,7 +1580,7 @@ url = "../plugins/polywrap-ethereum-wallet"
 
 [[package]]
 name = "polywrap-fs-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "File-system plugin for Polywrap Python Client"
 optional = false
 python-versions = "^3.10"
@@ -1588,10 +1588,10 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
+polywrap-plugin = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1599,7 +1599,7 @@ url = "../plugins/polywrap-fs-plugin"
 
 [[package]]
 name = "polywrap-http-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Http plugin for Polywrap Python Client"
 optional = false
 python-versions = "^3.10"
@@ -1608,10 +1608,10 @@ develop = true
 
 [package.dependencies]
 httpx = "^0.23.3"
-polywrap-core = {path = "../../polywrap-core", develop = true}
-polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
-polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
+polywrap-plugin = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1619,7 +1619,7 @@ url = "../plugins/polywrap-http-plugin"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP manifest"
 optional = false
 python-versions = "^3.10"
@@ -1627,7 +1627,7 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-msgpack = "^0.1.0b8"
 pydantic = "^1.10.2"
 
 [package.source]
@@ -1636,37 +1636,33 @@ url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "WRAP msgpack encoder/decoder"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_msgpack-0.1.0b8-py3-none-any.whl", hash = "sha256:67d1c482d428f6401e3daa13c84dbcf208bda50e728f7df492006a6f8b21df5b"},
+    {file = "polywrap_msgpack-0.1.0b8.tar.gz", hash = "sha256:2391b31cf6ecd773519a2454756adeafcca9f7497e3fdb2b283e7d3d5b636c29"},
+]
 
 [package.dependencies]
-msgpack = "^1.0.4"
-
-[package.source]
-type = "directory"
-url = "../polywrap-msgpack"
+msgpack = ">=1.0.4,<2.0.0"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Plugin package"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_plugin-0.1.0b8-py3-none-any.whl", hash = "sha256:15c2d74a3fc58f49cc50548fe60e16ff9e8a71136f1a08c999ce1eb38f259405"},
+    {file = "polywrap_plugin-0.1.0b8.tar.gz", hash = "sha256:fd84bd177f23b6ae817fe8100773f774c26efe3c5f3b150e5e8ef62c9945d276"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-
-[package.source]
-type = "directory"
-url = "../polywrap-plugin"
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
 
 [[package]]
 name = "polywrap-sys-config-bundle"
@@ -1692,7 +1688,7 @@ url = "../config-bundles/polywrap-sys-config-bundle"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap URI resolvers"
 optional = false
 python-versions = "^3.10"
@@ -1700,8 +1696,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-wasm = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1709,7 +1705,7 @@ url = "../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Wasm"
 optional = false
 python-versions = "^3.10"
@@ -1717,9 +1713,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
 wasmtime = "^9.0.0"
 
 [package.source]
@@ -2875,4 +2871,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "09e8257386e6e50fd99da69dce4b8c8130e09d236c5f6ca6695518ee8843c155"
+content-hash = "ffc72bd9a073e81a22afb01592de6de4b1c1b62f41bd3b633640b0ea4bcd46b3"

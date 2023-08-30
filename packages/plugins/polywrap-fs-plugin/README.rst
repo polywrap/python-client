@@ -5,7 +5,7 @@ The Filesystem plugin enables wraps running within the Polywrap client    to int
 Interface
 ---------
 
-The FileSystem plugin implements an existing wrap interface at     `wrap://ens/wraps.eth:file-system@1.0.0`.
+The FileSystem plugin implements an existing wrap interface at     `wrapscan.io/polywrap/file-system@1.0`.
 
 Quickstart
 ----------
@@ -22,7 +22,7 @@ Imports
 Create a Polywrap client
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
->>> fs_interface_uri = Uri.from_str("wrap://ens/wraps.eth:file-system@1.0.0")
+>>> fs_interface_uri = Uri.from_str("wrapscan.io/polywrap/file-system@1.0")
 >>> fs_plugin_uri = Uri.from_str("plugin/file-system")
 >>> config = (
 ...     PolywrapClientConfigBuilder()
@@ -38,7 +38,7 @@ Invoke the plugin
 
 >>> path = os.path.join(os.path.dirname(__file__), "..", "pyproject.toml")
 >>> result = client.invoke(
-...     uri=Uri.from_str("wrap://ens/wraps.eth:file-system@1.0.0"),
+...     uri=Uri.from_str("wrapscan.io/polywrap/file-system@1.0"),
 ...     method="readFile",
 ...     args={
 ...         "path": path,
