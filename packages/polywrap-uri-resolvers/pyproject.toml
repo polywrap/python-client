@@ -11,8 +11,8 @@ readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-wasm = "^0.1.0b8"
-polywrap-core = "^0.1.0b8"
+polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-core = {path = "../polywrap-core", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../polywrap-client", develop = true}

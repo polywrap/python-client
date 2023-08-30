@@ -1461,7 +1461,7 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "polywrap-client"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap Client to invoke Polywrap Wrappers"
 optional = false
 python-versions = "^3.10"
@@ -1469,9 +1469,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-manifest = "^0.1.0b8"
+polywrap-msgpack = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1479,7 +1479,7 @@ url = "../../polywrap-client"
 
 [[package]]
 name = "polywrap-client-config-builder"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "PolywrapClientConfigBuilder - A utility class for building the PolywrapClient config."
 optional = false
 python-versions = "^3.10"
@@ -1487,8 +1487,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-uri-resolvers = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1504,8 +1504,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-manifest = "^0.1.0b8"
-polywrap-msgpack = "^0.1.0b8"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -1521,7 +1521,7 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-msgpack = "^0.1.0b8"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 pydantic = "^1.10.2"
 
 [package.source]
@@ -1549,20 +1549,22 @@ name = "polywrap-plugin"
 version = "0.1.0b8"
 description = "Polywrap Plugin package"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_plugin-0.1.0b8-py3-none-any.whl", hash = "sha256:15c2d74a3fc58f49cc50548fe60e16ff9e8a71136f1a08c999ce1eb38f259405"},
-    {file = "polywrap_plugin-0.1.0b8.tar.gz", hash = "sha256:fd84bd177f23b6ae817fe8100773f774c26efe3c5f3b150e5e8ef62c9945d276"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0b8,<0.2.0"
-polywrap-manifest = ">=0.1.0b8,<0.2.0"
-polywrap-msgpack = ">=0.1.0b8,<0.2.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../../polywrap-plugin"
 
 [[package]]
 name = "polywrap-uri-resolvers"
-version = "0.1.0b7"
+version = "0.1.0b8"
 description = "Polywrap URI resolvers"
 optional = false
 python-versions = "^3.10"
@@ -1570,8 +1572,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-core = "^0.1.0b8"
+polywrap-wasm = "^0.1.0b8"
 
 [package.source]
 type = "directory"
@@ -1582,19 +1584,17 @@ name = "polywrap-wasm"
 version = "0.1.0b8"
 description = "Polywrap Wasm"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_wasm-0.1.0b8-py3-none-any.whl", hash = "sha256:dac8431308fc42c874b40d7fccf9a3df3519bea395e90b7329119185a1cc1037"},
+    {file = "polywrap_wasm-0.1.0b8.tar.gz", hash = "sha256:ac99cf658a8a53a88d49cbf03f55e2e4173973d49a7834b8d3e977b7d3062c14"},
+]
 
 [package.dependencies]
-polywrap-core = "^0.1.0b8"
-polywrap-manifest = "^0.1.0b8"
-polywrap-msgpack = "^0.1.0b8"
-wasmtime = "^9.0.0"
-
-[package.source]
-type = "directory"
-url = "../../polywrap-wasm"
+polywrap-core = ">=0.1.0b8,<0.2.0"
+polywrap-manifest = ">=0.1.0b8,<0.2.0"
+polywrap-msgpack = ">=0.1.0b8,<0.2.0"
+wasmtime = ">=9.0.0,<10.0.0"
 
 [[package]]
 name = "protobuf"
@@ -2699,4 +2699,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b175b8febe9464d4e82b245c2ac96b41cf03ce39036689be9e28f316af62c817"
+content-hash = "4d6a9441baad73bdc882c7ad6ca63c516a67279e3a796bf868c2ceb2e543cdd8"
