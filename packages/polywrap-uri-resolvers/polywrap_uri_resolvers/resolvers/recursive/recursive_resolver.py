@@ -45,7 +45,7 @@ class RecursiveResolver(UriResolver):
             UriPackageOrWrapper: The resolved URI.
         """
         if resolution_context.is_resolving(uri):
-            raise InfiniteLoopError(uri, resolution_context.get_history())
+            raise InfiniteLoopError(uri)
 
         resolution_context.start_resolving(uri)
 
