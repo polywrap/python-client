@@ -42,7 +42,7 @@ def create_client():
         PolywrapClientConfigBuilder()
         .set_package(Uri.from_str("plugin/http"), http_plugin())
         .set_redirect(
-            Uri.from_str("wrap://ens/wraps.eth:http@1.1.0"), Uri.from_str("plugin/http")
+            Uri.from_str("wrapscan.io/polywrap/http@1.0"), Uri.from_str("plugin/http")
         )
         .set_redirect(Uri.from_str("wrapper/integration"), wrapper_uri)
         .add_resolver(FsUriResolver(SimpleFileReader()))

@@ -14,10 +14,10 @@ include = ["polywrap_http_plugin/wrap/**/*"]
 [tool.poetry.dependencies]
 python = "^3.10"
 httpx = "^0.23.3"
-polywrap-plugin = "^0.1.0b7"
-polywrap-core = "^0.1.0b7"
-polywrap-msgpack = "^0.1.0b7"
-polywrap-manifest = "^0.1.0b7"
+polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = {path = "../../polywrap-core", develop = true}
+polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
+polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}

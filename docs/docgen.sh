@@ -8,6 +8,6 @@ sphinx-apidoc ../packages/polywrap-client/polywrap_client -o ./source/polywrap-c
 sphinx-apidoc ../packages/polywrap-client-config-builder/polywrap_client_config_builder -o ./source/polywrap-client-config-builder -e  -M -t ./source/_templates -d 2
 sphinx-apidoc ../packages/plugins/polywrap-fs-plugin/polywrap_fs_plugin -o ./source/polywrap-fs-plugin -e  -M -t ./source/_templates -d 2
 sphinx-apidoc ../packages/plugins/polywrap-http-plugin/polywrap_http_plugin -o ./source/polywrap-http-plugin -e  -M -t ./source/_templates -d 2
-sphinx-apidoc ../packages/plugins/polywrap-ethereum-provider/polywrap_ethereum_provider -o ./source/polywrap-ethereum-provider -e  -M -t ./source/_templates -d 2
+sphinx-apidoc ../packages/plugins/polywrap-ethereum-wallet/polywrap_ethereum_wallet -o ./source/polywrap-ethereum-wallet -e  -M -t ./source/_templates -d 2
 sphinx-apidoc ../packages/config-bundles/polywrap-sys-config-bundle/polywrap_sys_config_bundle -o ./source/polywrap-sys-config-bundle -e  -M -t ./source/_templates -d 2
 sphinx-apidoc ../packages/config-bundles/polywrap-web3-config-bundle/polywrap_web3_config_bundle -o ./source/polywrap-web3-config-bundle -e  -M -t ./source/_templates -d 2

@@ -20,7 +20,7 @@ polywrap-client = { path = "../packages/polywrap-client", develop = true }
 polywrap-client-config-builder = { path = "../packages/polywrap-client-config-builder", develop = true }
 polywrap-fs-plugin = { path = "../packages/plugins/polywrap-fs-plugin", develop = true }
 polywrap-http-plugin = { path = "../packages/plugins/polywrap-http-plugin", develop = true }
-polywrap-ethereum-provider = { path = "../packages/plugins/polywrap-ethereum-provider", develop = true }
+polywrap-ethereum-wallet = { path = "../packages/plugins/polywrap-ethereum-wallet", develop = true }
 polywrap-sys-config-bundle = { path = "../packages/config-bundles/polywrap-sys-config-bundle", develop = true }
 polywrap-web3-config-bundle = { path = "../packages/config-bundles/polywrap-web3-config-bundle", develop = true }
 polywrap = { path = "../packages/polywrap", develop = true }

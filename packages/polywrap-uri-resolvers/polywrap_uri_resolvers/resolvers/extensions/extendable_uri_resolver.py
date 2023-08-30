@@ -27,6 +27,7 @@ class ExtendableUriResolver(UriResolverAggregatorBase):
     DEFAULT_EXT_INTERFACE_URIS = [
         Uri.from_str("wrap://ens/wraps.eth:uri-resolver-ext@1.1.0"),
         Uri.from_str("wrap://ens/wraps.eth:uri-resolver-ext@1.0.0"),
+        Uri.from_str("wrapscan.io/polywrap/uri-resolver@1.0"),
     ]
     """The default list of extension interface uris."""
 

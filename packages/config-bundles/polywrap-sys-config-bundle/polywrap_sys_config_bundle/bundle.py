@@ -20,24 +20,20 @@ sys_bundle: Dict[str, BundlePackage] = {
         package=http_plugin(),
         implements=[
             Uri.from_str("wrapscan.io/polywrap/http@1.0"),
-            Uri.from_str("ens/wraps.eth:http@1.1.0"),
-            Uri.from_str("ens/wraps.eth:http@1.0.0"),
         ],
         redirects_from=[
             Uri.from_str("wrapscan.io/polywrap/http@1.0"),
-            Uri.from_str("ens/wraps.eth:http@1.1.0"),
-            Uri.from_str("ens/wraps.eth:http@1.0.0"),
         ],
     ),
     "http_resolver": BundlePackage(
         uri=Uri.from_str("embed/http-uri-resolver-ext@1.0.1"),
         package=get_embedded_wrap("http-resolver"),
         implements=[
-            Uri.from_str("ens/wraps.eth:http-uri-resolver-ext@1.0.1"),
+            Uri.from_str("wrapscan.io/polywrap/http-uri-resolver@1.0"),
             *ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
         ],
         redirects_from=[
-            Uri.from_str("ens/wraps.eth:http-uri-resolver-ext@1.0.1"),
+            Uri.from_str("wrapscan.io/polywrap/http-uri-resolver@1.0"),
         ],
     ),
     "wrapscan_resolver": BundlePackage(
@@ -51,18 +47,18 @@ sys_bundle: Dict[str, BundlePackage] = {
     "ipfs_http_client": BundlePackage(
         uri=Uri.from_str("embed/ipfs-http-client@1.0.0"),
         package=get_embedded_wrap("ipfs-http-client"),
-        implements=[Uri.from_str("ens/wraps.eth:ipfs-http-client@1.0.0")],
-        redirects_from=[Uri.from_str("ens/wraps.eth:ipfs-http-client@1.0.0")],
+        implements=[Uri.from_str("wrapscan.io/polywrap/ipfs-http-client@1.0")],
+        redirects_from=[Uri.from_str("wrapscan.io/polywrap/ipfs-http-client@1.0")],
     ),
     "ipfs_resolver": BundlePackage(
         uri=Uri.from_str("embed/sync-ipfs-uri-resolver-ext@1.0.1"),
         package=get_embedded_wrap("ipfs-sync-resolver"),
         implements=[
-            Uri.from_str("ens/wraps.eth:sync-ipfs-uri-resolver-ext@1.0.1"),
+            Uri.from_str("wrapscan.io/polywrap/sync-ipfs-uri-resolver@1.0"),
             *ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
         ],
         redirects_from=[
-            Uri.from_str("ens/wraps.eth:sync-ipfs-uri-resolver-ext@1.0.1"),
+            Uri.from_str("wrapscan.io/polywrap/sync-ipfs-uri-resolver@1.0"),
         ],
         env={
             "provider": ipfs_providers[0],
@@ -77,18 +73,18 @@ sys_bundle: Dict[str, BundlePackage] = {
     "file_system": BundlePackage(
         uri=Uri.from_str("plugin/file-system@1.0.0"),
         package=file_system_plugin(),
-        implements=[Uri.from_str("ens/wraps.eth:file-system@1.0.0")],
-        redirects_from=[Uri.from_str("ens/wraps.eth:file-system@1.0.0")],
+        implements=[Uri.from_str("wrapscan.io/polywrap/file-system@1.0")],
+        redirects_from=[Uri.from_str("wrapscan.io/polywrap/file-system@1.0")],
     ),
     "file_system_resolver": BundlePackage(
         uri=Uri.from_str("embed/file-system-uri-resolver-ext@1.0.1"),
         package=get_embedded_wrap("file-system-resolver"),
         implements=[
-            Uri.from_str("ens/wraps.eth:file-system-uri-resolver-ext@1.0.1"),
+            Uri.from_str("wrapscan.io/polywrap/file-system-uri-resolver@1.0"),
             *ExtendableUriResolver.DEFAULT_EXT_INTERFACE_URIS,
         ],
         redirects_from=[
-            Uri.from_str("ens/wraps.eth:file-system-uri-resolver-ext@1.0.1")
+            Uri.from_str("wrapscan.io/polywrap/file-system-uri-resolver@1.0")
         ],
     ),
 }

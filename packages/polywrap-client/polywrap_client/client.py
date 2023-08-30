@@ -20,7 +20,7 @@ from polywrap_core import get_implementations as core_get_implementations
 from polywrap_manifest import AnyWrapManifest, DeserializeManifestOptions
 from polywrap_msgpack import msgpack_decode, msgpack_encode
 
-from polywrap_client.errors import WrapNotFoundError
+from .errors import WrapNotFoundError
 
 
 class PolywrapClient(Client):
@@ -222,7 +222,20 @@ class PolywrapClient(Client):
         """
         resolution_context = resolution_context or UriResolutionContext()
         load_wrapper_context = resolution_context.create_sub_history_context()
-        wrapper = self.load_wrapper(uri, resolution_context=load_wrapper_context)
+
+        try:
+            wrapper = self.load_wrapper(uri, resolution_context=load_wrapper_context)
+        except Exception as err:
+            resolution_context.track_step(
+                UriResolutionStep(
+                    source_uri=uri,
+                    result=uri,
+                    description=f"Client.load_wrapper - Error: {err.__class__.__name__}",
+                    sub_history=load_wrapper_context.get_history(),
+                )
+            )
+            raise err
+
         wrapper_resolution_path = load_wrapper_context.get_resolution_path()
         wrapper_resolved_uri = wrapper_resolution_path[-1]
 
@@ -241,14 +254,25 @@ class PolywrapClient(Client):
 
         wrapper_invoke_context = resolution_context.create_sub_history_context()
 
-        invocable_result = wrapper.invoke(
-            uri=wrapper_resolved_uri,
-            method=method,
-            args=args,
-            env=env,
-            resolution_context=wrapper_invoke_context,
-            client=self,
-        )
+        try:
+            invocable_result = wrapper.invoke(
+                uri=wrapper_resolved_uri,
+                method=method,
+                args=args,
+                env=env,
+                resolution_context=wrapper_invoke_context,
+                client=self,
+            )
+        except Exception as err:
+            resolution_context.track_step(
+                UriResolutionStep(
+                    source_uri=wrapper_resolved_uri,
+                    result=wrapper_resolved_uri,
+                    description=f"Wrapper.invoke - Error: {err.__class__.__name__}",
+                    sub_history=wrapper_invoke_context.get_history(),
+                )
+            )
+            raise err
 
         resolution_context.track_step(
             UriResolutionStep(

@@ -3,6 +3,7 @@ from polywrap_core import (
     ClientConfig,
     Uri,
     UriResolutionContext,
+    build_clean_uri_history,
 )
 from polywrap_uri_resolvers import (
     ExtendableUriResolver,
@@ -10,6 +11,7 @@ from polywrap_uri_resolvers import (
     UriResolverAggregator,
     UriResolverExtensionError,
 )
+import json
 import pytest
 
 
@@ -42,3 +44,6 @@ def test_can_resolve_uri_with_plugin_extension(client: PolywrapClient) -> None:
         client.try_resolve_uri(
             uri=source_uri, resolution_context=resolution_context
         )
+
+    from .histories.not_found_extension import EXPECTED
+    assert build_clean_uri_history(resolution_context.get_history()) == EXPECTED

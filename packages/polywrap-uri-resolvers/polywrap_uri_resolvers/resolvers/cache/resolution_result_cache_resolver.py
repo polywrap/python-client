@@ -84,23 +84,25 @@ class ResolutionResultCacheResolver(UriResolver):
         sub_context = resolution_context.create_sub_history_context()
         result: UriPackageOrWrapper
 
-        if self.cache_errors:
-            try:
-                result = self.resolver_to_cache.try_resolve_uri(
-                    uri,
-                    client,
-                    sub_context,
-                )
-            except UriResolutionError as error:
-                self.cache.set(uri, error)
-                raise error
-        else:
+        try:
             result = self.resolver_to_cache.try_resolve_uri(
                 uri,
                 client,
                 sub_context,
             )
             self.cache.set(uri, result)
+        except UriResolutionError as error:
+            if self.cache_errors:
+                self.cache.set(uri, error)
+            resolution_context.track_step(
+                UriResolutionStep(
+                    source_uri=uri,
+                    result=uri,
+                    sub_history=sub_context.get_history(),
+                    description="ResolutionResultCacheResolver - Error",
+                )
+            )
+            raise error
 
         resolution_context.track_step(
             UriResolutionStep(

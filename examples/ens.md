@@ -15,7 +15,7 @@ from polywrap import (
     Uri,
     PolywrapClient,
     PolywrapClientConfigBuilder,
-    ethereum_provider_plugin,
+    ethereum_wallet_plugin,
     Connections,
     Connection,
     sys_bundle
@@ -52,7 +52,7 @@ connections = Connections({
     "mainnet": mainnet_connection,
 }, default_network="mainnet")
 
-wallet_plugin = ethereum_provider_plugin(connections)
+wallet_plugin = ethereum_wallet_plugin(connections)
 builder.set_package(Uri.from_str("wrapscan.io/polywrap/ethereum-wallet@1.0"), wallet_plugin)
 config = builder.build()
 client = PolywrapClient(config)

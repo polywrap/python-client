@@ -1,6 +1,6 @@
 Polywrap
 ========
-This package contains the Polywrap Python SDK
+This package contains the Polywrap Python SDK.
 
 Installation
 ============
