@@ -13,7 +13,8 @@ from polywrap_core import (
     UriResolver,
     UriWrapper,
 )
-from polywrap_uri_resolvers import UriResolutionError
+
+from ...errors import UriResolutionError
 
 
 class UriResolverAggregatorBase(UriResolver, ABC):
@@ -59,13 +60,18 @@ class UriResolverAggregatorBase(UriResolver, ABC):
 
         for resolver in self.get_resolvers(client, sub_context):
             try:
-                uri_package_or_wrapper = resolver.try_resolve_uri(uri, client, sub_context)
-            except Exception as e:
+                uri_package_or_wrapper = resolver.try_resolve_uri(
+                    uri, client, sub_context
+                )
+            except UriResolutionError as e:
                 step = UriResolutionStep(
                     source_uri=uri,
                     result=uri,
                     sub_history=sub_context.get_history(),
-                    description=self.get_step_description(),
+                    description=(
+                        f"{self.get_step_description()} - Error: "
+                        f"Failed to resolve uri: {uri}"
+                    ),
                 )
                 resolution_context.track_step(step)
                 raise e

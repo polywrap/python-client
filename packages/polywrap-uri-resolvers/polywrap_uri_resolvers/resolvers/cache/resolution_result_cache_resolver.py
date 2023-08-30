@@ -99,7 +99,7 @@ class ResolutionResultCacheResolver(UriResolver):
                     source_uri=uri,
                     result=uri,
                     sub_history=sub_context.get_history(),
-                    description="ResolutionResultCacheResolver",
+                    description="ResolutionResultCacheResolver - Error",
                 )
             )
             raise error

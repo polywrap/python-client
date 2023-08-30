@@ -104,11 +104,36 @@ class ExtensionWrapperUriResolver(UriResolver):
 
             return uri_package_or_wrapper
         except WrapError as err:
+            resolution_context.track_step(
+                UriResolutionStep(
+                    source_uri=uri,
+                    result=uri,
+                    description=(
+                        f"{self.get_step_description()} - Error: "
+                        f"Failed to resolve uri: {uri}, using extension resolver: "
+                        f"({self.extension_wrapper_uri})"
+                    ),
+                    sub_history=sub_context.get_history(),
+                )
+            )
             raise UriResolverExtensionError(
                 f"Failed to resolve uri: {uri}, using extension resolver: "
                 f"({self.extension_wrapper_uri})"
             ) from err
         except InfiniteLoopError as err:
+            resolution_context.track_step(
+                UriResolutionStep(
+                    source_uri=uri,
+                    result=uri,
+                    description=(
+                        f"{self.get_step_description()} - Error: "
+                        f"Infinite loop detected when resolving uri: {uri}, "
+                        f"using extension resolver: ({self.extension_wrapper_uri})"
+                    ),
+                    sub_history=sub_context.get_history(),
+                )
+            )
+
             if err.uri == self.extension_wrapper_uri:
                 raise UriResolverExtensionNotFoundError(
                     self.extension_wrapper_uri
