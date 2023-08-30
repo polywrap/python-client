@@ -6,14 +6,23 @@
 
 ## Quickstart
 
+### Install the package
+
+```bash
+pip install polywrap
+```
+
 ### Import necessary packages
 
 ```python
-from polywrap_core import Uri, ClientConfig
-from polywrap_client import PolywrapClient
-from polywrap_client_config_builder import PolywrapClientConfigBuilder
-from polywrap_sys_config_bundle import sys_bundle
-from polywrap_web3_config_bundle import web3_bundle
+from polywrap import (
+    Uri,
+    ClientConfig,
+    PolywrapClient,
+    PolywrapClientConfigBuilder,
+    sys_bundle,
+    web3_bundle
+)
 ```
 
 ### Configure and Instantiate the client
