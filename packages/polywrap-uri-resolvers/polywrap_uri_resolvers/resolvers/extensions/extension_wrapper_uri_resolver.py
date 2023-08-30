@@ -111,7 +111,7 @@ class ExtensionWrapperUriResolver(UriResolver):
         except InfiniteLoopError as err:
             if err.uri == self.extension_wrapper_uri:
                 raise UriResolverExtensionNotFoundError(
-                    self.extension_wrapper_uri, sub_context.get_history()
+                    self.extension_wrapper_uri
                 ) from err
             raise err
 
