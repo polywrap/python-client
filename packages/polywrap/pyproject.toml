@@ -11,19 +11,19 @@ readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-msgpack = "^0.1.0b8"
-polywrap-manifest = "^0.1.0b8"
-polywrap-core = "^0.1.0b8"
-polywrap-wasm = "^0.1.0b8"
-polywrap-plugin = "^0.1.0b8"
-polywrap-uri-resolvers = "^0.1.0b8"
-polywrap-client = "^0.1.0b8"
-polywrap-client-config-builder = "^0.1.0b8"
-polywrap-fs-plugin = "^0.1.0b8"
-polywrap-http-plugin = "^0.1.0b8"
-polywrap-ethereum-wallet = "^0.1.0b8"
-polywrap-sys-config-bundle = "^0.1.0b8"
-polywrap-web3-config-bundle = "^0.1.0b8"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-wasm = {path = "../polywrap-wasm", develop = true}
+polywrap-plugin = {path = "../polywrap-plugin", develop = true}
+polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
+polywrap-client = {path = "../polywrap-client", develop = true}
+polywrap-client-config-builder = {path = "../polywrap-client-config-builder", develop = true}
+polywrap-fs-plugin = {path = "../plugins/polywrap-fs-plugin", develop = true}
+polywrap-http-plugin = {path = "../plugins/polywrap-http-plugin", develop = true}
+polywrap-ethereum-wallet = {path = "../plugins/polywrap-ethereum-wallet", develop = true}
+polywrap-sys-config-bundle = {path = "../config-bundles/polywrap-sys-config-bundle", develop = true}
+polywrap-web3-config-bundle = {path = "../config-bundles/polywrap-web3-config-bundle", develop = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
