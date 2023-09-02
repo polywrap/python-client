@@ -915,13 +915,13 @@ smmap = ">=3.0.1,<6"
 
 [[package]]
 name = "gitpython"
-version = "3.1.32"
+version = "3.1.34"
 description = "GitPython is a Python library used to interact with Git repositories"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "GitPython-3.1.32-py3-none-any.whl", hash = "sha256:e3d59b1c2c6ebb9dfa7a184daf3b6dd4914237e7488a1730a6d8f6f5d0b4187f"},
-    {file = "GitPython-3.1.32.tar.gz", hash = "sha256:8d9b8cb1e80b9735e8717c9362079d3ce4c6e5ddeebedd0361b228c3a67a62f6"},
+    {file = "GitPython-3.1.34-py3-none-any.whl", hash = "sha256:5d3802b98a3bae1c2b8ae0e1ff2e4aa16bcdf02c145da34d092324f599f01395"},
+    {file = "GitPython-3.1.34.tar.gz", hash = "sha256:85f7d365d1f6bf677ae51039c1ef67ca59091c7ebd5a3509aa399d4eda02d6dd"},
 ]
 
 [package.dependencies]
@@ -1469,9 +1469,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0b8"
-polywrap-manifest = "^0.1.0b8"
-polywrap-msgpack = "^0.1.0b8"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -1487,8 +1487,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0b8"
-polywrap-uri-resolvers = "^0.1.0b8"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-uri-resolvers = {path = "../polywrap-uri-resolvers", develop = true}
 
 [package.source]
 type = "directory"
@@ -1496,7 +1496,7 @@ url = "../../polywrap-client-config-builder"
 
 [[package]]
 name = "polywrap-core"
-version = "0.1.0b8"
+version = "0.1.0"
 description = "Polywrap Core"
 optional = false
 python-versions = "^3.10"
@@ -1504,8 +1504,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-manifest = "^0.1.0"
+polywrap-msgpack = "^0.1.0"
 
 [package.source]
 type = "directory"
@@ -1513,7 +1513,7 @@ url = "../../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
-version = "0.1.0b8"
+version = "0.1.0"
 description = "WRAP manifest"
 optional = false
 python-versions = "^3.10"
@@ -1521,7 +1521,7 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+polywrap-msgpack = "^0.1.0"
 pydantic = "^1.10.2"
 
 [package.source]
@@ -1530,7 +1530,7 @@ url = "../../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
-version = "0.1.0b8"
+version = "0.1.1"
 description = "WRAP msgpack encoder/decoder"
 optional = false
 python-versions = "^3.10"
@@ -1546,21 +1546,19 @@ url = "../../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
-version = "0.1.0b8"
+version = "0.1.0"
 description = "Polywrap Plugin package"
 optional = false
-python-versions = "^3.10"
-files = []
-develop = true
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "polywrap_plugin-0.1.0-py3-none-any.whl", hash = "sha256:455f5da1abdcd5ea3897c6572812352e9dcf838c499bad38b3de4b8abc477ba8"},
+    {file = "polywrap_plugin-0.1.0.tar.gz", hash = "sha256:b4d78eccea1191e8bd521d2f76417184db1fb8bf85245dc7c782620fc417a1cf"},
+]
 
 [package.dependencies]
-polywrap-core = {path = "../polywrap-core", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-
-[package.source]
-type = "directory"
-url = "../../polywrap-plugin"
+polywrap-core = ">=0.1.0,<0.2.0"
+polywrap-manifest = ">=0.1.0,<0.2.0"
+polywrap-msgpack = ">=0.1.0,<0.2.0"
 
 [[package]]
 name = "polywrap-uri-resolvers"
@@ -1572,8 +1570,8 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0b8"
-polywrap-wasm = "^0.1.0b8"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-wasm = {path = "../polywrap-wasm", develop = true}
 
 [package.source]
 type = "directory"
@@ -1581,20 +1579,22 @@ url = "../../polywrap-uri-resolvers"
 
 [[package]]
 name = "polywrap-wasm"
-version = "0.1.0b8"
+version = "0.1.0"
 description = "Polywrap Wasm"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_wasm-0.1.0b8-py3-none-any.whl", hash = "sha256:dac8431308fc42c874b40d7fccf9a3df3519bea395e90b7329119185a1cc1037"},
-    {file = "polywrap_wasm-0.1.0b8.tar.gz", hash = "sha256:ac99cf658a8a53a88d49cbf03f55e2e4173973d49a7834b8d3e977b7d3062c14"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0b8,<0.2.0"
-polywrap-manifest = ">=0.1.0b8,<0.2.0"
-polywrap-msgpack = ">=0.1.0b8,<0.2.0"
-wasmtime = ">=9.0.0,<10.0.0"
+polywrap-core = "^0.1.0"
+polywrap-manifest = "^0.1.0"
+polywrap-msgpack = "^0.1.0"
+wasmtime = "^9.0.0"
+
+[package.source]
+type = "directory"
+url = "../../polywrap-wasm"
 
 [[package]]
 name = "protobuf"
@@ -1783,13 +1783,13 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pyright"
-version = "1.1.324"
+version = "1.1.325"
 description = "Command line wrapper for pyright"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.324-py3-none-any.whl", hash = "sha256:0edb712afbbad474e347de12ca1bd9368aa85d3365a1c7b795012e48e6a65111"},
-    {file = "pyright-1.1.324.tar.gz", hash = "sha256:0c48e3bca3d081bba0dddd0c1f075aaa965c59bba691f7b9bd9d73a98e44e0cf"},
+    {file = "pyright-1.1.325-py3-none-any.whl", hash = "sha256:8f3ab88ba4843f053ab5b5c886d676161aba6f446776bfb57cc0434ed4d88672"},
+    {file = "pyright-1.1.325.tar.gz", hash = "sha256:879a3f66944ffd59d3facd54872fed814830fed64daf3e8eb71b146ddd83bb67"},
 ]
 
 [package.dependencies]
@@ -2699,4 +2699,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4d6a9441baad73bdc882c7ad6ca63c516a67279e3a796bf868c2ceb2e543cdd8"
+content-hash = "cdc630bf75a99b170d1312b98cfe209f6e4d86959f95d54649ec9e0d004fd864"
