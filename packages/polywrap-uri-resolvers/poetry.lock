@@ -476,9 +476,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0"
-polywrap-manifest = "^0.1.0"
-polywrap-msgpack = "^0.1.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -489,44 +489,50 @@ name = "polywrap-core"
 version = "0.1.0"
 description = "Polywrap Core"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_core-0.1.0-py3-none-any.whl", hash = "sha256:41072bec9792a198297c15b937a62155fb9760df27dfb787f0641c2d1d499fc5"},
-    {file = "polywrap_core-0.1.0.tar.gz", hash = "sha256:c13b08d8c54750324d50ecb208ec26a34e2520a329addc15c5b2a342bbacab29"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-manifest = ">=0.1.0,<0.2.0"
-polywrap-msgpack = ">=0.1.0,<0.2.0"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
 version = "0.1.0"
 description = "WRAP manifest"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_manifest-0.1.0-py3-none-any.whl", hash = "sha256:6dcc1e1049ccd64cd83d126c4d7991e3f53cd33551d0d588aee77cdb524f3228"},
-    {file = "polywrap_manifest-0.1.0.tar.gz", hash = "sha256:53705919d98204bb38fa5e1e6c96231d639cb50511e6a9ca89ab3c17b2582135"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-msgpack = ">=0.1.0,<0.2.0"
-pydantic = ">=1.10.2,<2.0.0"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+pydantic = "^1.10.2"
+
+[package.source]
+type = "directory"
+url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
 version = "0.1.1"
 description = "WRAP msgpack encoder/decoder"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_msgpack-0.1.1-py3-none-any.whl", hash = "sha256:521ed8bb480b1d31a111095f8ec4a134c4d1a214f3f9bf53b0b81707d8edaa8a"},
-    {file = "polywrap_msgpack-0.1.1.tar.gz", hash = "sha256:df81f6989d3bff76859bbbb0e03264b2e1cc6ec38a5c9cbe0f4596ec017ea1fc"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-msgpack = ">=1.0.4,<2.0.0"
+msgpack = "^1.0.4"
+
+[package.source]
+type = "directory"
+url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
@@ -538,9 +544,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "^0.1.0"
-polywrap-manifest = "^0.1.0"
-polywrap-msgpack = "^0.1.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -564,17 +570,19 @@ name = "polywrap-wasm"
 version = "0.1.0"
 description = "Polywrap Wasm"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_wasm-0.1.0-py3-none-any.whl", hash = "sha256:485a7a01a6180c5e666f13c7c94fc941fddf9cd48e9c3730451ab055f2b1b828"},
-    {file = "polywrap_wasm-0.1.0.tar.gz", hash = "sha256:fd1da31d9a581917ec1c5b371b2142097193906b6eb84e9fbac0bc6e9cd60a22"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = ">=0.1.0,<0.2.0"
-polywrap-manifest = ">=0.1.0,<0.2.0"
-polywrap-msgpack = ">=0.1.0,<0.2.0"
-wasmtime = ">=9.0.0,<10.0.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+wasmtime = "^9.0.0"
+
+[package.source]
+type = "directory"
+url = "../polywrap-wasm"
 
 [[package]]
 name = "py"
@@ -1124,4 +1132,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "25dd7f318f5eaac0220298236d0debe4eee02a0c6a325d6d0989236636557241"
+content-hash = "82fb999912bbf9e94c3fae7b2f8072de7da7d4e567a3041bc5ceaf131189898a"
