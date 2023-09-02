@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-test-cases"
-version = "0.1.0b8"
+version = "0.1.0"
 description = "Wrap Test cases for Polywrap"
 authors = ["Cesar <cesar@polywrap.io>"]
 readme = "README.rst"
