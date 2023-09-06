@@ -14,10 +14,6 @@ from color_logger import ColoredLogger
 logger = ColoredLogger("PackagePublisher")
 
 
-def extract_major_minor(version: str) -> str:
-    return ".".join(version.split(".")[:2] + ["0"])
-
-
 def patch_version(version: str):
     with open("pyproject.toml", "r") as f:
         pyproject = tomlkit.load(f)
@@ -26,7 +22,7 @@ def patch_version(version: str):
         for dep in list(pyproject["tool"]["poetry"]["dependencies"].keys()):
             if dep.startswith("polywrap-"):
                 pyproject["tool"]["poetry"]["dependencies"].pop(dep)
-                pyproject["tool"]["poetry"]["dependencies"].add(dep, f"^{extract_major_minor(version)}")
+                pyproject["tool"]["poetry"]["dependencies"].add(dep, version)
     
     with open("pyproject.toml", "w") as f:
         tomlkit.dump(pyproject, f)
@@ -110,9 +106,10 @@ if __name__ == "__main__":
 
     root_dir = Path(__file__).parent.parent
 
+    with open(root_dir / "VERSION", "r") as f:
+        version = f.read().strip()
+
     for package_dir in package_build_order():
         package = package_dir.name
         with ChangeDir(str(package_dir)):
-            with open("VERSION", "r") as f:
-                version = f.read().strip()
             publish_package(package, version)
