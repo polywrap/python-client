@@ -1,7 +1,7 @@
 format: 0.3.0
 project:
-  name: FileSystem
+  name: polywrap-fs-plugin
   type: plugin/python
 source:
-  schema: ./schema.graphql
+  schema: ./polywrap.graphql
   module: ./polywrap_fs_plugin/__init__.py
