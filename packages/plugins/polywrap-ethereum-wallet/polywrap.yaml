@@ -1,7 +1,7 @@
 format: 0.3.0
 project:
-  name: ethereum-provider-py
+  name: polywrap-ethereum-wallet
   type: plugin/python
 source:
   module: ./polywrap_ethereum_wallet/__init__.py
-  schema: ./schema.graphql
+  schema: ./polywrap.graphql
