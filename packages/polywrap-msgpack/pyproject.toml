@@ -48,6 +48,7 @@ disable = [
     "too-many-return-statements",  # too picky about return statements
     "protected-access",  # Needed for internal use
     "invalid-name",  # too picky about names
+    "too-many-branches", # sanitize function has too many branches
 ]
 ignore = [
     "tests/"

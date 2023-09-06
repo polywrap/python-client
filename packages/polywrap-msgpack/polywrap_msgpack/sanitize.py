@@ -2,6 +2,7 @@
     python values into msgpack compatible values."""
 from __future__ import annotations
 
+from enum import IntEnum
 from typing import Any, Dict, List, Set, Tuple, cast
 
 from .extensions.generic_map import GenericMap
@@ -42,6 +43,8 @@ def sanitize(value: Any) -> Any:
         ...
         ValueError: GenericMap key must be string, got 1 of type <class 'int'>
     """
+    if isinstance(value, IntEnum):
+        return value.value
     if isinstance(value, GenericMap):
         dictionary: Dict[Any, Any] = cast(
             GenericMap[Any, Any], value
