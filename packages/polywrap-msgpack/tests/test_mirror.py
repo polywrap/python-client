@@ -24,9 +24,16 @@ from .strategies.generic_map_strategies import (
     valid_generic_map_st,
 )
 
+from .strategies.enum_strategies import enum_st
+
 
 @given(scalar_st())
 def test_mirror_scalar(s: Any):
+    assert msgpack_decode(msgpack_encode(s)) == s
+
+
+@given(enum_st())
+def test_mirror_enum(s: Any):
     assert msgpack_decode(msgpack_encode(s)) == s
 
 
