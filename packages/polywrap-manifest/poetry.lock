@@ -954,14 +954,16 @@ name = "polywrap-msgpack"
 version = "0.1.2"
 description = "WRAP msgpack encoder/decoder"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_msgpack-0.1.2-py3-none-any.whl", hash = "sha256:e5bc6ac3d8b0e69e1256d5b91d6d6986f544383df6da90bba138b25a9864a6e8"},
-    {file = "polywrap_msgpack-0.1.2.tar.gz", hash = "sha256:36cb8d708d77fda3426118cac9d714f33fd7b52d94873a1f66cb6d6d8b7d13ed"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-msgpack = ">=1.0.4,<2.0.0"
+msgpack = "^1.0.4"
+
+[package.source]
+type = "directory"
+url = "../polywrap-msgpack"
 
 [[package]]
 name = "prance"
@@ -1599,13 +1601,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "virtualenv"
-version = "20.24.4"
+version = "20.24.5"
 description = "Virtual Python Environment builder"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.24.4-py3-none-any.whl", hash = "sha256:29c70bb9b88510f6414ac3e55c8b413a1f96239b6b789ca123437d5e892190cb"},
-    {file = "virtualenv-20.24.4.tar.gz", hash = "sha256:772b05bfda7ed3b8ecd16021ca9716273ad9f4467c801f27e83ac73430246dca"},
+    {file = "virtualenv-20.24.5-py3-none-any.whl", hash = "sha256:b80039f280f4919c77b30f1c23294ae357c4c8701042086e3fc005963e4e537b"},
+    {file = "virtualenv-20.24.5.tar.gz", hash = "sha256:e8361967f6da6fbdf1426483bfe9fca8287c242ac0bc30429905721cefbff752"},
 ]
 
 [package.dependencies]
@@ -1704,4 +1706,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "4218c622e3b41f33f56d1cb14afad9a5f4097065d22db8b02324d5dd0193abfc"
+content-hash = "dac0eab10888046067e5b52d2326400f103a1db208b2fb851d41b85e7d54fa30"

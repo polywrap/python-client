@@ -15,10 +15,10 @@ include = ["polywrap_ethereum_wallet/wrap/**/*"]
 python = "^3.10"
 web3 = "6.1.0"
 eth_account = "0.8.0"
-polywrap-plugin = "0.1.2"
-polywrap-core = "0.1.2"
-polywrap-msgpack = "0.1.2"
-polywrap-manifest = "0.1.2"
+polywrap-plugin = {path = "../../polywrap-plugin", develop = true}
+polywrap-core = {path = "../../polywrap-core", develop = true}
+polywrap-msgpack = {path = "../../polywrap-msgpack", develop = true}
+polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}

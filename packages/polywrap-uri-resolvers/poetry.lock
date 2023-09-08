@@ -476,9 +476,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "0.1.2"
-polywrap-manifest = "0.1.2"
-polywrap-msgpack = "0.1.2"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -489,44 +489,50 @@ name = "polywrap-core"
 version = "0.1.2"
 description = "Polywrap Core"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_core-0.1.2-py3-none-any.whl", hash = "sha256:c4818525e83091eb22ffe42812ebdc910497cb0db21c20a3bb466d6c84b6f129"},
-    {file = "polywrap_core-0.1.2.tar.gz", hash = "sha256:85dab38bf9ee700e824af189ed7b4bbbca203f9c5884525ec77a1f9966640540"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-manifest = "0.1.2"
-polywrap-msgpack = "0.1.2"
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+
+[package.source]
+type = "directory"
+url = "../polywrap-core"
 
 [[package]]
 name = "polywrap-manifest"
 version = "0.1.2"
 description = "WRAP manifest"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_manifest-0.1.2-py3-none-any.whl", hash = "sha256:bb608225628a57be25a1adb583bc2b0018fd7509091e31da88d5168baffd33ba"},
-    {file = "polywrap_manifest-0.1.2.tar.gz", hash = "sha256:3b21c2ccf8b78ada4e70ff65787b4ec4cf97219891781812276140901de2baf3"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-msgpack = "0.1.2"
-pydantic = ">=1.10.2,<2.0.0"
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+pydantic = "^1.10.2"
+
+[package.source]
+type = "directory"
+url = "../polywrap-manifest"
 
 [[package]]
 name = "polywrap-msgpack"
 version = "0.1.2"
 description = "WRAP msgpack encoder/decoder"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_msgpack-0.1.2-py3-none-any.whl", hash = "sha256:e5bc6ac3d8b0e69e1256d5b91d6d6986f544383df6da90bba138b25a9864a6e8"},
-    {file = "polywrap_msgpack-0.1.2.tar.gz", hash = "sha256:36cb8d708d77fda3426118cac9d714f33fd7b52d94873a1f66cb6d6d8b7d13ed"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-msgpack = ">=1.0.4,<2.0.0"
+msgpack = "^1.0.4"
+
+[package.source]
+type = "directory"
+url = "../polywrap-msgpack"
 
 [[package]]
 name = "polywrap-plugin"
@@ -538,9 +544,9 @@ files = []
 develop = true
 
 [package.dependencies]
-polywrap-core = "0.1.2"
-polywrap-manifest = "0.1.2"
-polywrap-msgpack = "0.1.2"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
 
 [package.source]
 type = "directory"
@@ -564,17 +570,19 @@ name = "polywrap-wasm"
 version = "0.1.2"
 description = "Polywrap Wasm"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "polywrap_wasm-0.1.2-py3-none-any.whl", hash = "sha256:cbcaec24ab7349a15a6c3b71ca5978d11888b50d2eb195058f3111e68e91c01a"},
-    {file = "polywrap_wasm-0.1.2.tar.gz", hash = "sha256:3441fefcfebf242bf0604f08b27a99974b5b9367259eaca9ab42bcaa628a739b"},
-]
+python-versions = "^3.10"
+files = []
+develop = true
 
 [package.dependencies]
-polywrap-core = "0.1.2"
-polywrap-manifest = "0.1.2"
-polywrap-msgpack = "0.1.2"
-wasmtime = ">=9.0.0,<10.0.0"
+polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-manifest = {path = "../polywrap-manifest", develop = true}
+polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
+wasmtime = "^9.0.0"
+
+[package.source]
+type = "directory"
+url = "../polywrap-wasm"
 
 [[package]]
 name = "py"
@@ -1001,13 +1009,13 @@ files = [
 
 [[package]]
 name = "virtualenv"
-version = "20.24.4"
+version = "20.24.5"
 description = "Virtual Python Environment builder"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.24.4-py3-none-any.whl", hash = "sha256:29c70bb9b88510f6414ac3e55c8b413a1f96239b6b789ca123437d5e892190cb"},
-    {file = "virtualenv-20.24.4.tar.gz", hash = "sha256:772b05bfda7ed3b8ecd16021ca9716273ad9f4467c801f27e83ac73430246dca"},
+    {file = "virtualenv-20.24.5-py3-none-any.whl", hash = "sha256:b80039f280f4919c77b30f1c23294ae357c4c8701042086e3fc005963e4e537b"},
+    {file = "virtualenv-20.24.5.tar.gz", hash = "sha256:e8361967f6da6fbdf1426483bfe9fca8287c242ac0bc30429905721cefbff752"},
 ]
 
 [package.dependencies]
@@ -1124,4 +1132,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "5b8cfa9acb92523f5a4bfb9cb3abd8ac0010946e724dbb00f517fc6ee2816dbf"
+content-hash = "82fb999912bbf9e94c3fae7b2f8072de7da7d4e567a3041bc5ceaf131189898a"
