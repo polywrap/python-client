@@ -16,7 +16,7 @@ def run_tests():
 
 if __name__ == "__main__":
     # Make sure that the doctests are passing before we extract the README.
-    # run_tests()
+    run_tests()
 
     # Extract the README.
     readme = extract_readme()
