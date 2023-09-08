@@ -4,15 +4,15 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-uri-resolvers"
-version = "0.1.0"
+version = "0.1.2"
 description = "Polywrap URI resolvers"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polywrap-wasm = {path = "../polywrap-wasm", develop = true}
-polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-wasm = "0.1.2"
+polywrap-core = "0.1.2"
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../polywrap-client", develop = true}

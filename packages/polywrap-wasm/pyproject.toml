@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "polywrap-wasm"
-version = "0.1.0"
+version = "0.1.2"
 description = "Polywrap Wasm"
 authors = ["Cesar <cesar@polywrap.io>", "Niraj <niraj@polywrap.io>"]
 readme = "README.rst"
@@ -12,9 +12,9 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = "^3.10"
 wasmtime = "^9.0.0"
-polywrap-msgpack = {path = "../polywrap-msgpack", develop = true}
-polywrap-manifest = {path = "../polywrap-manifest", develop = true}
-polywrap-core = {path = "../polywrap-core", develop = true}
+polywrap-msgpack = "0.1.2"
+polywrap-manifest = "0.1.2"
+polywrap-core = "0.1.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.1.2"
