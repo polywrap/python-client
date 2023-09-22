@@ -55,6 +55,7 @@ from polywrap_core import *
 from polywrap_ethereum_wallet import *
 from polywrap_fs_plugin import *
 from polywrap_http_plugin import *
+from polywrap_logger_plugin import *
 from polywrap_manifest import *
 from polywrap_msgpack import *
 from polywrap_plugin import *

@@ -3,9 +3,10 @@
   "version": "0.10.6",
   "private": true,
   "scripts": {
-    "codegen": "yarn codegen:http && yarn codegen:fs && yarn codegen:ethereum",
+    "codegen": "yarn codegen:http && yarn codegen:fs && yarn codegen:ethereum && yarn codegen:logger",
     "codegen:http": "cd ../plugins/polywrap-http-plugin && yarn codegen && cd ../../polywrap-client",
     "codegen:fs": "cd ../plugins/polywrap-fs-plugin && yarn codegen && cd ../../polywrap-client",
-    "codegen:ethereum": "cd ../plugins/polywrap-ethereum-wallet && yarn codegen && cd ../../polywrap-client"
+    "codegen:ethereum": "cd ../plugins/polywrap-ethereum-wallet && yarn codegen && cd ../../polywrap-client",
+    "codegen:logger": "cd ../plugins/polywrap-logger-plugin && yarn codegen && cd ../../polywrap-client"
   }
 }

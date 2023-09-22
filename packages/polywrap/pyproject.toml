@@ -21,6 +21,7 @@ polywrap-client = {path = "../polywrap-client", develop = true}
 polywrap-client-config-builder = {path = "../polywrap-client-config-builder", develop = true}
 polywrap-fs-plugin = {path = "../plugins/polywrap-fs-plugin", develop = true}
 polywrap-http-plugin = {path = "../plugins/polywrap-http-plugin", develop = true}
+polywrap-logger-plugin = {path = "../plugins/polywrap-logger-plugin", develop = true}
 polywrap-ethereum-wallet = {path = "../plugins/polywrap-ethereum-wallet", develop = true}
 polywrap-sys-config-bundle = {path = "../config-bundles/polywrap-sys-config-bundle", develop = true}
 polywrap-web3-config-bundle = {path = "../config-bundles/polywrap-web3-config-bundle", develop = true}

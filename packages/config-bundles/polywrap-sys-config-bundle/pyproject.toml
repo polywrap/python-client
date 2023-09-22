@@ -22,6 +22,7 @@ polywrap-manifest = {path = "../../polywrap-manifest", develop = true}
 polywrap-wasm = {path = "../../polywrap-wasm", develop = true}
 polywrap-fs-plugin = {path = "../../plugins/polywrap-fs-plugin", develop = true}
 polywrap-http-plugin = {path = "../../plugins/polywrap-http-plugin", develop = true}
+polywrap-logger-plugin = {path = "../../plugins/polywrap-logger-plugin", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 polywrap-client = {path = "../../polywrap-client", develop = true}
