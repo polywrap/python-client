@@ -24,7 +24,7 @@ def test_logger_plugin():
     response = client.invoke(
         uri=Uri.from_str("wrapscan.io/polywrap/logger@1.0"),
         method="log",
-        args={"level": type('obj', (object,), {"value": 1}), "message": "Hello Polywrap!"},
+        args={"level": 1, "message": "Hello Polywrap!"},
     )
 
     assert response is True

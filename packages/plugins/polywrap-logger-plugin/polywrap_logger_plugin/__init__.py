@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 
 from polywrap_plugin import PluginPackage
 
-from .wrap import ArgsLog, InvokerClient, LoggerLogLevel, Module, manifest
+from .wrap import ArgsLog, InvokerClient, LogLevel, Module, manifest
 
 
 @dataclass
@@ -12,7 +12,7 @@ class LoggerConfig:
     """Defines the configuration for the Logger plugin."""
 
     logger: logging.Logger = field(default_factory=logging.getLogger)
-    level: LoggerLogLevel = LoggerLogLevel.INFO
+    level: LogLevel = LogLevel.INFO
 
 
 class LoggerModule(Module[LoggerConfig]):
