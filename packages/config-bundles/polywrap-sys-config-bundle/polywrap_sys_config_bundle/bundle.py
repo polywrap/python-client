@@ -5,6 +5,7 @@ from polywrap_client_config_builder import BundlePackage
 from polywrap_core import Uri
 from polywrap_fs_plugin import file_system_plugin
 from polywrap_http_plugin import http_plugin
+from polywrap_logger_plugin import logger_plugin
 from polywrap_uri_resolvers import ExtendableUriResolver
 
 from .embeds import get_embedded_wrap
@@ -86,6 +87,12 @@ sys_bundle: Dict[str, BundlePackage] = {
         redirects_from=[
             Uri.from_str("wrapscan.io/polywrap/file-system-uri-resolver@1.0")
         ],
+    ),
+    "logger": BundlePackage(
+        uri=Uri.from_str("plugin/logger@1.0.0"),
+        package=logger_plugin(),
+        implements=[Uri.from_str("wrapscan.io/polywrap/logger@1.0")],
+        redirects_from=[Uri.from_str("wrapscan.io/polywrap/logger@1.0")],
     ),
 }
 

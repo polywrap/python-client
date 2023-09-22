@@ -4,7 +4,6 @@ from polywrap_core import Uri, UriPackage
 from polywrap_client import PolywrapClient
 from polywrap_sys_config_bundle import sys_bundle
 
-
 def test_http_plugin():
     config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
     client = PolywrapClient(config)
@@ -18,6 +17,17 @@ def test_http_plugin():
     assert response["status"] == 200
     assert response["body"] is not None
 
+def test_logger_plugin():
+    config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
+    client = PolywrapClient(config)
+
+    response = client.invoke(
+        uri=Uri.from_str("wrapscan.io/polywrap/logger@1.0"),
+        method="log",
+        args={"level": type('obj', (object,), {"value": 1}), "message": "Hello Polywrap!"},
+    )
+
+    assert response is True
 
 def test_file_system_resolver():
     config = PolywrapClientConfigBuilder().add_bundle(sys_bundle).build()
