@@ -7,6 +7,6 @@
     "polywrap": "0.10.2"
   },
   "scripts": {
-    "codegen": "npx polywrap codegen -g polywrap_logger_plugin/wrap"
+    "codegen": "npx polywrap codegen"
   }
 }
