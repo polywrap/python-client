@@ -1,18 +1,18 @@
 import logging
 from polywrap_core import InvokerClient
 import pytest
-from polywrap_logger_plugin import LoggerConfig, LoggerModule, ArgsLog, LoggerLogLevel
+from polywrap_logger_plugin import LoggerConfig, LoggerModule, ArgsLog, LogLevel
 from _pytest.logging import LogCaptureFixture
 from typing import Callable, cast
 
 
-@pytest.mark.parametrize("config_level", list(LoggerLogLevel))
-@pytest.mark.parametrize("log_level", list(LoggerLogLevel))
+@pytest.mark.parametrize("config_level", list(LogLevel))
+@pytest.mark.parametrize("log_level", list(LogLevel))
 async def test_log_levels(
     caplog: LogCaptureFixture,
-    valid_logger_config: Callable[[LoggerLogLevel], LoggerConfig],
-    config_level: LoggerLogLevel,
-    log_level: LoggerLogLevel,
+    valid_logger_config: Callable[[LogLevel], LoggerConfig],
+    config_level: LogLevel,
+    log_level: LogLevel,
 ):
     caplog.set_level(logging.DEBUG)
     logger_module = LoggerModule(valid_logger_config(config_level))
