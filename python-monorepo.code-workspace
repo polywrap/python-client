@@ -65,6 +65,10 @@
       "path": "packages/plugins/polywrap-ethereum-wallet"
     },
     {
+      "name": "polywrap-logger-plugin",
+      "path": "packages/plugins/polywrap-logger-plugin"
+    },
+    {
       "name": "polywrap-sys-config-bundle",
       "path": "packages/config-bundles/polywrap-sys-config-bundle"
     },

@@ -1,0 +1,12 @@
+{
+  "name": "@polywrap/python-logger-plugin",
+  "description": "Polywrap Python Logger Plugin",
+  "version": "0.10.1",
+  "private": true,
+  "devDependencies": {
+    "polywrap": "0.10.2"
+  },
+  "scripts": {
+    "codegen": "npx polywrap codegen -g polywrap_logger_plugin/wrap"
+  }
+}

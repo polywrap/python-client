@@ -1,0 +1,10 @@
+format: 0.3.0
+project:
+  name: Logger
+  type: plugin/python
+source:
+  schema: ./schema.graphql
+  module: ./polywrap_logger_plugin/__init__.py
+  import_abis:
+    - uri: wrap://ens/wraps.eth:logger@1.0.0
+      abi: ../../interface/polywrap.graphql
