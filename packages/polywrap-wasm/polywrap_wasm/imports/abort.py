@@ -23,8 +23,8 @@ class WrapAbortImports(BaseWrapImports):
             msg_len (int): The length of the message string in memory.
             file_ptr (int): The pointer to the filename string in memory.
             file_len (int): The length of the filename string in memory.
-            line (int): The line of the file at where the abort occured.
-            column (int): The column of the file at where the abort occured.
+            line (int): The line of the file at where the abort occurred.
+            column (int): The column of the file at where the abort occurred.
 
         Raises:
             WasmAbortError: since the Wasm module aborted during invocation.

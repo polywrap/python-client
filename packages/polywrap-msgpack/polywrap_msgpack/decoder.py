@@ -1,5 +1,5 @@
 """This module implements the msgpack decoder for decoding data \
-    recieved from a wrapper."""
+    received from a wrapper."""
 from __future__ import annotations
 
 from typing import Any
@@ -26,7 +26,7 @@ def _decode_ext_hook(code: int, data: bytes) -> Any:
     """
     if code == ExtensionTypes.GENERIC_MAP.value:
         return GenericMap(msgpack_decode(data))
-    raise MsgpackExtError("Invalid extention type")
+    raise MsgpackExtError("Invalid extension type")
 
 
 def msgpack_decode(val: bytes) -> Any:
